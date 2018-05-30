@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/activity.js"></script>
+    <link rel="stylesheet" href="css/style.css" />
+    <title>红包活动</title>
+</head>
+<body>
+	<div class="activity-con">
+      <div class="activity-wrapper">
+          <div class="poster-wrapper">
+              <img src="img/bg_poster.png" />
+          </div>
+          <div class="red-pack">
+              <div class="img-wrapper" id="red_pack">
+                <img src="img/red_pack.png" />
+              </div>
+              <div class="light-wrapper light-media fn-change-elm" ></div>
+          </div>
+          <div class="activity-main">
+            <img class="lawn" src="img/lawn.png">
+            <div class="slogan fn-change-elm" ></div>
+            <div class="details-wrapper">
+              <div class="details-time">
+                <div class="time-title">距离2018世界杯只剩下</div>
+                <div class="time-num">
+                  <p class="time-d">
+                    <span class="num">18</span>
+                    <span class="unit">天</span>
+                  </p>
+                  <p class="time-h">
+                    <span class="num">21</span>
+                    <span class="unit">小时</span>
+                  </p>
+                  <p class="time-m">
+                    <span class="num">56</span>
+                    <span class="unit">分钟</span>
+                  </p>
+                </div>
+              </div>
+              <div class="details-text">
+                <p>只要您微信号是今日比分官方微信(微信号:xxxx)的好友,每日即可在本活动页面免费领取一次红包!每日百万红包等你来抢,最高888元！</p>
+                <p>活动时间：<br />2018年5月1日-2018年7月15日</p>
+                <p>每日红包雨掉落北京时间为：<br/>13:00-20:00</p>
+                <p>每日派奖北京时间为：21:00</p>
+              </div>
+            </div>
+            <div class="btn-wrapper">
+              <button class="btn-query" id="query"></button>
+              <button class="btn-service"></button>
+            </div>
+          </div>
+      </div>
+      <!-- 领取红包弹框 -->
+      <div class="shade red-pack-open fn-shade-guoup" id="show_red_pack">
+        <div class="wrapper clearfix">
+          <div class="close">
+            <span>输入支付宝账号手下此红包</span>
+            <i class="icon-close fn-close" ></i>
+          </div>
+          <div class="main">
+            <div class="num">3.00元</div>
+            <div class="text-wrapper">
+              <label>支付宝账号</label>
+              <input class="text" type="text" />
+              <button class="btn-text"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 红包查询弹框 -->
+      <div class="shade query fn-shade-guoup" id="show_query">
+        <div class="wrapper clearfix">
+          <div class="close">
+            <span>请输入会员账号进行查询</span>
+            <i class="icon-close fn-close" ></i>
+          </div>
+          <div class="main">
+            <div class="text-wrapper">
+              <label>会员账号:</label>
+              <input class="text" type="text" />
+              <button class="btn-text"></button>
+            </div>
+            <div class="resuls-wrapper">
+              <table border="1" cellspacing="0" cellpadding="0">
+                <thead>
+                  <tr>
+                    <td>金额(元)</td>
+                    <td>领取时间</td>
+                    <td>领取方式</td>
+                    <td>是否派彩</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>3.00</td>
+                    <td>05-15 16:36</td>
+                    <td>app@gamil.com</td>
+                    <td>是</td>
+                  </tr>
+                  <tr>
+                    <td>3.00</td>
+                    <td>05-15 16:36</td>
+                    <td>app@gamil.com</td>
+                    <td>是</td>
+                  </tr>
+                  <tr>
+                    <td>3.00</td>
+                    <td>05-15 16:36</td>
+                    <td>app@gamil.com</td>
+                    <td>是</td>
+                  </tr>
+                  <tr>
+                    <td>3.00</td>
+                    <td>05-15 16:36</td>
+                    <td>app@gamil.com</td>
+                    <td>是</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 会员账号输入弹框 -->
+      <div class="shade account fn-shade-guoup" id="show_account">
+        <div class="wrapper clearfix">
+          <div class="close">
+            <span>请输入会员账号</span>
+            <i class="icon-close fn-close" ></i>
+          </div>
+          <div class="main">
+            <div class="text-wrapper">
+              <label>会员账号：</label>
+              <input class="text" type="text" />
+            </div>
+            <div class="">
+              <button class="btn-text"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  	<!--预加载图片-->
+  
+  <div class="hide">
+  	<img src="img/text_on.png"/>
+  	<img src="img/bg_light_on.png"/>
+  </div>
+</body>
+</html>

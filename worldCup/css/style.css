@@ -32,10 +32,13 @@ button {
 -webkit-appearance: none;
 border-radius: 0;
 }
-
+html{
+	font-size: 10vw;
+}
 
 body {
-margin: 0;
+	margin: 0;
+	font-size: 0.37rem;
 }
 
 body * {
@@ -71,6 +74,7 @@ body {
 	background-repeat: no-repeat;
 }
 .poster-wrapper,.red-pack{
+	margin-top:0.924rem;
 	height: auto;
 }
 .poster-wrapper img,.red-pack img{
@@ -79,7 +83,7 @@ body {
 }
 .red-pack{
 	position: relative;
-    margin-top: -20px;
+    margin-top: -0.53rem;
 }
 .red-pack .img-wrapper{
 	position: relative;
@@ -89,9 +93,9 @@ body {
 	position:absolute;
     background:url(../img/bg_light.png);
     top:50%;
-    width:100%;
-    height:480px;
-    margin-top:-240px;
+    width:10rem;
+    height:12.8rem;
+    margin-top:-6.4rem;
     background-size:100%;
     background-position: center;
     background-repeat:no-repeat; 
@@ -112,16 +116,16 @@ body {
     z-index:15;
 }
 .activity-main .lawn{
-	margin-top: -20px;
+	margin-top: -0.53rem;
     width:100%;
     display: block;
 }
 .activity-main .slogan{
 		position: absolute;
     width:55%;
-    height:72px;
-    right:15px;
-    top:-10px;
+    height:1.92rem;
+    right:0.4rem;
+    top:-0.27rem;
     background:url(../img/text.png);
     background-position: right bottom;
     background-size: 100%;
@@ -142,23 +146,23 @@ body {
 }
 
 .details-wrapper .details-time{
-	height:85px;
+	height:2.266rem;
 }
 .details-wrapper .time-title{
-    height:36px;
-    width:150px;
+    height:0.96rem;
+    width:4rem;
     color:#fff;
-    font-size: 12px;
-    line-height: 36px;
-    padding-left: 15px;
+    font-size: 0.32rem;
+    line-height: 0.96rem;
+    padding-left: 0.4rem;
     background:url(../img/bg_time_title.png);
     background-position: top left;
     background-size: 100%;
     background-repeat: no-repeat;
 }
 .details-wrapper .time-num{
-	height:50px;
-    padding-left: 15px;
+	  height:1.333rem;
+    padding-left: 0.4rem;
 }
 
 .details-wrapper .time-num .time-d{
@@ -182,61 +186,71 @@ body {
 
 .details-wrapper .time-num p{
     float: left;
-    height:40px;
-    width:38px;
-    padding-right: 2px;
-    margin-right: 10px;
+    height:1.066rem;
+    width:1.013rem;
+    padding-right: 0.05rem;
+    margin-right: 0.27rem;
     color:#fff;
     text-align: center;
 }
 .details-wrapper .time-num .num{
 	display: block;
-    height:22px;
-    line-height: 26px;
-    font-size: 18px;
+    height:0.586rem;
+    line-height: 0.693rem;
+    font-size: 0.48rem;
 }
 .details-wrapper .time-num .unit{
 	display: block;
-    height:15px;
-    line-height: 15px;
-    font-size: 10px;
+    height:0.4rem;
+    line-height: 0.4rem;
+    font-size: 0.27rem;
 }
 .details-wrapper .details-text{
     color: #fff;
-    font-size: 12px;
-    line-height: 18px;
-    padding-right: 10px;
+    font-size: 0.32rem;
+    line-height: 0.48rem;
+    padding-right: 0.27rem;
 }
 .btn-wrapper{
-	position: absolute;
-    height:38px;
+	position: fixed;
+    height:0.924rem;
     width:100%;
-    bottom:4.3%;
+    top:0;
     text-align: center;
+    z-index: 60;
 }
 
 .btn-wrapper .btn-query{
-	height:38px;
-	width:99px;
+	float: left;
+	height:0.924rem;
+	width:33.33%;
 	background: none;
-	border:0px;
-	padding:0px;
+	border:0rem;
+	padding:0rem;
 	background:url(../img/btn_query.png);
 	background-size: 100%;
 	background-position: center;
-	margin-right: 56px;
 }
 
 .btn-wrapper .btn-service{
-	height:38px;
-	width:99px;
+	float: right;
+	height:0.924rem;
+	width:33.33%;
 	background: none;
-	border:0px;
-	padding:0px;
+	border:0rem;
+	padding:0rem;
 	background:url(../img/btn_service.png);
 	background-size: 100%;
 }
-
+.btn-wrapper .logo-wrapper{
+	float: left;
+	width: 33.33%;
+	height:0.924rem;
+}
+.btn-wrapper .logo-wrapper img{
+	display: block;
+	width: 100%;
+}
 .shade{
 	position:fixed;
     top:0;
@@ -249,87 +263,87 @@ body {
 }
 .wrapper{
 	position:relative;
-    width:310px;
-    height:216px;
-    margin-left: -155px;
+    width:8.266rem;
+    height:5.76rem;
+    margin-left: -4.133rem;
     left:50%;
     margin-top:50%;
 }
 .close{
-	padding: 2px 0 0 12px;
-    height:32px;
-    line-height: 32px;
-    font-size: 14px;
+	padding: 0.053rem 0 0 0.32rem;
+    height:0.853rem;
+    line-height: 0.853rem;
+    font-size: 0.37rem;
     color:#f4df24;
 }
 .close .icon-close{
 	display: block;
     float:right;
-    width:18px;
-    height:18px;
+    width:0.48rem;
+    height:0.48rem;
     background:url(../img/close.png);
     background-size:100%;
     background-position: center;
     background-repeat:no-repeat; 
-    margin-top:6px;
-    margin-right:12px;
+    margin-top:0.16rem;
+    margin-right:0.32rem;
 }
 .red-pack-open{
 	display: none;
 }
 
 .red-pack-open .wrapper{
-	width:310px;
-    height:216px;
-    margin-left: -155px;
+	width:8.266rem;
+    height:5.76rem;
+    margin-left: -4.133rem;
     background:url(../img/bg_red_pack_open.png);
     background-size:100%;
     background-repeat:no-repeat; 
 }
 .red-pack-open .main{
-	padding-top:33px;
+	padding-top:0.88rem;
     height:auto;
     overflow: hidden;
 }
 .red-pack-open .main .num{
-	padding-left:99px;
-	width:95px;
-	height:40px;
-	line-height: 40px;
+	padding-left:2.64rem;
+	width:2.533rem;
+	height:1.066rem;
+	line-height: 1.066rem;
 	text-align: center;
-	font-size: 18px;
+	font-size: 0.48rem;
 	font-weight: 600;
 	color:#ad0f0c;
 }
 
 .red-pack-open .main .text-wrapper{
-    padding-top:62px;
-    padding-left:12px;
-    height:28px;
-    line-height: 28px;
-    font-size: 14px;
+    padding-top:1.653rem;
+    padding-left:0.32rem;
+    height:0.746rem;
+    line-height: 0.746rem;
+    font-size: 0.37rem;
     color:#f4df24;
 }
 
 .red-pack-open .main .text{
-    padding-left:5px;
-    width:130px;
-    height:24px;
-    line-height: 20px;
+    padding-left:0.133rem;
+    width:3.466rem;
+    height:0.64rem;
+    line-height: 0.533rem;
     color:#fff;
-    font-size: 16px;
-    border:1px solid #d48485;
+    font-size: 0.43rem;
+    border:0.026rem solid #d48485;
     background-color: #620203;
 }
 .red-pack-open .main .btn-text{
     float:right;
-    margin-top:1px;
-    margin-right:12px;
-    height:30px;
-    width:63px;
-    border:0px;
+    margin-top:0.026rem;
+    margin-right:0.32rem;
+    height:0.8rem;
+    width:1.68rem;
+    border:0rem;
     background:none;
-    padding:0px;
+    padding:0rem;
     background:url(../img/btn_01.png);
     background-size:100%;
     background-position: center;
@@ -341,253 +355,146 @@ body {
 }
 
 .query .wrapper{
-	width:310px;
-    height:157px;
-    margin-left: -155px;
+	width:8.266rem;
+    height:4.186rem;
+    margin-left: -4.133rem;
     background:url(../img/bg_query.png);
     background-size:100%;
     background-repeat:no-repeat; 
 }
 .query .main{
-	padding-top:10px;
+	padding-top:0.27rem;
     height:auto;
     overflow: hidden;
 }
 .query .main .text-wrapper{
-    padding-left:15px;
-    height:24px;
-    line-height: 24px;
-    font-size: 12px;
+    padding-left:0.4rem;
+    height:0.64rem;
+    line-height: 0.64rem;
+    font-size: 0.32rem;
     color:#f4df24;
 }
 
 .query .main .text{
-    padding-left:5px;
-    width:150px;
-    height:20px;
-    line-height: 20px;
-    font-size: 16px;
-    border:1px solid #fff;
+    padding-left:0.133rem;
+    width:4rem;
+    height:0.533rem;
+    line-height: 0.533rem;
+    font-size: 0.43rem;
+    border:0.026rem solid #fff;
     background-color: #fff;
-    border-radius: 5px;
+    border-radius: 0.133rem;
 }
 .query .main .btn-text{
     float:right;
-    margin-top:-2px;
-    margin-right:13px;
-    height:28px;
-    width:60px;
-    border:0px;
+    margin-top:-0.053rem;
+    margin-right:0.346rem;
+    height:0.746rem;
+    width:1.6rem;
+    border:0rem;
     background:none;
-    padding:0px;
+    padding:0rem;
     background:url(../img/btn_02.png);
     background-size:100%;
     background-position: center;
     background-repeat:no-repeat; 
 }
 .query .resuls-wrapper{
-	margin: 12px 15px;
-    height:57px;
+	margin: 0.32rem 0.4rem;
+    height:1.52rem;
     overflow-y: auto;
 }
 .query table,table tr th, table tr td { 
-	border:1px solid #b18181; 
+	border:0.026rem solid #b18181; 
 	}
 .query table { 
 	width:100%; 
-	min-height: 25px; 
-	line-height: 25px; 
+	min-height: 0.666rem; 
+	line-height: 0.666rem; 
 	text-align: center; 
 	border-collapse: collapse; 
-	padding:2px;
+	padding:0.053rem;
 }
 .query table td{
-    height:18px;
-    font-size: 10px;
-    line-height: 18px;
+    height:0.48rem;
+    font-size: 0.27rem;
+    line-height: 0.48rem;
     background: #620203;
     color:#d7c4c6;
 }
 
 .account{
-	display: block;
+	display: none;
 }
 
 .account .wrapper{
-	width:310px;
-    height:162px;
-    margin-left: -155px;
+	width:8.266rem;
+    height:4.32rem;
+    margin-left: -4.133rem;
     background:url(../img/bg_account.png);
     background-size:100%;
     background-repeat:no-repeat; 
 }
 .account .main{
-	padding-top:20px;
+	padding-top:0.533rem;
     height:auto;
     overflow: hidden;
 }
 .account .main .text-wrapper{
-    padding-left:16px;
-    height:28px;
-    line-height: 28px;
-    font-size: 14px;
+    padding-left:0.43rem;
+    height:0.746rem;
+    line-height: 0.746rem;
+    font-size: 0.37rem;
     color:#f4df24;
 }
 
 .account .main .text{
-    padding-left:5px;
-    width:190px;
-    height:26px;
-    line-height: 26px;
-    font-size: 16px;
+    padding-left:0.133rem;
+    width:5.066rem;
+    height:0.693rem;
+    line-height: 0.693rem;
+    font-size: 0.43rem;
     color:#fff;
-    border:1px solid #d48485;
+    border:0.026rem solid #d48485;
     background-color: #620203;
 }
 .account .main .btn-text{
     float:right;
-	margin-top:15px;
-	margin-right:22px;
-	height:34px;
-	width:199px;
-	border:0px;
+	margin-top:0.4rem;
+	margin-right:0.586rem;
+	height:0.906rem;
+	width:5.306rem;
+	border:0rem;
 	background:none;
-	padding:0px;
+	padding:0rem;
 	background:url(../img/btn_03.png);
 	background-size:100%;
 	background-position: center;
 	background-repeat:no-repeat;
 }
 
-/*移动设备适配*/
-/* ----------- iPhone 4 and 4S ----------- */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 480px)
-and (-webkit-min-device-pixel-ratio: 2) {
-    .red-pack .light-media{
-	    height:480px;
-	    margin-top:-240px;
-    }
+.tip{
+	display: block;
 }
-/* ----------- iPhone 5 and 5S ----------- */
-@media only screen 
-and (min-device-width: 320px) 
-and (max-device-width: 568px)
-and (-webkit-min-device-pixel-ratio: 2) {
-    .red-pack .light-media{
-        height:568px;
-        margin-top:-284px;
-    }
-    .details-wrapper .details-text{
-    	font-size: 10px;
-    }
-}
-/* ----------- iPhone 6 ----------- */
-@media only screen 
-and (min-device-width: 375px) 
-and (max-device-width: 667px)
-and (-webkit-min-device-pixel-ratio: 2) {
-	.red-pack .light-media{
-	    height:667px;
-	    margin-top:-333px;
-	}
-}
-/* ----------- iPhone 6+ ----------- */
-@media only screen 
-and (min-device-width: 414px) 
-and (max-device-width: 736px)
-and (-webkit-min-device-pixel-ratio: 3) {
-	.red-pack .light-media{
-	    height:736px;
-	    margin-top:-368px;
-	}
-}
-/* ----------- iPad mini ----------- */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px)
-and (-webkit-min-device-pixel-ratio: 1) {
-	.red-pack .light-media{
-	    height:1024px;
-	    margin-top:-512px;
-	}
-	.details-wrapper .details-text{
-    	font-size: 18px;
-    	line-height: 26px;
-    }
-    .activity-main .slogan{
-    	height:140px;
-    }
-		.details-wrapper .details-time{
-			height:145px;
-		}
-		.details-wrapper .time-title{
-		    height:61px;
-		    width:255px;
-		    font-size: 20px;
-		    line-height: 61px;
-		    padding-left: 25px;
-		}
-		.details-wrapper .time-num{
-			height:85px;
-		    padding-left: 25px;
-		}
-		.details-wrapper .time-num p{
-		    height:68px;
-		    width:61px;
-		    padding-right: 2px;
-		    margin-right: 17px;
-		}
-		.details-wrapper .time-num .num{
-			display: block;
-		    height:42px;
-		    line-height: 50px;
-		    font-size: 30px;
-		}
-		.details-wrapper .time-num .unit{
-		    height:20px;
-		    line-height: 20px;
-		    font-size: 17px;
-		}
-		.details-wrapper .details-text{
-		    font-size: 20px;
-		    line-height: 30px;
-		    padding-right: 17px;
-		}
-		
-		.btn-wrapper{
-			position: absolute;
-		    height:78px;
-		    width:100%;
-		    bottom:4.3%;
-		}
-		
-		.btn-wrapper .btn-query{
-			height:78px;
-			width:205px;
-		}
-		
-		.btn-wrapper .btn-service{
-			height:78px;
-			width:205px;
-		}
 
+.tip .wrapper{
+	width:8.266rem;
+    height:4.32rem;
+    margin-left: -4.133rem;
+    background:url(../img/bg_account.png);
+    background-size:100%;
+    background-repeat:no-repeat; 
 }
-	/* ----------- iPad 3 and 4 ----------- */
-@media only screen 
-and (min-device-width: 768px) 
-and (max-device-width: 1024px)
-and (-webkit-min-device-pixel-ratio: 2) {
-	.red-pack .light-media{
-	    height:1024px;
-	    margin-top:-512px;
-	}
-	.details-wrapper .details-text{
-    	font-size: 18px;
-    	line-height: 26px;
-    }
-    .activity-main .slogan{
-    	height:140px;
-    }
+.tip .main{
+	padding-top:0.533rem;
+    height:auto;
+    overflow: hidden;
+}
+.tip .main .text-wrapper{
+    padding:0 0.43rem;
+    height:auto;
+    overflow: hidden;
+    line-height: 0.42rem;
+    font-size: 0.32rem;
+    color:#fff;
 }

@@ -25,7 +25,7 @@ $(function(){
 				changeElm.removeClass('on');
 			}
 			change=!change;
-		},800);
+		},200);
 	};
 	changeBg();
 	

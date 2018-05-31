@@ -39,6 +39,7 @@ html{
 body {
 	margin: 0;
 	font-size: 0.37rem;
+	line-height: 0;
 }
 
 body * {
@@ -73,8 +74,10 @@ body {
 	background-color: #1b1f25;
 	background-repeat: no-repeat;
 }
+.activity-wrapper{
+	padding-top:0.924rem;
+}
 .poster-wrapper,.red-pack{
-	margin-top:0.924rem;
 	height: auto;
 }
 .poster-wrapper img,.red-pack img{
@@ -424,7 +427,7 @@ body {
 }
 
 .account{
-	display: none;
+	display: block;
 }
 
 .account .wrapper{
@@ -474,27 +477,21 @@ body {
 }
 
 .tip{
-	display: block;
-}
-
-.tip .wrapper{
-	width:8.266rem;
-    height:4.32rem;
-    margin-left: -4.133rem;
-    background:url(../img/bg_account.png);
-    background-size:100%;
-    background-repeat:no-repeat; 
-}
-.tip .main{
-	padding-top:0.533rem;
-    height:auto;
-    overflow: hidden;
-}
-.tip .main .text-wrapper{
-    padding:0 0.43rem;
-    height:auto;
-    overflow: hidden;
-    line-height: 0.42rem;
-    font-size: 0.32rem;
-    color:#fff;
+	display: none;
+	position: fixed;
+	top:2rem;
+	left:2.2rem;
+	width:5rem;
+	height: auto;
+	overflow: hidden;
+	border:0.02rem solid #620203;
+	border-radius: 0.2rem;
+	z-index: 10000;
+	background:url(../img/bg_account.png);
+	background-size: 150%;
+	background-position: center;
+	padding: 0.2rem 0.3rem;
+	color:#fff;
+	line-height: 1.5;
+	font-size: 0.32rem;
 }

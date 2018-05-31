@@ -29,4 +29,12 @@ $(function(){
 	};
 	changeBg();
 	
+	function showTip(txt){
+		$("#show_tip").html(txt).show().delay(5000).queue(function(){
+		    $(this).stop().hide().html('');
+		});
+	};
+	
+	showTip('套用于构建用户界面的渐进式框架。与其它大');
+	
 })

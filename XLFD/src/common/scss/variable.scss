@@ -1,26 +1,25 @@
 // 颜色定义规范
-$color-background : #FFF;
-$color-background-d : rgba(0, 0, 0, 0.3);
-$color-background-gray:#f4f4f4;
-$color-theme-background : #DA1C36;
-$color-dialog-background : #FFF;
-$color-theme : #333;
-$color-theme-d : rgba(255, 205, 49, 0.5);
-$color-sub-theme : #d93f30;
-$color-header:#fff;
-$color-text : #333;
+$color-bg : #FFF;
+$color-bg-shade-a3 : rgba(0, 0, 0, 0.3);
+$color-bg-shade-a5 : rgba(0, 0, 0, 0.5);
+$color-bg-shade-a8 : rgba(0, 0, 0, 0.8);
+$color-bg-theme : #DA1C36;
+$color-bg-gray:#f4f4f4;
+$color-bg-nav:#171718;
+$color-bg-white-a0 : rgba(255, 255, 255, 0.0);
+$color-bg-white-a3 : rgba(255, 255, 255, 0.3);
+$color-bg-white-a5 : rgba(255, 255, 255, 0.5);
+$color-bg-white-a8 : rgba(255, 255, 255, 0.8);
+$color-text :#333;
 $color-text-gray:#999;
 $color-text-blur:rgb(4, 132, 218);
-$color-text-d : rgba(255, 255, 255, 0.3);
-$color-text-l : rgba(255, 255, 255, 0.5);
-$color-text-ll : rgba(255, 255, 255, 0.8);
-$color-nav-background:#171718;
-$color-border:#cccccc;
+$color-text-yellow:#FFDF1B;
+$color-border-gray:#cccccc;
 
 //字体定义规范
 $font-size-html:10vw;
-$font-size-small-s : 0.27rem;
-$font-size-small : 0.32rem;
+$font-size-small : 0.27rem;
+$font-size-small-x : 0.32rem;
 $font-size-medium : 0.37rem;
 $font-size-medium-x : 0.43rem;
 $font-size-large : 0.48rem;

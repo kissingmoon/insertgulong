@@ -74,7 +74,6 @@
                 let param=reData(this.registerParam);
                 this.$axios.post(httpUrl.account.register,param)
                 .then((res) => {
-                    console.log(res);
                     session('account',res.data);
                     //window.location.href="/home";
                 })
@@ -114,13 +113,12 @@
         .txt-con{
             height: auto;
             overflow: hidden;
-            @include border-1px($color-border);
+            @include border-1px($color-border-gray);
             .input-txt{
                 height:1.4rem;
                 width:100%;
                 line-height: 1.4rem;
                 font-size: $font-size-medium-x;
-                border-bottom:0.02rem solid $color-border;
             }
             .input-txt::placeholder{
                 font-size: $font-size-medium
@@ -143,7 +141,7 @@
             height:1.17rem;
             width:100%;
             text-align: center;
-            background:$color-theme-background;
+            background:$color-bg-theme;
             color: #fff;
             font-size: $font-size-large;
             border-radius: 0.1rem;

@@ -14,8 +14,8 @@
     position:relative;
     height:1.2rem;
     text-align: center;
-    color:$color-header;
-    background:$color-theme-background;
+    color:#fff;
+    background:$color-bg-theme;
     .service{
         position: absolute;
         vertical-align: top;

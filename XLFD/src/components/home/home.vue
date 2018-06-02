@@ -114,11 +114,6 @@
             this._getBetWin();
         },
         methods: {
-            handlePlaylist(playlist) {
-                const bottom = playlist.length > 0 ? '60px' : ''
-                this.$refs.recommend.style.bottom = bottom
-                this.$refs.scroll.refresh()
-            },
             loadImage() {
                 if (!this.checkloaded) {
                 this.checkloaded = true
@@ -160,7 +155,6 @@
                 this.$axios.post(httpUrl.home.betWin,this.paramData)
                 .then((res) => {
                     this.betWin=res.data;
-                    console.log(res.data);
                 });
             }
         }
@@ -199,7 +193,7 @@
             line-height: 0.64rem;
             .txt{
                 border-left:0.08rem solid #FED931;
-                font-size: $font-size-small;
+                font-size: $font-size-small-x;
             }
         }
         .new-gift-wrapper{
@@ -242,10 +236,13 @@
                         line-height: 20px;
                         overflow: hidden;
                         .name{
-                            margin-bottom: 0.1rem;
+                            height:0.67rem;
+                            line-height: 0.67rem;
                             font-size: $font-size-large;
                         }
                         .desc{
+                            height:0.53rem;
+                            line-height: 0.53rem;
                             color: $color-text-gray;
                             font-size: $font-size-medium;
                         }
@@ -256,8 +253,8 @@
         }
         .rank-wrapper{
             height: 1.56rem;
-            border-top:0.1rem solid $color-background-gray;
-            border-bottom:0.1rem solid $color-background-gray;
+            border-top:0.1rem solid $color-bg-gray;
+            border-bottom:0.1rem solid $color-bg-gray;
             padding:0.23rem 0 0 0.4rem;
             .rank-img{
                 float: left;
@@ -278,12 +275,12 @@
                 .title{
                     height:0.73rem;
                     line-height: 0.73rem;
-                    font-size: $font-size-small;
+                    font-size: $font-size-small-x;
                 }
                 .num{
                     height: 0.6rem;
                     line-height: 0.6rem;
-                    font-size: $font-size-small-s;
+                    font-size: $font-size-small;
                     @include no-wrap();
                 }
             }
@@ -309,7 +306,7 @@
                     height:0.5rem;
                     line-height: 0.5rem;
                     text-align: center;
-                    font-size: $font-size-small;
+                    font-size: $font-size-small-x;
                     color:#9F7B02;
                 }
             }
@@ -344,7 +341,7 @@
             background-repeat: no-repeat;
             background-position: 0.4rem center;
             background-size: 0.69rem;
-            font-size: $font-size-small;
+            font-size: $font-size-small-x;
         }
     }
     

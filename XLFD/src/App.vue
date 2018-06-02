@@ -22,5 +22,5 @@ export default {
 
 <style lang="scss">
 @import 'common/scss/index.scss';
-@import "common/icon.css";
+@import "common/scss/icon.css";
 </style>

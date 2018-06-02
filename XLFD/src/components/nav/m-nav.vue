@@ -35,13 +35,13 @@
     bottom:0;
     height:1.44rem;
     text-align: center;
-    background:$color-nav-background;
+    background:$color-bg-nav;
     .nav-item{
         flex: 1;
         text-align: center;
         color: #fff;
         padding-top:0.18rem;
-        font-size: $font-size-small-s;
+        font-size: $font-size-small;
         .icon-con{
             height:0.72rem;
             width:0.7rem;

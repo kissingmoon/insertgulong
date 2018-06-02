@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('../fonts/icomoon.eot?qyfz84');
+  src:  url('../fonts/icomoon.eot?qyfz84#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?qyfz84') format('truetype'),
+    url('../fonts/icomoon.woff?qyfz84') format('woff'),
+    url('../fonts/icomoon.svg?qyfz84#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-delete:before {
+  content: "\e91a";
+}
+.icon-add:before {
+  content: "\e900";
+}
+.icon-add-circle:before {
+  content: "\e901";
+}
+.icon-arrows-below:before {
+  content: "\e902";
+}
+.icon-arrows-below-wire:before {
+  content: "\e903";
+}
+.icon-arrows-left:before {
+  content: "\e904";
+}
+.icon-arrows-right:before {
+  content: "\e905";
+}
+.icon-arrows-up:before {
+  content: "\e906";
+}
+.icon-bell:before {
+  content: "\e907";
+}
+.icon-circle:before {
+  content: "\e908";
+}
+.icon-clock-01:before {
+  content: "\e909";
+}
+.icon-clock-02:before {
+  content: "\e90a";
+}
+.icon-clock-03:before {
+  content: "\e90b";
+}
+.icon-close:before {
+  content: "\e90c";
+}
+.icon-close-circle:before {
+  content: "\e90d";
+}
+.icon-envelope:before {
+  content: "\e90e";
+}
+.icon-envelope-open:before {
+  content: "\e90f";
+}
+.icon-message .path1:before {
+  content: "\e910";
+  color: rgb(39, 37, 54);
+}
+.icon-message .path2:before {
+  content: "\e911";
+  margin-left: -1em;
+  color: rgb(38, 36, 53);
+}
+.icon-minus:before {
+  content: "\e912";
+}
+.icon-question-circle:before {
+  content: "\e913";
+}
+.icon-refresh:before {
+  content: "\e914";
+}
+.icon-right:before {
+  content: "\e915";
+}
+.icon-right-ak:before {
+  content: "\e916";
+}
+.icon-right-circle:before {
+  content: "\e917";
+}
+.icon-right-quadrangle:before {
+  content: "\e918";
+}
+.icon-triangle-below:before {
+  content: "\e919";
+}

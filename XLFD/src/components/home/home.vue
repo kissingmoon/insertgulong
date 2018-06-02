@@ -84,7 +84,7 @@
     import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData} from 'common/js/param'
+    import {reData} from 'common/js/param';
 
     export default {
         data() {
@@ -97,6 +97,12 @@
                 rank:{},
                 betWin:{}
             }
+        },
+        components: {
+            Slider,
+            Loading,
+            Scroll,
+            SliderY
         },
         created() {
             this.paramData=reData()
@@ -157,12 +163,6 @@
                     console.log(res.data);
                 });
             }
-        },
-        components: {
-            Slider,
-            Loading,
-            Scroll,
-            SliderY
         }
     }
     
@@ -171,186 +171,183 @@
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 
-    .home{
-        position: fixed;
-        width: 100%;
-        top: 1.2rem;
-        bottom: 2.34rem;
-        .home-content{
-            height: 100%;
+.home{
+    position: fixed;
+    width: 100%;
+    top: 1.2rem;
+    bottom: 2.34rem;
+    .home-content{
+        height: 100%;
+        overflow: hidden;
+        .slider-content{
+            padding:0 0.2rem;
+            height:auto;
             overflow: hidden;
-            .slider-content{
-                padding:0 0.2rem;
-                height:auto;
+            @include bg-image('slider-bg');
+            background-size: 100% 100%;
+            .slider-wrapper{
+                position: relative;
+                width: 100%;
                 overflow: hidden;
-                @include bg-image('slider-bg');
-                background-size: 100% 100%;
-                .slider-wrapper{
-                    position: relative;
-                    width: 100%;
-                    overflow: hidden;
-                    border-top-left-radius: 0.12rem;
-                    border-top-right-radius: 0.12rem;
+                border-top-left-radius: 0.12rem;
+                border-top-right-radius: 0.12rem;
+            }
+        }
+        .marquee-wrapper{
+            padding:0.15rem;
+            height:0.58rem;
+            line-height: 0.64rem;
+            .txt{
+                border-left:0.08rem solid #FED931;
+                font-size: $font-size-small;
+            }
+        }
+        .new-gift-wrapper{
+            height:auto;
+            overflow: hidden;
+            img{
+                display: block;
+                width: 100%;
+            }
+        }
+        .lottery-wrapper{
+            height:auto;
+            overflow: hidden;
+            .item{
+                float: left;
+                width:50%;
+                height: auto;
+                overflow: hidden;
+                .item-main{
+                    display: flex;
+                    box-sizing: border-box;
+                    align-items: center;
+                    padding: 0.4rem 0 0.4rem 0.54rem;
+                    .icon{
+                        flex: 0 0 1.47rem;
+                        width: 1.47rem;
+                        height:1.47rem;
+                        padding-right: 0.2rem;
+                        img{
+                            display: block;
+                            width:100%;
+                            height:100%;
+                        }
+                    }
+                    .text{
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        flex: 1;
+                        line-height: 20px;
+                        overflow: hidden;
+                        .name{
+                            margin-bottom: 0.1rem;
+                            font-size: $font-size-large;
+                        }
+                        .desc{
+                            color: $color-text-gray;
+                            font-size: $font-size-medium;
+                        }
+                    }
                 }
             }
-            .marquee-wrapper{
-                padding:0.15rem;
-                height:0.58rem;
-                line-height: 0.64rem;
-                .txt{
-                    border-left:0.08rem solid #FED931;
+            
+        }
+        .rank-wrapper{
+            height: 1.56rem;
+            border-top:0.1rem solid $color-background-gray;
+            border-bottom:0.1rem solid $color-background-gray;
+            padding:0.23rem 0 0 0.4rem;
+            .rank-img{
+                float: left;
+                height:1.33rem;
+                width:1.31rem;
+                @include bg-image('ranking');
+                background-size: 100%;
+                margin-right: 0.25rem;
+            }
+            .rank-flow-money,
+            .rank-profit-loss,
+            .rank{
+                float: left;
+                height:1.33rem;
+                width:2.1rem;
+                text-align: center;
+                color:#9F7B02;
+                .title{
+                    height:0.73rem;
+                    line-height: 0.73rem;
                     font-size: $font-size-small;
                 }
-            }
-            .new-gift-wrapper{
-                height:auto;
-                overflow: hidden;
-                img{
-                    display: block;
-                    width: 100%;
+                .num{
+                    height: 0.6rem;
+                    line-height: 0.6rem;
+                    font-size: $font-size-small-s;
+                    @include no-wrap();
                 }
             }
-            .lottery-wrapper{
-                height:auto;
-                overflow: hidden;
-                .item{
-                    float: left;
-                    width:50%;
-                    height: auto;
-                    overflow: hidden;
-                    .item-main{
-                        display: flex;
-                        box-sizing: border-box;
-                        align-items: center;
-                        padding: 0.4rem 0 0.4rem 0.54rem;
-                        .icon{
-                            flex: 0 0 1.47rem;
-                            width: 1.47rem;
-                            height:1.47rem;
-                            padding-right: 0.2rem;
-                            img{
-                                display: block;
-                                width:100%;
-                                height:100%;
-                            }
-                        }
-                        .text{
-                            display: flex;
-                            flex-direction: column;
-                            justify-content: center;
-                            flex: 1;
-                            line-height: 20px;
-                            overflow: hidden;
-                            .name{
-                                margin-bottom: 0.1rem;
-                                font-size: $font-size-large;
-                            }
-                            .desc{
-                                color: $color-text-gray;
-                                font-size: $font-size-medium;
-                            }
-                        }
-                    }
-                    
-                        
+            .rank {
+                width:1.8rem;
+                .num{
+                    font-size: $font-size-medium-x;
                 }
-                
             }
-            .rank-wrapper{
-                height: 1.56rem;
-                border-top:0.1rem solid $color-background-gray;
-                border-bottom:0.1rem solid $color-background-gray;
-                padding:0.23rem 0 0 0.4rem;
-                .rank-img{
-                    float: left;
-                    height:1.33rem;
-                    width:1.31rem;
-                    @include bg-image('ranking');
+            .rank-receive-money{
+                width:1.7rem;
+                height:1.33rem;
+                float: right;
+                padding-right: 0.2rem;
+                .icon{
+                    width:0.75rem;
+                    height:0.83rem;
+                    margin: 0 auto;
+                    @include bg-image('receive-icon');
                     background-size: 100%;
-                    margin-right: 0.25rem;
                 }
-                .rank-flow-money,
-                .rank-profit-loss,
-                .rank{
-                    float: left;
-                    height:1.33rem;
-                    width:2.1rem;
+                .title{
+                    height:0.5rem;
+                    line-height: 0.5rem;
                     text-align: center;
+                    font-size: $font-size-small;
                     color:#9F7B02;
-                    .title{
-                        height:0.73rem;
-                        line-height: 0.73rem;
-                        font-size: $font-size-small;
-                    }
-                    .num{
-                        height: 0.6rem;
-                        line-height: 0.6rem;
-                        font-size: $font-size-small-s;
-                        @include no-wrap();
-                    }
-                }
-                .rank {
-                    width:1.8rem;
-                    .num{
-                        font-size: $font-size-medium-x;
-                    }
-                }
-                .rank-receive-money{
-                    width:1.7rem;
-                    height:1.33rem;
-                    float: right;
-                    padding-right: 0.2rem;
-                    .icon{
-                        width:0.75rem;
-                        height:0.83rem;
-                        margin: 0 auto;
-                        @include bg-image('receive-icon');
-                        background-size: 100%;
-                    }
-                    .title{
-                        height:0.5rem;
-                        line-height: 0.5rem;
-                        text-align: center;
-                        font-size: $font-size-small;
-                        color:#9F7B02;
-                    }
                 }
             }
+        }
 
-            .loading-container{
-                position: absolute;
-                width: 100%;
-                top: 50%;
-                transform: translateY(-50%);
-            }
+        .loading-container{
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
+}
+
+.betwin-wrapper{
+    position: fixed;
+    height:0.9rem;
+    line-height: 0.9rem;
+    width:100%;
+    bottom: 1.44rem;
+    //border-top:0.01rem solid $color-border;
+    overflow: hidden;
+    .betwin-main{
+        height: 100%;
+        overflow: hidden;
+        .betwin-txt{
+            height:0.9rem;
+            padding-left: 1.2rem;
+            padding-right: 0.4rem;
+            @include no-wrap();
+            @include bg-image('betwin-icon');
+            background-repeat: no-repeat;
+            background-position: 0.4rem center;
+            background-size: 0.69rem;
+            font-size: $font-size-small;
         }
     }
     
-    .betwin-wrapper{
-        position: fixed;
-        height:0.9rem;
-        line-height: 0.9rem;
-        width:100%;
-        bottom: 1.44rem;
-        //border-top:0.01rem solid $color-border;
-        overflow: hidden;
-        .betwin-main{
-            height: 100%;
-            overflow: hidden;
-            .betwin-txt{
-                height:0.9rem;
-                padding-left: 1.2rem;
-                padding-right: 0.4rem;
-                @include no-wrap();
-                @include bg-image('betwin-icon');
-                background-repeat: no-repeat;
-                background-position: 0.4rem center;
-                background-size: 0.69rem;
-                font-size: $font-size-small;
-                
-            }
-        }
-        
-    }
+}
  
 </style>

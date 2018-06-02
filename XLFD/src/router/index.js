@@ -5,6 +5,8 @@ import Pay from 'components/pay/pay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
 import Info from 'components/info/info';
+import Login from 'components/login/login';
+import Register from 'components/register/register';
 
 Vue.use(Router)
 
@@ -14,6 +16,14 @@ export default new Router({
         {
             path: '/',
             redirect: '/home'
+        },
+        {
+            path:'/register',
+            component:Register
+        },
+        {
+            path:'/login',
+            component:Login
         },
         {
             path:'/home',

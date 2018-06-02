@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <div class="info">
         info
     </div>
 </template>
@@ -8,6 +8,10 @@
 </script>
 <style lang="scss">
 @import 'common/scss/variable.scss';
-.home{
+.info{
+    position: fixed;
+    width: 100%;
+    top: 1.2rem;
+    bottom: 2.34rem;
 }
 </style>

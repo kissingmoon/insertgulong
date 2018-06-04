@@ -7,6 +7,9 @@ import Discount from 'components/discount/discount';
 import Info from 'components/info/info';
 import Login from 'components/login/login';
 import Register from 'components/register/register';
+import Balance from 'components/balance/balance';
+import Bill from 'components/bill/bill';
+import Bet from 'components/bet/bet';
 
 Vue.use(Router)
 
@@ -43,7 +46,26 @@ export default new Router({
         },
         {
             path:'/info',
-            component:Info
+            component:Info,
+            children:[
+                {
+                    path:'/login',
+                    component:Login
+                }
+            ]
+            
+        },
+        {
+            path:'/balance',
+            component:Balance
+        },
+        {
+            path:'/bill',
+            component:Bill
+        },
+        {
+            path:'/bet',
+            component:Bet
         }
     ]
 })

@@ -30,6 +30,7 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
+    import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import {reData,session,randomWord} from 'common/js/param';
     export default{
@@ -45,6 +46,9 @@
                 codeUrl:'http://www.xlfdapi.com/config/generator-code?code_id=2154'
             }
         },
+        components:{
+            Parcel
+        },
         created() {
             this.paramData=reData();
             //设置code_id随机数
@@ -53,22 +57,18 @@
         },
         methods: {
             _getGeneratorCode() {
-                let param=reData({'code_id':this.loginParam.codeId});
-                this.$axios.post(httpUrl.account.generatorCode,param)
-                .then((res) => {
+                this.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
+                .then((res)=> {
                     this.codeUrl=res.data;
                 });
             },
             login(){
-                let param=reData(this.loginParam);
-                this.$axios.post(httpUrl.account.login,param)
-                .then((res) => {
+                this.postRequest(httpUrl.account.login,this.loginParam)
+                .then((res)=> {
                     session('account',res.data);
-                    window.location.href="/home";
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert(error.errorMsg);
+                    this.$router.push({
+                        path:'/info'
+                    });
                 });
             }
         
@@ -83,6 +83,7 @@
     width: 100%;
     top: 1.2rem;
     bottom: 0rem;
+    z-index: 101;
     .login-wrapper{
         padding:0.56rem;
         .txt-con{

@@ -1,11 +1,12 @@
 import md5 from 'js-md5';
 export function reData(data){
+    let param=data||{};
     let default_key='fb2356ddf5scc5d4d2s9e@2scwu7io2c';
     let account=session('account');
     let user_token=account && account.user_token?account.user_token:'';
     let md5_salt=account && account.md5_salt?account.md5_salt:'';
     let baseObj={
-        ...data,
+        ...param,
         platform:'3',
         app_bundleId:'com.xb888.front',
         app_version:'1.0',
@@ -20,8 +21,8 @@ export function reData(data){
 export function dataParam(data) {
     let url = '';
     for (var k in data) {
-      let value = data[k] !== undefined ? data[k] : '';
-      url += '&' + k + '=' + value;
+        let value = data[k] !== undefined ? data[k] : '';
+        url += '&' + k + '=' + value;
     }
     return url ? url.substring(1) : '';
 }

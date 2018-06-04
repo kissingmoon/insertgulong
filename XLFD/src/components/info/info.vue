@@ -6,7 +6,7 @@
                     <div class="datum-img">
                         <img src="" alt="">
                     </div>
-                    <div class="datum-txt">
+                    <div class="datum-txt" @click="login">
                         <p class="datum-login">
                             登陆/注册
                         </p>
@@ -90,7 +90,7 @@
                 </div>
             </div>
         </scroll>
-
+        <router-view></router-view>
     </div>
 </template>
 <script>
@@ -116,6 +116,11 @@
         created() {
         },
         methods: {
+            login(){
+                this.$router.push({
+                    path:'/info/login'
+                })
+            }
         }
     }
     

@@ -94,7 +94,11 @@
                 notice:[],
                 gift:[],
                 lotteryList:[],
-                rank:{},
+                rank:{
+                    today_flow_money:0,
+                    today_profit_loss:0,
+                    user_ranking:0
+                },
                 betWin:{}
             }
         },
@@ -121,39 +125,40 @@
                 }
             },
             _getActivitys() {
-                this.$axios.post(httpUrl.home.sliderImg,this.paramData)
-                .then((res) => {
+                this.postRequest(httpUrl.home.sliderImg)
+                .then((res)=> {
                     this.activitys=res.data;
                 });
             },
             _getNotice(){
-                this.$axios.post(httpUrl.home.notice,this.paramData)
-                .then((res) => {
+                this.postRequest(httpUrl.home.notice)
+                .then((res)=> {
                     this.notice=res.data;
                 });
             },
             _getGift(){
-                let giftParam=reData({'type':'01'})
-                this.$axios.post(httpUrl.home.gift,giftParam)
-                .then((res) => {
+                this.postRequest(httpUrl.home.gift,{'type':'01'})
+                .then((res)=> {
                     this.gift=res.data;
                 });
             },
             _getLottery(){
-                this.$axios.post(httpUrl.home.lottery,this.paramData)
-                .then((res) => {
+                this.postRequest(httpUrl.home.lottery)
+                .then((res)=> {
                     this.lotteryList=res.data;
                 });
             },
             _getRank(){
-                this.$axios.post(httpUrl.home.rank,this.paramData)
-                .then((res) => {
-                    this.rank=res.data;
+                this.postRequest(httpUrl.home.rank)
+                .then((res)=> {
+                    if(res){
+                        this.rank=res.data;
+                    }
                 });
             },
             _getBetWin(){
-                this.$axios.post(httpUrl.home.betWin,this.paramData)
-                .then((res) => {
+                this.postRequest(httpUrl.home.betWin)
+                .then((res)=> {
                     this.betWin=res.data;
                 });
             }

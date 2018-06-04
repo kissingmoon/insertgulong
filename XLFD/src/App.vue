@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="app">
     <m-header></m-header> 
     <m-nav></m-nav>
     <keep-alive>
@@ -23,4 +23,9 @@ export default {
 <style lang="scss">
 @import 'common/scss/index.scss';
 @import "common/scss/icon.css";
+.app{
+    height:auto;
+    overflow: hidden;
+    min-height: 100%;
+}
 </style>

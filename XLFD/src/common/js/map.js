@@ -1,18 +1,16 @@
-let localhostDev = true;
-let _host= localhostDev ? '/api' : '';
 let httpUrl = {
     home:{
-        sliderImg: _host + '/ad/image-list',
-        notice: _host + '/ad/notice',
-        gift: _host + '/v2/gc/syad-image',
-        lottery:_host+'/v2/gc/get-cp-type',
-        rank:_host+'/v2/user-info/get-user-rank',
-        betWin:_host+'/v2/gc/betwin-notice'
+        sliderImg: '/ad/image-list',
+        notice: '/ad/notice',
+        gift: '/v2/gc/syad-image',
+        lottery:'/v2/gc/get-cp-type',
+        rank:'/v2/user-info/get-user-rank',
+        betWin:'/v2/gc/betwin-notice'
     },
     account:{
-        generatorCode:_host+'/config/generator-code',
-        register:_host+'/user/register',
-        login:_host+'/user/login',
+        generatorCode:'/config/generator-code',
+        register:'/user/register',
+        login:'/user/login',
     }
 };
 export { httpUrl }

@@ -32,25 +32,25 @@
                                 <span>254186.3元</span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px margin-bottom">
+                        <li class="item-mode border-1px margin-bottom" @click="toBalance">
                             <p class="title icon-withdraw">提现</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-1px" @click="toBill">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-1px" @click="toBet">
                             <p class="title icon-bet">投注记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-1px" @click="toRecharge">
                             <p class="title icon-recharge">充值记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -62,7 +62,7 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-1px" @click="toFollow">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -118,7 +118,32 @@
         methods: {
             login(){
                 this.$router.push({
-                    path:'/info/login'
+                    path:'/info/information'
+                })
+            },
+            toBalance(){
+                this.$router.push({
+                    path:'/info/balance'
+                })
+            },
+            toBill(){
+                this.$router.push({
+                    path:'/info/bill'
+                })
+            },
+            toBet(){
+                this.$router.push({
+                    path:'/info/bet'
+                })
+            },
+            toRecharge(){
+                this.$router.push({
+                    path:'/info/recharge'
+                })
+            },
+            toFollow(){
+                this.$router.push({
+                    path:'/info/follow'
                 })
             }
         }

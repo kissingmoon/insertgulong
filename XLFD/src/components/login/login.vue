@@ -1,33 +1,35 @@
 <template>
-    <div class="login">
-        <ul class="login-wrapper">
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con code-txt border-1px">
-                    <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
-                </p>
-                <p class="code-img">
-                    <img :src="codeUrl" alt="">
-                </p>
-            </li>
-            <li>
-                <button class="login-btn" @click="login">登录</button>
-            </li>
-            <li>
-                <p class="register">注册</p>
-                <p class="forget">忘记密码</p>
-            </li>
-        </ul>
-    </div>
+    <parcel>
+        <div class="login">
+            <ul class="login-wrapper">
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con code-txt border-1px">
+                        <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
+                    </p>
+                    <p class="code-img">
+                        <img :src="codeUrl" alt="">
+                    </p>
+                </li>
+                <li>
+                    <button class="login-btn" @click="login">登录</button>
+                </li>
+                <li>
+                    <p class="register">注册</p>
+                    <p class="forget">忘记密码</p>
+                </li>
+            </ul>
+        </div>
+    </parcel>
 </template>
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
@@ -84,6 +86,7 @@
     top: 1.2rem;
     bottom: 0rem;
     z-index: 101;
+    background: $color-bg;
     .login-wrapper{
         padding:0.56rem;
         .txt-con{

@@ -10,6 +10,10 @@ import Register from 'components/register/register';
 import Balance from 'components/balance/balance';
 import Bill from 'components/bill/bill';
 import Bet from 'components/bet/bet';
+import Recharge from 'components/recharge/recharge';
+import Follow from 'components/follow/follow';
+import Information from 'components/information/information';
+import Nick from 'components/nick/nick';
 
 Vue.use(Router)
 
@@ -49,23 +53,41 @@ export default new Router({
             component:Info,
             children:[
                 {
-                    path:'/login',
+                    path:'login',
                     component:Login
+                },
+                {
+                    path:'balance',
+                    component:Balance
+                },
+                {
+                    path:'bill',
+                    component:Bill
+                },
+                {
+                    path:'bet',
+                    component:Bet
+                },
+                {
+                    path:'recharge',
+                    component:Recharge
+                },
+                {
+                    path:'follow',
+                    component:Follow
+                },
+                {
+                    path:'information',
+                    component:Information,
+                    children:[
+                        {
+                            path:'nick',
+                            component:Nick
+                        }
+                    ]
                 }
             ]
             
-        },
-        {
-            path:'/balance',
-            component:Balance
-        },
-        {
-            path:'/bill',
-            component:Bill
-        },
-        {
-            path:'/bet',
-            component:Bet
         }
     ]
 })

@@ -1,31 +1,34 @@
 <template>
-    <div class="bill">
-        <scroll ref="scroll" class="scroll-content" >
-            <div>
-                <ul class="bill-main">
-                    <li class="item-mode">
-                        <div class="title-time">
-                            <span class="title">活动奖励</span>
-                            <span class="time">201-02-16 16:52:36</span>
-                        </div>
-                        <div class="money-arrows">
-                            <p class="money">
-                                <span class="add-money">
-                                    <b class="add">+13.00</b>元
-                                </span>
-                                <span class="surplus-money">
-                                    余额：2154875487
-                                </span>
-                            </p>
-                            <p class="icon"><i class="icon-arrows-right"></i></p>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </scroll>
-    </div>
+    <parcel>
+        <div class="bill">
+            <scroll ref="scroll" class="scroll-content" >
+                <div>
+                    <ul class="bill-main">
+                        <li class="item-mode">
+                            <div class="title-time">
+                                <span class="title">活动奖励</span>
+                                <span class="time">201-02-16 16:52:36</span>
+                            </div>
+                            <div class="money-arrows">
+                                <p class="money">
+                                    <span class="add-money">
+                                        <b class="add">+13.00</b>元
+                                    </span>
+                                    <span class="surplus-money">
+                                        余额：2154875487
+                                    </span>
+                                </p>
+                                <p class="icon"><i class="icon-arrows-right"></i></p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </scroll>
+        </div>
+    </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     export default{
@@ -34,6 +37,7 @@
             }
         },
         components:{
+            Parcel,
             Scroll
         },
         created() {
@@ -61,7 +65,7 @@
             overflow: hidden;
             .item-mode{
                 height:1.33rem;
-                padding:0.4rem 0.3rem 0.4rem;
+                padding:0.3rem;
                 background: $color-bg;
                 @include border-1px($color-border-gray);
                 .title-time{

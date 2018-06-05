@@ -1,25 +1,9 @@
 <template>
     <parcel>
-        <div class="bet">
+        <div class="follow">
+            <div></div>
             <scroll ref="scroll" class="scroll-content" >
-                <div>
-                    <ul class="bet-main">
-                        <li class="item-mode">
-                            <div class="title-time">
-                                <span class="time">201-02-16 16:52:36</span>
-                                <span class="title">
-                                    重庆时时彩 <b class="divide">|</b> -2.00元
-                                </span>
-                            </div>
-                            <div class="money-arrows">
-                                <p class="money">
-                                    <span class="surplus-money">余额：2154875487</span>
-                                    <span class="add-money">撤销</span>
-                                </p>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
+                <order-list></order-list>
             </scroll>
         </div>
     </parcel>
@@ -27,6 +11,7 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import orderList from 'base/order-list/order-list';
     import {httpUrl} from 'common/js/map';
     export default{
         data() {
@@ -35,7 +20,8 @@
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            orderList
         },
         created() {
         },
@@ -47,7 +33,7 @@
 <style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.bet{
+.follow{
     position: fixed;
     width: 100%;
     top: 1.2rem;
@@ -55,9 +41,12 @@
     z-index: 103;
     background: $color-bg;
     .scroll-content{
-        height: 100%;
-        overflow: hidden;
-        .bet-main{
+        position: fixed;
+        width: 100%;
+        top: 1.2rem;
+        bottom: 0rem;
+        z-index: 103;
+        .order-main{
             height: 100%;
             overflow: hidden;
             .item-mode{
@@ -73,10 +62,13 @@
                         display: block;
                         height:0.63rem;
                         line-height: 0.63rem;
-                        font-size: $font-size-medium;
+                        font-size: $font-size-medium-x;
                         .divide{
                             padding: 0 0.2rem;
                             color:$color-border-gray;
+                        }
+                        .money{
+                            color:$color-text-green;
                         }
                     }
                     .time{
@@ -87,7 +79,7 @@
                         color: $color-text-gray;
                     }
                 }
-                .money-arrows{
+                .recharge-status{
                     float:right;
                     display: flex;
                     box-sizing: border-box;
@@ -95,21 +87,8 @@
                     height: 1.33rem;
                     font-size: $font-size-medium-x;
                     text-align: right;
-                    .money{
-                        float:right;
-                        .add-money{
-                            display: block;
-                            height:0.63rem;
-                            line-height: 0.63rem;
-                            font-size: $font-size-medium;
-                        }
-                        .surplus-money{
-                            display: block;
-                            height:0.6rem;
-                            line-height: 0.6rem;
-                            font-size: $font-size-small-x;
-                            color: $color-text-gray;
-                        }
+                    .status{
+                        color:$color-text-green;
                     }
                 }
             }

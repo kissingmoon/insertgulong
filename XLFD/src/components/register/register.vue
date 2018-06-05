@@ -1,44 +1,47 @@
 <template>
-    <div class="register">
-        <ul class="register-wrapper">
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con border-1px">
-                    <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone">
-                </p>
-            </li>
-            <li>
-                <p class="txt-con code-txt border-1px">
-                    <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code">
-                </p>
-                <p class="code-img">
-                    <img :src="codeUrl" alt="">
-                </p>
-            </li>
-            <li>
-                <button class="login-btn" @click="register">注册</button>
-            </li>
-            <li>
-                <p class="forget">注册即表示同意<a>《使用协议》</a></p>
-            </li>
-        </ul>
-    </div>
+    <parcel>      
+        <div class="register">
+            <ul class="register-wrapper">
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con border-1px">
+                        <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone">
+                    </p>
+                </li>
+                <li>
+                    <p class="txt-con code-txt border-1px">
+                        <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code">
+                    </p>
+                    <p class="code-img">
+                        <img :src="codeUrl" alt="">
+                    </p>
+                </li>
+                <li>
+                    <button class="login-btn" @click="register">注册</button>
+                </li>
+                <li>
+                    <p class="forget">注册即表示同意<a>《使用协议》</a></p>
+                </li>
+            </ul>
+        </div>
+    </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import {reData,session,randomWord} from 'common/js/param';
     export default{
@@ -55,6 +58,9 @@
                 },
                 codeUrl:'http://www.xlfdapi.com/config/generator-code?code_id=2154'
             }
+        },
+        components:{
+            Parcel
         },
         created() {
             this.paramData=reData();

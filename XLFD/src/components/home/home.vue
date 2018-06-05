@@ -76,7 +76,6 @@
             </slider-y>
         </div>
     </div>
-
 </template>
 <script>
     import Slider from 'base/slider/slider';

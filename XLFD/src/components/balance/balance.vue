@@ -1,29 +1,32 @@
 <template>
-    <div class="balance">
-        <scroll ref="scroll" class="balance-content" >
-            <div class="balance-main">
-                <div class="balance-num">
-                    <p class="remarks">
-                        <span>余额：254186.3元</span>
-                    </p>
-                </div>
-                <div class="balance-form">
-                    <div class="form-main">
-                        <div class="form-txt">
-                            <p class="title">提现金额</p>
-                            <p class="txt border-1px"><input type="text" placeholder="请输入提现金额"></p>
-                            <p class="tip">提现金额最低100元</p>
+    <parcel>
+        <div class="balance">
+            <scroll ref="scroll" class="balance-content" >
+                <div class="balance-main">
+                    <div class="balance-num">
+                        <p class="remarks">
+                            <span>余额：254186.3元</span>
+                        </p>
+                    </div>
+                    <div class="balance-form">
+                        <div class="form-main">
+                            <div class="form-txt">
+                                <p class="title">提现金额</p>
+                                <p class="txt border-1px"><input type="text" placeholder="请输入提现金额"></p>
+                                <p class="tip">提现金额最低100元</p>
+                            </div>
+                        </div>
+                        <div class="form-btn">
+                            <button>提交</button>
                         </div>
                     </div>
-                    <div class="form-btn">
-                        <button>提交</button>
-                    </div>
                 </div>
-            </div>
-        </scroll>
-    </div>
+            </scroll>
+        </div>
+    </parcel>    
 </template>
 <script type="text/ecmascript-6">
+    import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     import {reData,session,randomWord} from 'common/js/param';
@@ -33,6 +36,7 @@
             }
         },
         components:{
+            Parcel,
             Scroll
         },
         created() {
@@ -118,7 +122,7 @@
                 margin:-1.8rem auto 0 auto;
                 height:1.17rem;
                 clear: both;
-                padding:0 0.4rem;
+                padding:0 0.56rem;
                 button{
                     height:1.17rem;
                     width:100%;

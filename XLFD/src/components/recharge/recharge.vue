@@ -1,20 +1,19 @@
 <template>
     <parcel>
-        <div class="bet">
+        <div class="recharge">
             <scroll ref="scroll" class="scroll-content" >
                 <div>
-                    <ul class="bet-main">
+                    <ul class="recharge-main">
                         <li class="item-mode">
                             <div class="title-time">
                                 <span class="time">201-02-16 16:52:36</span>
                                 <span class="title">
-                                    重庆时时彩 <b class="divide">|</b> -2.00元
+                                    充值 <b class="divide">|</b> <b class="money">-2.00</b>元
                                 </span>
                             </div>
-                            <div class="money-arrows">
-                                <p class="money">
-                                    <span class="surplus-money">余额：2154875487</span>
-                                    <span class="add-money">撤销</span>
+                            <div class="recharge-status">
+                                <p class="status">
+                                    支付失败
                                 </p>
                             </div>
                         </li>
@@ -47,7 +46,7 @@
 <style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.bet{
+.recharge{
     position: fixed;
     width: 100%;
     top: 1.2rem;
@@ -57,7 +56,7 @@
     .scroll-content{
         height: 100%;
         overflow: hidden;
-        .bet-main{
+        .recharge-main{
             height: 100%;
             overflow: hidden;
             .item-mode{
@@ -73,10 +72,13 @@
                         display: block;
                         height:0.63rem;
                         line-height: 0.63rem;
-                        font-size: $font-size-medium;
+                        font-size: $font-size-medium-x;
                         .divide{
                             padding: 0 0.2rem;
                             color:$color-border-gray;
+                        }
+                        .money{
+                            color:$color-text-green;
                         }
                     }
                     .time{
@@ -87,7 +89,7 @@
                         color: $color-text-gray;
                     }
                 }
-                .money-arrows{
+                .recharge-status{
                     float:right;
                     display: flex;
                     box-sizing: border-box;
@@ -95,21 +97,8 @@
                     height: 1.33rem;
                     font-size: $font-size-medium-x;
                     text-align: right;
-                    .money{
-                        float:right;
-                        .add-money{
-                            display: block;
-                            height:0.63rem;
-                            line-height: 0.63rem;
-                            font-size: $font-size-medium;
-                        }
-                        .surplus-money{
-                            display: block;
-                            height:0.6rem;
-                            line-height: 0.6rem;
-                            font-size: $font-size-small-x;
-                            color: $color-text-gray;
-                        }
+                    .status{
+                        color:$color-text-green;
                     }
                 }
             }

@@ -1,32 +1,35 @@
 <template>
     <parcel>
-        <div class="information">
+        <div class="safety">
             <scroll ref="scroll" class="scroll-content">
                 <div>
                     <div class="func-wrapper">
                         <ul>
-                            <li class="item-mode border-1px margin-bottom">
-                                <p class="title icon-balance">
-                                    余额
-                                    <b class="money">1254875.58元</b>
+                            <li class="item-title">
+                                <p>账号保护</p>
+                            </li>
+                            <li class="item-mode border-1px border-none">
+                                <p class="title icon-login-password">登陆密码</p>
+                                <p class="remarks">
+                                    <span>建议定期修改<i class="icon-arrows-right icon"></i></span>
                                 </p>
+                            </li>
+                            <li class="item-title">
+                                <p>资金保护</p>
                             </li>
                             <li class="item-mode border-1px">
-                                <p class="title icon-portrait">头像</p>
+                                <p class="title icon-withdrawal-password">银行卡<span class="type">已绑定</span></p>
                                 <p class="remarks">
-                                    <span>更换<i class="icon-arrows-right icon"></i></span>
+                                    <span>查看银行卡信息<i class="icon-arrows-right icon"></i></span>
                                 </p>
                             </li>
-                            <li class="item-mode border-1px" @click="toNick">
-                                <p class="title icon-nick">昵称</p>
+                            <li class="item-mode border-1px border-none" @click="toNick">
+                                <p class="title icon-bank-card">提款密码<span class="type">已设置</span></p>
                                 <p class="remarks">
-                                    <span>立即设置<i class="icon-arrows-right icon"></i></span>
+                                    <span>进入修改<i class="icon-arrows-right icon"></i></span>
                                 </p>
                             </li>
                         </ul>
-                    </div>
-                    <div class="log-out-wrapper">
-                        <button>退出登录</button>
                     </div>
                 </div>
             </scroll>
@@ -38,14 +41,10 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord,setHeader} from 'common/js/param';
-    export default {
+    import {reData,session,randomWord} from 'common/js/param';
+    export default{
         data() {
             return{
-                header: {
-                    title:'个人信息',
-                    back:true,
-                }
             }
         },
         components: {
@@ -53,20 +52,12 @@
             Scroll
         },
         created() {
-            setHeader(this.header);
         },
         methods: {
             toNick(){
                 this.$router.push({
                     path:'/info/information/nick'
                 })
-            }
-        },
-        watch:{
-            $route(to) {
-                if(to.fullPath==='/info/information'){
-                    setHeader(this.header);
-                }
             }
         }
     }
@@ -75,7 +66,7 @@
 <style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.information{
+.safety{
     position: fixed;
     width: 100%;
     top: 1.2rem;
@@ -87,6 +78,12 @@
         .func-wrapper{
             height:auto;
             overflow: hidden;
+            .item-title{
+                height:1rem;
+                line-height: 1rem;
+                padding:0 0.4rem;
+                font-size: $font-size-medium-x;
+            }
             .item-mode{
                 height:1.33rem;
                 padding:0 0.4rem;
@@ -101,18 +98,19 @@
                     background-position: left center;
                     background-size: 0.7rem;
                     background-repeat: no-repeat;
-                    .money{
+                    .type{
                         color:$color-text-red;
+                        padding-left: 0.3rem;
                     }
                 }
-                .icon-balance{
-                    @include bg-image('icon-balance');
+                .icon-login-password{
+                    @include bg-image('icon-login-password');
                 }
-                .icon-nick{
-                    @include bg-image('icon-nick');
+                .icon-withdrawal-password{
+                    @include bg-image('icon-withdrawal-password');
                 }
-                .icon-portrait{
-                    @include bg-image('icon-portrait');
+                .icon-bank-card{
+                    @include bg-image('icon-bank-card');
                 }
                 .remarks{
                     float:right;
@@ -129,8 +127,7 @@
                         padding-left:0.2rem;
                     }
                 }
-                &.margin-bottom{
-                    margin-bottom: 0.2rem;
+                &.border-none{
                     @include border-1px($color-bg-white-a0);
                 }
             }

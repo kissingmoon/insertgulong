@@ -1,12 +1,8 @@
 <template>
     <parcel>
-        <div class="follow">
-            <div class="title-type">
-                <p class="border-1px on">我参与的跟单</p>
-                <p class="border-1px">我发起的跟单</p>
-            </div>
+        <div class="attention">
             <scroll ref="scroll" class="scroll-content" >
-                <order-list></order-list>
+                <attention-list></attention-list>
             </scroll>
         </div>
     </parcel>
@@ -14,7 +10,7 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
-    import orderList from 'base/order-list/order-list';
+    import attentionList from 'base/attention-list/attention-list';
     import {httpUrl} from 'common/js/map';
     export default{
         data() {
@@ -24,7 +20,7 @@
         components:{
             Parcel,
             Scroll,
-            orderList
+            attentionList
         },
         created() {
         },
@@ -36,28 +32,15 @@
 <style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.follow{
+.attention{
     position: fixed;
     width: 100%;
     top: 1.2rem;
     bottom: 0rem;
     z-index: 103;
     background: $color-bg;
-    .title-type{
-        height:0.75rem;
-        p{
-            float: left;
-            width:50%;
-            height:0.75rem;
-            line-height: 0.75rem;
-            text-align: center;
-            &.on{
-                @include border-1px($color-border-red);
-            }
-        }
-    }
     .scroll-content{
-        height:calc(100% - 0.75rem);
+        height:100%;
         overflow: hidden;
     }
 }

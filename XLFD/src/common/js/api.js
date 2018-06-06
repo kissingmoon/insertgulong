@@ -8,7 +8,6 @@ axios.interceptors.request.use(config=> {
   return Promise.resolve(err);
 })
 axios.interceptors.response.use(data=> {
-    console.log(data);
   if (data.status && data.status == 200 && data.data.errorMsg) {
     console.log(data.data.errorMsg);
     return;

@@ -1,4 +1,5 @@
 import md5 from 'js-md5';
+import store from 'store';
 export function reData(data){
     let param=data||{};
     let default_key='fb2356ddf5scc5d4d2s9e@2scwu7io2c';
@@ -78,3 +79,19 @@ export function randomWord(randomFlag, min, max){
     }
     return str;
 }
+
+//设置header属性
+export function setHeader(param) {
+    const original = {
+        title:'小李飞刀',
+        back:false,
+        service:false,
+        message:false,
+        rechargeTip:false,
+        time:false,
+        moneyType:false
+    }
+    const header=Object.assign({},original,param);
+    store.commit('SET_HEADER',header);
+}
+

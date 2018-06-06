@@ -1,47 +1,23 @@
 <template>
     <div class="header">
-        <div class="back" @click="goBack" v-show="back"><i class="icon-arrows-left"></i></div>
-        <div class="recharge-tip" @click="goRechargeTip" v-show="rechargeTip"><i class="icon-question-circle"></i></div>
-        <div class="message" @click="goMessage" v-show="message"><i class="icon-message change-message"><b class="path1"></b><b class="path2"></b></i></div>
-        <div class="service" @click="goService" v-show="service"><i class="icon-diamond"></i><span>客服</span></div>
-        <div class="time-money-wrapper" v-show="time || moneyType">
-            <div class="money" v-show="moneyType"><i class="icon-money"></i></div>
-            <div class="time" v-show="time"><i class="icon-clock-02"></i></div>
+        <div class="back" @click="goBack" v-show="header.back"><i class="icon-arrows-left"></i></div>
+        <div class="recharge-tip" @click="goRechargeTip" v-show="header.rechargeTip"><i class="icon-question-circle"></i></div>
+        <div class="message" @click="goMessage" v-show="header.message"><i class="icon-message change-message"><b class="path1"></b><b class="path2"></b></i></div>
+        <div class="service" @click="goService" v-show="header.service"><i class="icon-diamond"></i><span>客服</span></div>
+        <div class="time-money-wrapper" v-show="header.time || header.moneyType">
+            <div class="money" v-show="header.moneyType"><i class="icon-money"></i></div>
+            <div class="time" v-show="header.time"><i class="icon-clock-02"></i></div>
         </div>
-        <h1 class="title">{{title}}</h1>
+        <h1 class="title">{{header.title}}</h1>
     </div>
 </template>
 <script>
+    import {mapGetters} from 'vuex'
     export default {
-        props:{
-            title:{
-                type: String,
-                default:'小李飞刀'
-            },
-            back:{
-                type: Boolean,
-                default:true
-            },
-            service:{
-                type: Boolean,
-                default:false
-            },
-            message:{
-                type: Boolean,
-                default:false
-            },
-            rechargeTip:{
-                type: Boolean,
-                default:false
-            },
-            time:{
-                type: Boolean,
-                default:false
-            },
-            moneyType:{
-                type: Boolean,
-                default:false
-            }
+        computed: {
+            ...mapGetters([
+                'header'
+            ])
         },
         methods:{
             goBack(){

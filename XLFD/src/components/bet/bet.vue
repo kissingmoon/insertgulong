@@ -28,9 +28,15 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    export default{
+    import {setHeader} from 'common/js/param';
+    export default {
         data() {
             return{
+                header:{
+                    title:'投注记录',
+                    back:true,
+                    time:true
+                }
             }
         },
         components:{
@@ -38,6 +44,7 @@
             Scroll
         },
         created() {
+            setHeader(this.header);
         },
         methods: {
         

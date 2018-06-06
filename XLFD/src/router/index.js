@@ -12,6 +12,8 @@ import Bill from 'components/bill/bill';
 import Bet from 'components/bet/bet';
 import Recharge from 'components/recharge/recharge';
 import Follow from 'components/follow/follow';
+import Attention from 'components/attention/attention';
+import Safety from 'components/safety/safety';
 import Information from 'components/information/information';
 import Nick from 'components/nick/nick';
 
@@ -75,6 +77,14 @@ export default new Router({
                 {
                     path:'follow',
                     component:Follow
+                },
+                {
+                    path:'attention',
+                    component:Attention
+                },
+                {
+                    path:'safety',
+                    component:Safety
                 },
                 {
                     path:'information',

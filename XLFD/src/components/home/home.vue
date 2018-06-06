@@ -83,12 +83,16 @@
     import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData} from 'common/js/param';
+    import {reData,setHeader} from 'common/js/param';
 
     export default {
         data() {
             return {
-                paramData:{},
+                header: {
+                    title:'小李飞刀',
+                    service:true,
+                    message:true
+                },
                 activitys: [],
                 notice:[],
                 gift:[],
@@ -108,7 +112,7 @@
             SliderY
         },
         created() {
-            this.paramData=reData()
+            setHeader(this.header);
             this._getActivitys();
             this._getNotice();
             this._getGift();

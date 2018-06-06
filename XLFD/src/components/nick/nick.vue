@@ -15,22 +15,25 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {setHeader} from 'common/js/param';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
-
+                header: {
+                    title:'修改昵称',
+                    back:true
+                }
             }
         },
         components:{
             Parcel
         },
         created() {
-
+            setHeader(this.header);
         },
         methods: {
-        
         }
     }
 </script>

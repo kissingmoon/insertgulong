@@ -32,60 +32,60 @@
                                 <span>254186.3元</span>
                             </p>
                         </li>
-                        <li class="item-mode border-1px margin-bottom" @click="toBalance">
+                        <router-link tag="li" :to="{path:'/info/balance'}" class="item-mode border-1px margin-bottom">
                             <p class="title icon-withdraw">提现</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px" @click="toBill">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/bill'}" class="item-mode border-1px">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px" @click="toBet">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/bet'}" class="item-mode border-1px">
                             <p class="title icon-bet">投注记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px" @click="toRecharge">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/recharge'}" class="item-mode border-1px">
                             <p class="title icon-recharge">充值记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/deposit'}" class="item-mode border-1px">
                             <p class="title icon-deposit">提现记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px" @click="toFollow">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/follow'}" class="item-mode border-1px">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px margin-bottom">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/attention'}" class="item-mode border-1px margin-bottom">
                             <p class="title icon-attention">我的关注</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px">
+                        </router-link>
+                        <router-link tag="li" :to="{path:'/info/safety'}" class="item-mode border-1px">
                             <p class="title icon-safety">安全中心</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li class="item-mode border-1px">
+                        </router-link>
+                        <!-- <router-link tag="li" :to="{path:'/info/more'}" class="item-mode border-1px">
                             <p class="title icon-more">更多</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
+                        </router-link> -->
                     </ul>
                 </div>
             </div>
@@ -94,57 +94,38 @@
     </div>
 </template>
 <script>
+    import {mapMutations} from 'vuex';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord} from 'common/js/param';
-    export default{
+    import {reData,session,randomWord,setHeader} from 'common/js/param';
+    export default {
         data() {
             return{
-                paramData:{},
-                loginParam:{
-                    code_id:'2154',
-                    code:'',
-                    user_id:'',
-                    password:''
-                },
-                codeUrl:'http://www.xlfdapi.com/config/generator-code?code_id=2154'
+                header: {
+                    title:'个人中心',
+                    service:true,
+                    message:true
+                }
             }
         },
         components: {
             Scroll
         },
         created() {
+            setHeader(this.header);
         },
         methods: {
             login(){
                 this.$router.push({
                     path:'/info/information'
                 })
-            },
-            toBalance(){
-                this.$router.push({
-                    path:'/info/balance'
-                })
-            },
-            toBill(){
-                this.$router.push({
-                    path:'/info/bill'
-                })
-            },
-            toBet(){
-                this.$router.push({
-                    path:'/info/bet'
-                })
-            },
-            toRecharge(){
-                this.$router.push({
-                    path:'/info/recharge'
-                })
-            },
-            toFollow(){
-                this.$router.push({
-                    path:'/info/follow'
-                })
+            }
+        },
+        watch:{
+            $route(to) {
+                if(to.fullPath==='/info'){
+                    setHeader(this.header);
+                }
             }
         }
     }

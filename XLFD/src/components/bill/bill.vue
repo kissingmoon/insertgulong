@@ -28,12 +28,19 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {setHeader} from 'common/js/param';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
+                header: {
+                    title:'账户明细',
+                    back:true,
+                    time:true,
+                    moneyType:true
+                }
             }
         },
         components:{
@@ -41,9 +48,9 @@
             Scroll
         },
         created() {
+            setHeader(this.header);
         },
         methods: {
-        
         }
     }
 </script>

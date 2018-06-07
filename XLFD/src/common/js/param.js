@@ -3,9 +3,8 @@ import store from 'store';
 export function reData(data){
     let param=data||{};
     let default_key='fb2356ddf5scc5d4d2s9e@2scwu7io2c';
-    let account=session('account');
-    let user_token=account && account.user_token?account.user_token:'';
-    let md5_salt=account && account.md5_salt?account.md5_salt:'';
+    let user_token=store.getters.user_token||session('user_token');
+    let md5_salt=store.getters.md5_salt||session('md5_salt');
     let baseObj={
         ...param,
         platform:'3',
@@ -47,6 +46,10 @@ export function session(key,val) {
     }
 }
 
+export function removeSession(key){
+    sessionStorage.removeItem(key);
+}
+
 //储存获取sessionStorage属性方法
 export function local(key,val) {
     if(!val && val!='0'){
@@ -55,6 +58,10 @@ export function local(key,val) {
     }else{
         localStorage.setItem(key, JSON.stringify(val));
     }
+}
+
+export function removeLocal(key){
+    localStorage.removeItem(key);
 }
 
 //生成随机值
@@ -94,4 +101,5 @@ export function setHeader(param) {
     const header=Object.assign({},original,param);
     store.commit('SET_HEADER',header);
 }
+
 

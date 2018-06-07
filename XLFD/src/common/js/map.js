@@ -11,6 +11,12 @@ let httpUrl = {
         generatorCode:'/config/generator-code',
         register:'/user/register',
         login:'/user/login',
+    },
+    info:{
+        user:'/user/user-info',
+        editNick:'/user/edit-nickname',
+        balance:'/user-info/withdraw-cash',
+        bill:'/user/coin-info'
     }
 };
 export { httpUrl }

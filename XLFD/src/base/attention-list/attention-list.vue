@@ -6,7 +6,7 @@
                     <div class="portrait">
                         <img src="" alt="">
                     </div>
-                    <div class="information">
+                    <div class="information-main">
                         <p class="nick">小黑爷爷</p>
                         <p class="rate">
                             胜率:<span class="txt-red">85%</span>
@@ -31,7 +31,7 @@
                     <div class="portrait">
                         <img src="" alt="">
                     </div>
-                    <div class="information">
+                    <div class="information-main">
                         <p class="nick">小黑爷爷</p>
                         <p class="rate">
                             胜率:<span class="txt-red">85%</span>
@@ -74,7 +74,7 @@
         }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .attention-list{
@@ -84,7 +84,7 @@
         position: relative;
         height:auto;
         overflow: hidden;
-        padding:0.3rem;
+        padding:0.2rem 0.3rem;
         background: $color-bg;
         @include border-1px($color-border-gray);
         font-size:$font-size-small-x;
@@ -96,6 +96,7 @@
             position: relative;
             width:6.8rem;
             height:auto;
+            overflow: hidden;
             .portrait{
                 position: absolute;
                 height:1.42rem;
@@ -109,7 +110,7 @@
                     width:100%;
                 }
             }
-            .information{
+            .information-main{
                 padding-left:1.7rem;
                 height:1.6rem;
                 @include no-wrap();

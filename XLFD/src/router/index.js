@@ -55,10 +55,6 @@ export default new Router({
             component:Info,
             children:[
                 {
-                    path:'login',
-                    component:Login
-                },
-                {
                     path:'balance',
                     component:Balance
                 },

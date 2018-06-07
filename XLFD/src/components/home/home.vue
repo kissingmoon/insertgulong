@@ -128,31 +128,31 @@
                 }
             },
             _getActivitys() {
-                this.postRequest(httpUrl.home.sliderImg)
+                this.$axios.postRequest(httpUrl.home.sliderImg)
                 .then((res)=> {
                     this.activitys=res.data;
                 });
             },
             _getNotice(){
-                this.postRequest(httpUrl.home.notice)
+                this.$axios.postRequest(httpUrl.home.notice)
                 .then((res)=> {
                     this.notice=res.data;
                 });
             },
             _getGift(){
-                this.postRequest(httpUrl.home.gift,{'type':'01'})
+                this.$axios.postRequest(httpUrl.home.gift,{'type':'01'})
                 .then((res)=> {
                     this.gift=res.data;
                 });
             },
             _getLottery(){
-                this.postRequest(httpUrl.home.lottery)
+                this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
                     this.lotteryList=res.data;
                 });
             },
             _getRank(){
-                this.postRequest(httpUrl.home.rank)
+                this.$axios.postRequest(httpUrl.home.rank)
                 .then((res)=> {
                     if(res){
                         this.rank=res.data;
@@ -160,7 +160,7 @@
                 });
             },
             _getBetWin(){
-                this.postRequest(httpUrl.home.betWin)
+                this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
                     this.betWin=res.data;
                 });

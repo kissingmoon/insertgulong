@@ -5,19 +5,19 @@
                 <div class="balance-main">
                     <div class="balance-num">
                         <p class="remarks">
-                            <span>余额：254186.3元</span>
+                            <span>余额：{{account.balance  || 0}}元</span>
                         </p>
                     </div>
                     <div class="balance-form">
                         <div class="form-main">
                             <div class="form-txt">
                                 <p class="title">提现金额</p>
-                                <p class="txt border-1px"><input type="text" placeholder="请输入提现金额"></p>
+                                <p class="txt border-1px"><input type="text" v-model.number="balance" placeholder="请输入提现金额" /></p>
                                 <p class="tip">提现金额最低100元</p>
                             </div>
                         </div>
                         <div class="form-btn">
-                            <button>提交</button>
+                            <button @click="withdrawCash">提交</button>
                         </div>
                     </div>
                 </div>
@@ -26,13 +26,19 @@
     </parcel>    
 </template>
 <script type="text/ecmascript-6">
+    import {mapGetters} from 'vuex'
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord} from 'common/js/param';
-    export default{
+    import {reData,session,randomWord,setHeader} from 'common/js/param';
+    export default {
         data() {
             return{
+                header:{
+                    title:'提现',
+                    back:true
+                },
+                balance:''
             }
         },
         components:{
@@ -40,9 +46,31 @@
             Scroll
         },
         created() {
+            setHeader(this.header);
+        },
+        computed: {
+            ...mapGetters([
+                'account'
+            ])
+        },
+        watch:{
+            balance(newVal,oldVal){
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.balance = oldVal 
+                }
+            }
         },
         methods: {
-        
+            withdrawCash(){
+                this.$axios.postRequest(httpUrl.info.balance,{balance:this.balance})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.$api.getUser();
+                        this.$router.back();
+                    };
+                });
+            }
         }
     }
 </script>

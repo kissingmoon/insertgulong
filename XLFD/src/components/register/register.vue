@@ -70,13 +70,13 @@
         },
         methods: {
             _getGeneratorCode() {
-                this.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
+                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
                 .then((res)=> {
                     this.codeUrl=res.data;
                 });
             },
             register(){
-                this.postRequest(httpUrl.account.register,this.registerParam)
+                this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
                     session('account',res.data);
                 });

@@ -8,7 +8,7 @@
                             <li class="item-mode border-1px margin-bottom">
                                 <p class="title icon-balance">
                                     余额
-                                    <b class="money">1254875.58元</b>
+                                    <b class="money">{{account.balance || 0}}元</b>
                                 </p>
                             </li>
                             <li class="item-mode border-1px">
@@ -25,7 +25,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="log-out-wrapper">
+                    <div class="log-out-wrapper" @click="logOut">
                         <button>退出登录</button>
                     </div>
                 </div>
@@ -35,6 +35,7 @@
     </parcel>
 </template>
 <script>
+    import {mapGetters} from 'vuex'
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
@@ -55,10 +56,20 @@
         created() {
             setHeader(this.header);
         },
+        computed: {
+            ...mapGetters([
+                'account'
+            ])
+        },
         methods: {
             toNick(){
                 this.$router.push({
                     path:'/info/information/nick'
+                })
+            },
+            logOut(){
+                this.$router.push({
+                    path:'/login'
                 })
             }
         },
@@ -72,7 +83,7 @@
     }
     
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .information{

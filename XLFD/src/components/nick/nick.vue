@@ -4,17 +4,18 @@
             <ul class="nick-wrapper">
                 <li>
                     <p class="txt-con border-1px">
-                        <input type="text" autocomplete="off" class="input-txt red">
+                        <input type="text" v-model="nick_name" autocomplete="off" class="input-txt red" >
                     </p>
                 </li>
                 <li>
-                    <button class="nick-btn">保存</button>
+                    <button class="nick-btn" @click="editNick">保存</button>
                 </li>
             </ul>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapGetters} from 'vuex';
     import {setHeader} from 'common/js/param';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
@@ -24,7 +25,8 @@
                 header: {
                     title:'修改昵称',
                     back:true
-                }
+                },
+                nick_name:''
             }
         },
         components:{
@@ -32,12 +34,33 @@
         },
         created() {
             setHeader(this.header);
+            this.setNickName();
+        },
+        computed: {
+            ...mapGetters([
+                'account'
+            ])
         },
         methods: {
+            editNick(){
+                let nick={nick_name:this.nick_name};
+                this.$axios.postRequest(httpUrl.info.editNick,nick)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.$api.getUser();
+                        this.$router.back();
+                    };
+                });
+            },
+            setNickName(){
+                setTimeout(() =>{
+                    this.nick_name=this.account.nick_name;
+                },200)
+            }
         }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .nick{

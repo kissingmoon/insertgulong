@@ -32,52 +32,72 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapMutations} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord} from 'common/js/param';
-    export default{
+    import {reData,session,randomWord,setHeader,removeSession} from 'common/js/param';
+    export default {
         data() {
             return{
-                paramData:{},
+                header:{
+                    title:'用户登陆',
+                    back:true
+                },
                 loginParam:{
                     code_id:'2154',
                     code:'',
                     user_id:'',
                     password:''
                 },
-                codeUrl:'http://www.xlfdapi.com/config/generator-code?code_id=2154'
+                codeUrl:`http://www.xlfdapi.com/config/generator-code?code_id=2154`
             }
         },
         components:{
             Parcel
         },
         created() {
-            this.paramData=reData();
-            //设置code_id随机数
-            //this.code_id = randomWord(false,6,8);
+            setHeader(this.header);
+            this.resetAccount();
+            //this.loginParam.code_id = randomWord(false,6,8);
             //this._getGeneratorCode();
         },
         methods: {
             _getGeneratorCode() {
-                this.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
+                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
                 .then((res)=> {
                     this.codeUrl=res.data;
                 });
             },
+            resetAccount(){
+                removeSession('user_token');
+                removeSession('md5_salt');
+                this.setAccount('');
+                this.setUserToken('');
+                this.setMd5Salt('');
+            },
             login(){
-                this.postRequest(httpUrl.account.login,this.loginParam)
+                this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {
-                    session('account',res.data);
+                    session('user_token',res.data.user_token);
+                    session('md5_salt',res.data.md5_salt);
+                    this.setAccount(res.data);
+                    this.setUserToken(res.data.user_token);
+                    this.setMd5Salt(res.data.md5_salt);
                     this.$router.push({
                         path:'/info'
                     });
                 });
-            }
+            },
+            ...mapMutations({
+                setUserToken: 'SET_USER_TOKEN',
+                setMd5Salt: 'SET_MD5_SALT',
+                setAccount:'SET_ACCOUNT'
+            })
         
         }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .login{
@@ -99,11 +119,6 @@
                 width:100%;
                 line-height: 1.4rem;
                 font-size: $font-size-medium-x;
-                
-                //border-bottom:1px solid $color-border;
-            }
-            .input-txt::placeholder{
-                font-size: $font-size-small-x;
             }
 
         }

@@ -55,6 +55,7 @@
     .back{
         position:absolute;
         height:1.2rem;
+        line-height: 1.4rem;
         padding: 0 0.5rem 0 0.3rem;
         font-size: 0.52rem;
         font-size: $font-size-large-x;

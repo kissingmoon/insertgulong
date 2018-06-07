@@ -4,20 +4,16 @@
             <div>
                 <div class="datum-wrapper">
                     <div class="datum-img">
-                        <img src="" alt="">
+                        <img :src="account.image_url" alt="">
                     </div>
-                    <div class="datum-txt" @click="login">
-                        <p class="datum-login">
+                    <div class="datum-txt" @click="skipLink">
+                        <p class="datum-login" v-show="!user_token">
                             登陆/注册
                         </p>
-                        <p class="datum-name">
-                            <span>
-                                小黑爷爷
-                            </span>
+                        <p class="datum-name" v-show="user_token">
+                            <span>{{account.nick_name}}</span>
                             <br>
-                            <span class="money">
-                                charlie
-                            </span>
+                            <span class="money">{{account.user_id}}</span>
                         </p>
                         <p class="datum-arrows">
                             <i class="icon-arrows-right"></i>
@@ -29,7 +25,7 @@
                         <li class="item-mode border-1px">
                             <p class="title icon-balance">余额</p>
                             <p class="remarks">
-                                <span>254186.3元</span>
+                                <span>{{account.balance || 0}}元</span>
                             </p>
                         </li>
                         <router-link tag="li" :to="{path:'/info/balance'}" class="item-mode border-1px margin-bottom">
@@ -95,6 +91,7 @@
 </template>
 <script>
     import {mapMutations} from 'vuex';
+    import {mapGetters} from 'vuex'
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     import {reData,session,randomWord,setHeader} from 'common/js/param';
@@ -113,13 +110,24 @@
         },
         created() {
             setHeader(this.header);
+            this.$api.getUser();
+        },
+        computed: {
+            ...mapGetters([
+                'account',
+                'user_token'
+            ])
         },
         methods: {
-            login(){
+            skipLink(){
+                let url=this.user_token?'/info/information':"/login";
                 this.$router.push({
-                    path:'/info/information'
+                    path:url
                 })
-            }
+            },
+            ...mapMutations({
+                setAccount:'SET_ACCOUNT',
+            })
         },
         watch:{
             $route(to) {
@@ -155,13 +163,17 @@
                 width:1.76rem;
                 border-radius: 50%;
                 background:#fff;
+                overflow: hidden;
+                img{
+                    display: block;
+                    width:100%;
+                }
             }
             .datum-txt{
                 height: 1.76rem;
                 line-height: 1.76rem;                
                 padding-left:2rem;
                 .datum-login{
-                    display: none;
                     float: left;
                     width:5rem;
                     @include no-wrap();

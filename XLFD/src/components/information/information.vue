@@ -39,14 +39,9 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord,setHeader} from 'common/js/param';
     export default {
         data() {
             return{
-                header: {
-                    title:'个人信息',
-                    back:true,
-                }
             }
         },
         components: {
@@ -54,7 +49,6 @@
             Scroll
         },
         created() {
-            setHeader(this.header);
         },
         computed: {
             ...mapGetters([
@@ -71,13 +65,6 @@
                 this.$router.push({
                     path:'/login'
                 })
-            }
-        },
-        watch:{
-            $route(to) {
-                if(to.fullPath==='/info/information'){
-                    setHeader(this.header);
-                }
             }
         }
     }

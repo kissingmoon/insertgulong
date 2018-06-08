@@ -1,108 +1,76 @@
 <template>
     <div class="order-list">
         <ul>
-            <li class="item-mode border-1px">
+            <li class="item-mode border-1px" v-for="item in data">
                 <div class="importance">
                     <div class="imp-left">
                         <div class="brokerage-surplus-wrapper">
                             <div class="brokerage-surplus">
-                                <p class="brokerage">佣金:10%</p>
+                                <p class="brokerage">佣金:{{item.commission}}%</p>
                                 <p class="surplus">
-                                    <span>追号12期</span>
-                                    <span>剩42期</span>
-                                    <span>中奖即停</span>
+                                    <span>追号{{item.zhuih_count_qs}}期</span>
+                                    <span>剩{{item.left_qh_count}}期</span>
+                                    <span v-show="item.zhuih_win_stop == 1">中奖即停</span>
                                 </p>
                             </div>
-                            <div class="status">
+                            <div class="status" v-show="item.finish_status">
 
                             </div>
                         </div>
                         <div class="type-tip">
                             <div class="type">
-                                <span>重庆时时彩</span>
-                                <span>五星定位胆</span>
+                                <span>{{item.lottery_name}}</span>
+                                <span>{{item.wf_name}}</span>
                             </div>
                             <div class="tip">
-                                跟投必中，跟投必中，跟投必中，跟投必中,跟投必中，跟投必中
+                                {{item.content}}
                             </div>
                         </div>
                     </div>
                     <div class="imp-right">
-                        <div class="rate">回报率:85%</div>
-                        <div class="least">2元起投</div>
-                        <div class="order-status-ing">
+                        <div class="rate">回报率:{{item.back_rate}}%</div>
+                        <div class="least">{{item.bet_min_money}}元起投</div>
+                        <div class="order-status-ing" v-show="item.finish_status == 0">
                             <span>正在跟单</span>
                         </div>
-                    </div>
-                </div>
-                <div class="minor">
-                    <div class="minor-left">
-                        <p class="own">自购215454.21元</p>
-                        <p class="people-num">跟单64人</p>
-                    </div>
-                    <div class="minor-right">
-                        <span>当前跟单金额878454.32元</span>
-                    </div>
-                </div>
-            </li>
-            <li class="item-mode border-1px">
-                <div class="importance">
-                    <div class="imp-left">
-                        <div class="brokerage-surplus-wrapper">
-                            <div class="brokerage-surplus">
-                                <p class="brokerage">佣金:10%</p>
-                                <p class="surplus">
-                                    <span>追号10期</span>
-                                    <span>剩4期</span>
-                                    <span>中奖即停</span>
-                                </p>
-                            </div>
-                            <div class="status">
-
-                            </div>
-                        </div>
-                        <div class="type-tip">
-                            <div class="type">
-                                <span>重庆时时彩</span>
-                                <span>五星定位胆</span>
-                            </div>
-                            <div class="tip">
-                                跟投必中，跟投必中，跟投必中，跟投必中,跟投必中，跟投必中
-                            </div>
-                        </div>
-                    </div>
-                    <div class="imp-right">
-                        <div class="rate">回报率:85%</div>
-                        <div class="least">2元起投</div>
-                        <div class="order-status-end">
+                        <div class="order-status-end" v-show="item.finish_status == 1">
                             <span>胜利</span><br>
-                            <span>￥132624.32</span>
+                            <span>￥{{item.create_value}}</span>
                         </div>
                     </div>
                 </div>
                 <div class="minor">
                     <div class="minor-left">
-                        <p class="own">自购215454.21元</p>
-                        <p class="people-num">跟单64人</p>
+                        <p class="own">自购{{item.user_pay_money}}元</p>
+                        <p class="people-num">跟单{{item.gd_total_people}}人</p>
                     </div>
                     <div class="minor-right">
-                        <span>当前跟单金额878454.32元</span>
+                        <span>当前跟单金额{{item.gd_total_money}}元</span>
                     </div>
                 </div>
             </li>
         </ul>
+        <loading v-show="!data.length"></loading>
     </div>
 </template>
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
+    import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
             }
         },
+        props:{
+            data: {
+                type: [Array,Object,String],
+                default: null
+            }
+        },
         components:{
+            Loading,
             Parcel,
             Scroll
         },

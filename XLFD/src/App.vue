@@ -7,11 +7,12 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex';
+import {mapActions} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
 import Parcel from 'base/parcel/parcel';
 import {session} from 'common/js/param';
+import {headerConfig} from 'common/js/map'
 export default {
     name: 'App',
     components:{
@@ -21,18 +22,31 @@ export default {
     },
     created() {
         this.init();
+        console.log(this.$router);
     },
     methods:{
         init(){
             let user_token = session('user_token') || '';
             let md5_salt = session('md5_salt') || '';
-            this.setUserToken(user_token);
-            this.setMd5Salt(md5_salt);
+            let path=this.$router.history.current.path;
+            this.resetUser({
+                account:'',
+                token:user_token,
+                md5:md5_salt
+            });
+            this.setHeader(headerConfig[path]);
+
         },
-        ...mapMutations({
-            setUserToken: 'SET_USER_TOKEN',
-            setMd5Salt: 'SET_MD5_SALT'
-        })
+        ...mapActions([
+            'setHeader',
+            'resetUser'
+        ])
+    },
+    watch:{
+        $route(to) {
+            let path=to.path;
+            this.setHeader(headerConfig[path]);
+        }
     }
 }
 </script>

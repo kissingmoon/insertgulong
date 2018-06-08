@@ -2,11 +2,11 @@
     <parcel>
         <div class="follow">
             <div class="title-type">
-                <p class="border-1px on">我参与的跟单</p>
-                <p class="border-1px">我发起的跟单</p>
+                <p class="border-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
+                <p class="border-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
             </div>
-            <scroll ref="scroll" class="scroll-content" >
-                <order-list></order-list>
+            <scroll ref="scroll" class="scroll-content" :data="followList" >
+                <order-list :data="followList"></order-list>
             </scroll>
         </div>
     </parcel>
@@ -16,9 +16,15 @@
     import Scroll from 'base/scroll/scroll';
     import orderList from 'base/order-list/order-list';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
+                followList:[],
+                followType:true,
+                followParam:{
+                    page_no:1,
+                    page_size:20
+                }
             }
         },
         components:{
@@ -27,9 +33,39 @@
             orderList
         },
         created() {
+            this.getMyJoin();
         },
         methods: {
-        
+            getMyJoin(){
+                if(this.followType){
+                    ++this.followParam.page_no;
+                }else{
+                    this.followType=true;
+                    this.followParam.page_no=1;
+                    this.followList=[];
+                }
+                this.$axios.postRequest(httpUrl.info.followMyJoin,this.followParam)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.followList=res.data;
+                    };
+                });
+            },
+            getMy(){
+                if(!this.followType){
+                    ++this.followParam.page_no;
+                }else{
+                    this.followType=false;
+                    this.followParam.page_no=1;
+                    this.followList=[];
+                }
+                this.$axios.postRequest(httpUrl.info.followMy,this.followParam)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.followList=res.data;
+                    };
+                });
+            }
         }
     }
 </script>

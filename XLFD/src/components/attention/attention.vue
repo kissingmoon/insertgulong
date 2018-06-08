@@ -12,7 +12,7 @@
     import Scroll from 'base/scroll/scroll';
     import attentionList from 'base/attention-list/attention-list';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
             }
@@ -25,7 +25,6 @@
         created() {
         },
         methods: {
-        
         }
     }
 </script>

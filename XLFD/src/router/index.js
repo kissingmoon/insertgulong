@@ -10,7 +10,9 @@ import Register from 'components/register/register';
 import Balance from 'components/balance/balance';
 import Bill from 'components/bill/bill';
 import Bet from 'components/bet/bet';
+import BetDetail from 'components/bet-detail/bet-detail';
 import Recharge from 'components/recharge/recharge';
+import Cash from 'components/cash/cash';
 import Follow from 'components/follow/follow';
 import Attention from 'components/attention/attention';
 import Safety from 'components/safety/safety';
@@ -64,11 +66,21 @@ export default new Router({
                 },
                 {
                     path:'bet',
-                    component:Bet
+                    component:Bet,
+                    children:[
+                        {
+                            path:'detail',
+                            component:BetDetail
+                        }
+                    ]
                 },
                 {
                     path:'recharge',
                     component:Recharge
+                },
+                {
+                    path:'cash',
+                    component:Cash
                 },
                 {
                     path:'follow',

@@ -19,11 +19,12 @@
 
     .loading{
         width: 100%;
+        padding-top:40%;
         text-align: center;
         .desc{
-            line-height: 20px;
+            line-height: 1rem;
             font-size: $font-size-small;
-            color: $color-bg-white-a5;
+            color: $color-bg-shade-a5;
         } 
     }
 

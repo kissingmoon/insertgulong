@@ -22,7 +22,7 @@
         default: false
       },
       data: {
-        type: Array,
+        type: [Array,Object,String],
         default: null
       },
       pullup: {

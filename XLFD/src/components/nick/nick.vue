@@ -15,8 +15,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapGetters} from 'vuex';
-    import {setHeader} from 'common/js/param';
+    import {mapGetters,mapActions} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     export default {
@@ -33,7 +32,6 @@
             Parcel
         },
         created() {
-            setHeader(this.header);
             this.setNickName();
         },
         computed: {
@@ -47,7 +45,7 @@
                 this.$axios.postRequest(httpUrl.info.editNick,nick)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.$api.getUser();
+                        this.getUser();
                         this.$router.back();
                     };
                 });
@@ -56,7 +54,10 @@
                 setTimeout(() =>{
                     this.nick_name=this.account.nick_name;
                 },200)
-            }
+            },
+            ...mapActions([
+                'getUser'
+            ])
         }
     }
 </script>

@@ -61,28 +61,13 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {setHeader} from 'common/js/param';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
-    import {httpUrl} from 'common/js/map';
+    import {httpUrl,billType} from 'common/js/map';
     export default {
         data() {
             return{
-                header: {
-                    title:'账户明细',
-                    back:true,
-                    time:true,
-                    moneyType:true
-                },
-                billType:{
-                    '01':'下注',
-                    '02':'中奖',
-                    '03':'反水',
-                    '04':'撤单',
-                    '05':'充值',
-                    '06':'提款',
-                    '20':'活动奖励'
-                },
+                billType,
                 billParam:{
                     page_no:'1',
                     page_size:'20',
@@ -99,12 +84,11 @@
             Scroll
         },
         created() {
-            setHeader(this.header);
             this.getbill();
         },
         methods: {
             getbill(){
-                this.$axios.postRequest(httpUrl.info.bill,this.billParam)
+                this.$axios.postRequest(httpUrl.info.coin,this.billParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.billList=res.data;

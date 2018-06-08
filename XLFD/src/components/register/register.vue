@@ -44,7 +44,7 @@
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import {reData,session,randomWord} from 'common/js/param';
-    export default{
+    export default {
         data() {
             return{
                 paramData:{},

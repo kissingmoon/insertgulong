@@ -68,8 +68,3 @@ li{
 input,button,select,textarea{outline:none};
 textarea{resize:none};
 
-//覆盖chrome默认填充密码的背景色
-input:-webkit-autofill , textarea:-webkit-autofill, select:-webkit-autofill {
-    box-shadow: 0 0 0px 1000px white inset;
-}
-

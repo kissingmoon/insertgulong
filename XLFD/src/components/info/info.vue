@@ -52,7 +52,7 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/deposit'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/info/cash'}" class="item-mode border-1px">
                             <p class="title icon-deposit">提现记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -90,27 +90,19 @@
     </div>
 </template>
 <script>
-    import {mapMutations} from 'vuex';
-    import {mapGetters} from 'vuex'
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord,setHeader} from 'common/js/param';
     export default {
         data() {
             return{
-                header: {
-                    title:'个人中心',
-                    service:true,
-                    message:true
-                }
             }
         },
         components: {
             Scroll
         },
         created() {
-            setHeader(this.header);
-            this.$api.getUser();
+            this.getUser();
         },
         computed: {
             ...mapGetters([
@@ -127,19 +119,15 @@
             },
             ...mapMutations({
                 setAccount:'SET_ACCOUNT',
-            })
-        },
-        watch:{
-            $route(to) {
-                if(to.fullPath==='/info'){
-                    setHeader(this.header);
-                }
-            }
+            }),
+            ...mapActions([
+                'getUser'
+            ])
         }
     }
     
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .info{

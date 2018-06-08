@@ -1,44 +1,43 @@
 <template>
     <parcel>
-        <div class="bet">
-            <scroll ref="scroll" class="scroll-content" :data="betList" >
+        <div class="cash">
+            <scroll ref="scroll" class="scroll-content" :data="cashList" >
                 <div>
-                    <ul class="bet-main">
-                        <router-link tag="li" class="item-mode" v-for="item in betList" :to="{path:'/info/bet/detail',query:{id:item.order_number}}">
+                    <ul class="cash-main">
+                        <li class="item-mode" v-for="item in cashList">
                             <div class="title-time">
-                                <span class="time">第{{item.lottery_qh}}期</span>
+                                <span class="time">{{item.time_created}}</span>
                                 <span class="title">
-                                    {{item.lottery_name}} <b class="divide">|</b> -{{item.bet_money}}元
+                                    {{item.coin_change_name}} <b class="divide">|</b> <b class="money">{{item.change_coin}}</b>元
                                 </span>
                             </div>
-                            <div class="money-arrows">
-                                <p class="money">
-                                    <span class="surplus-money">{{item.bet_time}}</span>
-                                    <span class="add-money">{{betType[item.status]}}</span>
+                            <div class="cash-status">
+                                <p class="status">
+                                    {{cashType[item.flag]}}
                                 </p>
                             </div>
-                        </router-link>
+                        </li>
                     </ul>
                 </div>
             </scroll>
-            <router-view></router-view>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
-    import {httpUrl,betType} from 'common/js/map';
+    import {httpUrl,cashType} from 'common/js/map';
     export default {
         data() {
             return{
-                betList:[],
-                betParam:{
+                cashType,
+                cashList:[],
+                cashParam:{
                     page_no:'1',
                     page_size:'20',
-                    data_type:'4'
-                },
-                betType
+                    data_type:'4',
+                    status:'06'
+                }
             }
         },
         components:{
@@ -46,24 +45,24 @@
             Scroll
         },
         created() {
-            this.getBetList();
+            this.getCash();
         },
         methods: {
-            getBetList(){
-                this.$axios.postRequest(httpUrl.info.bet,this.betParam)
+            getCash(){
+                this.$axios.postRequest(httpUrl.info.coin,this.cashParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.betList=res.data;
+                        this.cashLise=res.data;
                     };
                 });
             }
         }
     }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.bet{
+.cash{
     position: fixed;
     width: 100%;
     top: 1.2rem;
@@ -73,7 +72,7 @@
     .scroll-content{
         height: 100%;
         overflow: hidden;
-        .bet-main{
+        .cash-main{
             height: 100%;
             overflow: hidden;
             .item-mode{
@@ -89,10 +88,13 @@
                         display: block;
                         height:0.63rem;
                         line-height: 0.63rem;
-                        font-size: $font-size-medium;
+                        font-size: $font-size-medium-x;
                         .divide{
                             padding: 0 0.2rem;
                             color:$color-border-gray;
+                        }
+                        .money{
+                            color:$color-text-green;
                         }
                     }
                     .time{
@@ -103,7 +105,7 @@
                         color: $color-text-gray;
                     }
                 }
-                .money-arrows{
+                .cash-status{
                     float:right;
                     display: flex;
                     box-sizing: border-box;
@@ -111,21 +113,8 @@
                     height: 1.33rem;
                     font-size: $font-size-medium-x;
                     text-align: right;
-                    .money{
-                        float:right;
-                        .add-money{
-                            display: block;
-                            height:0.63rem;
-                            line-height: 0.63rem;
-                            font-size: $font-size-medium;
-                        }
-                        .surplus-money{
-                            display: block;
-                            height:0.6rem;
-                            line-height: 0.6rem;
-                            font-size: $font-size-small-x;
-                            color: $color-text-gray;
-                        }
+                    .status{
+                        color:$color-text-green;
                     }
                 }
             }

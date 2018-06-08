@@ -23,7 +23,7 @@
                                     <span>查看银行卡信息<i class="icon-arrows-right icon"></i></span>
                                 </p>
                             </li>
-                            <li class="item-mode border-1px border-none" @click="toNick">
+                            <li class="item-mode border-1px border-none">
                                 <p class="title icon-bank-card">提款密码<span class="type">已设置</span></p>
                                 <p class="remarks">
                                     <span>进入修改<i class="icon-arrows-right icon"></i></span>
@@ -41,8 +41,7 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord} from 'common/js/param';
-    export default{
+    export default {
         data() {
             return{
             }
@@ -54,11 +53,6 @@
         created() {
         },
         methods: {
-            toNick(){
-                this.$router.push({
-                    path:'/info/information/nick'
-                })
-            }
         }
     }
     

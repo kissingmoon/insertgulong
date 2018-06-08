@@ -4,19 +4,12 @@
     </div>
 </template>
 <script>
-    import {setHeader} from 'common/js/param';
     export default {
         data(){
             return{
-                header: {
-                    title:'充值',
-                    service:true,
-                    rechargeTip:true
-                }
             }
         },
         created(){
-            setHeader(this.header);
         },
         methods:{
         }

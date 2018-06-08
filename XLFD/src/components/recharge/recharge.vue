@@ -1,19 +1,19 @@
 <template>
     <parcel>
         <div class="recharge">
-            <scroll ref="scroll" class="scroll-content" >
+            <scroll ref="scroll" class="scroll-content" :data="rechargeList" >
                 <div>
                     <ul class="recharge-main">
-                        <li class="item-mode">
+                         <li class="item-mode" v-for="item in rechargeList">
                             <div class="title-time">
-                                <span class="time">201-02-16 16:52:36</span>
+                                <span class="time">{{item.time_created}}</span>
                                 <span class="title">
-                                    充值 <b class="divide">|</b> <b class="money">-2.00</b>元
+                                    {{item.coin_change_name}} <b class="divide">|</b> <b class="money">{{item.change_coin}}</b>元
                                 </span>
                             </div>
                             <div class="recharge-status">
                                 <p class="status">
-                                    支付失败
+                                    {{rechargeType[item.flag]}}
                                 </p>
                             </div>
                         </li>
@@ -26,10 +26,18 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
-    import {httpUrl} from 'common/js/map';
-    export default{
+    import {httpUrl,rechargeType} from 'common/js/map';
+    export default {
         data() {
             return{
+                rechargeType,
+                rechargeList:[],
+                rechargeParam:{
+                    page_no:'1',
+                    page_size:'20',
+                    data_type:'4',
+                    status:'05'
+                }
             }
         },
         components:{
@@ -37,9 +45,17 @@
             Scroll
         },
         created() {
+            this.getRecharge();
         },
         methods: {
-        
+            getRecharge(){
+                this.$axios.postRequest(httpUrl.info.coin,this.rechargeParam)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.rechargeList=res.data;
+                    };
+                });
+            }
         }
     }
 </script>

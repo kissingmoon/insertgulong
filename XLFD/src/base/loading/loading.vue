@@ -22,8 +22,8 @@
         padding-top:40%;
         text-align: center;
         .desc{
-            line-height: 1rem;
-            font-size: $font-size-small;
+            line-height: 0.6rem;
+            font-size: $font-size-small-x;
             color: $color-bg-shade-a5;
         } 
     }

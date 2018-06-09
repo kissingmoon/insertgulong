@@ -8,6 +8,7 @@
             <scroll ref="scroll" class="scroll-content" :data="followList" >
                 <order-list :data="followList"></order-list>
             </scroll>
+            <router-view></router-view>
         </div>
     </parcel>
 </template>
@@ -37,9 +38,7 @@
         },
         methods: {
             getMyJoin(){
-                if(this.followType){
-                    ++this.followParam.page_no;
-                }else{
+                if(!this.followType){
                     this.followType=true;
                     this.followParam.page_no=1;
                     this.followList=[];
@@ -52,9 +51,7 @@
                 });
             },
             getMy(){
-                if(!this.followType){
-                    ++this.followParam.page_no;
-                }else{
+                if(this.followType){
                     this.followType=false;
                     this.followParam.page_no=1;
                     this.followList=[];
@@ -88,6 +85,7 @@
             line-height: 0.75rem;
             text-align: center;
             &.on{
+                color:$color-text-red;
                 @include border-1px($color-border-red);
             }
         }

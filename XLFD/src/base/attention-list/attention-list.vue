@@ -1,53 +1,29 @@
 <template>
     <div class="attention-list">
         <ul>
-            <li class="item-mode border-1px">
+            <li class="item-mode border-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="portrait">
-                        <img src="" alt="">
+                        <img :src="item.image_url" alt="">
                     </div>
                     <div class="information-main">
-                        <p class="nick">小黑爷爷</p>
+                        <p class="nick">{{item.nick_name}}</p>
                         <p class="rate">
-                            胜率:<span class="txt-red">85%</span>
-                            江湖排名:<span class="txt-red">3</span>
+                            胜率:<span class="txt-red">{{item.win_rate}}%</span>
+                            江湖排名:<span class="txt-red">{{item.ds_ranking}}</span>
                         </p>
                         <p class="win">
-                            创造价值:<span class="txt-red">858574.36</span>元
+                            创造价值:<span class="txt-red">{{item.create_value}}</span>元
                         </p>
                     </div>
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <button>关注+</button>
+                        <button v-show="!item.has_gz">关注+</button>
+                        <button v-show="item.has_gz" class="cancel">取消关注</button>
                     </div>
                     <div class="fans">
-                        粉丝数:<span class="txt-red">56</span>
-                    </div>
-                </div>
-            </li>
-            <li class="item-mode border-1px">
-                <div class="left">
-                    <div class="portrait">
-                        <img src="" alt="">
-                    </div>
-                    <div class="information-main">
-                        <p class="nick">小黑爷爷</p>
-                        <p class="rate">
-                            胜率:<span class="txt-red">85%</span>
-                            江湖排名:<span class="txt-red">3</span>
-                        </p>
-                        <p class="win">
-                            创造价值:<span class="txt-red">858574.36</span>元
-                        </p>
-                    </div>
-                </div>
-                <div class="right">
-                    <div class="btn">
-                        <button class="cancel">取消关注</button>
-                    </div>
-                    <div class="fans">
-                        粉丝数:<span class="txt-red">56</span>
+                        粉丝数:<span class="txt-red">{{item.count_fans}}</span>
                     </div>
                 </div>
             </li>
@@ -58,9 +34,15 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    export default{
+    export default {
         data() {
             return{
+            }
+        },
+        props:{
+            data: {
+                type: [Array,Object,String],
+                default: null
             }
         },
         components:{

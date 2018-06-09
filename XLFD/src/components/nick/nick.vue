@@ -4,7 +4,7 @@
             <ul class="nick-wrapper">
                 <li>
                     <p class="txt-con border-1px">
-                        <input type="text" v-model="nick_name" autocomplete="off" class="input-txt red" >
+                        <input type="text" v-model="nick_name" autocomplete="off" class="input-txt red" maxlength="6" >
                     </p>
                 </li>
                 <li>

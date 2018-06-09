@@ -1,8 +1,8 @@
 <template>
     <parcel>
         <div class="attention">
-            <scroll ref="scroll" class="scroll-content" >
-                <attention-list></attention-list>
+            <scroll ref="scroll" class="scroll-content" :data="attention" >
+                <attention-list :data="attention"></attention-list>
             </scroll>
         </div>
     </parcel>
@@ -15,6 +15,7 @@
     export default {
         data() {
             return{
+                attention:[]
             }
         },
         components:{
@@ -23,8 +24,17 @@
             attentionList
         },
         created() {
+            this.getAttention();
         },
         methods: {
+            getAttention(){
+                this.$axios.postRequest(httpUrl.info.attention)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.attention=res.data;
+                    };
+                });
+            },
         }
     }
 </script>

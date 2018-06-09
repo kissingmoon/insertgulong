@@ -21,7 +21,8 @@ export const httpUrl = {
         betDetail:'/bet/bet-info',
         followMyJoin:'/v2/gd-dsb/get-myjoin-gd',
         followMy:'/v2/gd-dsb/get-my-gd',
-
+        followDetail:'/v2/gd-dsb/get-gd-detail',
+        attention:'/v2/gd-dsb/my-gz'
     }
 };
 
@@ -119,6 +120,10 @@ export const headerConfig = {
     },
     '/info/follow':{
         title:'我的跟单',
+        back:true
+    },
+    '/info/follow/detail':{
+        title:'跟单详情',
         back:true
     },
     '/info/attention':{

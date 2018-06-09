@@ -14,6 +14,7 @@ import BetDetail from 'components/bet-detail/bet-detail';
 import Recharge from 'components/recharge/recharge';
 import Cash from 'components/cash/cash';
 import Follow from 'components/follow/follow';
+import FollowDetail from 'components/follow-detail/follow-detail';
 import Attention from 'components/attention/attention';
 import Safety from 'components/safety/safety';
 import Information from 'components/information/information';
@@ -84,7 +85,13 @@ export default new Router({
                 },
                 {
                     path:'follow',
-                    component:Follow
+                    component:Follow,
+                    children:[
+                        {
+                            path:'detail',
+                            component:FollowDetail
+                        }
+                    ]
                 },
                 {
                     path:'attention',

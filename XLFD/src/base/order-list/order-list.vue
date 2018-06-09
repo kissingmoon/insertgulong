@@ -1,7 +1,7 @@
 <template>
     <div class="order-list">
         <ul>
-            <li class="item-mode border-1px" v-for="item in data">
+            <router-link tag="li" class="item-mode border-1px" v-for="item in data" :to="{path:'/info/follow/detail',query:{id:item.gd_number,flag:item.user_flag}}">
                 <div class="importance">
                     <div class="imp-left">
                         <div class="brokerage-surplus-wrapper">
@@ -48,9 +48,9 @@
                         <span>当前跟单金额{{item.gd_total_money}}元</span>
                     </div>
                 </div>
-            </li>
+            </router-link >
         </ul>
-        <loading v-show="!data.length"></loading>
+        <loading v-show="data && !data.length"></loading>
     </div>
 </template>
 <script type="text/ecmascript-6">

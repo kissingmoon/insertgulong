@@ -39,10 +39,6 @@
     export default {
         data() {
             return{
-                header:{
-                    title:'用户登陆',
-                    back:true
-                },
                 loginParam:{
                     code_id:'2154',
                     code:'',

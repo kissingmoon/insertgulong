@@ -1,7 +1,7 @@
 <template>
     <div class="attention-list">
         <ul>
-            <li class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <router-link tag="li" :to="{path:url,query:{flag:item.user_flag}}" class="item-mode border-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="portrait">
                         <img :src="item.image_url" alt="">
@@ -26,33 +26,39 @@
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
                     </div>
                 </div>
-            </li>
+            </router-link>
         </ul>
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import Parcel from 'base/parcel/parcel';
-    import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     export default {
         data() {
             return{
+                query:{}
             }
         },
         props:{
             data: {
                 type: [Array,Object,String],
                 default: null
+            },
+            isLink: {
+                type:Boolean,
+                defaule:false
+            },
+            url: {
+                type:String,
+                defaule:''
             }
         },
-        components:{
-            Parcel,
-            Scroll
-        },
         created() {
+
+        },
+        computed:{
         },
         methods: {
-        
+            
         }
     }
 </script>

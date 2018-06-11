@@ -22,7 +22,8 @@ export const httpUrl = {
         followMyJoin:'/v2/gd-dsb/get-myjoin-gd',
         followMy:'/v2/gd-dsb/get-my-gd',
         followDetail:'/v2/gd-dsb/get-gd-detail',
-        attention:'/v2/gd-dsb/my-gz'
+        attention:'/v2/gd-dsb/my-gz',
+        attentionDatail:'/v2/gd-dsb/get-others-gd'
     }
 };
 
@@ -130,8 +131,24 @@ export const headerConfig = {
         title:'我的关注',
         back:true
     },
+    '/info/attention/detail':{
+        title:'关注详情',
+        back:true
+    },
     '/info/safety':{
         title:'安全中心',
+        back:true
+    },
+    '/info/safety/edit-password':{
+        title:'修改密码',
+        back:true
+    },
+    '/info/safety/bank':{
+        title:'银行卡信息',
+        back:true
+    },
+    '/info/safety/set-password':{
+        title:'提款密码',
         back:true
     },
     '/info/information':{

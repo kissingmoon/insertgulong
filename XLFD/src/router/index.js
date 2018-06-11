@@ -16,7 +16,11 @@ import Cash from 'components/cash/cash';
 import Follow from 'components/follow/follow';
 import FollowDetail from 'components/follow-detail/follow-detail';
 import Attention from 'components/attention/attention';
+import AttentionDetail from 'components/attention-detail/attention-detail';
 import Safety from 'components/safety/safety';
+import EditPassword from 'components/edit-password/edit-password';
+import SetPassword from 'components/set-password/set-password';
+import Bank from 'components/bank/bank';
 import Information from 'components/information/information';
 import Nick from 'components/nick/nick';
 
@@ -95,11 +99,31 @@ export default new Router({
                 },
                 {
                     path:'attention',
-                    component:Attention
+                    component:Attention,
+                    children:[
+                        {
+                            path:'detail',
+                            component:AttentionDetail
+                        }
+                    ]
                 },
                 {
                     path:'safety',
-                    component:Safety
+                    component:Safety,
+                    children:[
+                        {
+                            path:'edit-password',
+                            component:EditPassword
+                        },
+                        {
+                            path:'bank',
+                            component:Bank
+                        },
+                        {
+                            path:'set-password',
+                            component:SetPassword
+                        }
+                    ]
                 },
                 {
                     path:'information',

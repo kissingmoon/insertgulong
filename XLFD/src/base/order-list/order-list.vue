@@ -1,7 +1,7 @@
 <template>
     <div class="order-list">
         <ul>
-            <router-link tag="li" class="item-mode border-1px" v-for="item in data" :to="{path:'/info/follow/detail',query:{id:item.gd_number,flag:item.user_flag}}">
+            <router-link tag="li" class="item-mode border-1px" v-for="(item,index) in data" :key="index" :to="{path:'/info/follow/detail',query:{id:item.gd_number,flag:item.user_flag}}">
                 <div class="importance">
                     <div class="imp-left">
                         <div class="brokerage-surplus-wrapper">

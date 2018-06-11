@@ -2,8 +2,9 @@
     <parcel>
         <div class="attention">
             <scroll ref="scroll" class="scroll-content" :data="attention" >
-                <attention-list :data="attention"></attention-list>
+                <attention-list :data="attention" :url="url"></attention-list>
             </scroll>
+            <router-view></router-view>
         </div>
     </parcel>
 </template>
@@ -15,7 +16,8 @@
     export default {
         data() {
             return{
-                attention:[]
+                attention:[],
+                url:'/info/attention/detail'
             }
         },
         components:{

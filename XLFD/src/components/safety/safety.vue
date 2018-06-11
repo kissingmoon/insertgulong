@@ -8,27 +8,27 @@
                             <li class="item-title">
                                 <p>账号保护</p>
                             </li>
-                            <li class="item-mode border-1px border-none">
+                            <router-link tag="li" :to="{path:'/info/safety/edit-password'}" class="item-mode border-1px border-none">
                                 <p class="title icon-login-password">登陆密码</p>
                                 <p class="remarks">
                                     <span>建议定期修改<i class="icon-arrows-right icon"></i></span>
                                 </p>
-                            </li>
+                            </router-link>
                             <li class="item-title">
                                 <p>资金保护</p>
                             </li>
-                            <li class="item-mode border-1px">
-                                <p class="title icon-withdrawal-password">银行卡<span class="type">已绑定</span></p>
+                            <router-link tag="li" :to="{path:'/info/safety/bank'}" class="item-mode border-1px">
+                                <p class="title icon-withdrawal-password">银行卡<span class="type" v-show="account.bank_status">已绑定</span></p>
                                 <p class="remarks">
                                     <span>查看银行卡信息<i class="icon-arrows-right icon"></i></span>
                                 </p>
-                            </li>
-                            <li class="item-mode border-1px border-none">
-                                <p class="title icon-bank-card">提款密码<span class="type">已设置</span></p>
+                            </router-link>
+                            <router-link tag="li" :to="{path:'/info/safety/set-password'}" class="item-mode border-1px border-none">
+                                <p class="title icon-bank-card">提款密码<span class="type" v-show="account.bank_passwd_status">已设置</span></p>
                                 <p class="remarks">
                                     <span>进入修改<i class="icon-arrows-right icon"></i></span>
                                 </p>
-                            </li>
+                            </router-link>
                         </ul>
                     </div>
                 </div>
@@ -41,6 +41,7 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
+    import {mapGetters} from 'vuex';
     export default {
         data() {
             return{
@@ -51,6 +52,11 @@
             Scroll
         },
         created() {
+        },
+        computed: {
+            ...mapGetters([
+                'account'
+            ])
         },
         methods: {
         }

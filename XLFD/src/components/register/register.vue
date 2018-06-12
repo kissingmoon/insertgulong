@@ -85,7 +85,7 @@
         }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .register{
@@ -93,6 +93,7 @@
     width: 100%;
     top: 1.2rem;
     bottom: 0rem;
+    background:$color-bg;
     .register-wrapper{
         padding:0.56rem;
         .txt-con{

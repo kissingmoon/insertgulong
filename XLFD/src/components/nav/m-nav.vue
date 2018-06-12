@@ -29,13 +29,14 @@
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .nav{
-    position:fixed;
+    position: fixed;
     display: flex;
     width:100%;
     bottom:0;
     height:1.44rem;
     text-align: center;
     background:$color-bg-nav;
+    z-index: 10;
     .nav-item{
         flex: 1;
         text-align: center;
@@ -74,7 +75,7 @@
         &.router-link-active{
             color:#FFE212;
             .icom-home{
-            @include bg-image('home-on');
+                @include bg-image('home-on');
             }
             .icom-pay{
                 @include bg-image('pay-on');

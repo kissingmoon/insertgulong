@@ -55,6 +55,7 @@ export default {
 @import 'common/scss/index.scss';
 @import "common/scss/icon.css";
 .app{
+    position: relative;
     height:auto;
     overflow: hidden;
     min-height: 100%;

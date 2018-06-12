@@ -1,30 +1,31 @@
 <template>
     <parcel>
         <div class="edit-password">
-            <scroll ref="scroll" class="scroll-wrapper">
+            <scroll ref="scroll" class="scroll-wrapper" :click="false">
                 <div class="txt-wrapper">
                     <ul>
                         <li>
                             <p class="title">原始密码</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的原始密码" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
+                                <input v-show="api === 'editLoginPassword'" type="password" placeholder="请输入您的原始密码" autocomplete="off" class="input-txt red" v-model="param.password" maxlength="20">
+                                <input v-show="api === 'editBankPassword'" type="password" placeholder="请输入您的原始密码" autocomplete="off" class="input-txt red" v-model="param.bank_passwd" maxlength="20">
                             </p>
                         </li>
                         <li>
                             <p class="title">新密码</p>
                             <p class="txt-con">
-                                <input type="password" placeholder="请输入您的新密码" autocomplete="off" class="input-txt" v-model="loginParam.password">
+                                <input type="password" placeholder="请输入您的新密码" autocomplete="off" class="input-txt" v-model="param.new_passwd" maxlength="20">
                             </p>
                         </li>
                         <li>
                             <p class="title">确认新密码</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请再次输入您的新密码" class="input-txt" v-model="loginParam.code">
+                                <input type="password" placeholder="请再次输入您的新密码" class="input-txt" v-model="affirm_password" maxlength="20">
                             </p>
                         </li>
                     </ul>
                     <div class="btn-wrapper">
-                        <button>确定</button>
+                        <button @click.stop="editPassword">确定</button>
                     </div>
                 </div>
             </scroll>
@@ -32,21 +33,19 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapActions} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
-    import {session,randomWord,removeSession} from 'common/js/param';
     export default {
         data() {
             return{
-                loginParam:{
-                    code_id:'2154',
-                    code:'',
-                    user_id:'',
-                    password:''
+                param:{
+                    password:'',
+                    bank_passwd:'',
+                    new_passwd:''
                 },
-                codeUrl:`http://www.xlfdapi.com/config/generator-code?code_id=2154`
+                affirm_password:'',
+                api:''
             }
         },
         components:{
@@ -54,30 +53,25 @@
             Scroll
         },
         created() {
-            //this.resetAccount();
-            //this.loginParam.code_id = randomWord(false,6,8);
-            //this._getGeneratorCode();
+            this.api=this.$router.history.current.query.api;
         },
         methods: {
-            _getGeneratorCode() {
-                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
+            editPassword(e) {
+                if(this.param.new_passwd !== this.affirm_password){
+                    console.log('新密码不一致');
+                    return;
+                }
+                if(this.param.password === this.param.new_passwd){
+                    console.log('新密码不能与旧密码相同');
+                    return;
+                }
+                this.$axios.postRequest(httpUrl.info[this.api],this.param)
                 .then((res)=> {
-                    this.codeUrl=res.data;
+                    if(!res.data.errorCode){
+                        console.log('修改成功');
+                    }
                 });
-            },
-            resetAccount(){
-                removeSession('user_token');
-                removeSession('md5_salt');
-                this.resetUser({
-                    account:'',
-                    token:'',
-                    md5:''
-                })
-            },
-            ...mapActions([
-                'resetUser'
-            ])
-        
+            }
         }
     }
 </script>
@@ -100,7 +94,7 @@
             min-height: calc(100% - 2.4rem);
             height: auto;
             overflow: hidden;
-            padding-bottom:2.6rem;
+            padding-bottom:2.4rem;
             ul{
                 height:auto;
                 overflow: hidden;

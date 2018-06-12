@@ -24,7 +24,7 @@
                     <button class="login-btn" @click="login">登录</button>
                 </li>
                 <li>
-                    <p class="register">注册</p>
+                    <router-link tag="p" to="/register" class="register">注册</router-link>
                     <p class="forget">忘记密码</p>
                 </li>
             </ul>
@@ -105,57 +105,62 @@
     top: 1.2rem;
     bottom: 0rem;
     z-index: 101;
+    overflow: hidden;
     background: $color-bg;
     .login-wrapper{
         padding:0.56rem;
-        .txt-con{
+        li{
             height: auto;
             overflow: hidden;
-            @include border-1px($color-border-gray);
-            
-            .input-txt{
-                height:1.4rem;
-                width:100%;
-                line-height: 1.4rem;
-                font-size: $font-size-medium-x;
-            }
+            .txt-con{
+                height: auto;
+                overflow: hidden;
+                @include border-1px($color-border-gray);
+                
+                .input-txt{
+                    height:1.4rem;
+                    width:100%;
+                    line-height: 1.4rem;
+                    font-size: $font-size-medium-x;
+                }
 
-        }
-        .code-txt{
-            width:5.36rem;
-            float: left;
-        }
-        .code-img{
-            width:3.3rem;
-            height:1.1rem;
-            float: right;
-            padding-top: 0.3rem;
-            img{
-                width: 100%;
             }
-        }
-        .login-btn{
-            height:1.17rem;
-            width:100%;
-            text-align: center;
-            background:$color-bg-theme;
-            color: #fff;
-            font-size: $font-size-large;
-            border-radius: 0.1rem;
-            border:0;
-            margin-top: 0.6rem;
-        }
-        .register{
-            float: left;
-            padding-top: 0.6rem;
-            color:$color-text-blur;
-            font-size:$font-size-medium;
-        }
-        .forget{            
-            float: right;
-            padding-top: 0.6rem;
-            color:$color-text-blur;
-            font-size:$font-size-medium;
+            .code-txt{
+                width:5.36rem;
+                float: left;
+            }
+            .code-img{
+                width:3.3rem;
+                height:1.1rem;
+                float: right;
+                padding-top: 0.3rem;
+                img{
+                    width: 100%;
+                }
+            }
+            .login-btn{
+                height:1.17rem;
+                width:100%;
+                text-align: center;
+                background:$color-bg-theme;
+                color: #fff;
+                font-size: $font-size-large;
+                border-radius: 0.1rem;
+                border:0;
+                margin-top: 0.6rem;
+            }
+            .register{
+                float: left;
+                padding-top: 0.6rem;
+                color:$color-text-blur;
+                font-size:$font-size-medium;
+            }
+            .forget{            
+                float: right;
+                padding-top: 0.6rem;
+                color:$color-text-blur;
+                font-size:$font-size-medium;
+            }
         }
     }
 }

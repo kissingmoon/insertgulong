@@ -23,7 +23,13 @@ export const httpUrl = {
         followMy:'/v2/gd-dsb/get-my-gd',
         followDetail:'/v2/gd-dsb/get-gd-detail',
         attention:'/v2/gd-dsb/my-gz',
-        attentionDatail:'/v2/gd-dsb/get-others-gd'
+        attentionDatail:'/v2/gd-dsb/get-others-gd',
+        editLoginPassword:'/user/edit-passwd',
+        editBankPassword:'/user/edit-bank-passwd',
+        setBankPassword:'/user/set-bank-passwd',
+        bindBank:'/user/bind-bank',
+        bankInfo:'/user/bank-info',
+        bankList:'/config/bank-list'
     }
 };
 

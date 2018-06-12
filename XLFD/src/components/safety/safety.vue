@@ -8,7 +8,7 @@
                             <li class="item-title">
                                 <p>账号保护</p>
                             </li>
-                            <router-link tag="li" :to="{path:'/info/safety/edit-password'}" class="item-mode border-1px border-none">
+                            <router-link tag="li" :to="{path:'/info/safety/edit-password',query:{api:'editLoginPassword'}}" class="item-mode border-1px border-none">
                                 <p class="title icon-login-password">登陆密码</p>
                                 <p class="remarks">
                                     <span>建议定期修改<i class="icon-arrows-right icon"></i></span>
@@ -18,15 +18,21 @@
                                 <p>资金保护</p>
                             </li>
                             <router-link tag="li" :to="{path:'/info/safety/bank'}" class="item-mode border-1px">
-                                <p class="title icon-withdrawal-password">银行卡<span class="type" v-show="account.bank_status">已绑定</span></p>
+                                <p class="title icon-withdrawal-password">银行卡<span class="type" v-show="account.bank_status == 1">已绑定</span></p>
                                 <p class="remarks">
-                                    <span>查看银行卡信息<i class="icon-arrows-right icon"></i></span>
+                                    <span>
+                                        <b v-show="account.bank_status == 1">查看</b><b v-show="account.bank_status == 0">绑定</b>银行卡信息
+                                        <i class="icon-arrows-right icon"></i>
+                                    </span>
                                 </p>
                             </router-link>
-                            <router-link tag="li" :to="{path:'/info/safety/set-password'}" class="item-mode border-1px border-none">
-                                <p class="title icon-bank-card">提款密码<span class="type" v-show="account.bank_passwd_status">已设置</span></p>
+                            <router-link tag="li" :to="urlParam" class="item-mode border-1px border-none">
+                                <p class="title icon-bank-card">提款密码<span class="type" v-show="account.bank_passwd_status == 1">已设置</span></p>
                                 <p class="remarks">
-                                    <span>进入修改<i class="icon-arrows-right icon"></i></span>
+                                    <span>
+                                        进入<b v-show="account.bank_passwd_status == 1">修改</b><b v-show="account.bank_passwd_status == 0">设置</b>
+                                        <i class="icon-arrows-right icon"></i>
+                                    </span>
                                 </p>
                             </router-link>
                         </ul>
@@ -56,7 +62,11 @@
         computed: {
             ...mapGetters([
                 'account'
-            ])
+            ]),
+            urlParam(){
+                let param=this.account.bank_passwd_status == 1? {path:'/info/safety/edit-password',query:{api:'editBankPassword'}}:{path:'/info/safety/set-password'};
+                return param
+            }
         },
         methods: {
         }

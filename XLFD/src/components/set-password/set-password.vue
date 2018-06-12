@@ -1,24 +1,24 @@
 <template>
     <parcel>
         <div class="set-password">
-            <scroll ref="scroll" class="scroll-wrapper">
+            <scroll ref="scroll" class="scroll-wrapper" :click="false">
                 <div class="txt-wrapper">
                     <ul>
                         <li>
                             <p class="title">设置密码</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的提款密码" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
+                                <input type="password" placeholder="请输入您的提款密码" autocomplete="off" class="input-txt red" v-model="bank_passwd">
                             </p>
                         </li>
                         <li>
                             <p class="title">确认密码</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请再次输入您的提款密码" class="input-txt" v-model="loginParam.code">
+                                <input type="password" placeholder="请再次输入您的提款密码" class="input-txt" v-model="affirm_password">
                             </p>
                         </li>
                     </ul>
                     <div class="btn-wrapper">
-                        <button>确定</button>
+                        <button @click="setBankPassword">确定</button>
                     </div>
                 </div>
             </scroll>
@@ -26,21 +26,14 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapActions} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
-    import {session,randomWord,removeSession} from 'common/js/param';
     export default {
         data() {
             return{
-                loginParam:{
-                    code_id:'2154',
-                    code:'',
-                    user_id:'',
-                    password:''
-                },
-                codeUrl:`http://www.xlfdapi.com/config/generator-code?code_id=2154`
+                bank_passwd:'',
+                affirm_password:''
             }
         },
         components:{
@@ -48,29 +41,16 @@
             Scroll
         },
         created() {
-            //this.resetAccount();
-            //this.loginParam.code_id = randomWord(false,6,8);
-            //this._getGeneratorCode();
         },
         methods: {
-            _getGeneratorCode() {
-                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
+            setBankPassword() {
+                this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
-                    this.codeUrl=res.data;
+                    if(!res.data.errorCode){
+                        console.log('设置成功');
+                    }
                 });
-            },
-            resetAccount(){
-                removeSession('user_token');
-                removeSession('md5_salt');
-                this.resetUser({
-                    account:'',
-                    token:'',
-                    md5:''
-                })
-            },
-            ...mapActions([
-                'resetUser'
-            ])
+            }
         
         }
     }

@@ -5,9 +5,16 @@
                 <p class="border-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
                 <p class="border-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
             </div>
-            <scroll ref="scroll" class="scroll-content" :data="followList" >
+            <page ref="scroll" class="scroll-content" 
+                :data="followList" 
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :loadingStatus="loadingStatus"
+                @pulldown="loadData"
+                @scrollToEnd="nextPage"
+                >
                 <order-list :data="followList"></order-list>
-            </scroll>
+            </page>
             <router-view></router-view>
         </div>
     </parcel>
@@ -15,6 +22,7 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import Page from 'base/page/page';
     import orderList from 'base/order-list/order-list';
     import {httpUrl} from 'common/js/map';
     export default {
@@ -25,12 +33,19 @@
                 followParam:{
                     page_no:1,
                     page_size:20
+                },
+                pulldown: true,
+                pullup: true,
+                loadingStatus:{
+                    showIcon: false,
+                    status: ''
                 }
             }
         },
         components:{
             Parcel,
             Scroll,
+            Page,
             orderList
         },
         created() {
@@ -60,6 +75,27 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.followList=res.data;
+                    };
+                });
+            },
+            loadData() {
+                const api = this.followType? httpUrl.info.followMyJoin:httpUrl.info.followMy;
+                this.followParam.page_no = 1;
+                this.$axios.postRequest(api,this.followParam)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.followList=res.data;
+                    };
+                });
+            },
+            nextPage() {
+                const api = this.followType? httpUrl.info.followMyJoin:httpUrl.info.followMy;
+                ++this.followParam.page_no;
+                this.$axios.postRequest(api,this.followParam)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.followList=this.followList.concat(res.data);
+                        console.log(this.followList);
                     };
                 });
             }

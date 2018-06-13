@@ -7,9 +7,9 @@
                         <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">
                             <slider>
                                 <div v-for="item in activitys">
-                                    <a :href="item.target_url">
+                                    <router-link tag="a" :to="{path:'/activity',query:{title:item.title,url:item.target_url}}">
                                         <img class="needsclick" @load="loadImage" :src="item.image_url" :alt="item.title">
-                                    </a>
+                                    </router-link>
                                 </div>
                             </slider>
                         </div>
@@ -20,9 +20,9 @@
                         </marquee>
                     </div>
                     <div class="new-gift-wrapper">
-                        <a :href="gift.turn_url">
-                            <img :src="gift.image_url" alt="">
-                        </a>
+                        <router-link tag="a" :to="{path:'/activity',query:{title:gift.title,url:gift.turn_url}}">
+                            <img :src="gift.image_url">
+                        </router-link>
                     </div>
                     <div class="lottery-wrapper">
                         <ul>
@@ -186,6 +186,23 @@
                 overflow: hidden;
                 border-top-left-radius: 0.12rem;
                 border-top-right-radius: 0.12rem;
+                .slider-item{
+                    float: left;
+                    box-sizing: border-box;
+                    overflow: hidden;
+                    text-align: center;
+                    a{
+                        display: block;
+                        width: 100%;
+                        overflow: hidden;
+                        text-decoration: none;
+                        img{
+                            display: block;
+                            width: 100%;
+                        }
+                    }
+                    
+                }
             }
         }
         .marquee-wrapper{
@@ -200,9 +217,14 @@
         .new-gift-wrapper{
             height:auto;
             overflow: hidden;
-            img{
+            a{
                 display: block;
-                width: 100%;
+                height: auto;
+                overflow: hidden;
+                img{
+                    display: block;
+                    width: 100%;
+                }
             }
         }
         .lottery-wrapper{

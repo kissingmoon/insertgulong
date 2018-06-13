@@ -6,19 +6,25 @@
                 <i class="pull-icon indexicon icon-pull-down" :class="[pulldownTip.rotate]"></i>
                 <span class="tip-content">{{pulldownTip.text}}</span>
             </div>
-            <div v-show="loadingStatus.showIcon || loadingStatus.status" class="loading-pos">
-                <div v-show="loadingStatus.showIcon" class="loading-container">
-                    <div class="cube">
-                        <div class="side side1"></div>
-                        <div class="side side2"></div>
-                        <div class="side side3"></div>
-                        <div class="side side4"></div>
-                        <div class="side side5"></div>
-                        <div class="side side6"></div>
+            <!-- <div v-if="pullup" class="pullup-tip">
+                <i class="pull-icon indexicon icon-pull-down" :class="[pullupTip.rotate]"></i>
+                <span class="tip-content">{{pullupTip.text}}</span>
+            </div> -->
+            <transition name="refresh">
+                <div v-show="loadingStatus.showIcon || loadingStatus.status" class="loading-pos">
+                    <div v-show="loadingStatus.showIcon" class="loading-container">
+                        <div class="cube">
+                            <div class="side side1"></div>
+                            <div class="side side2"></div>
+                            <div class="side side3"></div>
+                            <div class="side side4"></div>
+                            <div class="side side5"></div>
+                            <div class="side side6"></div>
+                        </div>
                     </div>
+                    <span class="loading-connecting">{{loadingStatus.status}}</span>
                 </div>
-                <span class="loading-connecting">{{loadingStatus.status}}</span>
-            </div>
+            </transition>
         </div>
         <slot></slot>
     </div>
@@ -131,6 +137,10 @@ export default {
                 text: '下拉刷新',     // 松开立即刷新
                 rotate: ''    // icon-rotate
             },
+            pullupTip: {
+                text: '上拉加载',     // 松开立即加载
+                rotate: ''    // icon-rotate
+            }
 
         };
     },
@@ -176,7 +186,18 @@ export default {
                     }
 
                     if (this.pullup) {
-
+                        // 上拉动作
+                        if (this.scroll.y <= (this.scroll.maxScrollY - 50)) {
+                            this.pullupTip = {
+                                text: '松开立即加载',
+                                rotate: 'icon-rotate'
+                            }
+                        } else {
+                            this.pullupTip = {
+                                text: '上拉加载',     // 松开立即加载
+                                rotate: ''    // icon-rotate
+                            }
+                        }
                     }
                 })
             }
@@ -185,7 +206,16 @@ export default {
             if (this.pullup) {
                 this.scroll.on('touchend', () => {
                     // 滚动到底部
+                    console.log(this.scroll.y);
+                    console.log(this.scroll.maxScrollY - 50);
                     if (this.scroll.y <= (this.scroll.maxScrollY - 50)) {
+                        setTimeout(() => {
+                            // 重置提示信息
+                            this.pullupTip = {
+                                text: '上拉加载',     // 松开立即加载
+                                rotate: ''    // icon-rotate
+                            }
+                        },600);
                         this.$emit('scrollToEnd');
                     }
                 });
@@ -251,24 +281,43 @@ export default {
 @import 'common/scss/mixin.scss';
 $cube-size: 10px; // 项目中用了scss，没用的话，替换掉样式中的变量即可
 .better-scroll-root {
-    .loading-pos, .pulldown-tip {
+    .pulldown-tip {
         position: absolute;
         left: 0;
-        top: 0;
+        width: 100%;
+        color: $color-text-gray;
+        text-align: center;
+        top: -50px;
+        height: 50px;
+        line-height: 50px;
+        z-index: 1;
+    }
+    .pullup-tip {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        color: $color-text-gray;
+        text-align: center;
+        bottom: -50px;
+        height: 50px;
+        line-height: 50px;
+        z-index: 1;
+    }
+    .refresh-enter-active, .refresh-leave-active{
+        transition: all 0.3s;
+    }
+
+    .refresh-enter, .refresh-leave-to{
+        transform: translate3d(0, -35px, 0);
+    }
+    .loading-pos {
+        background-color: $color-bg;
+        position: relative;
         width: 100%;
         height: 35px;
         color: $color-text-gray;
         text-align: center;
         z-index: 2000;
-    }
-    .loading-pos {
-        background-color: rgba(7, 17, 27, 0.7);
-    }
-    .pulldown-tip {
-        top: -50px;
-        height: 50px;
-        line-height: 50px;
-        z-index: 1;
     }
     .pull-icon {
         position: absolute;

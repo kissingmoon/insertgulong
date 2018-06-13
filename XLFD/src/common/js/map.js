@@ -30,6 +30,12 @@ export const httpUrl = {
         bindBank:'/user/bind-bank',
         bankInfo:'/user/bank-info',
         bankList:'/config/bank-list'
+    },
+    discount:{
+        activity:'/v2/activity/get-activity'
+    },
+    config:{
+        urlList:'/config/url-list'
     }
 };
 
@@ -63,6 +69,13 @@ export const rechargeType ={
     '3':'未支付'
 };
 
+export const activityKind ={
+    '00':'所有活动',
+    '01':'限时优惠',
+    '02':'免费活动',
+    '03':'VIP专享'
+};
+
 export const headerConfig = {
     '/home':{
         title:'小李飞刀',
@@ -74,6 +87,10 @@ export const headerConfig = {
         service:true,
         rechargeTip:true
     },
+    '/Attention':{
+        title:'活动详情',
+        back:true
+    },
     '/descover':{
         title:'精彩发现',
         service:true,
@@ -83,6 +100,10 @@ export const headerConfig = {
         title:'优惠活动',
         service:true,
         message:true
+    },
+    '/discount/activity':{
+        title:'活动详情',
+        back:true
     },
     '/info':{
         title:'个人中心',

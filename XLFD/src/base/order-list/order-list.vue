@@ -54,10 +54,7 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
-    import Parcel from 'base/parcel/parcel';
     import Loading from 'base/loading/loading';
-    import Scroll from 'base/scroll/scroll';
-    import {httpUrl} from 'common/js/map';
     export default {
         data() {
             return{
@@ -70,9 +67,7 @@
             }
         },
         components:{
-            Loading,
-            Parcel,
-            Scroll
+            Loading
         },
         created() {
         },

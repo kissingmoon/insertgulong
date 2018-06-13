@@ -4,6 +4,7 @@ import Home from 'components/home/home';
 import Pay from 'components/pay/pay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
+import Activity from 'components/activity-con/activity-con';
 import Info from 'components/info/info';
 import Login from 'components/login/login';
 import Register from 'components/register/register';
@@ -54,8 +55,18 @@ export default new Router({
             component:Descover
         },
         {
+            path:'/activity',
+            component:Activity
+        },
+        {
             path:'/discount',
-            component:Discount
+            component:Discount,
+            children:[
+                {
+                    path:'activity',
+                    component:Activity
+                }
+            ]
         },
         {
             path:'/info',

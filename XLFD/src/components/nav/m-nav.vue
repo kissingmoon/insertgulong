@@ -36,7 +36,6 @@
     height:1.44rem;
     text-align: center;
     background:$color-bg-nav;
-    z-index: 10;
     .nav-item{
         flex: 1;
         text-align: center;

@@ -147,10 +147,10 @@
                     width: 100%;
                     overflow: hidden;
                     text-decoration: none;
-                }
-                img{
-                    display: block;
-                    width: 100%;
+                    img{
+                        display: block;
+                        width: 100%;
+                    }
                 }
                 
             }

@@ -19,7 +19,7 @@
 
     .loading{
         width: 100%;
-        padding-top:40%;
+        padding-top:45%;
         text-align: center;
         .desc{
             line-height: 0.6rem;

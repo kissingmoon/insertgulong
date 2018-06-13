@@ -81,11 +81,15 @@
             loadData() {
                 const api = this.followType? httpUrl.info.followMyJoin:httpUrl.info.followMy;
                 this.followParam.page_no = 1;
+                this.loadingStatus.showIcon=true;
+                this.loadingStatus.status='刷新中...';
                 this.$axios.postRequest(api,this.followParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.followList=res.data;
                     };
+                    this.loadingStatus.showIcon=false;
+                    this.loadingStatus.status='';
                 });
             },
             nextPage() {

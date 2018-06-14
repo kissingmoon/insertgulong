@@ -1,6 +1,6 @@
 <template>
     <parcel>
-        <div class="attention-detail" :class="!order.finish_status? 'bottom-2rem':''">
+        <div class="crunchies-detail" :class="!order.finish_status? 'bottom-2rem':''">
             <div class="author-wrapper">
                 <attention-list :data="author"></attention-list>
             </div>
@@ -24,7 +24,7 @@
             return{
                 author:[],
                 order:[],
-                url:'/attention/detail/detail'
+                url:'/crunchies/detail/detail'
             }
         },
         components:{
@@ -56,7 +56,7 @@
 <style lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.attention-detail{
+.crunchies-detail{
     position: fixed;
     width: 100%;
     top: 1.2rem;

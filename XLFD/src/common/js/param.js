@@ -9,9 +9,11 @@ export function reData(data){
         ...param,
         platform:'3',
         app_bundleId:'com.xb888.front',
-        app_version:'1.0',
-        user_token
+        app_version:'1.0'
     };
+    if(user_token){
+        baseObj.user_token=user_token;
+    }
     baseObj=objKeySort(baseObj);
     let url=dataParam(baseObj);
     let sign=md5(url+(md5_salt || default_key));

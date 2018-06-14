@@ -1,6 +1,6 @@
 <template>
     <parcel>
-        <div class="follow-detail" :class="!order.finish_status? 'bottom-2rem':''">
+        <div class="follow-detail" :class="order.finish_status == 0? 'bottom-2rem':''">
             <scroll ref="scroll" class="scroll-content" :data="showTbody">
                 <div>
                     <div class="author-wrapper">
@@ -62,7 +62,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(group,g) in showTbody" :class="g%2 != 0? 'bg-even':''">
+                                <tr v-for="(group,g) in showTbody" :class="g%2 != 0? 'bg-even':''" v-if="showTbody[0] !== null">
                                     <td v-for="item in showThead">{{group[item.key]}}</td>
                                 </tr>
                             </tbody>
@@ -70,7 +70,7 @@
                     </div>
                 </div>
             </scroll>
-            <div class="bet-content" v-show="!order.finish_status">
+            <div class="bet-content" v-show="order.finish_status == 0">
                 <div class="bet-txt">
                     <p class="txt">
                         <button class="minus"><i class="icon-minus"></i></button>
@@ -243,6 +243,9 @@
                         height:0.5rem;
                         line-height: 0.5rem;
                         color:$color-text-gray;
+                        b{
+                            color:$color-text-red;
+                        }
                     }
                 };
                 
@@ -360,7 +363,6 @@
         }
     }
     .bet-content{
-        display: none;
         position:fixed;
         bottom:0;
         height:2.2rem;

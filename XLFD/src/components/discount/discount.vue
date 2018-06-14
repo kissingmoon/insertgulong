@@ -2,19 +2,19 @@
     <div class="discount">
         <div class="kind-wrapper border-1px">
             <div class="kind-item" @click="changeActivityType('00')">
-                <p class="icon-con icom-all"></p>
+                <p class="icon-con icon-all"></p>
                 <p class="txt">所有活动</p>
             </div>
             <div class="kind-item" @click="changeActivityType('01')">
-                <p class="icon-con icom-limit"></p>
+                <p class="icon-con icon-limit"></p>
                 <p class="txt">限时优惠</p>
             </div>
             <div class="kind-item" @click="changeActivityType('02')">
-                <p class="icon-con icom-free"></p>
+                <p class="icon-con icon-free"></p>
                 <p class="txt">免费活动</p>
             </div>
             <div class="kind-item" @click="changeActivityType('03')">
-                <p class="icon-con icom-vip"></p>
+                <p class="icon-con icon-vip"></p>
                 <p class="txt">VIP专享</p>
             </div>
         </div>
@@ -32,7 +32,7 @@
                 <ul>
                     <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-1px" v-for="(item,index) in activityList" :key="index">
                         <div class="img-wrapper">
-                            <img :src="item.image_url" alt="">
+                            <img v-lazy="item.image_url" alt="">
                         </div>
                         <div class="txt-wrapper">
                             <p>{{item.title}}</p>
@@ -116,16 +116,16 @@
                 background-repeat: no-repeat;
                 background-position: center top;
             }
-            .icom-all{
+            .icon-all{
                 @include bg-image('icon-all-discount');
             }
-            .icom-limit{
+            .icon-limit{
                 @include bg-image('icon-limit-discount');
             }
-            .icom-free{
+            .icon-free{
                 @include bg-image('icon-free-discount');
             }
-            .icom-vip{
+            .icon-vip{
                 @include bg-image('icon-vip-discount');
             }
             .txt{

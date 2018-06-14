@@ -34,6 +34,10 @@ export const httpUrl = {
     discount:{
         activity:'/v2/activity/get-activity'
     },
+    descover:{
+        rank:'/v2/gd-dsb/get-dsb-rank',
+        order:'/v2/gd-dsb/get-all-gd'
+    },
     config:{
         urlList:'/config/url-list'
     }
@@ -96,6 +100,10 @@ export const headerConfig = {
         service:true,
         message:true
     },
+    '/descover/detail':{
+        title:'跟单详情',
+        back:true
+    },
     '/discount':{
         title:'优惠活动',
         service:true,
@@ -146,20 +154,36 @@ export const headerConfig = {
         title:'提现记录',
         back:true
     },
-    '/info/follow':{
-        title:'我的跟单',
+    '/crunchies':{
+        title:'大神榜',
         back:true
     },
-    '/info/follow/detail':{
+    '/crunchies/detail':{
+        title:'大神详情',
+        back:true
+    },
+    '/crunchies/detail/detail':{
         title:'跟单详情',
         back:true
     },
-    '/info/attention':{
+    '/follow':{
+        title:'我的跟单',
+        back:true
+    },
+    '/follow/detail':{
+        title:'跟单详情',
+        back:true
+    },
+    '/attention':{
         title:'我的关注',
         back:true
     },
-    '/info/attention/detail':{
+    '/attention/detail':{
         title:'关注详情',
+        back:true
+    },
+    '/attention/detail/detail':{
+        title:'跟单详情',
         back:true
     },
     '/info/safety':{

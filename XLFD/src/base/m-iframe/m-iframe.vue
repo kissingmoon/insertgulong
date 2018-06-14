@@ -1,7 +1,10 @@
 <template>
-    <iframe :src="url" frameborder="0" class="iframe">
+    <div class="iframe-content">
+        <iframe :src="url" frameborder="0" class="iframe">
 
-    </iframe>
+        </iframe>
+    </div>
+    
 </template>
 
 <script type="text/ecmascript-6">
@@ -20,8 +23,13 @@
 </script>
 
 <style scoped lang="scss">
-    .iframe{
-        width:100%;
+    .iframe-content{
         height:100%;
+        -webkit-overflow-scrolling:touch;
+        overflow:auto;
+        .iframe{
+            width:100%;
+            height:100%;
+        }
     }
 </style>

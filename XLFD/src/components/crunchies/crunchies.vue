@@ -1,8 +1,8 @@
 <template>
     <parcel>
-        <div class="attention">
-            <scroll ref="scroll" class="scroll-content" :data="attention" >
-                <attention-list :data="attention" :url="url" :isLink="isLink"></attention-list>
+        <div class="crunchies">
+            <scroll ref="scroll" class="scroll-content" :data="crunchiesList" >
+                <attention-list :data="crunchiesList" :url="url" :isLink="isLink"></attention-list>
             </scroll>
             <router-view></router-view>
         </div>
@@ -16,9 +16,14 @@
     export default {
         data() {
             return{
-                attention:[],
-                url:'/attention/detail',
-                isLink:true
+                crunchiesList:[],
+                url:'/crunchies/detail',
+                isLink:true,
+                crunchiesParam:{
+                    page_no:1,
+                    page_size:5,
+                    status:0
+                },
             }
         },
         components:{
@@ -27,15 +32,15 @@
             attentionList
         },
         created() {
-            this.getAttention();
+            this.getRank();
         },
         methods: {
-            getAttention(){
-                this.$axios.postRequest(httpUrl.info.attention)
+            getRank(){
+                this.$axios.postRequest(httpUrl.descover.rank,this.crunchiesParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.attention=res.data;
-                    };
+                        this.crunchiesList=res.data;
+                    }
                 });
             },
         }
@@ -44,7 +49,7 @@
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.attention{
+.crunchies{
     position: fixed;
     width: 100%;
     top: 1.2rem;

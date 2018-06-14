@@ -13,7 +13,7 @@ Vue.prototype.$axios = Axios;
 Vue.prototype.$api = Api;
 fastclick.attach(document.body);
 Vue.use(VueLazyload,{
-    loading:require('common/img/home-on@3x.png')
+    loading:require('common/img/icon-loading-img.png')
 });
 
 /* eslint-disable no-new */

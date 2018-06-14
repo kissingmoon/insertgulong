@@ -22,7 +22,6 @@ export default {
     },
     created() {
         this.init();
-        console.log(this.$router);
     },
     methods:{
         init(){

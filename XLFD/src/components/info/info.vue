@@ -4,7 +4,7 @@
             <div>
                 <div class="datum-wrapper">
                     <div class="datum-img">
-                        <img :src="account.image_url" alt="">
+                        <img v-lazy="account.image_url" alt="">
                     </div>
                     <div class="datum-txt" @click="skipLink">
                         <p class="datum-login" v-show="!user_token">
@@ -58,13 +58,13 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/follow'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/follow'}" class="item-mode border-1px">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/attention'}" class="item-mode border-1px margin-bottom">
+                        <router-link tag="li" :to="{path:'/attention'}" class="item-mode border-1px margin-bottom">
                             <p class="title icon-attention">我的关注</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>

@@ -1,13 +1,12 @@
 <template>
     <div class="pay">
-        <iframe :src="url" frameborder="0" class="pay-wrapper">
-
-        </iframe>
+        <m-iframe :url="url"></m-iframe>
     </div>
 </template>
 <script>
     import {httpUrl} from 'common/js/map';
     import {mapGetters} from 'vuex';
+    import MIframe from 'base/m-iframe/m-iframe';
     export default {
         data(){
             return{
@@ -16,6 +15,9 @@
         },
         created(){
             this.getPayUrl();
+        },
+        components:{
+            MIframe
         },
         computed: {
             ...mapGetters([
@@ -42,9 +44,6 @@
     top: 1.2rem;
     bottom: 1.44rem;
     overflow: hidden;
-    .pay-wrapper{
-        width:100%;
-        height:100%;
-    }
+    z-index: 101;
 }
 </style>

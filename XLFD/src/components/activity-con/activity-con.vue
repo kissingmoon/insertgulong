@@ -1,15 +1,14 @@
 <template>
     <parcel>
         <div class="activity-con">
-            <iframe :src="url" frameborder="0" class="activity-wrapper">
-
-            </iframe>
+            <m-iframe :url="url"></m-iframe>
         </div>
     </parcel>
 </template>
 
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
+    import MIframe from 'base/m-iframe/m-iframe';
     import {mapGetters,mapActions} from 'vuex';
     export default {
         data(){
@@ -22,7 +21,8 @@
             }
         },
         components:{
-            Parcel
+            Parcel,
+            MIframe
         },
         created(){
             this.activityInit();
@@ -54,15 +54,5 @@
     bottom: 0rem;
     z-index: 201;
     background: #fff;
-    -webkit-overflow-scrolling:touch;
-    overflow:auto;
-    .activity-wrapper{
-        width:100%;
-        height:100%;
-        z-index: 201;
-        margin: 0;
-        padding:0;
-        border:0;
-    }
 }
 </style>

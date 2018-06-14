@@ -5,17 +5,22 @@
                 <div class="importance">
                     <div class="imp-left">
                         <div class="brokerage-surplus-wrapper">
+                            <div class="status">
+                                <img v-lazy="item.image_url" alt="">
+                            </div>
                             <div class="brokerage-surplus">
-                                <p class="brokerage">佣金:{{item.commission}}%</p>
+                                <p class="brokerage">
+                                    <span>{{item.nick_name}}</span>
+                                    <span>胜率:<b>{{item.win_rate}}%</b></span>
+                                    <span>佣金:<b>{{item.commission}}%</b></span>
+                                </p>
                                 <p class="surplus">
-                                    <span>追号{{item.zhuih_count_qs}}期</span>
-                                    <span>剩{{item.left_qh_count}}期</span>
+                                    <span>追号<b>{{item.zhuih_count_qs}}</b>期</span>
+                                    <span>剩<b>{{item.left_qh_count}}</b>期</span>
                                     <span v-show="item.zhuih_win_stop == 1">中奖即停</span>
                                 </p>
                             </div>
-                            <div class="status" v-show="item.finish_status == 1">
-
-                            </div>
+                            
                         </div>
                         <div class="type-tip">
                             <div class="type">
@@ -29,21 +34,15 @@
                         </div>
                     </div>
                     <div class="imp-right">
-                        <div class="rate">回报率:{{item.back_rate}}倍</div>
+                        <div class="rate">回报率:<b>{{item.back_rate}}倍</b></div>
                         <div class="least">{{item.bet_min_money}}元起投</div>
-                        <div class="order-status-ing" v-show="item.order_status == 0">
-                            <span>正在跟单</span>
+                        <div class="order-status-ing">
+                            <span>立即跟单</span>
                         </div>
-                        <div class="order-status-end" v-show="item.order_status == 1">
+                        <!-- <div class="order-status-end" v-show="item.finish_status == 1">
                             <span>胜利</span><br>
                             <span>￥{{item.create_value}}</span>
-                        </div>
-                        <div class="order-status-loser" v-show="item.order_status == 2">
-                            <span>未中奖</span>
-                        </div>
-                        <div class="order-status-repeal" v-show="item.order_status == 3">
-                            <span>撤销</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="minor">
@@ -72,9 +71,9 @@
                 type: [Array,Object,String],
                 default: null
             },
-            url:{
+            url: {
                 type: String,
-                default: '/follow/detail'
+                default: ''
             }
         },
         components:{
@@ -106,28 +105,46 @@
             overflow: hidden;
             .imp-left{
                 float: left;
-                width:6.8rem;
+                width:7.2rem;
                 height:auto;
                 .brokerage-surplus-wrapper{
                     height:1.47rem;
+                    padding-bottom: 0.1rem;
                     .brokerage-surplus{
                         float: left;
-                        width:4rem;
+                        width:5rem;
+                        margin-left: 0.2rem;
+                        padding-top:0.1rem;
                         .brokerage,.surplus{
                             height:0.5rem;
                             line-height: 0.5rem;
-                            color:$color-text-gray;
                             @include no-wrap();
+                            span{
+                                margin-right: 0.3rem;
+                                b{
+                                    color:$color-text-red;
+                                }
+                            }
+                        }
+                        .brokerage{
+                            height:0.6rem;
+                            line-height: 0.6rem;
+                        }
+                        .surplus{
+                            color:$color-text-gray;
                         }
                     }
                     .status{
-                        float:right;
-                        height:1.47rem;
-                        width:1.44rem;
-                        background-repeat: no-repeat;
-                        background-size: 100%;
-                        margin-right: 0.5rem;
-                        @include bg-image('icon-finish');
+                        float:left;
+                        height:1.41rem;
+                        width:1.41rem;
+                        border-radius: 50%;
+                        overflow: hidden;
+                        background: $color-bg-gray;
+                        img{
+                            display: block;
+                            width:100%;
+                        }
                     }
 
                 }
@@ -141,7 +158,7 @@
                         color:$color-text-gray;
                         font-size: $font-size-small;
                         span{
-                            margin-right: 0.1rem;
+                            margin-right:0.1rem;
                         }
                     }
                     .tip{
@@ -152,12 +169,19 @@
             }
             .imp-right{
                 float:right;
-                width:2.2rem;
+                width:2rem;
                 height:auto;
                 text-align: right;
+                padding-top:0.1rem;
                 .rate,.least{
-                    height:0.5rem;
-                    line-height: 0.5rem;
+                    height:0.6rem;
+                    line-height: 0.6rem;
+                    b{
+                        color:$color-text-red;
+                    }
+                }
+                .least{
+                    color:$color-text-gray;
                 }
                 .order-status-end{
                     height:0.92rem;
@@ -167,26 +191,6 @@
                     background:#E8E8E8;
                     text-align: center;
                     line-height: 0.46rem;
-                }
-                .order-status-loser{
-                    height:0.92rem;
-                    margin-top: 0.1rem;
-                    padding: 0.1rem 0;
-                    border-radius: 0.1rem;
-                    background:#E8E8E8;
-                    text-align: center;
-                    line-height: 0.92rem;
-                    color:rgb(5, 121, 40);
-                }
-                .order-status-repeal{
-                    height:0.92rem;
-                    margin-top: 0.1rem;
-                    padding: 0.1rem 0;
-                    border-radius: 0.1rem;
-                    background:#E8E8E8;
-                    text-align: center;
-                    line-height: 0.92rem;
-                    color:$color-text-red;
                 }
                 .order-status-ing{
                     height:0.7rem;

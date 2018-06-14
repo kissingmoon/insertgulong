@@ -18,6 +18,8 @@ import Follow from 'components/follow/follow';
 import FollowDetail from 'components/follow-detail/follow-detail';
 import Attention from 'components/attention/attention';
 import AttentionDetail from 'components/attention-detail/attention-detail';
+import Crunchies from 'components/crunchies/crunchies';
+import CrunchiesDetail from 'components/crunchies-detail/crunchies-detail';
 import Safety from 'components/safety/safety';
 import EditPassword from 'components/edit-password/edit-password';
 import SetPassword from 'components/set-password/set-password';
@@ -52,7 +54,55 @@ export default new Router({
         },
         {
             path:'/descover',
-            component:Descover
+            component:Descover,
+            children:[
+                {
+                    path:'detail',
+                    component:FollowDetail
+                },
+                {
+                    path:'ds-detail',
+                    component:AttentionDetail,
+                    children:[
+                        {
+                            path:'detail',
+                            component:FollowDetail
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            path:'/crunchies',
+            component:Crunchies,
+            children:[
+                {
+                    path:'detail',
+                    component:CrunchiesDetail,
+                    children:[
+                        {
+                            path:'detail',
+                            component:FollowDetail
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            path:'/attention',
+            component:Attention,
+            children:[
+                {
+                    path:'detail',
+                    component:AttentionDetail,
+                    children:[
+                        {
+                            path:'detail',
+                            component:FollowDetail
+                        }
+                    ]
+                }
+            ]
         },
         {
             path:'/activity',
@@ -65,6 +115,16 @@ export default new Router({
                 {
                     path:'activity',
                     component:Activity
+                }
+            ]
+        },
+        {
+            path:'/follow',
+            component:Follow,
+            children:[
+                {
+                    path:'detail',
+                    component:FollowDetail
                 }
             ]
         },
@@ -98,26 +158,8 @@ export default new Router({
                     path:'cash',
                     component:Cash
                 },
-                {
-                    path:'follow',
-                    component:Follow,
-                    children:[
-                        {
-                            path:'detail',
-                            component:FollowDetail
-                        }
-                    ]
-                },
-                {
-                    path:'attention',
-                    component:Attention,
-                    children:[
-                        {
-                            path:'detail',
-                            component:AttentionDetail
-                        }
-                    ]
-                },
+                
+                
                 {
                     path:'safety',
                     component:Safety,

@@ -1,23 +1,23 @@
 <template>
     <div class="nav">
         <router-link tag="div" class="nav-item" to="/home">
-            <p class="icon-con icom-home"></p>
+            <p class="icon-con icon-home"></p>
             <p class="txt">大厅</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/pay">
-            <p class="icon-con icom-pay"></p>
+            <p class="icon-con icon-pay"></p>
             <p class="txt">充值</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/descover">
-            <p class="icon-con icom-descover"></p>
+            <p class="icon-con icon-descover"></p>
             <p class="txt">发现</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/discount">
-            <p class="icon-con icom-discount"></p>
+            <p class="icon-con icon-discount"></p>
             <p class="txt">活动</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/info">
-            <p class="icon-con icom-info"></p>
+            <p class="icon-con icon-info"></p>
             <p class="txt">我的</p>
         </router-link>
     </div>
@@ -50,19 +50,19 @@
             background-repeat: no-repeat;
             background-position: center top;
         }
-        .icom-home{
+        .icon-home{
             @include bg-image('home');
         }
-        .icom-pay{
+        .icon-pay{
             @include bg-image('pay');
         }
-        .icom-descover{
+        .icon-descover{
             @include bg-image('descover');
         }
-        .icom-discount{
+        .icon-discount{
             @include bg-image('discount');
         }
-        .icom-info{
+        .icon-info{
             @include bg-image('info');
         }
         .txt{
@@ -73,19 +73,19 @@
         }
         &.router-link-active{
             color:#FFE212;
-            .icom-home{
+            .icon-home{
                 @include bg-image('home-on');
             }
-            .icom-pay{
+            .icon-pay{
                 @include bg-image('pay-on');
             }
-            .icom-descover{
+            .icon-descover{
                 @include bg-image('descover-on');
             }
-            .icom-discount{
+            .icon-discount{
                 @include bg-image('discount-on');
             }
-            .icom-info{
+            .icon-info{
                 @include bg-image('info-on');
             }
         }

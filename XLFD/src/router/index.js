@@ -19,7 +19,6 @@ import FollowDetail from 'components/follow-detail/follow-detail';
 import Attention from 'components/attention/attention';
 import AttentionDetail from 'components/attention-detail/attention-detail';
 import Crunchies from 'components/crunchies/crunchies';
-import CrunchiesDetail from 'components/crunchies-detail/crunchies-detail';
 import Safety from 'components/safety/safety';
 import EditPassword from 'components/edit-password/edit-password';
 import SetPassword from 'components/set-password/set-password';
@@ -78,7 +77,7 @@ export default new Router({
             children:[
                 {
                     path:'detail',
-                    component:CrunchiesDetail,
+                    component:AttentionDetail,
                     children:[
                         {
                             path:'detail',

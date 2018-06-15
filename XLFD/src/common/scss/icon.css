@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('../fonts/icomoon.eot?wubrav');
-  src:  url('../fonts/icomoon.eot?wubrav#iefix') format('embedded-opentype'),
-    url('../fonts/icomoon.ttf?wubrav') format('truetype'),
-    url('../fonts/icomoon.woff?wubrav') format('woff'),
-    url('../fonts/icomoon.svg?wubrav#icomoon') format('svg');
+  src:  url('../fonts/icomoon.eot?clr35z');
+  src:  url('../fonts/icomoon.eot?clr35z#iefix') format('embedded-opentype'),
+    url('../fonts/icomoon.ttf?clr35z') format('truetype'),
+    url('../fonts/icomoon.woff?clr35z') format('woff'),
+    url('../fonts/icomoon.svg?clr35z#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,17 +24,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-lock:before {
-  content: "\e91d";
-}
-.icon-money:before {
-  content: "\e91c";
-}
-.icon-diamond:before {
-  content: "\e91b";
-}
-.icon-delete:before {
-  content: "\e91a";
+.icon-arrows-up-wire:before {
+  content: "\e91e";
 }
 .icon-add:before {
   content: "\e900";
@@ -78,40 +69,52 @@
 .icon-close-circle:before {
   content: "\e90d";
 }
-.icon-envelope:before {
+.icon-delete:before {
   content: "\e90e";
 }
-.icon-envelope-open:before {
+.icon-diamond:before {
   content: "\e90f";
 }
-.icon-message .path1:before {
+.icon-envelope:before {
   content: "\e910";
 }
-.icon-message .path2:before {
+.icon-envelope-open:before {
   content: "\e911";
+}
+.icon-lock:before {
+  content: "\e912";
+}
+.icon-message .path1:before {
+  content: "\e913";
+}
+.icon-message .path2:before {
+  content: "\e914";
   margin-left: -1em;
 }
 .icon-minus:before {
-  content: "\e912";
-}
-.icon-question-circle:before {
-  content: "\e913";
-}
-.icon-refresh:before {
-  content: "\e914";
-}
-.icon-right:before {
   content: "\e915";
 }
-.icon-right-ak:before {
+.icon-money:before {
   content: "\e916";
 }
-.icon-right-circle:before {
+.icon-question-circle:before {
   content: "\e917";
 }
-.icon-right-quadrangle:before {
+.icon-refresh:before {
   content: "\e918";
 }
-.icon-triangle-below:before {
+.icon-right:before {
   content: "\e919";
+}
+.icon-right-ak:before {
+  content: "\e91a";
+}
+.icon-right-circle:before {
+  content: "\e91b";
+}
+.icon-right-quadrangle:before {
+  content: "\e91c";
+}
+.icon-triangle-below:before {
+  content: "\e91d";
 }

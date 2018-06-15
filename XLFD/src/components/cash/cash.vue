@@ -1,7 +1,16 @@
 <template>
     <parcel>
         <div class="cash">
-            <scroll ref="scroll" class="scroll-content" :data="cashList" >
+            <scroll ref="scroll" class="scroll-content" 
+                :data="cashList" 
+                :isAllData="isAllData"
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="getCash('down')"
+                @pullup="getCash('up')"
+                >
                 <div>
                     <ul class="cash-main">
                         <li class="item-mode" v-for="item in cashList">
@@ -30,12 +39,17 @@
     export default {
         data() {
             return{
+                pulldown: true,
+                pullup: true,
+                refreshStatus:false,
+                loadStatus:false,
+                isAllData:false,
                 cashType,
                 cashList:[],
                 cashParam:{
-                    page_no:'1',
-                    page_size:'20',
-                    data_type:'4',
+                    page_no:1,
+                    page_size:20,
+                    data_type:4,
                     status:'06'
                 }
             }
@@ -48,11 +62,26 @@
             this.getCash();
         },
         methods: {
-            getCash(){
+            getCash(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.cashParam.page_no;
+                }else if(type == 'down'){
+                    this.refreshStatus=true;
+                    this.cashParam.page_no=1;
+                }
                 this.$axios.postRequest(httpUrl.info.coin,this.cashParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.cashLise=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.cashLise=this.cashLise.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else{
+                            this.refreshStatus=false;
+                            this.cashLise=res.data;
+                            this.isAllData=false;
+                        }
                     };
                 });
             }

@@ -1,7 +1,7 @@
 <template>
     <div class="attention-list">
         <ul v-show="isLink">
-            <router-link tag="li" :to="{path:url,query:{flag:item.user_flag}}" class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <router-link tag="li" :to="{path:url,query:{flag:item.user_flag,url:childurl}}" class="item-mode border-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="portrait">
                         <img v-lazy="item.image_url" alt="">
@@ -77,7 +77,11 @@
             },
             url: {
                 type:String,
-                defaule:''
+                defaule:'/attention/detail'
+            },
+            childurl: {
+                type:String,
+                defaule:'/attention/detail/detail'
             }
         },
         created() {

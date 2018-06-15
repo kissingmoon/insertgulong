@@ -1,7 +1,16 @@
 <template>
     <parcel>
         <div class="bill">
-            <scroll ref="scroll" class="scroll-content" :data="billList" >
+            <scroll ref="scroll" class="scroll-content" 
+                :data="billList" 
+                :isAllData="isAllData"
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="getbill('down')"
+                @pullup="getbill('up')"
+                >
                 <div>
                     <ul class="bill-main">
                         <li class="item-mode" v-for="item in billList" @click="showDetail(item)" >
@@ -23,6 +32,7 @@
                         </li>
                     </ul>
                 </div>
+                <loading v-show="billList && !billList.length"></loading>
             </scroll>
             <div v-show="detailShow" class="background" @click="closeDetail">
             </div>
@@ -63,35 +73,60 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import Loading from 'base/loading/loading';
     import {httpUrl,billType} from 'common/js/map';
     export default {
         data() {
             return{
+                pulldown: true,
+                pullup: true,
+                refreshStatus:false,
+                loadStatus:false,
+                isAllData:false,
+                detailShow:false,
                 billType,
-                billParam:{
-                    page_no:'1',
-                    page_size:'20',
-                    data_type:'3',
-                    status:''
-                },
                 billList:[],
                 billDetail:{},
-                detailShow:false
+                billParam:{
+                    page_no:1,
+                    page_size:20,
+                    data_type:3,
+                    status:''
+                }
             }
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            Loading
         },
         created() {
             this.getbill();
         },
         methods: {
-            getbill(){
+            getbill(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.billParam.page_no;
+                }else if(type == 'down'){
+                    this.refreshStatus=true;
+                    this.billParam.page_no=1;
+                }
                 this.$axios.postRequest(httpUrl.info.coin,this.billParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.billList=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.billList=this.billList.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else if(type == 'down'){
+                            this.refreshStatus=false;
+                            this.billList=res.data;
+                            this.isAllData=false;
+                        }else{
+                            this.billList=res.data;
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }
                     };
                 });
             },

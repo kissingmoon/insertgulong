@@ -1,6 +1,12 @@
 <template>
     <div class="descover">
-        <scroll ref="scroll" class="scroll-content" :data="orderList">
+        <scroll ref="scroll" class="scroll-content"
+            :data="orderList" 
+            :isAllData="isAllData"
+            :pullup="pullup"
+            :loadStatus="loadStatus"
+            @pullup="getOrder('up')"
+            >
             <div>
                 <div class="kind-wrapper border-1px">
                     <router-link tag="div" :to="{path:'/follow'}" class="kind-item">
@@ -22,11 +28,11 @@
                             大神榜
                         </div>
                         <div class="sort">
-                            <span class="hot">查看更多</span>
+                            <router-link tag="span" :to="{path:'/crunchies'}" class="hot">查看更多</router-link>
                         </div>
                     </div>
                     <div class="list-wrapper">
-                        <router-link tag="div" :to="{path:'',query:{flag:item.user_flag}}" class="list-item" v-for="(item,index) in crunchiesList" :key="index" v-show="index < 5">
+                        <router-link tag="div" :to="{path:'/descover/ds-detail',query:{flag:item.user_flag,url:attentionDetailUrl}}" class="list-item" v-for="(item,index) in crunchiesList" :key="index" v-show="index < 5">
                             <p class="icon-con">
                                 <img v-lazy="item.image_url" alt="">
                             </p>
@@ -44,7 +50,7 @@
                         </div>
                     </div>
                     <div class="order-main">
-                        <all-order-list :data="orderList" :url="url"></all-order-list>
+                        <all-order-list :data="orderList" :url="allOrderuUrl"></all-order-list>
                     </div>
                 </div>
             </div>
@@ -60,7 +66,11 @@
     export default {
         data(){
             return{
-                url:'/descover/detail',
+                pullup: true,
+                loadStatus:false,
+                isAllData:false,
+                allOrderuUrl:'/descover/detail',
+                attentionDetailUrl:'/descover/ds-detail/detail',
                 crunchiesList:[],
                 orderList:[],
                 crunchiesParam:{
@@ -69,7 +79,7 @@
                 },
                 orderParam:{
                     page_no:1,
-                    page_size:10,
+                    page_size:20,
                     order_by:0
                 }
 
@@ -93,11 +103,22 @@
                     }
                 });
             },
-            getOrder(){
+            getOrder(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.orderParam.page_no;
+                }
                 this.$axios.postRequest(httpUrl.descover.order,this.orderParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.orderList=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.orderList=this.orderList.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else{
+                            this.orderList=res.data;
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }
                     }
                 });
             },

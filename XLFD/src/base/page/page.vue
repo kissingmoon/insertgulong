@@ -1,31 +1,44 @@
 <template>
-  <div ref="wrapper" class="better-scroll-root">  <!--该节点需要定位，内容以此节点的盒模型为基础滚动。另外，该节点的背景色配合上拉加载、下拉刷新的UI，正常情况下不可作它用。-->
-    <div class="content-bg better-scroll-container">  <!--如果需要调滚动内容的背景色，则改该节点的背景色-->
-        <div> <!--不太需要，待优化-->
-            <div v-if="pulldown" class="pulldown-tip">
-                <i class="pull-icon indexicon icon-pull-down" :class="[pulldownTip.rotate]"></i>
-                <span class="tip-content">{{pulldownTip.text}}</span>
-            </div>
-            <!-- <div v-if="pullup" class="pullup-tip">
-                <i class="pull-icon indexicon icon-pull-down" :class="[pullupTip.rotate]"></i>
-                <span class="tip-content">{{pullupTip.text}}</span>
-            </div> -->
-            <transition name="refresh">
-                <div v-show="loadingStatus.showIcon || loadingStatus.status" class="loading-pos">
-                    <div v-show="loadingStatus.showIcon" class="loading-container">
-                        <div class="cube">
-                            <div class="side side1"></div>
-                            <div class="side side2"></div>
-                            <div class="side side3"></div>
-                            <div class="side side4"></div>
-                            <div class="side side5"></div>
-                            <div class="side side6"></div>
-                        </div>
-                    </div>
-                    <span class="loading-connecting">{{loadingStatus.status}}</span>
-                </div>
-            </transition>
+  <div ref="wrapper" class="better-scroll-root">  
+    <div class="better-scroll-container">  
+        <div v-if="pulldown" class="pulldown-tip">
+            <i class="pull-icon indexicon icon-arrows-below-wire" :class="[pulldownTip.rotate]"></i>
+            <span class="tip-content">{{pulldownTip.text}}</span>
         </div>
+        <div v-if="pullup" class="pullup-tip">
+            <i class="pull-icon indexicon icon-arrows-up-wire" :class="[pullupTip.rotate]"></i>
+            <span class="tip-content">{{pullupTip.text}}</span>
+        </div>
+        <transition name="refresh">
+            <div v-show="refreshStatus.showIcon || refreshStatus.status" class="refresh-pos">
+                <div v-show="refreshStatus.showIcon" class="refresh-container">
+                    <div class="cube">
+                        <div class="side side1"></div>
+                        <div class="side side2"></div>
+                        <div class="side side3"></div>
+                        <div class="side side4"></div>
+                        <div class="side side5"></div>
+                        <div class="side side6"></div>
+                    </div>
+                </div>
+                <span class="refresh-connecting">{{refreshStatus.status}}</span>
+            </div>
+        </transition>
+        <transition name="loading">
+            <div v-show="loadStatus.showIcon || loadStatus.status" class="loading-pos">
+                <div v-show="loadStatus.showIcon" class="loading-container">
+                    <div class="cube">
+                        <div class="side side1"></div>
+                        <div class="side side2"></div>
+                        <div class="side side3"></div>
+                        <div class="side side4"></div>
+                        <div class="side side5"></div>
+                        <div class="side side6"></div>
+                    </div>
+                </div>
+                <span class="loading-connecting">{{loadStatus.status}}</span>
+            </div>
+        </transition>
         <slot></slot>
     </div>
 </div>
@@ -101,12 +114,27 @@ export default {
             default: 20
         },
         /**
+         * 如果启用refresh交互，传递refresh的状态
+         * isShow: false
+         * showIcon: false,    // 是否显示refresh的icon
+         * status: ''  // '正在加载...', '刷新成功', '刷新失败', ''
+         */
+        refreshStatus: {
+            type: Object,
+            default: function () {
+                return {
+                    showIcon: false,
+                    status: ''
+                };
+            }
+        },
+        /**
          * 如果启用loading交互，传递loading的状态
          * isShow: false
          * showIcon: false,    // 是否显示loading的icon
          * status: ''  // '正在加载...', '刷新成功', '刷新失败', ''
          */
-        loadingStatus: {
+        loadStatus: {
             type: Object,
             default: function () {
                 return {
@@ -132,7 +160,6 @@ export default {
     },
     data() {
         return {
-            loadingConnecting: false,
             pulldownTip: {
                 text: '下拉刷新',     // 松开立即刷新
                 rotate: ''    // icon-rotate
@@ -174,7 +201,7 @@ export default {
                         // 下拉动作
                         if (pos.y > 50) {
                             this.pulldownTip = {
-                                text: '松开立即刷新',
+                                text: '立即刷新',
                                 rotate: 'icon-rotate'
                             }
                         } else {
@@ -189,7 +216,7 @@ export default {
                         // 上拉动作
                         if (this.scroll.y <= (this.scroll.maxScrollY - 50)) {
                             this.pullupTip = {
-                                text: '松开立即加载',
+                                text: '立即加载',
                                 rotate: 'icon-rotate'
                             }
                         } else {
@@ -206,8 +233,6 @@ export default {
             if (this.pullup) {
                 this.scroll.on('touchend', () => {
                     // 滚动到底部
-                    console.log(this.scroll.y);
-                    console.log(this.scroll.maxScrollY - 50);
                     if (this.scroll.y <= (this.scroll.maxScrollY - 50)) {
                         setTimeout(() => {
                             // 重置提示信息
@@ -216,7 +241,7 @@ export default {
                                 rotate: ''    // icon-rotate
                             }
                         },600);
-                        this.$emit('scrollToEnd');
+                        this.$emit('pullup');
                     }
                 });
             }
@@ -279,17 +304,20 @@ export default {
 <style scoped lang="scss" rel="stylesheet/scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-$cube-size: 10px; // 项目中用了scss，没用的话，替换掉样式中的变量即可
 .better-scroll-root {
+    .better-scroll-container{
+        position: relative;
+        min-height: 100%;
+    }
     .pulldown-tip {
         position: absolute;
         left: 0;
         width: 100%;
         color: $color-text-gray;
         text-align: center;
-        top: -50px;
-        height: 50px;
-        line-height: 50px;
+        top: -1.34rem;
+        height: 1.34rem;
+        line-height: 1.34rem;
         z-index: 1;
     }
     .pullup-tip {
@@ -298,89 +326,95 @@ $cube-size: 10px; // 项目中用了scss，没用的话，替换掉样式中的�
         width: 100%;
         color: $color-text-gray;
         text-align: center;
-        bottom: -50px;
-        height: 50px;
-        line-height: 50px;
+        bottom: -1.34rem;
+        height: 1.34rem;
+        line-height: 1.34rem;
         z-index: 1;
-    }
-    .refresh-enter-active, .refresh-leave-active{
-        transition: all 0.3s;
-    }
-
-    .refresh-enter, .refresh-leave-to{
-        transform: translate3d(0, -35px, 0);
-    }
-    .loading-pos {
-        background-color: $color-bg;
-        position: relative;
-        width: 100%;
-        height: 35px;
-        color: $color-text-gray;
-        text-align: center;
-        z-index: 2000;
     }
     .pull-icon {
         position: absolute;
-        top: 0;
-        left: 30%;
+        top: 0.42rem;
+        left: 3.7rem;
         color: #a5a1a1;
-        font-size: 1.5em;
+        font-size: $font-size-medium-x;
         transition: all 0.15s ease-in-out;
     }
     .pull-icon.icon-rotate {
         transform:rotate(180deg);
     }
-    
-    .loading-container {
-        position: absolute;
-        height: $cube-size;
-        width: $cube-size;
-        left: 35%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        perspective: 40px;
+    .refresh-enter-active, .refresh-leave-active{
+        transition: all 0.3s;
     }
-    .loading-connecting {
-        line-height: 35px;
+    .refresh-enter, .refresh-leave-to{
+        transform: translate3d(0, -0.94rem, 0);
+    }
+    .loading-enter-active, .loading-leave-active{
+        transition: all 0.3s;
+    }
+    .loading-enter, .loading-leave-to{
+        transform: translate3d(0, 0.94rem, 0);
+    }
+    .refresh-pos,.loading-pos {
+        background-color: $color-bg-shade-a3;
+        position: absolute;
+        width: 100%;
+        height: 0.94rem;
+        color: #fff;
+        text-align: center;
+        z-index: 2000;
+            .refresh-container,.loading-container {
+                position: absolute;
+                height: 0.27rem;
+                width: 0.27rem;
+                left: 35%;
+                top: 50%;
+                transform: translate(-50%, -50%);
+                perspective: 1.07rem;
+            }
+            .refresh-connecting,.loading-connecting {
+                line-height: 0.94rem;
+            }
+    }
+    .loading-pos{
+        bottom:0px;
     }
     .cube{
-        height:$cube-size;
-        width:$cube-size;
+        height:0.27rem;
+        width:0.27rem;
         transform-origin:50% 50%;
         transform-style:preserve-3d;
         animation:rotate 3s infinite ease-in-out;
+        .side{
+            position:absolute;
+            height:0.27rem;
+            width:0.27rem;
+            border-radius:50%;
+            &.side1{
+                background: #4bc393;
+                transform:translateZ(0.27rem);
+            }
+            &.side2{
+                background:#FF884D;
+                transform:rotateY(90deg) translateZ(0.27rem);
+            }
+            &.side3{
+                background:#32526E;
+                transform:rotateY(180deg) translateZ(0.27rem);
+            }
+            &.side4{
+                background: #c53fa3;
+                transform:rotateY(-90deg) translateZ(0.27rem);
+            }
+            &.side5{
+                background:#FFCC5C;
+                transform:rotateX(90deg) translateZ(0.27rem);
+            }
+            &.side6{
+                background:#FF6B57;
+                transform:rotateX(-90deg) translateZ(0.27rem);
+            }
+        }
     }
-    .side{
-        position:absolute;
-        height:$cube-size;
-        width:$cube-size;
-        border-radius:50%;
-    }
-    .side1{
-        background: #4bc393;
-        transform:translateZ($cube-size);
-    }
-    .side2{
-        background:#FF884D;
-        transform:rotateY(90deg) translateZ($cube-size);
-    }
-    .side3{
-        background:#32526E;
-        transform:rotateY(180deg) translateZ($cube-size);
-    }
-    .side4{
-        background: #c53fa3;
-        transform:rotateY(-90deg) translateZ($cube-size);
-    }
-    .side5{
-        background:#FFCC5C;
-        transform:rotateX(90deg) translateZ($cube-size);
-    }
-    .side6{
-        background:#FF6B57;
-        transform:rotateX(-90deg) translateZ($cube-size);
-    }
-    
     @keyframes rotate{
         0%{
             transform:rotateX(0deg) rotateY(0deg);

@@ -1,7 +1,16 @@
 <template>
     <parcel>
         <div class="recharge">
-            <scroll ref="scroll" class="scroll-content" :data="rechargeList" >
+            <scroll ref="scroll" class="scroll-content"
+                :data="rechargeList" 
+                :isAllData="isAllData"
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="getRecharge('down')"
+                @pullup="getRecharge('up')"
+                >
                 <div>
                     <ul class="recharge-main">
                          <li class="item-mode" v-for="item in rechargeList">
@@ -30,12 +39,17 @@
     export default {
         data() {
             return{
+                pulldown: true,
+                pullup: true,
+                refreshStatus:false,
+                loadStatus:false,
+                isAllData:false,
                 rechargeType,
                 rechargeList:[],
                 rechargeParam:{
-                    page_no:'1',
-                    page_size:'20',
-                    data_type:'4',
+                    page_no:1,
+                    page_size:20,
+                    data_type:4,
                     status:'05'
                 }
             }
@@ -48,11 +62,26 @@
             this.getRecharge();
         },
         methods: {
-            getRecharge(){
+            getRecharge(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.rechargeParam.page_no;
+                }else if(type == 'down'){
+                    this.refreshStatus=true;
+                    this.rechargeParam.page_no=1;
+                }
                 this.$axios.postRequest(httpUrl.info.coin,this.rechargeParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.rechargeList=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.rechargeList=this.rechargeList.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else{
+                            this.refreshStatus=false;
+                            this.rechargeList=res.data;
+                            this.isAllData=false;
+                        }
                     };
                 });
             }

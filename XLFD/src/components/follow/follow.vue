@@ -5,16 +5,18 @@
                 <p class="border-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
                 <p class="border-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
             </div>
-            <page ref="scroll" class="scroll-content" 
+            <scroll ref="scroll" class="scroll-content" 
                 :data="followList" 
+                :isAllData="isAllData"
                 :pulldown="pulldown"
                 :pullup="pullup"
-                :loadingStatus="loadingStatus"
-                @pulldown="loadData"
-                @scrollToEnd="nextPage"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="refreshData"
+                @pullup="loadData"
                 >
                 <order-list :data="followList"></order-list>
-            </page>
+            </scroll>
             <router-view></router-view>
         </div>
     </parcel>
@@ -22,7 +24,6 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
-    import Page from 'base/page/page';
     import orderList from 'base/order-list/order-list';
     import {httpUrl} from 'common/js/map';
     export default {
@@ -36,16 +37,14 @@
                 },
                 pulldown: true,
                 pullup: true,
-                loadingStatus:{
-                    showIcon: false,
-                    status: ''
-                }
+                refreshStatus:false,
+                loadStatus:false,
+                isAllData:false
             }
         },
         components:{
             Parcel,
             Scroll,
-            Page,
             orderList
         },
         created() {
@@ -57,6 +56,7 @@
                     this.followType=true;
                     this.followParam.page_no=1;
                     this.followList=[];
+                    this.isAllData =false;
                 }
                 this.$axios.postRequest(httpUrl.info.followMyJoin,this.followParam)
                 .then((res)=> {
@@ -70,6 +70,7 @@
                     this.followType=false;
                     this.followParam.page_no=1;
                     this.followList=[];
+                    this.isAllData =false;
                 }
                 this.$axios.postRequest(httpUrl.info.followMy,this.followParam)
                 .then((res)=> {
@@ -78,28 +79,30 @@
                     };
                 });
             },
-            loadData() {
+            refreshData() {
                 const api = this.followType? httpUrl.info.followMyJoin:httpUrl.info.followMy;
                 this.followParam.page_no = 1;
-                this.loadingStatus.showIcon=true;
-                this.loadingStatus.status='刷新中...';
+                this.refreshStatus=true;
                 this.$axios.postRequest(api,this.followParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.followList=res.data;
+                        this.refreshStatus=false;
+                        this.isAllData =false;
                     };
-                    this.loadingStatus.showIcon=false;
-                    this.loadingStatus.status='';
                 });
             },
-            nextPage() {
+            loadData() {
                 const api = this.followType? httpUrl.info.followMyJoin:httpUrl.info.followMy;
                 ++this.followParam.page_no;
+                this.loadStatus=true;
                 this.$axios.postRequest(api,this.followParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
+                        this.isAllData =res.data.length < 20 ? true : false;
                         this.followList=this.followList.concat(res.data);
                         console.log(this.followList);
+                        this.loadStatus=false;
                     };
                 });
             }

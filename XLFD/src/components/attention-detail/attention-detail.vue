@@ -4,7 +4,13 @@
             <div class="author-wrapper">
                 <attention-list :data="author"></attention-list>
             </div>
-            <scroll ref="scroll" class="scroll-content" :data="order">
+            <scroll ref="scroll" class="scroll-content"
+                :data="order" 
+                :isAllData="isAllData"
+                :pullup="pullup"
+                :loadStatus="loadStatus"
+                @pullup="getDetail('up')"
+                >
                 <div class="order-wrapper">
                     <order-list :data="order" :url="url"></order-list>
                 </div>
@@ -22,9 +28,17 @@
     export default {
         data() {
             return{
+                pullup: true,
+                loadStatus:false,
+                isAllData:false,
                 author:[],
                 order:[],
-                url:'/attention/detail/detail'
+                url:'/attention/detail/detail',
+                param:{
+                    page_no:1,
+                    page_size:20,
+                    user_flag:''
+                }
             }
         },
         components:{
@@ -39,14 +53,28 @@
         },
         methods: {
             init(){
-                this.user_flag = this.$router.history.current.query.flag;
+                const query=this.$router.history.current.query;
+                this.param.user_flag = query.flag;
+                this.url= query.url?query.url:'/attention/detail/detail';
             },
-            getDetail(){
-                this.$axios.postRequest(httpUrl.info.attentionDatail,{user_flag:this.user_flag})
+            getDetail(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.param.page_no;
+                }
+                this.$axios.postRequest(httpUrl.info.attentionDatail,this.param)
                 .then((res)=> {
                     if(!res.data.errorCode){
+                        this.author=[];
                         this.author.push(res.data.ds_info);
-                        this.order=res.data.gd_list;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.order=this.order.concat(res.data.gd_list);
+                            this.isAllData =res.data.gd_list.length < 20 ? true : false;
+                        }else{
+                            this.order=res.data.gd_list;
+                            this.isAllData =res.data.gd_list.length < 20 ? true : false;
+                        }
                     };
                 });
             }

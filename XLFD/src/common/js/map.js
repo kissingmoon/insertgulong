@@ -104,6 +104,14 @@ export const headerConfig = {
         title:'跟单详情',
         back:true
     },
+    '/descover/ds-detail':{
+        title:'大神详情',
+        back:true
+    },
+    '/descover/ds-detail/detail':{
+        title:'跟单详情',
+        back:true
+    },
     '/discount':{
         title:'优惠活动',
         service:true,

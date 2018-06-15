@@ -1,7 +1,16 @@
 <template>
     <parcel>
         <div class="bet">
-            <scroll ref="scroll" class="scroll-content" :data="betList" >
+            <scroll ref="scroll" class="scroll-content" 
+                :data="betList" 
+                :isAllData="isAllData"
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="getBetList('down')"
+                @pullup="getBetList('up')"
+                >
                 <div>
                     <ul class="bet-main">
                         <router-link tag="li" class="item-mode" v-for="(item,index) in betList" :key="index" :to="{path:'/info/bet/detail',query:{id:item.order_number}}">
@@ -32,11 +41,16 @@
     export default {
         data() {
             return{
+                pulldown: true,
+                pullup: true,
+                refreshStatus:false,
+                loadStatus:false,
+                isAllData:false,
                 betList:[],
                 betParam:{
-                    page_no:'1',
-                    page_size:'20',
-                    data_type:'4'
+                    page_no:1,
+                    page_size:20,
+                    data_type:4
                 },
                 betType
             }
@@ -49,11 +63,26 @@
             this.getBetList();
         },
         methods: {
-            getBetList(){
+            getBetList(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.betParam.page_no;
+                }else if(type == 'down'){
+                    this.refreshStatus=true;
+                    this.betParam.page_no=1;
+                }
                 this.$axios.postRequest(httpUrl.info.bet,this.betParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.betList=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.betList=this.betList.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else{
+                            this.refreshStatus=false;
+                            this.betList=res.data;
+                            this.isAllData=false;
+                        }
                     };
                 });
             }

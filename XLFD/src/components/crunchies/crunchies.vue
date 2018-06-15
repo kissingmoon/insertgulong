@@ -1,8 +1,14 @@
 <template>
     <parcel>
         <div class="crunchies">
-            <scroll ref="scroll" class="scroll-content" :data="crunchiesList" >
-                <attention-list :data="crunchiesList" :url="url" :isLink="isLink"></attention-list>
+            <scroll ref="scroll" class="scroll-content"
+                :data="crunchiesList" 
+                :isAllData="isAllData"
+                :pullup="pullup"
+                :loadStatus="loadStatus"
+                @pullup="getRank('up')"
+                >
+                <attention-list :data="crunchiesList" :url="url" :isLink="isLink" :childurl="childurl"></attention-list>
             </scroll>
             <router-view></router-view>
         </div>
@@ -16,12 +22,16 @@
     export default {
         data() {
             return{
+                pullup: true,
+                loadStatus:false,
+                isAllData:false,
                 crunchiesList:[],
                 url:'/crunchies/detail',
+                childurl:'/crunchies/detail/detail',
                 isLink:true,
                 crunchiesParam:{
                     page_no:1,
-                    page_size:5,
+                    page_size:20,
                     status:0
                 },
             }
@@ -35,11 +45,22 @@
             this.getRank();
         },
         methods: {
-            getRank(){
+            getRank(type){
+                if(type == 'up'){
+                    this.loadStatus=true;
+                    ++this.crunchiesParam.page_no;
+                }
                 this.$axios.postRequest(httpUrl.descover.rank,this.crunchiesParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.crunchiesList=res.data;
+                        if(type == 'up'){
+                            this.loadStatus=false;
+                            this.crunchiesList=this.crunchiesList.concat(res.data);
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }else{
+                            this.crunchiesList=res.data;
+                            this.isAllData =res.data.length < 20 ? true : false;
+                        }
                     }
                 });
             },

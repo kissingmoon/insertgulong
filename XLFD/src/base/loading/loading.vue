@@ -1,7 +1,7 @@
 <template>
   <div class="loading">
-    <img width="24" height="24" src="./loading.gif">
-    <p class="desc">{{title}}</p>
+    <img class="img" width="24" height="24" src="./loading.gif"></br>
+    <span class="desc">{{title}}</span>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -18,9 +18,12 @@
     @import "~common/scss/variable";
 
     .loading{
+        position: absolute;
         width: 100%;
-        padding-top:45%;
+        top:40%;
         text-align: center;
+        z-index: 3000;
+        background: #fff;
         .desc{
             line-height: 0.6rem;
             font-size: $font-size-small-x;

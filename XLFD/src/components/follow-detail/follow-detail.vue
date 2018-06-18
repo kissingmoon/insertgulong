@@ -1,10 +1,10 @@
 <template>
     <parcel>
         <div class="follow-detail" :class="order.finish_status == 0? 'bottom-2rem':''">
-            <scroll ref="scroll" class="scroll-content" :data="showTbody">
+            <scroll ref="scroll" class="scroll-content" :data="showTbody" @setFans="setFans" :click="click">
                 <div>
                     <div class="author-wrapper">
-                        <attention-list :data="author"></attention-list>
+                        <attention-list :data="author" @setFans="setFans"></attention-list>
                     </div>
                     <div class="order-wrapper border-1px">
                         <div class="importance">
@@ -96,6 +96,7 @@
         data() {
             return{
                 detailType:true,
+                click:false,
                 author:[],
                 order:{},
                 detailList:[],
@@ -179,6 +180,15 @@
                 this.showThead=this.userThead;
                 this.showTbody=this.userList;
                 this.$refs.scroll.refresh();
+            },
+            setFans(index,status){
+                let user_flag=this.author[index].user_flag;
+                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.author[index].has_gz=!this.author[index].has_gz;
+                    };
+                });
             }
         }
     }

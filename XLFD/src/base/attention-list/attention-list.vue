@@ -19,8 +19,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <button v-if="!item.has_gz">关注+</button>
-                        <button v-if="item.has_gz" class="cancel">取消关注</button>
+                        <button v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</button>
+                        <button v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</button>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <button v-if="!item.has_gz">关注+</button>
-                        <button v-if="item.has_gz" class="cancel">取消关注</button>
+                        <button v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</button>
+                        <button v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</button>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -90,7 +90,10 @@
         computed:{
         },
         methods: {
-            
+            changeConcern(index,status){
+                console.log(1);
+                this.$emit('setFans',index,status);
+            }
         }
     }
 </script>

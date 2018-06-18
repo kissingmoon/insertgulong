@@ -2,13 +2,14 @@
     <parcel>
         <div class="crunchies">
             <scroll ref="scroll" class="scroll-content"
+                :click="click"
                 :data="crunchiesList" 
                 :isAllData="isAllData"
                 :pullup="pullup"
                 :loadStatus="loadStatus"
                 @pullup="getRank('up')"
                 >
-                <attention-list :data="crunchiesList" :url="url" :isLink="isLink" :childurl="childurl"></attention-list>
+                <attention-list :data="crunchiesList" :url="url" :isLink="isLink" :childurl="childurl" @setFans="setFans"></attention-list>
             </scroll>
             <router-view></router-view>
         </div>
@@ -25,6 +26,7 @@
                 pullup: true,
                 loadStatus:false,
                 isAllData:false,
+                click:false,
                 crunchiesList:[],
                 url:'/crunchies/detail',
                 childurl:'/crunchies/detail/detail',
@@ -63,6 +65,15 @@
                     }
                 });
             },
+            setFans(index,status){
+                let user_flag=this.crunchiesList[index].user_flag;
+                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.crunchiesList[index].has_gz=!this.crunchiesList[index].has_gz;
+                    };
+                });
+            }
         }
     }
 </script>

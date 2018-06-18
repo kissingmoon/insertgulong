@@ -1,8 +1,8 @@
 <template>
     <parcel>
         <div class="attention">
-            <scroll ref="scroll" class="scroll-content" :data="attention" >
-                <attention-list :data="attention" :url="url" :isLink="isLink"></attention-list>
+            <scroll ref="scroll" class="scroll-content" :data="attention" :click="click" >
+                <attention-list :data="attention" :url="url" :isLink="isLink" @setFans="setFans"></attention-list>
             </scroll>
             <router-view></router-view>
         </div>
@@ -18,7 +18,8 @@
             return{
                 attention:[],
                 url:'/attention/detail',
-                isLink:true
+                isLink:true,
+                click:false
             }
         },
         components:{
@@ -38,6 +39,15 @@
                     };
                 });
             },
+            setFans(index,status){
+                let user_flag=this.attention[index].user_flag;
+                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.attention[index].has_gz=!this.attention[index].has_gz;
+                    };
+                });
+            }
         }
     }
 </script>

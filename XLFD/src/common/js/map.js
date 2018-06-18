@@ -24,12 +24,13 @@ export const httpUrl = {
         followDetail:'/v2/gd-dsb/get-gd-detail',
         attention:'/v2/gd-dsb/my-gz',
         attentionDatail:'/v2/gd-dsb/get-others-gd',
+        setAttention:'/v2/gd-dsb/gz',
         editLoginPassword:'/user/edit-passwd',
         editBankPassword:'/user/edit-bank-passwd',
         setBankPassword:'/user/set-bank-passwd',
         bindBank:'/user/bind-bank',
         bankInfo:'/user/bank-info',
-        bankList:'/config/bank-list'
+        bankList:'/config/bank-list',
     },
     discount:{
         activity:'/v2/activity/get-activity'

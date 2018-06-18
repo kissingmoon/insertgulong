@@ -28,7 +28,7 @@ import Nick from 'components/nick/nick';
 import Draw from 'components/draw/draw';
 import DrawNumber from 'components/draw-number/draw-number';
 import Message from 'components/message/message';
-import Service from 'components/service/service';
+import UrlContent from 'components/url-content/url-content';
 
 Vue.use(Router)
 
@@ -117,7 +117,7 @@ export default new Router({
         },
         {
             path:'/service',
-            component:Service
+            component:UrlContent
         },
         {
             path:'/discount',

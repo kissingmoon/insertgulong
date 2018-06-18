@@ -23,8 +23,8 @@
                 {{activityKind[kind]}}
             </div>
             <div class="sort">
-                <span class="time">时间排序</span>
-                <span class="hot">热度排序</span>
+                <span class="time" :class="{'on':activityParam.order_by == 1}" @click="changeSort(1)">时间排序</span>
+                <span class="hot" :class="{'on':activityParam.order_by == 2}" @click="changeSort(2)">热度排序</span>
             </div>
         </div>
         <scroll ref="scroll" class="scroll-content" :data="activityList" >
@@ -54,7 +54,9 @@
             return{
                 kind:'00',
                 activityList:[],
-                activityParam:{},
+                activityParam:{
+                    order_by:1,
+                },
                 activityKind
             }
         },
@@ -66,6 +68,7 @@
             this.getDiscount();
         },
         methods:{
+
             getDiscount(){
                 this.$axios.postRequest(httpUrl.discount.activity,this.activityParam)
                 .then((res)=> {
@@ -82,6 +85,10 @@
                     this.$set(this.activityParam, 'activity_type', type);
                 }
                 this.activityList=[];
+                this.getDiscount();
+            },
+            changeSort(num){
+                this.activityParam.order_by=num;
                 this.getDiscount();
             }
         }
@@ -156,6 +163,9 @@
             }
             .hot{
                 padding-right: 0.2rem;
+            }
+            .on{
+                color:#938008;
             }
         }
     }

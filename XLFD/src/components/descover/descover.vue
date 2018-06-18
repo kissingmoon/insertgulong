@@ -46,7 +46,7 @@
                         <div class="title">全部跟单</div>
                         <div class="sort">
                             <p class="Lottery">全部彩种</p>
-                            <p class="brokerage">按佣金排序<i class="icon-arrows-below-wire"></i></p>
+                            <p class="brokerage" :class="{'bg-red':orderParam.order_by == 1}" @click="changeSort">按佣金排序<i class="icon-arrows-below-wire"></i></p>
                         </div>
                     </div>
                     <div class="order-main">
@@ -55,6 +55,28 @@
                 </div>
             </div>
         </scroll>
+        <div v-show="lotteryShow" class="background" @click="closeLottery">
+            </div>
+        <div v-show="lotteryShow" class="detail">
+            <div class="detail-wrapper clearfix">
+                <div class="detail-main">
+                    <ul>
+                        <li class="item-wrapper" v-for="lottery in lotteryList">
+                            <div>{{lottery.lottery_label}}</div>
+                            <div class="sub-lottery-wrapper" v-if="lottery.sub_lottery && lottery.sub_lottery.length > 0">
+                                <div class="sub-lottery" v-for="sub in lottery.sub_lottery">
+                                    <p class="img"><img :src="sub.lottery_image" alt=""></p>
+                                    <p class="title"><span>{{sub.lottery_name}}</span></p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="detail-close">
+                <i class="icon-close-circle " @click="closeLottery"></i>
+            </div>
+        </div>
         <router-view></router-view>
     </div>
 </template>
@@ -69,10 +91,12 @@
                 pullup: true,
                 loadStatus:false,
                 isAllData:false,
+                lotteryShow:true,
                 allOrderuUrl:'/descover/detail',
                 attentionDetailUrl:'/descover/ds-detail/detail',
                 crunchiesList:[],
                 orderList:[],
+                lotteryList:[],
                 crunchiesParam:{
                     page_size:5
                 },
@@ -92,8 +116,17 @@
         created(){
             this.getRank();
             this.getOrder();
+            this.getLottery();
         },
         methods:{
+            getLottery(){
+                this.$axios.postRequest(httpUrl.home.lottery)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.lotteryList=res.data;
+                    }
+                });
+            },
             getRank(){
                 this.$axios.postRequest(httpUrl.descover.rank,this.crunchiesParam)
                 .then((res)=> {
@@ -121,6 +154,14 @@
                     }
                 });
             },
+            changeSort(){
+                this.orderParam.order_by=this.orderParam.order_by == 0 ? 1 : 0;
+                this.orderParam.page_no=1;
+                this.getOrder();
+            },
+            closeLottery(){
+
+            }
         }
     }
 </script>
@@ -219,6 +260,9 @@
                 i{
                     font-size: 0.32rem;
                 }
+                &.bg-red{
+                    background:$color-bg-theme;
+                }
             }
             .hot{
                 padding-right: 0.2rem;
@@ -273,6 +317,51 @@
         .order-main{
             height:auto;
             overflow: hidden;
+        }
+    }
+    .background {
+        position:fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 110;
+        background:$color-bg-shade-a5;
+    }
+    .detail{
+        position:fixed;
+        top:calc((100% - 9rem) / 2);
+        left:1.5rem;
+        z-index:120;
+        width:7rem;
+        height:8.6rem;
+        border-radius: 0.2rem;
+        .detail-wrapper{
+            min-height:100%;
+            .detail-main{
+                padding:0.1rem;
+                height:8rem;
+                overflow:auto;
+                background:$color-bg;
+                border-radius: 0.2rem;
+                .item-wrapper{
+                    height:auto;
+                    overflow: hidden;
+                    padding-bottom: 0.2rem;
+                    .sub-lottery-wrapper{
+
+                    }
+
+                }
+            }
+        }
+        .detail-close{
+            position:relative;
+            height:1rem;
+            text-align: center;
+            line-height: 1rem;
+            color:#fff;
+            font-size: 0.8rem;
         }
     }
 }

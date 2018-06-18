@@ -109,9 +109,9 @@
             closeDetail(){
                 this.detailShow=false;
             },
-            deleteMessage(id){
+            deleteMessage(){
                 this.detailShow=false;
-                this.$axios.postRequest(httpUrl.config.messageHandle,{msg_id:id,flag:2})
+                this.$axios.postRequest(httpUrl.config.messageHandle,{msg_id:this.messageDetail.id,flag:2})
                 .then((res)=> {
                     if(!res.data.errorCode){
                         if(res.data.status == 1){

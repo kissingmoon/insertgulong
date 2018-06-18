@@ -1,5 +1,5 @@
 <template>
-    <div class="service">
+    <div class="url-content">
         <m-iframe :url="url"></m-iframe>
     </div>
 </template>
@@ -14,6 +14,7 @@
             }
         },
         created(){
+            this.init();
             this.getUrl();
         },
         components:{
@@ -25,8 +26,11 @@
             ])
         },
         methods:{
+            init(){
+                this.flag=this.$router.history.current.query.flag;
+            },
             getUrl(){
-                this.$axios.postRequest(httpUrl.config.urlList,{flag:'customer_service_url'})
+                this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.url=`${res.data[0].url}?user_token=${this.user_token}`
@@ -38,7 +42,7 @@
 </script>
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
-.service{
+.url-content{
     position: fixed;
     width: 100%;
     top: 1.2rem;

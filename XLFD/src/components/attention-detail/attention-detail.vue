@@ -2,7 +2,7 @@
     <parcel>
         <div class="attention-detail" :class="!order.finish_status? 'bottom-2rem':''">
             <div class="author-wrapper">
-                <attention-list :data="author"></attention-list>
+                <attention-list :data="author" @setFans="setFans"></attention-list>
             </div>
             <scroll ref="scroll" class="scroll-content"
                 :data="order" 
@@ -75,6 +75,15 @@
                             this.order=res.data.gd_list;
                             this.isAllData =res.data.gd_list.length < 20 ? true : false;
                         }
+                    };
+                });
+            },
+            setFans(index,status){
+                let user_flag=this.author[index].user_flag;
+                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.author[index].has_gz=!this.author[index].has_gz;
                     };
                 });
             }

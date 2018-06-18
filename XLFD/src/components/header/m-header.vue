@@ -3,7 +3,7 @@
         <div class="back" @click="goBack" v-show="header.back"><i class="icon-arrows-left"></i></div>
         <div class="recharge-tip" @click="goRechargeTip" v-show="header.rechargeTip"><i class="icon-question-circle"></i></div>
         <router-link tag="div" :to="{path:'/message'}" class="message" v-show="header.message"><i class="icon-message change-message"><b class="path1"></b><b class="path2"></b></i></router-link>
-        <router-link tag="div" :to="{path:'/service'}"  class="service" v-show="header.service"><i class="icon-diamond"></i><span>客服</span></router-link>
+        <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service" v-show="header.service"><i class="icon-diamond"></i><span>客服</span></router-link>
         <div class="time-money-wrapper" v-show="header.time || header.moneyType">
             <div class="money" v-show="header.moneyType"><i class="icon-money"></i></div>
             <div class="time" v-show="header.time"><i class="icon-clock-02"></i></div>

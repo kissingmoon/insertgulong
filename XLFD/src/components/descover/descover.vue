@@ -9,7 +9,7 @@
             >
             <div>
                 <div class="kind-wrapper border-1px">
-                    <router-link tag="div" :to="{path:'/follow'}" class="kind-item">
+                    <router-link tag="div" :to="{path:'/draw'}" class="kind-item">
                         <p class="icon-con icon-draw"></p>
                         <p class="txt">开奖信息</p>
                     </router-link>
@@ -74,8 +74,7 @@
                 crunchiesList:[],
                 orderList:[],
                 crunchiesParam:{
-                    page_size:5,
-                    status:0
+                    page_size:5
                 },
                 orderParam:{
                     page_no:1,

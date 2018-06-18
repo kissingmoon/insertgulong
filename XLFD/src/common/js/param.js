@@ -106,3 +106,10 @@ export function timeFormat(timestamp){
 }
 
 
+export function slicer(arr, key, symbol){
+    arr.forEach((item) => {
+        item[key]=item[key].split(symbol);
+    });
+    return arr;
+}
+

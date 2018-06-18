@@ -36,10 +36,16 @@ export const httpUrl = {
     },
     descover:{
         rank:'/v2/gd-dsb/get-dsb-rank',
-        order:'/v2/gd-dsb/get-all-gd'
+        order:'/v2/gd-dsb/get-all-gd',
+        draw:'/cp/kj-trend',
+        drawNumber:'cp/kj-trend-history',
+        winMoney:'/cp/accumulated-winning'
     },
     config:{
-        urlList:'/config/url-list'
+        urlList:'/config/url-list',
+        message:'/ad/message',
+        messageHandle:'/ad/message-handle'
+
     }
 };
 
@@ -121,6 +127,14 @@ export const headerConfig = {
         title:'活动详情',
         back:true
     },
+    '/draw':{
+        title:'开奖信息',
+        back:true,
+    },
+    '/draw/number':{
+        title:'开奖历史',
+        back:true
+    },
     '/info':{
         title:'个人中心',
         service:true,
@@ -132,6 +146,10 @@ export const headerConfig = {
     },
     '/login':{
         title:'用户登录',
+        back:true
+    },
+    '/message':{
+        title:'通知',
         back:true
     },
     '/info/balance':{
@@ -218,4 +236,9 @@ export const headerConfig = {
         title:'昵称修改',
         back:true
     },
+    '/service':{
+        title:'客服中心',
+        back:true
+    },
+
 };

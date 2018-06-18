@@ -25,6 +25,10 @@ import SetPassword from 'components/set-password/set-password';
 import Bank from 'components/bank/bank';
 import Information from 'components/information/information';
 import Nick from 'components/nick/nick';
+import Draw from 'components/draw/draw';
+import DrawNumber from 'components/draw-number/draw-number';
+import Message from 'components/message/message';
+import Service from 'components/service/service';
 
 Vue.use(Router)
 
@@ -108,6 +112,14 @@ export default new Router({
             component:Activity
         },
         {
+            path:'/message',
+            component:Message
+        },
+        {
+            path:'/service',
+            component:Service
+        },
+        {
             path:'/discount',
             component:Discount,
             children:[
@@ -124,6 +136,16 @@ export default new Router({
                 {
                     path:'detail',
                     component:FollowDetail
+                }
+            ]
+        },
+        {
+            path:'/draw',
+            component:Draw,
+            children:[
+                {
+                    path:'number',
+                    component:DrawNumber
                 }
             ]
         },

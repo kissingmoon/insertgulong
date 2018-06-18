@@ -31,8 +31,7 @@
                 isLink:true,
                 crunchiesParam:{
                     page_no:1,
-                    page_size:20,
-                    status:0
+                    page_size:20
                 },
             }
         },

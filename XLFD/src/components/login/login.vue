@@ -25,7 +25,7 @@
                 </li>
                 <li>
                     <router-link tag="p" to="/register" class="register">注册</router-link>
-                    <p class="forget">忘记密码</p>
+                    <router-link tag="p" :to="{path:'/service',query:{flag:'customer_service_url'}}" class="forget">忘记密码</router-link>
                 </li>
             </ul>
         </div>

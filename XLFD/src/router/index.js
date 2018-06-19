@@ -29,6 +29,8 @@ import Draw from 'components/draw/draw';
 import DrawNumber from 'components/draw-number/draw-number';
 import Message from 'components/message/message';
 import UrlContent from 'components/url-content/url-content';
+import UserPortrait from 'components/portrait/portrait';
+import PayTip from 'components/pay-tip/pay-tip';
 
 Vue.use(Router)
 
@@ -53,7 +55,13 @@ export default new Router({
         },
         {
             path:'/pay',
-            component:Pay
+            component:Pay,
+            children:[
+                {
+                    path:'tip',
+                    component:PayTip
+                }
+            ]
         },
         {
             path:'/descover',
@@ -120,6 +128,10 @@ export default new Router({
             component:UrlContent
         },
         {
+            path:'/protocol',
+            component:UrlContent
+        },
+        {
             path:'/discount',
             component:Discount,
             children:[
@@ -140,6 +152,10 @@ export default new Router({
             ]
         },
         {
+            path:'/portrait',
+            component:UserPortrait
+        },
+        {
             path:'/draw',
             component:Draw,
             children:[
@@ -148,6 +164,10 @@ export default new Router({
                     component:DrawNumber
                 }
             ]
+        },
+        {
+            path:'/recharge',
+            component:Recharge
         },
         {
             path:'/info',
@@ -170,10 +190,6 @@ export default new Router({
                             component:BetDetail
                         }
                     ]
-                },
-                {
-                    path:'recharge',
-                    component:Recharge
                 },
                 {
                     path:'cash',

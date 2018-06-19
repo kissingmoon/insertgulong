@@ -12,6 +12,9 @@ const mutations = {
   },
   [types.SET_MD5_SALT](state, param) {
     state.md5_salt = param;
+  },
+  [types.SET_SHOW_TIME](state, param) {
+    state.show_time = param;
   }
 }
 

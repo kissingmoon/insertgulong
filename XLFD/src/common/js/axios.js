@@ -1,6 +1,8 @@
 import axios from 'axios';
 import {reData,session,removeSession} from 'common/js/param';
 import store from 'store';
+import Vue from 'vue';
+import Router from '../../router';
 
 axios.interceptors.request.use(config=> {
   return config;
@@ -17,6 +19,9 @@ axios.interceptors.response.use(res=> {
                 store.commit('SET_USER_TOKEN','');
                 store.commit('SET_MD5_SALT','');
                 store.commit('SET_ACCOUNT','');
+                // Router.push({
+                //     path:'/login'
+                // });
                 break;
             default:
                 return res;

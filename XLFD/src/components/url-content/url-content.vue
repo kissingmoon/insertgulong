@@ -49,5 +49,6 @@
     bottom: 0rem;
     overflow: hidden;
     z-index: 101;
+    background:#fff;
 }
 </style>

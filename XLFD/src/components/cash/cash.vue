@@ -29,6 +29,7 @@
                     </ul>
                 </div>
             </scroll>
+            <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
         </div>
     </parcel>
 </template>
@@ -36,6 +37,8 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl,cashType} from 'common/js/map';
+    import SelectTime from 'base/select-time/select-time';
+    import {mapGetters,mapMutations} from 'vuex'
     export default {
         data() {
             return{
@@ -56,10 +59,16 @@
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            SelectTime
         },
         created() {
             this.getCash();
+        },
+        computed: {
+            ...mapGetters([
+                'show_time'
+            ])
         },
         methods: {
             getCash(type){
@@ -84,6 +93,11 @@
                         }
                     };
                 });
+            },
+            setTimeType(type){
+                this.cashParam.data_type=type;
+                this.cashParam.page_no=1
+                this.getCash();
             }
         }
     }

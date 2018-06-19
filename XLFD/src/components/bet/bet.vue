@@ -31,13 +31,16 @@
                 </div>
             </scroll>
             <router-view></router-view>
+            <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import SelectTime from 'base/select-time/select-time';
     import {httpUrl,betType} from 'common/js/map';
+    import {mapGetters,mapMutations} from 'vuex'
     export default {
         data() {
             return{
@@ -57,10 +60,16 @@
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            SelectTime
         },
         created() {
             this.getBetList();
+        },
+        computed: {
+            ...mapGetters([
+                'show_time'
+            ])
         },
         methods: {
             getBetList(type){
@@ -85,6 +94,11 @@
                         }
                     };
                 });
+            },
+            setTimeType(type){
+                this.betParam.data_type=type;
+                this.betParam.page_no=1
+                this.getBetList();
             }
         }
     }

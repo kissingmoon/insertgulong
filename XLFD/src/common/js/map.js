@@ -31,6 +31,7 @@ export const httpUrl = {
         bindBank:'/user/bind-bank',
         bankInfo:'/user/bank-info',
         bankList:'/config/bank-list',
+        userImg:'/user/edit-user-image'
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -97,6 +98,10 @@ export const headerConfig = {
         title:'充值',
         service:true,
         rechargeTip:true
+    },
+    '/pay/tip':{
+        title:'充值提醒',
+        back:true
     },
     '/Attention':{
         title:'活动详情',
@@ -172,14 +177,15 @@ export const headerConfig = {
         title:'投注详情',
         back:true
     },
-    '/info/recharge':{
+    '/recharge':{
         title:'充值记录',
         back:true,
         time:true
     },
     '/info/cash':{
         title:'提现记录',
-        back:true
+        back:true,
+        time:true
     },
     '/crunchies':{
         title:'大神榜',
@@ -239,6 +245,14 @@ export const headerConfig = {
     },
     '/service':{
         title:'客服中心',
+        back:true
+    },
+    '/protocol':{
+        title:'注册协议',
+        back:true
+    },
+    '/portrait':{
+        title:'上传头像',
         back:true
     },
 

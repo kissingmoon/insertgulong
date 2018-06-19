@@ -45,7 +45,7 @@
                     <div class="title-wrapper border-1px hot-con">
                         <div class="title">全部跟单</div>
                         <div class="sort">
-                            <p class="Lottery">全部彩种</p>
+                            <p class="Lottery" @click="showLottery">{{selectLottery}}</p>
                             <p class="brokerage" :class="{'bg-red':orderParam.order_by == 1}" @click="changeSort">按佣金排序<i class="icon-arrows-below-wire"></i></p>
                         </div>
                     </div>
@@ -61,10 +61,18 @@
             <div class="detail-wrapper clearfix">
                 <div class="detail-main">
                     <ul>
-                        <li class="item-wrapper" v-for="lottery in lotteryList">
-                            <div>{{lottery.lottery_label}}</div>
+                        <li class="item-wrapper border-1px">
+                            <div class="sub-lottery-wrapper">
+                                <div class="sub-lottery" @click="changeLottery()">
+                                    <p class="img all-img"></p>
+                                    <p class="title"><span>全部彩种</span></p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="item-wrapper border-1px" v-for="lottery in lotteryList">
+                            <div class="lottery-label">{{lottery.lottery_label}}</div>
                             <div class="sub-lottery-wrapper" v-if="lottery.sub_lottery && lottery.sub_lottery.length > 0">
-                                <div class="sub-lottery" v-for="sub in lottery.sub_lottery">
+                                <div class="sub-lottery" v-for="sub in lottery.sub_lottery" @click="changeLottery(sub.lottery_id,sub.lottery_name)">
                                     <p class="img"><img :src="sub.lottery_image" alt=""></p>
                                     <p class="title"><span>{{sub.lottery_name}}</span></p>
                                 </div>
@@ -91,7 +99,7 @@
                 pullup: true,
                 loadStatus:false,
                 isAllData:false,
-                lotteryShow:true,
+                lotteryShow:false,
                 allOrderuUrl:'/descover/detail',
                 attentionDetailUrl:'/descover/ds-detail/detail',
                 crunchiesList:[],
@@ -104,7 +112,8 @@
                     page_no:1,
                     page_size:20,
                     order_by:0
-                }
+                },
+                selectLottery:'全部彩种'
 
             }
         },
@@ -116,7 +125,6 @@
         created(){
             this.getRank();
             this.getOrder();
-            this.getLottery();
         },
         methods:{
             getLottery(){
@@ -159,8 +167,24 @@
                 this.orderParam.page_no=1;
                 this.getOrder();
             },
+            changeLottery(id,name){
+                if(id){
+                    this.orderParam.lottery_id=id;
+                    this.selectLottery=name
+                }else{
+                    this.$delete(this.orderParam, "lottery_id");
+                    this.selectLottery="全部彩种"
+                }
+                this.orderParam.page_no=1;
+                this.closeLottery();
+                this.getOrder();
+            },
+            showLottery(){
+                this.getLottery();
+                this.lotteryShow=true;
+            },
             closeLottery(){
-
+                this.lotteryShow=false;
             }
         }
     }
@@ -334,22 +358,57 @@
         left:1.5rem;
         z-index:120;
         width:7rem;
-        height:8.6rem;
+        height:9rem;
         border-radius: 0.2rem;
         .detail-wrapper{
-            min-height:100%;
+            height:auto;
+            overflow: hidden;
             .detail-main{
                 padding:0.1rem;
-                height:8rem;
+                height:7.4rem;
                 overflow:auto;
                 background:$color-bg;
                 border-radius: 0.2rem;
                 .item-wrapper{
                     height:auto;
                     overflow: hidden;
-                    padding-bottom: 0.2rem;
+                    padding: 0.2rem 0 0.3rem;
+                    @include border-1px($color-border-gray);
+                    .lottery-label{
+                        height:0.7rem;
+                        line-height: 0.7rem;
+                        padding-left:0.1rem;
+                        font-size: $font-size-medium-x;
+                    }
                     .sub-lottery-wrapper{
-
+                        height:auto;
+                        overflow: hidden;
+                        .sub-lottery{
+                            float: left;
+                            width:2rem;
+                            text-align: center;
+                            padding-right: 0.25rem;
+                            padding-bottom:0.2rem;
+                            .img{
+                                height:2rem;
+                                border-radius: 50%;
+                                overflow: hidden;
+                                &.all-img{
+                                    @include bg-image('icon-all-lottery');
+                                    background-position: center;
+                                    background-size: 1.6rem;
+                                    background-repeat: no-repeat;
+                                }
+                                img{
+                                    display: block;
+                                    width:100%;
+                                    
+                                }
+                            }
+                            .title{
+                                font-size: $font-size-small-x;
+                            }
+                        }
                     }
 
                 }
@@ -357,6 +416,7 @@
         }
         .detail-close{
             position:relative;
+            margin-top:0.4rem;
             height:1rem;
             text-align: center;
             line-height: 1rem;

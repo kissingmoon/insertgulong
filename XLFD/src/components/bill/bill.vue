@@ -67,14 +67,17 @@
                     <button @click="closeDetail">确定</button>
                 </div>
             </div>
+            <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import SelectTime from 'base/select-time/select-time';
     import Loading from 'base/loading/loading';
     import {httpUrl,billType} from 'common/js/map';
+    import {mapGetters,mapMutations} from 'vuex'
     export default {
         data() {
             return{
@@ -98,10 +101,16 @@
         components:{
             Parcel,
             Scroll,
-            Loading
+            Loading,
+            SelectTime
         },
         created() {
             this.getbill();
+        },
+        computed: {
+            ...mapGetters([
+                'show_time'
+            ])
         },
         methods: {
             getbill(type){
@@ -136,11 +145,17 @@
             },
             closeDetail(){
                 this.detailShow=false;
+            },
+            setTimeType(type){
+                this.billParam.data_type=type;
+                this.billParam.page_no=1
+                this.getbill();
             }
+
         }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .bill{

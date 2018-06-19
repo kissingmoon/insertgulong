@@ -3,8 +3,12 @@
         <scroll ref="scroll" class="info-content">
             <div>
                 <div class="datum-wrapper">
+                    
                     <div class="datum-img">
-                        <img v-lazy="account.image_url" alt="">
+                        <!-- <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
+                            <img v-lazy="account.image_url" @click="upload">
+                        </simple-cropper> -->
+                        <img v-lazy="account.image_url" @click="upImg">
                     </div>
                     <div class="datum-txt" @click="skipLink">
                         <p class="datum-login" v-show="!user_token">
@@ -46,7 +50,7 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/recharge'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/recharge'}" class="item-mode border-1px">
                             <p class="title icon-recharge">充值记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -93,13 +97,18 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
+    import SimpleCropper from 'base/simple-cropper/simple-cropper'
     export default {
         data() {
             return{
+                uploadParam: {
+                    uploadURL: httpUrl.info.userImg, // 上传地址
+                }
             }
         },
         components: {
-            Scroll
+            Scroll,
+            SimpleCropper
         },
         created() {
             this.getUser();
@@ -122,7 +131,22 @@
             }),
             ...mapActions([
                 'getUser'
-            ])
+            ]),
+            upImg(){
+                this.$router.push({
+                    path:'/portrait'
+                });
+            },
+            // 上传头像
+            upload () {
+                this.$refs['cropper'].upload()
+            },
+            // 上传头像成功回调
+            uploadHandle (data) {
+                if (data.state === 'SUCCESS') {
+                    console.log('成功！');
+                }
+            }
         }
     }
     

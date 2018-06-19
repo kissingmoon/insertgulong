@@ -34,7 +34,7 @@
                     <button class="login-btn" @click="register">注册</button>
                 </li>
                 <li>
-                    <p class="forget">注册即表示同意<a>《使用协议》</a></p>
+                    <p class="forget">注册即表示同意<router-link :to="{path:'/protocol',query:{flag:'register_protocol'}}">《使用协议》</router-link></p>
                 </li>
             </ul>
         </div>

@@ -25,19 +25,32 @@
                         </router-link>
                     </div>
                     <div class="lottery-wrapper">
-                        <ul>
-                            <li class="item" v-for="item in lotteryList">
+                        <div class="lottery-main border-1px" v-for="(item,i) in lotteryList" 
+                        :class="{'sub-wrapper':(i % 4 > 1)}">
+                            <div class="item" v-if="i % 4 < 2" @click="subtag(i)">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="item.lottery_image">
                                     </div>
-                                    <div class="text">
+                                    <div class="text" :class="{'border-right-1xp':i % 2 != 1}">
                                         <h2 class="name" v-html="item.lottery_label"></h2>
                                         <p class="desc" v-html="item.remarks"></p>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                            <div class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
+                                <div class="item-main">
+                                    <div class="icon">
+                                        <img width="60" height="60" v-lazy="sub.lottery_image">
+                                    </div>
+                                    <div class="text">
+                                        <h2 class="name" v-html="sub.lottery_name"></h2>
+                                        <p class="desc" v-html="sub.remarks"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="rank-wrapper">
                         <div class="rank-img"></div>
@@ -83,6 +96,7 @@
     import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
+    import {regroupLotteryData} from 'common/js/param';
 
     export default {
         data() {
@@ -91,6 +105,7 @@
                 notice:[],
                 gift:[],
                 lotteryList:[],
+                showSub:'',
                 rank:{
                     today_flow_money:0,
                     today_profit_loss:0,
@@ -141,7 +156,7 @@
             _getLottery(){
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
-                    this.lotteryList=res.data;
+                    this.lotteryList=regroupLotteryData(res.data);
                 });
             },
             _getRank(){
@@ -157,7 +172,13 @@
                 .then((res)=> {
                     this.betWin=res.data;
                 });
+            },
+            subtag(i){
+                this.showSub = this.showSub == (i*2+((i+1)%2+1))? '':(i*2+((i+1)%2+1));
+                console.log((i*2+((i+1)%2+1)));
+                console.log(this.showSub);
             }
+
         }
     }
     
@@ -230,16 +251,34 @@
         .lottery-wrapper{
             height:auto;
             overflow: hidden;
-            .item{
+            .lottery-main{
                 float: left;
                 width:50%;
                 height: auto;
                 overflow: hidden;
+                @include border-1px($color-border-gray);
+                &.none-1px{
+                    @include border-1px($color-bg-white-a0);
+                }
+                &.sub-wrapper{
+                    width:100%;
+                    background: #F6F4E6;
+                    @include border-1px($color-bg-white-a0);
+                }
+            }
+            .item{
+                float: left;
+                width:100%;
+                height: auto;
+                overflow: hidden;
+                &.sub-item{
+                    width:50%;
+                }
                 .item-main{
                     display: flex;
                     box-sizing: border-box;
                     align-items: center;
-                    padding: 0.4rem 0 0.4rem 0.54rem;
+                    padding: 0.3rem 0 0.3rem 0.54rem;
                     .icon{
                         flex: 0 0 1.47rem;
                         width: 1.47rem;
@@ -258,6 +297,9 @@
                         flex: 1;
                         line-height: 20px;
                         overflow: hidden;
+                        &.border-right-1xp{
+                            border-right:0.027rem solid $color-border-gray;
+                        }
                         .name{
                             height:0.67rem;
                             line-height: 0.67rem;
@@ -271,7 +313,9 @@
                         }
                     }
                 }
+                
             }
+            
             
         }
         .rank-wrapper{

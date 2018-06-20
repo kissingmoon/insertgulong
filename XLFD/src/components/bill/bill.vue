@@ -68,6 +68,16 @@
                 </div>
             </div>
             <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
+            <pickers
+                :txtKey="txtKey"
+                :valueKey="valueKey"
+                :link="link"
+                :show="show_picker"
+                :columns="columns"
+                :defaultData="defaultData"
+                :selectData="pickData"
+                @cancel="pickerHide"
+                @confirm="confirmFn"></pickers>
         </div>
     </parcel>
 </template>
@@ -77,7 +87,9 @@
     import SelectTime from 'base/select-time/select-time';
     import Loading from 'base/loading/loading';
     import {httpUrl,billType} from 'common/js/map';
-    import {mapGetters,mapMutations} from 'vuex'
+    import {mapGetters,mapMutations} from 'vuex';
+    import Pickers from 'base/pickers/pickers';
+    import {regroupPickData} from 'common/js/param'
     export default {
         data() {
             return{
@@ -94,22 +106,37 @@
                     page_no:1,
                     page_size:20,
                     data_type:3,
+                    type_value:'',
+                    detail_value:'',
                     status:''
+                },
+                link:true,
+                columns: 2,
+                txtKey:'type_name',
+                valueKey:'type_value',
+                defaultData: [{type_name:'全部',type_value:'00'}],
+                pickData: {
+                    data1: [{type_name:'全部',type_value:'00'}],
+                    data2:{'00':[{type_name:'全部',type_value:'00'}]}
                 }
+
             }
         },
         components:{
             Parcel,
             Scroll,
             Loading,
-            SelectTime
+            SelectTime,
+            Pickers
         },
         created() {
             this.getbill();
+            this.getFlowType();
         },
         computed: {
             ...mapGetters([
-                'show_time'
+                'show_time',
+                'show_picker'
             ])
         },
         methods: {
@@ -139,6 +166,16 @@
                     };
                 });
             },
+            getFlowType(){
+                this.$axios.postRequest(httpUrl.info.flowType)
+                .then((res) => {
+                    if(!res.data.errorCode){
+                        console.log(res);
+                        this.pickData=regroupPickData(res.data);
+                        console.log(this.pickData);
+                    }
+                })
+            },
             showDetail(item){
                 this.billDetail=item;
                 this.detailShow=true;
@@ -150,7 +187,22 @@
                 this.billParam.data_type=type;
                 this.billParam.page_no=1
                 this.getbill();
+            },
+            confirmFn(val) {
+                this.pickerHide();
+                this.defaultData = [val.select1];
+                this.billParam.type_value=val.select1.type_value == "00"? "":val.select1.type_value;
+                this.billParam.detail_value=val.select2.type_value == "00"? "":val.select2.type_value;
+                this.billParam.page_no=1
+                this.getbill();
+            },
+            ...mapMutations({
+                setShowPicker:'SET_SHOW_PICKER',
+            }),
+            pickerHide(){
+                this.setShowPicker(false);
             }
+
 
         }
     }

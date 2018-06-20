@@ -56,7 +56,6 @@
                 </div>
             </router-link >
         </ul>
-        <loading v-show="!data"></loading>
     </div>
 </template>
 <script type="text/ecmascript-6">

@@ -7,25 +7,26 @@
                         <li>
                             <p class="title">真实姓名</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的真实姓名" autocomplete="off" class="input-txt red" v-model="bankParam.user_name" maxlength="20">
+                                <input type="text" placeholder="请输入您的真实姓名" autocomplete="off" class="input-txt red" v-model="bankParam.user_name" maxlength="20" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                         <li>
                             <p class="title">银行开户行</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请选择您的银行开户行" autocomplete="off" class="input-txt" v-model="bankParam.bank_no">
+                                <input type="text" v-if="account.bank_status == 1" placeholder="请选择您的银行开户行" autocomplete="off" class="input-txt" v-model="bankParam.bank_no" readonly="readonly">
+                                <input type="text" v-if="account.bank_status == 0" placeholder="请选择您的银行开户行" autocomplete="off" class="input-txt" v-model="bankName" readonly="readonly" @click="toshow">
                             </p>
                         </li>
                         <li>
                             <p class="title">开户支行</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的开户支行" class="input-txt" v-model="bankParam.bank_branch_no">
+                                <input type="text" placeholder="请输入您的开户支行" class="input-txt" v-model="bankParam.bank_branch_no" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" v-model="bankParam.account_no">
+                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" v-model="bankParam.account_no":readonly="account.bank_status == 1">
                             </p>
                         </li>
                     </ul>
@@ -34,6 +35,16 @@
                     </div>
                 </div>
             </scroll>
+            <pickers
+                :txtKey="txtKey"
+                :valueKey="valueKey"
+                :link="link"
+                :show="show"
+                :columns="columns"
+                :defaultData="defaultData"
+                :selectData="bankList"
+                @cancel="selectBankHide"
+                @confirm="confirmFn"></pickers>
         </div>
     </parcel>
 </template>
@@ -42,6 +53,7 @@
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
+    import Pickers from 'base/pickers/pickers';
     import {session,randomWord,removeSession} from 'common/js/param';
     export default {
         data() {
@@ -52,12 +64,22 @@
                     bank_branch_no:'',
                     account_no:''
                 },
-                bankList:[]
+                bankName:'',
+                show:false,
+                link:false,
+                columns: 1,
+                txtKey:'name',
+                valueKey:'flag',
+                defaultData: [{name:'中国工商银行',flag:'01'}],
+                bankList: {
+                    data1: [{name:'中国工商银行',flag:'01'}]
+                }
             }
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            Pickers
         },
         created() {
             this.getBankInfo();
@@ -74,7 +96,7 @@
                     .then((res)=> {
                         if(!res.data.errorCode){
                             console.log(res.data);
-                            this.bankList=res.data;
+                            this.bankList.data1=res.data;
                         }
                     });
                 }else{
@@ -98,7 +120,19 @@
             },
             ...mapActions([
                 'getUser'
-            ])
+            ]),
+            confirmFn(val) {
+                this.selectBankHide();
+                this.defaultData = [val.select1];
+                this.bankParam.bank_no=val.select1.flag;
+                this.bankName=val.select1.name;
+            },
+            selectBankHide(){
+                this.show=false;
+            },
+            toshow(){
+                this.show=true;
+            }
         },
         watch:{
             account(){

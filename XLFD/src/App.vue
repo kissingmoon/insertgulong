@@ -2,6 +2,7 @@
   <div id="app" class="app">
     <m-header></m-header> 
     <m-nav></m-nav>
+    <tip></tip>
     <router-view></router-view>
   </div>
 </template>
@@ -11,6 +12,7 @@ import {mapActions} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
 import Parcel from 'base/parcel/parcel';
+import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
 import {headerConfig} from 'common/js/map'
 export default {
@@ -18,7 +20,8 @@ export default {
     components:{
         Parcel,
         MHeader,
-        MNav
+        MNav,
+        Tip
     },
     created() {
         this.init();

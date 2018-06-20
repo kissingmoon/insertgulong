@@ -17,7 +17,7 @@
                         <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
                     </p>
                     <p class="code-img">
-                        <img :src="codeUrl" alt="">
+                        <img :src="codeUrl" alt="" @click="setCode">
                     </p>
                 </li>
                 <li>
@@ -53,7 +53,7 @@
         },
         created() {
             this.resetAccount();
-            //this.loginParam.code_id = randomWord(false,6,8);
+            this.setCode();
             //this._getGeneratorCode();
         },
         methods: {
@@ -62,6 +62,10 @@
                 .then((res)=> {
                     this.codeUrl=res.data;
                 });
+            },
+            setCode(){
+                this.loginParam.code_id = randomWord(false,6,8);
+                this.codeUrl=`http://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
             },
             resetAccount(){
                 removeSession('user_token');
@@ -86,6 +90,8 @@
                         this.$router.push({
                             path:'/info'
                         });
+                    }else{
+                        this.setCode();
                     }
                 });
             },

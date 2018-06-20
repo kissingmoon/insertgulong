@@ -8,7 +8,7 @@
                         <!-- <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
                             <img v-lazy="account.image_url" @click="upload">
                         </simple-cropper> -->
-                        <img v-lazy="account.image_url" @click="upImg">
+                        <img v-lazy="account.image_url">
                     </div>
                     <div class="datum-txt" @click="skipLink">
                         <p class="datum-login" v-show="!user_token">

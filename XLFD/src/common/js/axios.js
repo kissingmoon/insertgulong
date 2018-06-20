@@ -12,6 +12,7 @@ axios.interceptors.request.use(config=> {
 })
 axios.interceptors.response.use(res=> {
     if (res.status && res.status == 200 && res.data.errorCode) {
+        store.commit('SET_TIP',res.data.errorMsg);
         switch (res.data.errorCode) {
             case '20012':
                 removeSession('user_token');
@@ -19,9 +20,6 @@ axios.interceptors.response.use(res=> {
                 store.commit('SET_USER_TOKEN','');
                 store.commit('SET_MD5_SALT','');
                 store.commit('SET_ACCOUNT','');
-                // Router.push({
-                //     path:'/login'
-                // });
                 break;
             default:
                 return res;

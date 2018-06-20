@@ -105,11 +105,39 @@ export function timeFormat(timestamp){
     return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
 }
 
-
+//分割对象属性
 export function slicer(arr, key, symbol){
     arr.forEach((item) => {
         item[key]=item[key].split(symbol);
     });
     return arr;
+}
+
+//重组pickData
+export function regroupPickData(param){
+    const data1=[{type_name:'全部',type_value:'00'}];
+    const data2={'00':[{type_name:'全部',type_value:'00'}]};
+    param.forEach((item,i) => {
+        data1.push({type_name:item.type_name,type_value:item.type_value});
+        data2[item.type_value]=item.sub_type;
+    });
+    let data={
+        data1,
+        data2
+    }
+    return data;
+}
+
+//重组首页彩种数据结构
+export function regroupLotteryData(param){
+    const data=new Array(param.length*2);
+    param.forEach((item,i) => {
+        //const subIndex = i==0 ? 2:((i+1)%2+1);
+        //console.log(subIndex);
+        data.splice((i*2-i%2),1,item);
+        data.splice((i*2+((i+1)%2+1)),1,item.sub_lottery);
+    });
+    console.log(data);
+    return data;
 }
 

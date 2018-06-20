@@ -15,6 +15,12 @@ const mutations = {
   },
   [types.SET_SHOW_TIME](state, param) {
     state.show_time = param;
+  },
+  [types.SET_SHOW_PICKER](state, param) {
+    state.show_picker = param;
+  },
+  [types.SET_TIP](state, param) {
+    state.tip = param;
   }
 }
 

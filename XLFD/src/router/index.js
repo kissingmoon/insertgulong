@@ -31,6 +31,7 @@ import Message from 'components/message/message';
 import UrlContent from 'components/url-content/url-content';
 import UserPortrait from 'components/portrait/portrait';
 import PayTip from 'components/pay-tip/pay-tip';
+import Lottery from 'components/lottery/lottery';
 
 Vue.use(Router)
 
@@ -227,6 +228,10 @@ export default new Router({
                 }
             ]
             
+        },
+        {
+            path:'/lottery',
+            component:Lottery
         }
     ]
 })

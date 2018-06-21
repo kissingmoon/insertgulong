@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
+                            <router-link tag="div" :to="{path:'/lottery'}" class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="sub.lottery_image">
@@ -48,7 +48,7 @@
                                         <p class="desc" v-html="sub.remarks"></p>
                                     </div>
                                 </div>
-                            </div>
+                            </router-link>
                         </div>
                         
                     </div>
@@ -127,6 +127,7 @@
             this._getLottery();
             this._getRank();
             this._getBetWin();
+            this._getBetWF();
         },
         methods: {
             loadImage() {
@@ -173,10 +174,17 @@
                     this.betWin=res.data;
                 });
             },
+            _getBetWF(){
+                this.$axios.postRequest('/gc/cz-wf',{lottery_id:"xssc"})
+                .then((res)=> {
+                    console.log(res.data);
+                });
+            },
             subtag(i){
-                this.showSub = this.showSub == (i*2+((i+1)%2+1))? '':(i*2+((i+1)%2+1));
-                console.log((i*2+((i+1)%2+1)));
-                console.log(this.showSub);
+                this.showSub = this.showSub == (i+2) ? '': (i+2);
+                setTimeout(() => {
+                    this.$refs.scroll.refresh();
+                },50);
             }
 
         }

@@ -23,16 +23,6 @@
             goBack(){
                 this.$router.back();
             },
-            goService(){
-                this.$router.push({
-                    path:'service'
-                });
-            },
-            goRechargeTip(){
-                this.$router.push({
-                    path:'message'
-                });
-            },
             ...mapMutations({
                 setShowTime:'SET_SHOW_TIME',
                 setShowPicker:'SET_SHOW_PICKER'

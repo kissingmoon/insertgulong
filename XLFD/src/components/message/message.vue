@@ -10,7 +10,7 @@
                 >
                 <div class="message-list">
                     <ul>
-                        <li class="item-main border-1px" v-for="(item,i) in messageList" @click="showDetail(item,i)">
+                        <li class="item-main border-bottom-1px" v-for="(item,i) in messageList" @click="showDetail(item,i)">
                             <div class="message-icon">
                                 <i v-if="item.is_read != 1" class="icon-envelope red-icon"></i>
                                 <i v-if="item.is_read == 1" class="icon-envelope-open"></i>
@@ -33,7 +33,7 @@
             <div v-show="detailShow" class="detail">
                 <div class="detail-wrapper clearfix">
                     <div class="detail-main">
-                       <div class="title border-1px">
+                       <div class="title border-bottom-1px">
                            {{messageDetail.title}}
                        </div>
                        <div class="info">
@@ -142,7 +142,7 @@
             .item-main{
                 height:1.44rem;
                 padding:0.2rem 0.3rem;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .message-icon{
                     float: left;
                     width:1rem;
@@ -210,7 +210,7 @@
                     text-align: center;
                     font-size: $font-size-large;
                     color:$color-text-red;
-                    @include border-1px($color-border-gray);
+                    @include border-bottom-1px(solid,$color-border-gray);
                     @include no-wrap();
                 }
                 .info{

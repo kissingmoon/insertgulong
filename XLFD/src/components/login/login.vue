@@ -3,17 +3,17 @@
         <div class="login">
             <ul class="login-wrapper">
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con code-txt border-1px">
+                    <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
                     </p>
                     <p class="code-img">
@@ -121,7 +121,7 @@
             .txt-con{
                 height: auto;
                 overflow: hidden;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 
                 .input-txt{
                     height:1.4rem;

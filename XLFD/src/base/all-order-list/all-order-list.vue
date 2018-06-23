@@ -1,7 +1,7 @@
 <template>
     <div class="order-list">
         <ul>
-            <router-link tag="li" class="item-mode border-1px" v-for="(item,index) in data" :key="index" :to="{path:url,query:{id:item.gd_number,flag:item.user_flag}}">
+            <router-link tag="li" class="item-mode border-bottom-1px" v-for="(item,index) in data" :key="index" :to="{path:url,query:{id:item.gd_number,flag:item.user_flag}}">
                 <div class="importance">
                     <div class="imp-left">
                         <div class="brokerage-surplus-wrapper">
@@ -97,7 +97,7 @@
         overflow: hidden;
         padding:0.3rem;
         background: $color-bg;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         font-size:$font-size-small-x;
         .importance{
             height:auto;

@@ -8,7 +8,7 @@
             @pullup="getOrder('up')"
             >
             <div>
-                <div class="kind-wrapper border-1px">
+                <div class="kind-wrapper border-bottom-1px">
                     <router-link tag="div" :to="{path:'/draw'}" class="kind-item">
                         <p class="icon-con icon-draw"></p>
                         <p class="txt">开奖信息</p>
@@ -23,7 +23,7 @@
                     </router-link>
                 </div>
                 <div class="crunchies-wrapper">
-                    <div class="title-wrapper border-1px cup-con">
+                    <div class="title-wrapper border-bottom-1px cup-con">
                         <div class="title">
                             大神榜
                         </div>
@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="order-wrapper">
-                    <div class="title-wrapper border-1px hot-con">
+                    <div class="title-wrapper border-bottom-1px hot-con">
                         <div class="title">全部跟单</div>
                         <div class="sort">
                             <p class="Lottery" @click="showLottery">{{selectLottery}}</p>
@@ -61,7 +61,7 @@
             <div class="detail-wrapper clearfix">
                 <div class="detail-main">
                     <ul>
-                        <li class="item-wrapper border-1px">
+                        <li class="item-wrapper border-bottom-1px">
                             <div class="sub-lottery-wrapper">
                                 <div class="sub-lottery" @click="changeLottery()">
                                     <p class="img all-img"></p>
@@ -69,7 +69,7 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="item-wrapper border-1px" v-for="lottery in lotteryList">
+                        <li class="item-wrapper border-bottom-1px" v-for="lottery in lotteryList">
                             <div class="lottery-label">{{lottery.lottery_label}}</div>
                             <div class="sub-lottery-wrapper" v-if="lottery.sub_lottery && lottery.sub_lottery.length > 0">
                                 <div class="sub-lottery" v-for="sub in lottery.sub_lottery" @click="changeLottery(sub.lottery_id,sub.lottery_name)">
@@ -243,7 +243,7 @@
     }
     .title-wrapper{
         height:0.9rem;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         line-height: 0.92rem;
         padding:0 0.2rem 0 0.6rem;
         overflow: hidden;
@@ -373,7 +373,7 @@
                     height:auto;
                     overflow: hidden;
                     padding: 0.2rem 0 0.3rem;
-                    @include border-1px($color-border-gray);
+                    @include border-bottom-1px(solid,$color-border-gray);
                     .lottery-label{
                         height:0.7rem;
                         line-height: 0.7rem;

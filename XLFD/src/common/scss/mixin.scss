@@ -32,7 +32,7 @@
 }
 
 //底部1像素边
-@mixin border-1px($color){
+@mixin border-bottom-1px($type,$color){
     position: relative;
     &:after{
         display: block;
@@ -40,7 +40,48 @@
         left: 0;
         bottom: 0;
         width: 100%;
-        border-top: 1px solid $color;
+        border-top: 1px $type $color;
+        content: ' ';
+    }
+}
+//底部1像素边
+@mixin border-top-1px($type,$color){
+    position: relative;
+    &:before{
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border-top: 1px $type $color;
+        content: ' ';
+    }
+}
+//右边1像素边
+@mixin border-right-1px($type,$color){
+    position: relative;
+    &:before{
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 0;
+        height:100%;
+        border-right: 1px $type $color;
+        content: ' ';
+    }
+}
+//坐边1像素边
+@mixin border-left-1px($type,$color){
+    position: relative;
+    &:after{
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0;
+        height:100%;
+        border-right: 1px $type $color;
         content: ' ';
     }
 }

@@ -4,7 +4,7 @@
             <scroll ref="scroll" class="scroll-content" :data="betDetail">
                 <div class="func-wrapper">
                     <ul>
-                        <li class="item-mode border-1px border-none special">
+                        <li class="item-mode border-bottom-1px border-none special">
                             <div class="title">
                                 <p><span class="period">第{{betDetail.lottery_qh}}期</span></p>
                                 <p>{{betDetail.lottery_name}}</p>
@@ -14,52 +14,52 @@
                                 <p class="win-money"><span>{{betDetail.prof_or_loss}}</span>元</p>
                             </div>
                         </li>
-                        <li class="item-mode border-1px item-title border-none">
+                        <li class="item-mode border-bottom-1px item-title border-none">
                             基本信息
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">投注金额</p>
                             <p class="remarks">{{betDetail.bet_money}}元</p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">订单编号</p>
                             <p class="remarks">{{betDetail.order_number}}</p>
                         </li>
-                        <li class="item-mode border-1px border-none">
+                        <li class="item-mode border-bottom-1px border-none">
                             <p class="title">投注时间</p>
                             <p class="remarks">{{betDetail.bet_time}}</p>
                         </li>
-                        <li class="item-mode border-1px item-title border-none">
+                        <li class="item-mode border-bottom-1px item-title border-none">
                             投注内容
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">玩法</p>
                             <p class="remarks">{{betDetail.wf_name}}</p>
                         </li>
-                        <li class="item-mode border-1px border-none">
+                        <li class="item-mode border-bottom-1px border-none">
                             <p class="title">投注号码</p>
                             <p class="remarks">{{betDetail.bet_number}}</p>
                         </li>
-                        <li class="item-mode border-1px item-title border-none">
+                        <li class="item-mode border-bottom-1px item-title border-none">
                             返点信息
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">开奖号码</p>
                             <p class="remarks">{{betDetail.kj_number}}</p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">中奖金额</p>
                             <p class="remarks">{{betDetail.win_money}}元</p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">盈亏</p>
                             <p class="remarks">{{betDetail.prof_or_loss}}元</p>
                         </li>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title">派彩返点</p>
                             <p class="remarks">{{betDetail.max_return_point}}%</p>
                         </li>
-                        <li class="item-mode border-1px border-none">
+                        <li class="item-mode border-bottom-1px border-none">
                             <p class="title">返点金额</p>
                             <p class="remarks">{{betDetail.max_return_money}}元</p>
                         </li>
@@ -123,7 +123,7 @@
                 overflow: hidden;
                 padding:0 0.4rem;
                 background: $color-bg;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .title{
                     float: left;
                     line-height: 1.33rem;
@@ -169,7 +169,7 @@
                     }
                 }
                 &.border-none{
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
                 &.item-title{
                     height:1rem;

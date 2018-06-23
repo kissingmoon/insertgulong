@@ -25,7 +25,7 @@
                         </router-link>
                     </div>
                     <div class="lottery-wrapper">
-                        <div class="lottery-main border-1px" v-for="(item,i) in lotteryList" 
+                        <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" 
                         :class="{'sub-wrapper':(i % 4 > 1)}">
                             <div class="item" v-if="i % 4 < 2" @click="subtag(i)">
                                 <div class="item-main">
@@ -81,7 +81,7 @@
             </scroll>
         </div>
 
-        <div class="border-1px betwin-wrapper" v-if="betWin.length">
+        <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
             <slider-y class="betwin-main">
                 <div class="betwin-txt" v-for='item in betWin'>
                     {{item.content}}
@@ -264,14 +264,14 @@
                 width:50%;
                 height: auto;
                 overflow: hidden;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 &.none-1px{
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
                 &.sub-wrapper{
                     width:100%;
                     background: #F6F4E6;
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
             .item{

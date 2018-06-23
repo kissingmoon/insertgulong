@@ -2,8 +2,8 @@
     <parcel>
         <div class="follow">
             <div class="title-type">
-                <p class="border-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
-                <p class="border-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
+                <p class="border-bottom-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
+                <p class="border-bottom-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
             </div>
             <scroll ref="scroll" class="scroll-content" 
                 :data="followList" 
@@ -129,7 +129,7 @@
             text-align: center;
             &.on{
                 color:$color-text-red;
-                @include border-1px($color-border-red);
+                @include border-bottom-1px(solid,$color-border-red);
             }
         }
     }

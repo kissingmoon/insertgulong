@@ -1,7 +1,7 @@
 <template>
     <div class="draw-list">
         <ul v-show="isLink">
-            <router-link tag="li" :to="{path:url,query:{id:item.lottery_id,name:item.lottery_name}}" class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <router-link tag="li" :to="{path:url,query:{id:item.lottery_id,name:item.lottery_name}}" class="item-mode border-bottom-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
@@ -27,7 +27,7 @@
             </router-link>
         </ul>
         <ul v-show="!isLink">
-            <li class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <li class="item-mode border-bottom-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
@@ -99,7 +99,7 @@
         padding:0.2rem 0.4rem;
         height:1.8rem;
         background: $color-bg;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         .left{
             float: left;
             height:auto;

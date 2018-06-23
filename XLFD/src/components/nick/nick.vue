@@ -3,7 +3,7 @@
         <div class="nick">
             <ul class="nick-wrapper">
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="text" v-model="nick_name" autocomplete="off" class="input-txt red" maxlength="6" >
                     </p>
                 </li>
@@ -76,7 +76,7 @@
         .txt-con{
             height: auto;
             overflow: hidden;
-            @include border-1px($color-border-gray);
+            @include border-bottom-1px(solid,$color-border-gray);
             .input-txt{
                 height:1rem;
                 width:100%;

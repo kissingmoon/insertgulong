@@ -8,7 +8,7 @@
                             <li class="item-title">
                                 <p>账号保护</p>
                             </li>
-                            <router-link tag="li" :to="{path:'/info/safety/edit-password',query:{api:'editLoginPassword'}}" class="item-mode border-1px border-none">
+                            <router-link tag="li" :to="{path:'/info/safety/edit-password',query:{api:'editLoginPassword'}}" class="item-mode border-bottom-1px border-none">
                                 <p class="title icon-login-password">登陆密码</p>
                                 <p class="remarks">
                                     <span>建议定期修改<i class="icon-arrows-right icon"></i></span>
@@ -17,7 +17,7 @@
                             <li class="item-title">
                                 <p>资金保护</p>
                             </li>
-                            <router-link tag="li" :to="{path:'/info/safety/bank'}" class="item-mode border-1px">
+                            <router-link tag="li" :to="{path:'/info/safety/bank'}" class="item-mode border-bottom-1px">
                                 <p class="title icon-withdrawal-password">银行卡<span class="type" v-show="account.bank_status == 1">已绑定</span></p>
                                 <p class="remarks">
                                     <span>
@@ -26,7 +26,7 @@
                                     </span>
                                 </p>
                             </router-link>
-                            <router-link tag="li" :to="urlParam" class="item-mode border-1px border-none">
+                            <router-link tag="li" :to="urlParam" class="item-mode border-bottom-1px border-none">
                                 <p class="title icon-bank-card">提款密码<span class="type" v-show="account.bank_passwd_status == 1">已设置</span></p>
                                 <p class="remarks">
                                     <span>
@@ -98,7 +98,7 @@
                 height:1.33rem;
                 padding:0 0.4rem;
                 background: $color-bg;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .title{
                     float: left;
                     height: 1.33rem;
@@ -138,7 +138,7 @@
                     }
                 }
                 &.border-none{
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
         }

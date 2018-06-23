@@ -26,61 +26,61 @@
                 </div>
                 <div class="func-wrapper">
                     <ul>
-                        <li class="item-mode border-1px">
+                        <li class="item-mode border-bottom-1px">
                             <p class="title icon-balance">余额</p>
                             <p class="remarks">
                                 <span>{{account.balance || 0}}元</span>
                             </p>
                         </li>
-                        <router-link tag="li" :to="{path:'/info/balance'}" class="item-mode border-1px margin-bottom">
+                        <router-link tag="li" :to="{path:'/info/balance'}" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-withdraw">提现</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/bill'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/info/bill'}" class="item-mode border-bottom-1px">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/bet'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/info/bet'}" class="item-mode border-bottom-1px">
                             <p class="title icon-bet">投注记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/recharge'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/recharge'}" class="item-mode border-bottom-1px">
                             <p class="title icon-recharge">充值记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/cash'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/info/cash'}" class="item-mode border-bottom-1px">
                             <p class="title icon-deposit">提现记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/follow'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/follow'}" class="item-mode border-bottom-1px">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/attention'}" class="item-mode border-1px margin-bottom">
+                        <router-link tag="li" :to="{path:'/attention'}" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-attention">我的关注</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/safety'}" class="item-mode border-1px">
+                        <router-link tag="li" :to="{path:'/info/safety'}" class="item-mode border-bottom-1px">
                             <p class="title icon-safety">安全中心</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <!-- <router-link tag="li" :to="{path:'/info/more'}" class="item-mode border-1px">
+                        <!-- <router-link tag="li" :to="{path:'/info/more'}" class="item-mode border-bottom-1px">
                             <p class="title icon-more">更多</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -216,7 +216,7 @@
                 height:1.33rem;
                 padding:0 0.4rem;
                 background: $color-bg;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .title{
                     float: left;
                     height: 1.33rem;
@@ -277,7 +277,7 @@
                 }
                 &.margin-bottom{
                     margin-bottom: 0.2rem;
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
         }

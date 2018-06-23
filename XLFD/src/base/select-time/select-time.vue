@@ -4,16 +4,16 @@
         <div class="time-main">
             <div class="time-wrapper clearfix">
                 <ul>
-                    <li class="item-wrapper border-1px" @click="selectTimeType(1)">
+                    <li class="item-wrapper border-bottom-1px" @click="selectTimeType(1)">
                         今天
                     </li>
-                    <li class="item-wrapper border-1px" @click="selectTimeType(2)">
+                    <li class="item-wrapper border-bottom-1px" @click="selectTimeType(2)">
                         最近三天
                     </li>
-                    <li class="item-wrapper border-1px" @click="selectTimeType(3)">
+                    <li class="item-wrapper border-bottom-1px" @click="selectTimeType(3)">
                         最近一周
                     </li>
-                    <li class="item-wrapper border-1px" @click="selectTimeType(4)">
+                    <li class="item-wrapper border-bottom-1px" @click="selectTimeType(4)">
                         最近一月
                     </li>
                 </ul>
@@ -85,7 +85,7 @@
                 line-height: 1.3rem;
                 overflow: hidden;
                 padding: 0 0.3rem;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 font-size: $font-size-medium-x;
             }
         }

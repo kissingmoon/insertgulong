@@ -1,6 +1,6 @@
 <template>
     <div class="discount">
-        <div class="kind-wrapper border-1px">
+        <div class="kind-wrapper border-bottom-1px">
             <div class="kind-item" @click="changeActivityType('00')">
                 <p class="icon-con icon-all"></p>
                 <p class="txt">所有活动</p>
@@ -18,7 +18,7 @@
                 <p class="txt">VIP专享</p>
             </div>
         </div>
-        <div class="title-wrapper border-1px">
+        <div class="title-wrapper border-bottom-1px">
             <div class="title">
                 {{activityKind[kind]}}
             </div>
@@ -30,7 +30,7 @@
         <scroll ref="scroll" class="scroll-content" :data="activityList" >
             <div class="activity-list">
                 <ul>
-                    <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-1px" v-for="(item,index) in activityList" :key="index">
+                    <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-bottom-1px" v-for="(item,index) in activityList" :key="index">
                         <div class="img-wrapper">
                             <img v-lazy="item.image_url" alt="">
                         </div>
@@ -109,7 +109,7 @@
         height:2.2rem;
         text-align: center;
         background: $color-bg;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         .kind-item{
             flex: 1;
             text-align: center;
@@ -146,7 +146,7 @@
     .title-wrapper{
         height:0.9rem;
         background:$color-bg;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         margin-top:0.3rem;
         border-left:0.1rem solid #FC9721;
         line-height: 0.92rem;
@@ -181,7 +181,7 @@
                 height:1.47rem;
                 padding:0.3rem 0.3rem;
                 background: #fff;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .img-wrapper{
                     float: left;
                     height:1.47rem;

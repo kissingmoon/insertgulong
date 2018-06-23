@@ -12,7 +12,7 @@
                         <div class="form-main">
                             <div class="form-txt">
                                 <p class="title">提现金额</p>
-                                <p class="txt border-1px"><input type="text" v-model.number="money" placeholder="请输入提现金额" tocomplete="off" /></p>
+                                <p class="txt border-bottom-1px"><input type="text" v-model.number="money" placeholder="请输入提现金额" tocomplete="off" /></p>
                                 <p class="tip">提现金额最低100元</p>
                             </div>
                         </div>

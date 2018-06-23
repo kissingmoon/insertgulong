@@ -122,7 +122,7 @@
                 height:1.33rem;
                 padding:0.3rem;
                 background: $color-bg;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .title-time{
                     float: left;
                     height:1.33rem;

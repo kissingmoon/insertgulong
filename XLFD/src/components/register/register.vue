@@ -3,27 +3,27 @@
         <div class="register">
             <ul class="register-wrapper">
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con border-1px">
+                    <p class="txt-con border-bottom-1px">
                         <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone">
                     </p>
                 </li>
                 <li>
-                    <p class="txt-con code-txt border-1px">
+                    <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code">
                     </p>
                     <p class="code-img">
@@ -99,7 +99,7 @@
         .txt-con{
             height: auto;
             overflow: hidden;
-            @include border-1px($color-border-gray);
+            @include border-bottom-1px(solid,$color-border-gray);
             .input-txt{
                 height:1.4rem;
                 width:100%;

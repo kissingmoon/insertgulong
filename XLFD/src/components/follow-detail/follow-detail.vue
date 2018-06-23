@@ -6,7 +6,7 @@
                     <div class="author-wrapper">
                         <attention-list :data="author" @setFans="setFans"></attention-list>
                     </div>
-                    <div class="order-wrapper border-1px">
+                    <div class="order-wrapper border-bottom-1px">
                         <div class="importance">
                             <div class="imp-left">
                                 <div class="type">
@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="number-wrapper border-1px">
+                    <div class="number-wrapper border-bottom-1px">
                         <p v-show="order.show_hm">{{order.bet_number}}</p>
                         <p v-show="!order.show_hm" class="lock-main">跟单后号码可见<i class="icon-lock"></i></p>
                     </div>
@@ -217,7 +217,7 @@
             padding:0.3rem;
             height:auto;
             overflow: hidden;
-            @include border-1px($color-border-gray);
+            @include border-bottom-1px(solid,$color-border-gray);
             .importance{
                 height:auto;
                 overflow: hidden;
@@ -305,7 +305,7 @@
         }
         .number-wrapper{
             padding:0.3rem;
-            @include border-1px($color-border-gray);
+            @include border-bottom-1px(solid,$color-border-gray);
             .lock-main{
                 text-align: center;
                 .icon-lock{
@@ -324,7 +324,7 @@
                 text-align: center;
                 &.on{
                     color:$color-text-red;
-                    @include border-1px($color-border-red);
+                    @include border-bottom-1px(solid,$color-border-red);
                 }
             }
         }

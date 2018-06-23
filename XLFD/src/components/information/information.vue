@@ -5,19 +5,19 @@
                 <div>
                     <div class="func-wrapper">
                         <ul>
-                            <li class="item-mode border-1px margin-bottom">
+                            <li class="item-mode border-bottom-1px margin-bottom">
                                 <p class="title icon-balance">
                                     余额
                                     <b class="money">{{account.balance || 0}}元</b>
                                 </p>
                             </li>
-                            <li class="item-mode border-1px">
+                            <li class="item-mode border-bottom-1px">
                                 <p class="title icon-portrait">头像</p>
                                 <p class="remarks">
                                     <span>更换<i class="icon-arrows-right icon"></i></span>
                                 </p>
                             </li>
-                            <li class="item-mode border-1px" @click="toNick">
+                            <li class="item-mode border-bottom-1px" @click="toNick">
                                 <p class="title icon-nick">昵称</p>
                                 <p class="remarks">
                                     <span>立即设置<i class="icon-arrows-right icon"></i></span>
@@ -89,7 +89,7 @@
                 height:1.33rem;
                 padding:0 0.4rem;
                 background: $color-bg;
-                @include border-1px($color-border-gray);
+                @include border-bottom-1px(solid,$color-border-gray);
                 .title{
                     float: left;
                     height: 1.33rem;
@@ -129,7 +129,7 @@
                 }
                 &.margin-bottom{
                     margin-bottom: 0.2rem;
-                    @include border-1px($color-bg-white-a0);
+                    @include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
         }

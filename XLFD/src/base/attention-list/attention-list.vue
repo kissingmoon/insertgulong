@@ -1,7 +1,7 @@
 <template>
     <div class="attention-list">
         <ul v-show="isLink">
-            <router-link tag="li" :to="{path:url,query:{flag:item.user_flag,url:childurl}}" class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <router-link tag="li" :to="{path:url,query:{flag:item.user_flag,url:childurl}}" class="item-mode border-bottom-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="portrait">
                         <img v-lazy="item.image_url" alt="">
@@ -29,7 +29,7 @@
             </router-link>
         </ul>
         <ul v-show="!isLink">
-            <li class="item-mode border-1px" v-for="(item,index) in data" :key="index">
+            <li class="item-mode border-bottom-1px" v-for="(item,index) in data" :key="index">
                 <div class="left">
                     <div class="portrait">
                         <img v-lazy="item.image_url" alt="">
@@ -109,7 +109,7 @@
         overflow: hidden;
         padding:0.2rem 0.3rem;
         background: $color-bg;
-        @include border-1px($color-border-gray);
+        @include border-bottom-1px(solid,$color-border-gray);
         font-size:$font-size-small-x;
         .txt-red{
             color:$color-text-red;

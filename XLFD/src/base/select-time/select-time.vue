@@ -58,7 +58,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~common/scss/variable";
+    @import "common/scss/variable.scss";
     @import 'common/scss/mixin.scss';
     .time-background {
         position:fixed;

@@ -126,7 +126,7 @@
 </script>
 
 <style scoped lang="scss">
-    @import "~common/scss/variable";
+    @import "common/scss/variable.scss";
     .slider{
             min-height: 1px;
         .slider-group{

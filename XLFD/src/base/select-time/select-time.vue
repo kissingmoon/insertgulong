@@ -26,8 +26,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {addClass} from 'common/js/dom'
-  import BScroll from 'better-scroll'
   import {mapMutations} from 'vuex'
 
   export default {

@@ -82,7 +82,7 @@
             .btn{
                 height:1rem;
                 width:86%;
-                border:0.027rem solid $color-border-red;
+                border:1px solid $color-border-red;
                 line-height: 1rem;
                 text-align: center;
                 font-size: $font-size-medium-x;

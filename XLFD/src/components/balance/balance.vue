@@ -224,7 +224,7 @@
                         padding-left: 0.3rem;
                         height:0.7rem;
                         line-height: 0.7rem;
-                        border:0.027rem solid $color-border-gray;
+                        border:1px solid $color-border-gray;
 
                     }
                     button{

@@ -306,7 +306,7 @@
                         line-height: 20px;
                         overflow: hidden;
                         &.border-right-1xp{
-                            border-right:0.027rem solid $color-border-gray;
+                            border-right:1px solid $color-border-gray;
                         }
                         .name{
                             height:0.67rem;

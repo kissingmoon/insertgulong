@@ -258,7 +258,7 @@
                     text-align: center;
                     overflow: hidden;
                     margin: 0 auto;
-                    border:0.027rem solid $color-border-num;
+                    border:1px solid $color-border-num;
                     border-radius: 50%;
                     &.on{
                         border-color:$color-text-yellow;
@@ -314,7 +314,7 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:0.027rem solid $color-border-num;
+                            border:1px solid $color-border-num;
                             border-radius: 50%;
                             &.on{
                                 border-color:$color-text-yellow;
@@ -327,7 +327,7 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:0.027rem solid $color-border-num;
+                            border:1px solid $color-border-num;
                             border-radius: 0.8rem;
                             &.on{
                                 border-color:$color-text-yellow;
@@ -339,7 +339,7 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:0.027rem solid $color-border-num;
+                            border:1px solid $color-border-num;
                             border-radius: 0.2rem;
                             padding:0.3rem 0;
                             .zodiac-title{

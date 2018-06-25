@@ -34,37 +34,38 @@
                 </div>
                 <loading v-show="billList && !billList.length"></loading>
             </scroll>
-            <div v-show="detailShow" class="background" @click="closeDetail">
-            </div>
-            <div v-show="detailShow" class="detail">
-                <div class="detail-wrapper clearfix">
-                    <div class="detail-main">
-                        <ul>
-                            <li class="item-wrapper">
-                                <p>时间</p>
-                                <p class="txt">{{billDetail.time_created}}</p>
-                            </li>
-                            <li class="item-wrapper">
-                                <p>类型</p>
-                                <p class="txt">{{billDetail.coin_change_name}}</p>
-                            </li>
-                            <li class="item-wrapper">
-                                <p>变动金额</p>
-                                <p class="txt">{{billDetail.change_coin}}</p>
-                            </li>
-                            <li class="item-wrapper">
-                                <p>变动后的余额</p>
-                                <p class="txt">{{billDetail.balance}}</p>
-                            </li>
-                            <li class="item-wrapper">
-                                <p>备注</p>
-                                <p class="txt">{{billDetail.remark}}</p>
-                            </li>
-                        </ul>
+            <div class="detail-content"  v-show="detailShow">
+                <div class="background" @click="closeDetail"></div>
+                <div class="detail">
+                    <div class="detail-wrapper clearfix">
+                        <div class="detail-main">
+                            <ul>
+                                <li class="item-wrapper">
+                                    <p>时间</p>
+                                    <p class="txt">{{billDetail.time_created}}</p>
+                                </li>
+                                <li class="item-wrapper">
+                                    <p>类型</p>
+                                    <p class="txt">{{billDetail.coin_change_name}}</p>
+                                </li>
+                                <li class="item-wrapper">
+                                    <p>变动金额</p>
+                                    <p class="txt">{{billDetail.change_coin}}</p>
+                                </li>
+                                <li class="item-wrapper">
+                                    <p>变动后的余额</p>
+                                    <p class="txt">{{billDetail.balance}}</p>
+                                </li>
+                                <li class="item-wrapper">
+                                    <p>备注</p>
+                                    <p class="txt">{{billDetail.remark}}</p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="detail-close">
-                    <button @click="closeDetail">确定</button>
+                    <div class="detail-close">
+                        <button @click="closeDetail">确定</button>
+                    </div>
                 </div>
             </div>
             <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>

@@ -175,14 +175,14 @@
                 button{
                     height:0.56rem;
                     width:1.56rem;
-                    border:0.027rem solid $color-border-red;
+                    border:1px solid $color-border-red;
                     color:$color-border-red;
                     background:#fff;
                     border-radius: 0.06rem;
                     padding:0;
                     font-size: $font-size-small-x;
                     &.cancel{
-                        border:0.027rem solid $color-border-gray;
+                        border:1px solid $color-border-gray;
                         color:$color-border-gray;
                     } 
                 }

@@ -347,7 +347,7 @@
                         td{
                             padding: 0.1rem;
                             &.border-right{
-                                border-right:0.027rem solid rgb(223, 223, 223);
+                                border-right:1px solid rgb(223, 223, 223);
                             }
                         }
                     }
@@ -377,7 +377,7 @@
         bottom:0;
         height:2.2rem;
         width:100%;
-        border-top:0.027rem solid $color-border-gray;
+        border-top:1px solid $color-border-gray;
         background:$color-bg-gray;
         z-index: 330;
 
@@ -394,7 +394,7 @@
                     width:2.4rem;
                     line-height: 0.64rem;
                     text-align: center;
-                    border:0.027rem solid $color-border-gray;
+                    border:1px solid $color-border-gray;
                     margin: 0 0.2rem;
                 }
                 button{
@@ -402,7 +402,7 @@
                     width:0.67rem;
                     background: #fff;
                     border-radius: 50%;
-                    border:0.027rem solid $color-border-red;
+                    border:1px solid $color-border-red;
                     color:$color-text-red;
                     font-size: $font-size-medium-x;
                     padding:0;

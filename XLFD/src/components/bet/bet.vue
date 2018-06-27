@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="bet-main">
-                        <router-link tag="li" class="item-mode" v-for="(item,index) in betList" :key="index" :to="{path:'/info/bet/detail',query:{id:item.order_number}}">
+                        <router-link tag="li" class="item-mode" v-for="(item,index) in betList" :key="index" :to="{path:'/bet/detail',query:{id:item.order_number}}">
                             <div class="title-time">
                                 <span class="time">第{{item.lottery_qh}}期</span>
                                 <span class="title">

@@ -11,21 +11,12 @@
                     <i class="icon-arrows-below"></i>
                 </div>
             </div>
-            <scroll class="draw-his-wrapper clearfix">
+            <scroll class="draw-his-wrapper clearfix" :data="data">
                 <ul>
-                    <li class="item-wrapper border-bottom-1px">
-                        <div class="period-num">209期</div>
+                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data">
+                        <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
-                            <span>01</span>
+                            <span v-for="num in item.kj_code">{{num}}</span>
                         </div>
                     </li>
                     
@@ -60,7 +51,7 @@
     },
     methods: {
         close(){
-            this.$emit('closeDrawHistory');
+            this.$emit('close','drawHistoryShow');
         }
         
     }
@@ -127,11 +118,11 @@
                 font-size: $font-size-small-x;
                 color:#fff;
                 .period-num{
-                    flex:1;
+                    flex:2;
                     padding-right: 0.4rem;
                 }
                 .draw-num{
-                    flex: 3;
+                    flex: 5;
                     span{
                         padding-right: 0.24rem;
                     }

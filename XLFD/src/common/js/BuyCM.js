@@ -1,6 +1,10 @@
-import * as BuyUtil from 'BuyUtil.js';
+import * as BuyUtil from 'common/js/BuyUtil.js';
 
-export function BaseVM(wfBeanParam,shengXiaoLHCRecvListParam,is28OrLhc,position) {
+export function BaseVM(wfBeanParam,position,shengXiaoLHCRecvListParam,is28OrLhc) {
+    let TYPE_CIRCLE = 1;
+    let TYPE_ROUND_RECT = 2;
+    let TYPE_ROUND_HALF_RECT = 3;
+    let TYPE_WHOLE_ROUND_RECT = 4;
     const str0 = ["十个", "百个", "百十", "千个", "千十", "千百", "万个", "万十", "万百", "万千"];
     const str1 = ["龙", "虎", "合"];
     const str8 = ["龙", "虎"];
@@ -10,21 +14,17 @@ export function BaseVM(wfBeanParam,shengXiaoLHCRecvListParam,is28OrLhc,position)
     const str5 = ["111", "222", "333", "444", "555", "666"];
     const str6 = ["123", "234", "345", "456"];
     const str7 = ["1", "2", "3", "4"];
-    const wfBean = wfBeanParam || {};
-    const shengXiaoLHCRecvList = shengXiaoLHCRecvListParam || []; //生肖容器
-    const is28OrLhc = is28OrLhc; // 是不是6或新28
-    const buyNumberBeanList = []; // 号码容器
-    const topPickFlags = [0,0,0,0,0]; // 标记是否选中位置（顶部圆圈，时时彩）
-    const lineColumnCount = 0;                // 每行显示几个，0表示不限制
-    const isCanTopFastPick = false;           // 是否显示位置（顶部圆圈，时时彩）
-    const isShowSign = false;                  // 是否显示最左侧的名字
-    const isCanBottomFastPick = false;        // 是否可以快速选择，即下方的全、大、小、双、单、清按钮是否可见
-    const backgroundType = TYPE_CIRCLE; //定义号码背景形状，1 = 圆形 ， 2 = 大方形 3 = 小方形；4 = 长园形
-    let TYPE_CIRCLE = 1;
-    let TYPE_ROUND_RECT = 2;
-    let TYPE_ROUND_HALF_RECT = 3;
-    let TYPE_WHOLE_ROUND_RECT = 4;
-
+    var wfBean = wfBeanParam || {};
+    var shengXiaoLHCRecvList = shengXiaoLHCRecvListParam || []; //生肖容器
+    var is28OrLhc = is28OrLhc; // 是不是6或新28
+    var buyNumberBeanList = []; // 号码容器
+    var topPickFlags = [0,0,0,0,0]; // 标记是否选中位置（顶部圆圈，时时彩）
+    var lineColumnCount = 0;                // 每行显示几个，0表示不限制
+    var isCanTopFastPick = false;           // 是否显示位置（顶部圆圈，时时彩）
+    var isShowSign = false;                  // 是否显示最左侧的名字
+    var isCanBottomFastPick = false;        // 是否可以快速选择，即下方的全、大、小、双、单、清按钮是否可见
+    var backgroundType = TYPE_CIRCLE; //定义号码背景形状，1 = 圆形 ， 2 = 大方形 3 = 小方形；4 = 长园形
+    
     switch (wfBean.wf_flag) {
         case "ssc_lhd":
             buyNumberBeanList = position == 0 ? BuyUtil.initDataStr(str0) : BuyUtil.initDataStr(str1);

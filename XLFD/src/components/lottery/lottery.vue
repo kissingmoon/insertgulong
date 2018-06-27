@@ -5,53 +5,63 @@
                 <div class="lottery-title-content">
                     <div class="back" @click="goBack"><i class="icon-arrows-left"></i></div>
                     <div class="time-money-wrapper">
-                        <div class="money"><i class="icon-money"></i></div>
-                        <div class="time"><i class="icon-clock-02"></i></div>
+                        <div class="kind" @click="show('wfKindShow')">玩<br>法</div>
+                        <div class="rule" @click="show('wfRuleShow')">说<br>明</div>
                     </div>
-                    <h1 class="title">时时彩</h1>
+                    <h1 class="title">{{lotteryName[lotteryId]}}</h1>
                 </div>
                 <div class="lottery-nav border-bottom-1px">
                     <div class="nav-left border-right-1px">
                         <div class="rock-follow">
-                            <p class="follow">大神跟单<i class="icon-triangle-below"></i></p>
+                            <p class="follow" @click="gotoPage('/descover')">大神跟单<i class="icon-triangle-below"></i></p>
                         </div>
                         <div class="count-down">
-                            距0254185期截止:00:04:26
+                            距{{lotteryInfo.show_qh}}期截止:00:04:26
                         </div>
                     </div>
                     <div class="nav-right">
                         <div class="lottery-wf">
-                            当前玩法:五星定位胆
+                            当前玩法:{{currentWf.name}}
                         </div>
                         <div class="draw-history">
-                             <p class="history" @click="showDrawHistory">历史开奖记录<i class="icon-triangle-below"></i></p>
+                             <p class="history" @click="getDrawHis">历史开奖记录<i class="icon-triangle-below"></i></p>
                         </div>
                     </div>
                 </div>
-                <scroll ref="scroll" class="scroll-content">
-                    <bet-number></bet-number>
+                <scroll ref="scroll" class="scroll-content" :data="numberList">
+                    <bet-number 
+                        ref="betnumberlist"
+                        :numList="numberList"
+                        :selectNumList="selectNumList"
+                        :selectPosition="selectPosition"
+                        @selectNum="selectNum"
+                        @selectPosi="selectPosi"
+                        @selectKind="selectKind"
+                        >
+
+                    </bet-number>
                 </scroll>
                 <div class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
-                        <p class="number"><input type="text" value="1"></p>
+                        <p class="number"><input type="text" v-model.number="betTimes"></p>
                         <p>倍</p>
                     </div>
                     <div class="unit">
                         <p>模式</p>
-                        <p class="type">元</p>
+                        <p class="type" @click="show('modesShow')">{{betUnit[lotteryModes]}}</p>
                     </div>  
                     <div class="bonus">
-                        <p>单注奖金192568.36元</p>
+                        <p>单注奖金12548.36元</p>
                     </div>
                 </div>
                 <div class="lottery-bottom">
-                    <div class="clear-all">
+                    <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
                     <div class="bet-collect">
-                        <p class="bet-count">1365注54863.36元</p>
-                        <p class="balance">余额:3251445.35元</p>
+                        <p class="bet-count">{{betCount}}注{{calculateBetMoney}}元</p>
+                        <p class="balance">余额:{{account.balance || 0}}元</p>
                     </div>
                     <div class="brokerage">
                         <p class="check-box"><i class="icon-right"></i></p>
@@ -60,13 +70,34 @@
                     <div class="follow-num">
                         <p>追号</p>
                     </div>
-                    <div class="bet-btn">
+                    <div class="bet-btn" @click="show('betAffirmShow')">
                         <p>投注</p>
                     </div>
                 </div>
             </div>
-            <div v-show="wfDetailShow" class="wf-content">
-                <div class="background" @click="closeWfDetail"></div>
+            <div v-if="modesShow">
+                <div class="background" @click="hide('modesShow')"></div>
+                <div class="modes-main">
+                    <div class="modes-wrapper clearfix">
+                        <ul>
+                            <li class="item-wrapper border-bottom-1px" @click="selectMode(0)">
+                                元
+                            </li>
+                            <li class="item-wrapper border-bottom-1px" @click="selectMode(1)">
+                                角
+                            </li>
+                            <li class="item-wrapper border-bottom-1px" @click="selectMode(2)">
+                                分
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="modes-close" @click="hide('modesShow')">
+                        取消
+                    </div>
+                </div>
+            </div>
+            <div v-if="wfRuleShow" class="wf-content">
+                <div class="background" @click="hide('wfRuleShow')"></div>
                 <div class="detail">
                     <div class="wf-detail-wrapper clearfix">
                         <div class="detail-title">玩法提示</div>
@@ -74,26 +105,26 @@
                             <ul>
                                 <li class="item-wrapper">
                                     <p class="title">当前玩法</p>
-                                    <p class="txt">五星定位法</p>
+                                    <p class="txt">{{currentWf.name}}</p>
                                 </li>
                                 <li class="item-wrapper">
                                     <p class="title">选号规则</p>
-                                    <p class="txt">讲明解；说明原因。也指解释的话；说明的文字；证明。</p>
+                                    <p class="txt">{{wfDetail.explain}}</p>
                                 </li>
                                 <li class="item-wrapper">
                                     <p class="title">中奖说明</p>
-                                    <p class="txt">说明是一个汉语词汇，读音为shuō míng，属于动词，意思是解释清楚，讲明解；说明原因。也指解释的话；说明原因。也指解释的话。</p>
+                                    <p class="txt">{{wfDetail.help}}</p>
                                 </li>
                             </ul>
                         </div>
                         <div class="wf-detail-close">
-                            <button @click="closeWfDetail"><i class="icon-right"></i></button>
+                            <button @click="hide('wfRuleShow')"><i class="icon-right"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
-            <div v-show="gdSetShow" class="gd-content">
-                <div class="background" @click="closeGdSet"></div>
+            <div v-if="gdSetShow" class="gd-content">
+                <div class="background"  @click="hide('gdSetShow')"></div>
                 <div class="detail">
                     <div class="gd-detail-wrapper clearfix">
                         <div class="detail-title">
@@ -140,7 +171,7 @@
                                 </li>
                             </ul>
                             <div class="btn-wrapper">
-                                <button class="cancel">放弃发起</button>
+                                <button class="cancel" @click="hide('gdSetShow')">放弃发起</button>
                                 <button class="affirm">确认</button>
                             </div>
                             <div class="gd-tip">
@@ -150,29 +181,29 @@
                     </div>
                 </div>
             </div>
-            <div v-show="betAffirmShow" class="bet-affirm-content">
-                <div class="background" @click="closeBetAffirm"></div>
+            <div v-if="betAffirmShow" class="bet-affirm-content">
+                <div class="background"  @click="hide('betAffirmShow')"></div>
                 <div class="detail">
                     <div class="bet-detail-wrapper clearfix">
                         <div class="detail-title">确认投注</div>
                         <div class="bet-detail-main">
                             <ul>
                                 <li class="item-wrapper">
-                                    <div class="title">投注号码：<span class="txt">3 5 9 8 93 5 9 8 93 5 </span></div>
+                                    <div class="title">投注号码：<span class="txt">{{betNumber}}</span></div>
                                 </li>
                                 <li class="item-wrapper">
-                                    <div class="title">玩法：<span class="txt">五星定位胆</span></div>
+                                    <div class="title">玩法：<span class="txt">{{currentWf.name}}</span></div>
                                 </li>
                                 <li class="item-wrapper">
-                                    <div class="title">投注金额：<span class="txt">625410元（一注12元）</span></div>
+                                    <div class="title">投注金额：<span class="txt">{{calculateBetMoney}}元（一注{{betTimes*2}}{{betUnit[lotteryModes]}}）</span></div>
                                 </li>
                                 <li class="item-wrapper">
-                                    <div class="title">当前余额：<span class="txt">19992159.69元</span></div>
+                                    <div class="title">当前余额：<span class="txt">{{account.balance || 0}}元</span></div>
                                 </li>
                             </ul>
                             <div class="btn-wrapper">
-                                <button class="cancel">取消</button>
-                                <button class="affirm">确认</button>
+                                <button class="cancel"  @click="hide('betAffirmShow')">取消</button>
+                                <button class="affirm" @click="betOrder">确认</button>
                             </div>
                             <div class="gd-tip">
                                 <p>温馨提示:您可以在我的-跟单列表界面查看跟单明细<br>发起跟单将会在您成功付款后展示</p>
@@ -181,8 +212,8 @@
                     </div>
                 </div>
             </div>
-            <div v-show="betSuccessShow" class="wf--success-content">
-                <div class="background" @click="closeBetSuccess"></div>
+            <div v-if="betSuccessShow" class="wf--success-content">
+                <div class="background" @click="hide('betSuccessShow')"></div>
                 <div class="bet-success-detail">
                     <div class="bet-success-wrapper clearfix">
                         <div class="detail-title">投注成功</div>
@@ -191,34 +222,59 @@
                                 投注成功，好运即将到来！
                             </div>
                             <div class="btn-wrapper">
-                                <button class="cancel">投注记录</button>
-                                <button class="affirm" @click="closeBetSuccess">继续投注</button>
+                                <button class="cancel" @click="gotoPage('/bet')">投注记录</button>
+                                <button class="affirm"  @click="hide('betSuccessShow')">继续投注</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <draw-history v-show="drawHistoryShow" @closeDrawHistory="closeDrawHistory"></draw-history>
-            <wf-kind v-show="wfKindShow"></wf-kind>
+            <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList"></draw-history>
+            <wf-kind v-if="wfKindShow" :data="wfList" @close="hide" @selectWf="changeWf"></wf-kind>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import BetNumber from 'base/bet-number/bet-number';
     import DrawHistory from 'components/draw-history/draw-history';
     import WfKind from 'components/wf-kind/wf-kind';
-    import {httpUrl,betType} from 'common/js/map';
+    import {httpUrl,lotteryName,betUnit} from 'common/js/map';
+    import {BaseVM} from 'common/js/BuyCM';
+    import LotteryWfDetail from 'common/js/Lottery_wf_detail';
+    import * as BetCount from 'common/js/CalcBetCountUtil.js';
+    import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
+    import {slicer} from 'common/js/param.js'
     export default {
         data() {
             return{
-                wfDetailShow:false,
-                gdSetShow:false,
-                betAffirmShow:false,
-                betSuccessShow:false,
-                drawHistoryShow:false,
-                wfKindShow:false,
+                isReady:false, //加载完成
+                wfRuleShow:false, //玩法规则
+                gdSetShow:false,  //跟单设置
+                betAffirmShow:false,  //下注确认
+                betSuccessShow:false,  //下注成功
+                drawHistoryShow:false,  //开奖历史
+                wfKindShow:false,  //玩法种类
+                modesShow:false,  //模式选择
+                lotteryId:'',
+                lotteryName,
+                betUnit,
+                lottery:'',
+                lotteryInfo:{},
+                wfList:[],
+                currentWf:{},
+                wfFlag:'',
+                wfDetail:{},
+                numberList:[],
+                selectNumList:[],
+                selectPosition:[],
+                drawHistoryList:[],
+                betCount:0,
+                betNumber:'',
+                betTimes:1,
+                lotteryModes:0
             }
         },
         components:{
@@ -229,31 +285,173 @@
             WfKind
         },
         created() {
+            this.init();
             //this.getBetList();
         },
         computed: {
+            //计算下注金额
+            calculateBetMoney(){
+                var mode=1/Math.pow(10,this.lotteryModes);
+                return this.betTimes*mode*this.betCount*2;
+            },
+            ...mapGetters([
+                'account',
+                'user_token'
+            ])
         },
         methods: {
+            init(){
+                this.lotteryId=this.$router.history.current.query.id;
+                this.getUser();
+                this._getBetWF();
+                this._getLockTime();
+            },
+            ...mapActions([
+                'getUser'
+            ]),
             goBack(){
                 this.$router.back();
             },
-            closeWfDetail(){
-                this.wfDetailShow=false;
+            show(key){
+                this[key]=true;
             },
-            closeGdSet(){
-                this.gdSetShow=false;
+            hide(key){
+                this[key]=false;
             },
-            closeBetAffirm(){
-                this.betAffirmShow=false;
+            _getBetWF(){
+                const api=this.lotteryId === 'xglhc' || this.lotteryId === 'bj28'? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
+                this.$axios.postRequest(api,{lottery_id:this.lotteryId})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.wfList=res.data;
+                        this.currentWf=res.data[0].wf[0];
+                        this.wfFlag=res.data[0].wf[0].wf_flag;
+                        this.makeWfParam();
+                        console.log(this.wfList);
+                    };
+                });
             },
-            closeBetSuccess(){
-                this.betSuccessShow=false;
+            _getLockTime(){
+                this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.lotteryInfo=res.data;
+                        console.log(this.lotteryInfo);
+                    };
+                });
             },
-            closeDrawHistory(){
-                this.drawHistoryShow=false;
+            changeWf(i,s){
+                this.currentWf=this.wfList[i].wf[s];
+                this.wfFlag=this.wfList[i].wf[s].wf_flag;
+                this.makeWfParam();
+                this.hide('wfKindShow');
             },
-            showDrawHistory(){
-                this.drawHistoryShow=true;
+            makeWfParam(){
+                this.selectNumList=[];
+                this.selectPosition=[];
+                this.lottery=this.wfFlag.split('_')[0];
+                if(this.lottery != "xglhc"){
+                    this.wfDetail=LotteryWfDetail[this.lottery].wf_class[this.wfFlag];
+                }
+                this.wfDetail.wf_pl=this.currentWf.wf_pl;
+                this.wfDetail.wf_flag = this.wfFlag;
+                this.numberList=[];
+                if(this.lottery == "xglhc"){
+                    const detail=BaseVM(this.wfDetail,0);
+                    this.numberList.push(detail);
+                }else{
+                    this.wfDetail.param.titles.forEach((item,i) => {
+                        const detail=BaseVM(this.wfDetail,i);
+                        detail.title=item;
+                        this.numberList.push(detail);
+                        this.selectNumList.push([]);
+                    });
+                }
+            },
+            selectNum(p,num){
+                const index=this.selectNumList[p].indexOf(num);
+                if(index != -1){
+                    this.selectNumList[p].splice(index,1);
+                }else{
+                    this.selectNumList[p].push(num);
+                }
+            },
+            selectPosi(num){
+                const index=this.selectPosition.indexOf(num);
+                if(index != -1){
+                    this.selectPosition.splice(index,1);
+                }else{
+                    this.selectPosition.push(num);
+                }
+            },
+            selectKind(p,arr){
+                this.selectNumList.splice(p,1,arr);
+            },
+            selectMode(mode){
+                this.lotteryModes = mode;
+                this.hide('modesShow');
+            },
+            allClear(){
+                //this.makeWfParam();
+                this.selectNumList=[];
+                this.selectPosition=[];
+                this.wfDetail.param.titles.forEach((item,i) => {
+                    this.selectNumList.push([]);
+                });
+                this.$refs.betnumberlist.clearKind();
+            },
+            betOrder(){
+                const url = httpUrl.bet.betOrder;
+                const param={
+                    lottery_id:this.lotteryId,
+                    lottery_qh:this.lotteryInfo.lottery_qh,
+                    wf_flag:this.wfFlag,
+                    bet_number:this.betNumber,
+                    bet_times:this.betTimes,
+                    bet_count:this.betCount,
+                    lottery_modes:this.lotteryModes
+                }
+                this.$axios.postRequest(url,param)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.allClear();
+                        this.getUser()
+                        this.hide('betAffirmShow');
+                        this.show('betSuccessShow');
+                    };
+                });
+            },
+            //页面跳转
+            gotoPage(url){
+                this.$router.push({
+                    path:url
+                });
+            },
+            getDrawHis(){
+                this.show('drawHistoryShow');
+                this.$axios.postRequest(httpUrl.descover.drawNumber,{lottery_id:this.lotteryId,page_size:20,page_no:1})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.drawHistoryList=slicer(res.data,"kj_code",",");
+                    };
+                });
+            }
+
+        },
+        watch:{
+            selectNumList(){
+                this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
+                this.betCount=BetCount[this.wfFlag](this.betNumber);
+            },
+            selectPosition(){
+                this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
+                this.betCount=BetCount[this.wfFlag](this.betNumber);
+            },
+            betTimes(newVal,oldVal){
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.betTimes = oldVal ;
+                }
             }
         }
     }
@@ -298,19 +496,34 @@
                 height:1.2rem;
                 line-height: 1.35rem;
                 right:0;
-                font-size:$font-size-large-xx;
+                font-size:$font-size-small;
                 padding-right: 0.2rem;
                 color:$color-text-yellow;
-                .time{
+                .rule{
                     float:right;
-                    height:1.2rem;
-                    padding:0 0.2rem;
+                    height:0.9rem;
+                    padding-top:0.3rem;
+                    padding-right: 0.38rem;
+                    padding-left: 0.2rem;
+                    width:0.5rem;
+                    line-height: 0.32rem;
+                    @include bg-image('icon-wf-rule');
+                    background-repeat: no-repeat;
+                    background-size:0.4rem;
+                    background-position: right center;
                 }
-                .money{
+                .kind{
                     float:right;
-                    width:0.8rem;
-                    height:1.2rem;
-                    padding-right: 0.2rem;
+                    width:0.5rem;
+                    height:0.9rem;
+                    padding-top:0.3rem;
+                    padding-right: 0.46rem;
+                    padding-left: 0.2rem;
+                    line-height: 0.32rem;
+                    @include bg-image('icon-wf-kind');
+                    background-repeat: no-repeat;
+                    background-size: 0.5rem;
+                    background-position: right center;
                 }
             }
             .title{
@@ -549,7 +762,6 @@
             height: calc(100% - 4.98rem);
             overflow: hidden;
             
-            
         }
     }
     .background {
@@ -616,17 +828,20 @@
                 margin:0 auto;
                 height:1rem;
                 width:1rem;
+                padding-top:0.1rem;
                 text-align: center;
                 clear:both;
                 button{
                     height:0.96rem;
                     width:0.96rem;
-                    border-radius: 0.48rem;
+                    border-radius: 50%;
                     border:1px solid $color-border-num;
                     text-align: center;
                     background:none;
                     color: $color-text-yellow;
                     font-size: $font-size-large-x;
+                    padding:0;
+                    margin: 0;
                 }
             }
         }
@@ -787,6 +1002,7 @@
                             &.title{
                                 color:#fff;
                                 padding:0 0.5rem;
+                                word-wrap: break-word; 
                                 .txt{
                                     color:$color-text-yellow;
                                 }
@@ -945,6 +1161,36 @@
                     }
                 }
             }
+        }
+    }
+    .modes-main{
+        position:fixed;
+        z-index:140;
+        width:100%;
+        height:auto;
+        overflow: hidden;
+        bottom:0;
+        background:#fff;
+        .modes-wrapper{
+            height:auto;
+            overflow: hidden;
+            .item-wrapper{
+                height:1.3rem;
+                line-height: 1.3rem;
+                overflow: hidden;
+                padding: 0 0.3rem;
+                text-align: center;
+                @include border-bottom-1px(solid,$color-border-gray);
+                font-size: $font-size-medium-x;
+            }
+        }
+        .modes-close{
+            position:relative;
+            height:1.2rem;
+            text-align: center;
+            line-height: 1.2rem;
+            font-size: $font-size-medium;
+            color:$color-text-gray;
         }
     }
 }

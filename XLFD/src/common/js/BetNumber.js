@@ -2,10 +2,10 @@
 /**
  * 根据已经选择的注列表生成下注的数字字符串：996,13,,3,,
  */
-export function getBetNumberByBetGroupList(listList,wf_flag) {
-    const i = 0;
-    const bet = "";
-    const str = "";
+export function getBetNumberByBetGroupList(listList,wf_flag,positionList) {
+    var i = 0;
+    var bet = "";
+    var str = "";
     if (!wf_flag) {
         return "";
     }
@@ -13,19 +13,19 @@ export function getBetNumberByBetGroupList(listList,wf_flag) {
         //任3组选和值 //任三直选和值 //任二组选和值 //任二直选和值
         case "ssc_r3zux_hz": case "ssc_r3zhix_hz": case "ssc_r2zux_hz":
         case "ssc_r2zhix_hz":
-            bet=listList[0].join(',')+"@"+listList[1].join('$');
+            bet=positionList.join(',')+"@"+listList[0].join('$');
             break;
         //任4组选6 //任4组选24 //任3组六复式 //任3组三复式 //任二组选复式
         case "ssc_r4zux_6": case "ssc_r4zux_24": case "ssc_r3zux_z6hz":
         case "ssc_r3zux_z3fs": case "ssc_r2zux_fs":
-            if (listList.length == 2) {
-                bet=listList[0].join(',')+"@"+listList[1].join('');
+            if (listList.length == 1) {
+                bet=positionList.join(',')+"@"+listList[0].join('');
             }
             break;
         //任4组选4 //任4组选12
         case "ssc_r4zux_4": case "ssc_r4zux_12":
-            if (listList.length == 3) {
-                bet=listList[0].join(',')+"@"+listList[1].join('')+","+listList[2].join('');
+            if (listList.length == 2) {
+                bet=positionList.join(',')+"@"+listList[0].join('')+","+listList[1].join('');
             }
             break;
         //时时彩龙虎斗

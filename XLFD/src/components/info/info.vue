@@ -44,7 +44,7 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </router-link>
-                        <router-link tag="li" :to="{path:'/info/bet'}" class="item-mode border-bottom-1px">
+                        <router-link tag="li" :to="{path:'/bet'}" class="item-mode border-bottom-1px">
                             <p class="title icon-bet">投注记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>

@@ -1,8 +1,9 @@
 export function initDataNum(start, end) {
-    const list = [];
-    const buyNumberBean = {};
+    var list = [];
+    var buyNumberBean = {};
     if (end > start) {
-        for (const i = start; i <= end; i++) {
+        for (var i = start; i <= end; i++) {
+            buyNumberBean = {};
             buyNumberBean.str = i + "";
             buyNumberBean.number = i;
             buyNumberBean.index = i+1;
@@ -14,9 +15,10 @@ export function initDataNum(start, end) {
 
 
 export function initDataStr(arr) {
-    const list = [];
-    const buyNumberBean = {};
+    var list = [];
+    var buyNumberBean = {};
     arr.forEach((tiem,i) => {
+        buyNumberBean = {};
         buyNumberBean.str = tiem + "";
         buyNumberBean.number = i;
         buyNumberBean.index = i+1;
@@ -26,10 +28,11 @@ export function initDataStr(arr) {
 }
 
 export function initPk10_lhdData(str,position) {
-    const list = [];
-    const buyNumberBean = {};
-    const m = 1;
-    for (const i = 0; i < str.length; i++) {
+    var list = [];
+    var buyNumberBean = {};
+    var m = 1;
+    for (var i = 0; i < str.length; i++) {
+        buyNumberBean = {};
         buyNumberBean = {};
         buyNumberBean.str = str[i] + "";
         buyNumberBean.number = i;
@@ -42,7 +45,7 @@ export function initPk10_lhdData(str,position) {
 }
 
 function getTitle(i) {
-    const str = "一vs十";
+    var str = "一vs十";
     switch (i) {
         case 0:
             str = "1vs10";
@@ -68,9 +71,10 @@ function getTitle(i) {
 
 export function initDataLHCPL(wfPlBeanList) {
     if (wfPlBeanList == null) {return null};
-    const list = [];
-    const buyNumberBean = {};
+    var list = [];
+    var buyNumberBean = {};
     wfPlBeanList.forEach ((item, i) => {
+        buyNumberBean = {};
         buyNumberBean.str = item.pl_name + "";
         buyNumberBean.lhcStr = item.pl_name + "";
         buyNumberBean.index = i+1;
@@ -82,8 +86,8 @@ export function initDataLHCPL(wfPlBeanList) {
 }
 
 export function initDataBy(type, wfPlBeanList) {
-    const list = [];
-    const buyNumberBean = {};
+    var list = [];
+    var buyNumberBean = {};
     if (type == 1 && wfPlBeanList.length == 3) {
         buyNumberBean.str = "红波\n01  02  07  08\n12  13  18  19\n23  24  29  30\n34  35  30  45\n46";
         buyNumberBean.lhcStr = "红波";
@@ -234,7 +238,7 @@ export function initDataBy(type, wfPlBeanList) {
         buyNumberBean.pl = wfPlBeanList[0].award_money;
         buyNumberBean.pl_flag = wfPlBeanList[0].pl_flag;
         list.push(buyNumberBean);
-        for (const i = 1; i < wfPlBeanList.length; i++) {
+        for (var i = 1; i < wfPlBeanList.length; i++) {
             buyNumberBean = {};
             buyNumberBean.str = wfPlBeanList[i].pl_name + "\n0" + i + "  1" + i + "  2" + i + "  3" + i + "  4" + i;
             buyNumberBean.lhcStr = wfPlBeanList[i].pl_name;
@@ -244,8 +248,8 @@ export function initDataBy(type, wfPlBeanList) {
             list.push(buyNumberBean);
         }
     } else if (type == 5) {
-        const m = 1;
-        for (const i = 1; i <= 49; i++) {
+        var m = 1;
+        for (var i = 1; i <= 49; i++) {
             buyNumberBean = {};
             buyNumberBean.str = i < 10 ? (0 + (i + "")) : (i + "");
             buyNumberBean.lhcStr = buyNumberBean.str;
@@ -256,8 +260,8 @@ export function initDataBy(type, wfPlBeanList) {
             list.push(buyNumberBean);
         }
     } else if (type == 6) {
-        const m = 1;
-        for (const i = 0; i <= 27; i++) {
+        var m = 1;
+        for (var i = 0; i <= 27; i++) {
             buyNumberBean = {};
             buyNumberBean.str = (i + "");
             buyNumberBean.number = i;
@@ -439,7 +443,7 @@ export function initDataBy(type, wfPlBeanList) {
         buyNumberBean.pl_flag = wfPlBeanList[0].pl_flag;
         list.push(buyNumberBean);
     } else if (type == 9) {
-        for (const i = 0; i < 10; i++) {
+        for (var i = 0; i < 10; i++) {
             const pickIndex = wfPlBeanList.length == 10 ? i : 0;
             buyNumberBean = {};
             buyNumberBean.str = i + "尾";
@@ -454,9 +458,9 @@ export function initDataBy(type, wfPlBeanList) {
 }
 
 export function initShengxiaoData(type, shengXiaoLHCRecvList, wfPlBeanList) {
-    const list = [];
+    var list = [];
     shengXiaoLHCRecvList.forEach((shengXiaoLHCRecv,i) => {
-        const buyNumberBean = {};
+        var buyNumberBean = {};
         const content = shengXiaoLHCRecv.value.replace(",", "  ");
         buyNumberBean.str = shengXiaoLHCRecv.flag + "\n" + content;
         buyNumberBean.lhcStr = shengXiaoLHCRecv.flag;

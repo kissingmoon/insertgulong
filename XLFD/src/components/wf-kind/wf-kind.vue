@@ -2,187 +2,17 @@
     <parcel>
         <div class="kind-content">
             <div class="kind-title-content">
-                <div class="back" @click="goBack"><i class="icon-arrows-left"></i></div>
+                <div class="back" @click="close"><i class="icon-arrows-left"></i></div>
                 <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service"><i class="icon-diamond"></i><span>客服</span></router-link>
                 <h1 class="title">玩法选择</h1>
             </div>
-            <scroll ref="scroll" class="scroll-content">
+            <scroll ref="scroll" class="scroll-content" :data="data">
                 <div class="kind-wrapper">
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
+                    <div class="kind-item" v-for="(item,i) in data">
+                        <div class="item-title">{{item.name}}</div>
                         <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                        </div>
-                    </div>
-                    <div class="kind-item">
-                        <div class="item-title">五星直选</div>
-                        <div class="sub-main">
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
-                            </div>
-                            <div class="sub">
-                                五星直选复式
+                            <div class="sub" v-for="(sub,s) in item.wf" @click="selectWf(i,s)">
+                                {{sub.name}}
                             </div>
                         </div>
                     </div>
@@ -198,6 +28,10 @@
   import Parcel from 'base/parcel/parcel';
 
   export default {
+    data() {
+      return {
+      }
+    },
     props: {
         data:{
             type: [Array,Object,String],
@@ -208,19 +42,28 @@
         Scroll,
         Parcel
     },
-    data() {
-      return {
-      }
-    },
     mounted() {
+        setTimeout(() => {
+            this.$refs.scroll.refresh();
+        }, 20)
     },
     activated() {
     },
     methods: {
-        goBack(){
-            this.$router.back();
+        close(){
+            this.$emit('close','wfKindShow');
+        },
+        selectWf(i,s){
+            console.log(1245);
+            this.$emit('selectWf',i,s);
         },
         
+    },
+    watch: {
+        // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
+        data(newVue) {
+            console.log(newVue);
+        }
     }
   }
 </script>
@@ -300,6 +143,7 @@
                         overflow: hidden;
                         padding-left:0.3rem;
                         @include bg-image('bg-lottery-shallow');
+                        background-size: 1rem;
                         .sub{
                             float: left;
                             margin:0.3rem 0.3rem 0.3rem 0;
@@ -310,7 +154,8 @@
                             overflow: hidden;
                             border:1px solid $color-border-num;
                             border-radius: 0.8rem;
-                            @include bg-image('bg-lottery-deep');
+                            @include bg-image('bg-num-shallow');
+                            background-size: 2rem;
                         }
                     }
                 }

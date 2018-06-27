@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <router-link tag="div" :to="{path:'/lottery',query:{lottery_id:sub.lottery_id}}" class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
+                            <router-link tag="div" :to="{path:'/lottery',query:{id:sub.lottery_id}}" class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="sub.lottery_image">
@@ -127,7 +127,6 @@
             this._getLottery();
             this._getRank();
             this._getBetWin();
-            this._getBetWF();
         },
         methods: {
             loadImage() {
@@ -172,12 +171,6 @@
                 this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
                     this.betWin=res.data;
-                });
-            },
-            _getBetWF(){
-                this.$axios.postRequest('/gc/cz-wf-lhc28',{lottery_id:"xglhc"})
-                .then((res)=> {
-                    console.log(res.data);
                 });
             },
             subtag(i){

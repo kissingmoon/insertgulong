@@ -16,13 +16,13 @@ const num=["0","1", "2", "3", "4", "5", "6", "7", "8", "9"];
 export function arrangementZuxHZ(dataList, resultList, resultIndex,specialValue, list,intLength) {
     const resultLen = resultList.length;
     if (resultIndex >= resultLen) { // 全部选择完时，输出排列结果
-        const count=0;
+        var count=0;
         const itemp=new Array(intLength);
-        for (const i = 0; i < resultList.length; i++) {
+        for (var i = 0; i < resultList.length; i++) {
             count=parseInt(resultList[i])+count;
             itemp[i]=parseInt(resultList[i]);
         }
-        const temp="";
+        var temp="";
         if(intLength==3){
             if(itemp[0]==itemp[1] && itemp[1]==itemp[2]){
                 return ;
@@ -43,7 +43,7 @@ export function arrangementZuxHZ(dataList, resultList, resultIndex,specialValue,
         return ;
     }
     // 递归选择下一个
-    for (const i = 0; i < dataList.length; i++) {
+    for (var i = 0; i < dataList.length; i++) {
         resultList[resultIndex] = dataList[i];
         arrangementZuxHZ(dataList, resultList, resultIndex + 1,specialValue,list,intLength);
     }
@@ -58,9 +58,9 @@ export function arrangementZuxHZ(dataList, resultList, resultIndex,specialValue,
 export function arrangementZhixHZ(dataList, resultList, resultIndex,specialValue,list) {
     const resultLen = resultList.length;
     if (resultIndex >= resultLen) { // 全部选择完时，输出排列结果
-        const count=0;
-        const temp="";
-        for (const i = 0; i < resultList.length; i++) {
+        var count=0;
+        var temp="";
+        for (var i = 0; i < resultList.length; i++) {
             count=parseInt(resultList[i])+count;
             temp=temp+resultList[i];
         }
@@ -70,7 +70,7 @@ export function arrangementZhixHZ(dataList, resultList, resultIndex,specialValue
         return ;
     }
     // 递归选择下一个
-    for (const i = 0; i < dataList.length; i++) {
+    for (var i = 0; i < dataList.length; i++) {
         resultList[resultIndex] = dataList[i];
         arrangementZhixHZ(dataList, resultList, resultIndex + 1,specialValue,list);
     }
@@ -85,10 +85,10 @@ export function arrangementZhixHZ(dataList, resultList, resultIndex,specialValue
 export function arrangementSelectKD(dataList, resultList, resultIndex,specialValue,list,intLength) {
     const resultLen = resultList.length;
     if (resultIndex >= resultLen) { // 全部选择完时，输出排列结果
-        const count=0;
+        var count=0;
         const itemp=new Array(intLength);
-        const temp="";
-        for (const i = 0; i < resultList.length; i++) {
+        var temp="";
+        for (var i = 0; i < resultList.length; i++) {
             itemp[i]=parseInt(resultList[i]);
             temp=temp+resultList[i];
         }
@@ -100,7 +100,7 @@ export function arrangementSelectKD(dataList, resultList, resultIndex,specialVal
         return ;
     }
     // 递归选择下一个
-    for (const i = 0; i < dataList.length; i++) {
+    for (var i = 0; i < dataList.length; i++) {
         resultList[resultIndex] = dataList[i];
         arrangementSelectKD(dataList, resultList, resultIndex + 1,specialValue,list,intLength);
     }
@@ -117,15 +117,15 @@ export function combinationSelect(list,data, dataIndex, result, resultIndex) {
     const resultLen = result.length;
     const resultCount = resultIndex + 1;
     if (resultCount > resultLen) { // 全部选择完时，输出组合结果
-        const temp="";
-        for (int i = 0; i < result.length; i++) {
+        var temp="";
+        for (var i = 0; i < result.length; i++) {
             temp=temp+result[i]+",";
         }
         list.push(temp.substring(0,temp.lastIndexOf(",")));
         return ;
     }
     // 递归选择下一个
-    for (const i = dataIndex; i < data.length + resultCount - resultLen; i++) {
+    for (var i = dataIndex; i < data.length + resultCount - resultLen; i++) {
         result[resultIndex] = data[i];
         combinationSelect(list,data, i + 1, result, resultIndex + 1);
     }
@@ -170,7 +170,8 @@ export function combination(n, m) {
  */
 export function combineZhixhz(n,specialValue ){
     const list= [];
-    arrangementZhixHZ(num, new Array(n), 0,specialValue,list);
+    var arr=new Array(n);
+    arrangementZhixHZ(num, arr, 0,specialValue,list);
     return list.length;
 }
 
@@ -183,7 +184,8 @@ export function combineZhixhz(n,specialValue ){
  */
 export function combineZhixKd(n,specialValue ,intLength){
     const list=[];
-    arrangementSelectKD(num, new Array(n), 0,specialValue,list,intLength);
+    var arr=new Array(n);
+    arrangementSelectKD(num, arr, 0,specialValue,list,intLength);
     return list.length;
 }
 
@@ -196,7 +198,8 @@ export function combineZhixKd(n,specialValue ,intLength){
  */
 export function combineZuxhz(n,specialValue ,intLength){
     const list=[];
-    arrangementZuxHZ(num, new Array(n), 0,specialValue,list,intLength);
+    var arr=new Array(n);
+    arrangementZuxHZ(num, arr, 0,specialValue,list,intLength);
     return list.length;
 }
 
@@ -208,7 +211,8 @@ export function combineZuxhz(n,specialValue ,intLength){
  */
 export function  getCombination(str,n){
     const list=[];
-    combinationSelect(list,str, 0, new Array(n), 0);
+    var arr=new Array(n);
+    combinationSelect(list,str, 0, arr, 0);
     return list;
 }
 

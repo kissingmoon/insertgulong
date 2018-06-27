@@ -1,236 +1,165 @@
 <template>
     <div class="lottery-number-content">
-        <div class="position-main">
-            <div class="position-item">
-                <p class="icon-con on"><i class="icon-right"></i></p>
-                <p class="txt">万位</p>
+        <div class="lottery-option-main" v-for="(posi,p) in numList">
+            <div class="position-main" v-if="posi.isCanTopFastPick">
+                <div class="position-item" @click="selectPosi(0)">
+                    <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(0) != -1}"><i class="icon-right"></i></p>
+                    <p class="txt">万位</p>
+                </div>
+                <div class="position-item" @click="selectPosi(1)">
+                    <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(1) != -1}"><i class="icon-right"></i></p>
+                    <p class="txt">千位</p>
+                </div>
+                <div class="position-item" @click="selectPosi(2)">
+                    <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(2) != -1}"><i class="icon-right"></i></p>
+                    <p class="txt">百位</p>
+                </div>
+                <div class="position-item" @click="selectPosi(3)">
+                    <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(3) != -1}"><i class="icon-right"></i></p>
+                    <p class="txt">十位</p>
+                </div>
+                <div class="position-item" @click="selectPosi(4)">
+                    <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(4) != -1}"><i class="icon-right"></i></p>
+                    <p class="txt">个位</p>
+                </div>
             </div>
-            <div class="position-item">
-                <p class="icon-con"><i class="icon-right"></i></p>
-                <p class="txt">千位</p>
-            </div>
-            <div class="position-item">
-                <p class="icon-con"><i class="icon-right"></i></p>
-                <p class="txt">百位</p>
-            </div>
-            <div class="position-item">
-                <p class="icon-con"><i class="icon-right"></i></p>
-                <p class="txt">十位</p>
-            </div>
-            <div class="position-item">
-                <p class="icon-con"><i class="icon-right"></i></p>
-                <p class="txt">个位</p>
-            </div>
-        </div>
-        <div class="lottery-option-main">
             <div class="option-wrapper">
-                <div class="option-title">
-                    <p>
-                        万位
-                    </p>
+                <div class="option-title" v-if="posi.isShowSign">
+                    <p>{{posi.title}}</p>
                 </div>
-                <div class="option-item-wrapper">
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">虎</p>
+                <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
+                        <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">{{item.str}}</p>
+                        <p class="txt" v-if="posi.is28OrLhc">47.6</p>
                     </div>
                 </div>
-            </div>
-            <div class="optino-kind border-top-1px  border-bottom-1px">
-                <div class="kind-item">全</div>
-                <div class="kind-item">大</div>
-                <div class="kind-item">小</div>
-                <div class="kind-item">单</div>
-                <div class="kind-item">双</div>
-                <div class="kind-item">清</div>
-            </div>
-        </div>
-        <div class="lottery-option-main">
-            <div class="option-wrapper">
-                <div class="option-title">
-                    <p>
-                        万位
-                    </p>
-                </div>
-                <div class="option-item-wrapper">
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                    <div class="option-item">
-                        <p class="num-con">01</p>
-                        <p class="txt">47.6</p>
-                    </div>
-                </div>
-            </div>
-            <div class="optino-kind border-top-1px  border-bottom-1px">
-                <div class="kind-item">全</div>
-                <div class="kind-item">大</div>
-                <div class="kind-item">小</div>
-                <div class="kind-item">单</div>
-                <div class="kind-item">双</div>
-                <div class="kind-item">清</div>
-            </div>
-        </div>
-        <div class="lottery-option-main">
-            <div class="option-wrapper">
-                <div class="option-item-wrapper">
-                    <div class="option-item">
-                        <div class="zodiac-con">
+                <div class="option-item-wrapper" v-if="posi.backgroundType == 2">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
+                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">
                             <div class="zodiac-title">红波</div>
                             <div class="zodiac-num">01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04</div>
                         </div>
-                        <div class="txt">47.6</div>
+                        <div class="txt" v-if="posi.is28OrLhc">47.6</div>
                     </div>
-                    <div class="option-item">
-                        <div class="zodiac-con">
-                            <div class="zodiac-title">红波</div>
-                            <div class="zodiac-num">01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04</div>
+                </div>
+                <div class="option-item-wrapper" v-if="posi.backgroundType == 3">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
+                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">
+                            红波
                         </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="zodiac-con">
-                            <div class="zodiac-title">红波</div>
-                            <div class="zodiac-num">01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04</div>
-                        </div>
-                        <div class="txt">47.6</div>
+                        <div class="txt" v-if="posi.is28OrLhc">47.6</div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="lottery-option-main">
-            <div class="option-wrapper">
-                <div class="option-item-wrapper">
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                    <div class="option-item">
-                        <div class="oval-con">
-                            红波
-                        </div>
-                        <div class="txt">47.6</div>
-                    </div>
-                </div>
+            <div class="optino-kind border-top-1px  border-bottom-1px" v-if="posi.isCanBottomFastPick">
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][0] == 1}" :data-txt="kindTypeList[p]" @click="selectKind(p,0)">全</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][1] == 1}" @click="selectKind(p,1)">大</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1}" @click="selectKind(p,2)">小</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1}" @click="selectKind(p,3)">单</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][5] == 1}" @click="selectKind(p,5)">清</div>
             </div>
         </div>
     </div>
 </template>
 <script type="text/ecmascript-6">
+    
     export default {
         data(){
             return{
+                kindTypeList:new Array(100)
             }
+        },
+        props: {
+            numList:{
+                type: Array,
+                default: []
+            },
+            selectNumList:{
+                type: Array,
+                default: new Array(100)
+            },
+            selectPosition:{
+                type: Array,
+                default: []
+            }
+        },
+        mounted(){
+            this.init();
         },
         computed: {
         },
         methods:{
-
+            init(){
+                // for(var i = 0;i<this.numList.length;i++){
+                //     this.kindTypeList=[];
+                //     this.kindTypeList.push();
+                // }
+            },
+            selectNum(p,num){
+                this.$emit('selectNum',p,num)
+            },
+            selectPosi(num){
+                this.$emit('selectPosi',num)
+            },
+            selectKind(p,type){
+                const arr =[];
+                const numberList=this.numList[p].buyNumberBeanList;
+                const length=numberList.length;
+                switch(type){
+                    case 0:
+                        this.kindTypeList.splice(p,1,[1,0,0,0,0,0]);
+                        numberList.forEach((item,i) => {
+                            arr.push(item.number);
+                        });
+                        break;
+                    case 1:
+                        this.kindTypeList.splice(p,1,[0,1,0,0,0,0]);
+                        numberList.forEach((item,i) => {
+                            if(i >= length/2){
+                                arr.push(item.number);
+                            }
+                        });
+                        break;
+                    case 2:
+                        this.kindTypeList.splice(p,1,[0,0,1,0,0,0]);
+                        numberList.forEach((item,i) => {
+                            if(i < length/2){
+                                arr.push(item.number);
+                            }
+                        });
+                        break;
+                    case 3:
+                        this.kindTypeList.splice(p,1,[0,0,0,1,0,0]);
+                        numberList.forEach((item,i) => {
+                            if(i % 2 == 1){
+                                arr.push(item.number);
+                            }
+                        });
+                        break;
+                    case 4:
+                        this.kindTypeList.splice(p,1,[0,0,0,0,1,0]);
+                        numberList.forEach((item,i) => {
+                            if(i % 2 == 0){
+                                arr.push(item.number);
+                            }
+                        });
+                        break;
+                    case 5:
+                        this.kindTypeList.splice(p,1,[0,0,0,0,0,1]);
+                        break;
+                }
+                this.$emit('selectKind',p,arr);
+                console.log(this.kindTypeList);
+            },
+            clearKind(){
+                this.kindTypeList=new Array(100);
+            }
         },
         watch:{
+            numList(){
+                this.kindTypeList=new Array(100);
+            }
         }
     }
 </script>
@@ -240,43 +169,45 @@
     .lottery-number-content{
         height: auto;
         overflow: hidden;
-        .position-main{
-            display: flex;
-            height:1.4rem;
-            text-align: center;
-            overflow: hidden;
-            .position-item{
-                flex: 1;
-                text-align: center;
-                color: #fff;
-                font-size: $font-size-small-x;
-                padding-top:0.15rem;
-                .icon-con{
-                    height:0.56rem;
-                    width:0.56rem;
-                    line-height: 0.56rem;
-                    text-align: center;
-                    overflow: hidden;
-                    margin: 0 auto;
-                    border:1px solid $color-border-num;
-                    border-radius: 50%;
-                    &.on{
-                        border-color:$color-text-yellow;
-                    }
-                }
-                .txt{
-                    height:0.5rem;
-                    width:0.9rem;
-                    padding-top:0.1rem;
-                    margin: 0 auto;
-                    line-height: 0.5rem;
-                }
-
-            }
-        }
+        
         .lottery-option-main{
             height: auto;
             overflow: hidden;
+            .position-main{
+                display: flex;
+                height:1.4rem;
+                text-align: center;
+                overflow: hidden;
+                .position-item{
+                    flex: 1;
+                    text-align: center;
+                    color: #fff;
+                    font-size: $font-size-small-x;
+                    padding-top:0.15rem;
+                    .icon-con{
+                        height:0.56rem;
+                        width:0.56rem;
+                        line-height: 0.56rem;
+                        text-align: center;
+                        overflow: hidden;
+                        margin: 0 auto;
+                        border:1px solid $color-border-num;
+                        border-radius: 50%;
+                        &.on{
+                            border-color:$color-text-yellow;
+                            color:$color-text-yellow;
+                        }
+                    }
+                    .txt{
+                        height:0.5rem;
+                        width:0.9rem;
+                        padding-top:0.1rem;
+                        margin: 0 auto;
+                        line-height: 0.5rem;
+                    }
+
+                }
+            }
             .option-wrapper{
                 height: auto;
                 overflow: hidden;
@@ -306,7 +237,7 @@
                         float: left;
                         text-align: center;
                         color: #fff;
-                        padding:0.2rem 0.3rem 0.2rem 0;
+                        margin:0.2rem 0.3rem 0.2rem 0;
                         .num-con{
                             height:0.96rem;
                             width:0.96rem;
@@ -316,8 +247,11 @@
                             margin: 0 auto;
                             border:1px solid $color-border-num;
                             border-radius: 50%;
+                            @include bg-image('bg-num-shallow');
+                            background-size: 1rem;
                             &.on{
                                 border-color:$color-text-yellow;
+                                @include bg-image('bg-num-deep');
                             }
                         }
                         .oval-con{
@@ -329,6 +263,8 @@
                             margin: 0 auto;
                             border:1px solid $color-border-num;
                             border-radius: 0.8rem;
+                            @include bg-image('bg-num-shallow');
+                            background-size:  1rem;
                             &.on{
                                 border-color:$color-text-yellow;
                             }
@@ -342,6 +278,8 @@
                             border:1px solid $color-border-num;
                             border-radius: 0.2rem;
                             padding:0.3rem 0;
+                            @include bg-image('bg-num-shallow');
+                            background-size:  1rem;
                             .zodiac-title{
                                 padding-bottom:0.15rem;
                                 color:#FFD200;
@@ -352,6 +290,7 @@
                             }
                             &.on{
                                 border-color:$color-text-yellow;
+                                @include bg-image('bg-num-deep');
                             }
                         }
                         .txt{
@@ -378,6 +317,13 @@
                     line-height: 0.8rem;
                     color:#fff;
                     font-size: $font-size-medium-x;
+                    &.on{
+                        @include bg-image('bg-num-deep');
+                        background-size:  1rem;
+                        border:1px solid $color-border-yellow;
+                        height:0.72rem;
+                        line-height: 0.72rem;
+                    }
                 }
                 div:first-child{
                     @include border-left-1px(dashed,$color-bg-white-a0);

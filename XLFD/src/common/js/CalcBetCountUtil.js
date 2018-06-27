@@ -1,4 +1,4 @@
-import * as ComAndArrangeUtil from 'ComAndArrangeUtil.js'
+import * as ComAndArrangeUtil from 'common/js/ComAndArrangeUtil.js'
 /**
  * 计算投注
  *
@@ -142,7 +142,7 @@ export function ssc_q3zhix_zh(value) {
 
 //前三直选和值   bet:2,27
 export function ssc_q3zhix_hz(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZhixhz(3, parseInt(item));
     });
@@ -151,7 +151,7 @@ export function ssc_q3zhix_hz(value) {
 
 //前三直选跨度   bet:1,2,3
 export function ssc_q3zhix_kd(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZhixKd(3, parseInt(item),3);
     });
@@ -170,7 +170,7 @@ export function ssc_q3zux_q3zu6fs(value) {
 
 //前三组选和值   bet:2,27
 export function ssc_q3zux_q3zuxhz(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZuxhz(3, parseInt(item),3);
     });
@@ -272,7 +272,7 @@ export function ssc_q2zhix_fs(value) {
 
 //前二直选和值   bet:1,2,17
 export function ssc_q2zhix_hz(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZhixhz(3, parseInt(item));
     });
@@ -281,7 +281,7 @@ export function ssc_q2zhix_hz(value) {
 
 //前二直选跨度   bet:1,2,3
 export function ssc_q2zhix_kd(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZhixKd(3, parseInt(item),3);
     });
@@ -295,7 +295,7 @@ export function ssc_q2zux_fs(value) {
 
 //前二组选和值   bet:2,17
 export function ssc_q2zux_hz(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += ComAndArrangeUtil.combineZuxhz(2, parseInt(item),2);
     });
@@ -341,7 +341,7 @@ export function ssc_h2zux_bd(value) {
 //------------------------------------------------定位胆----------------------------------
 //五星定位胆   bet:1,2,,4,5
 export function ssc_5xdwd(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += string.length;
     });
@@ -488,6 +488,8 @@ export function ssc_r3zux_hz(value) {
     const positionList = value.split('@')[0].split(',');
     const bet = value.split('@')[1].replace("$", ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 3);
+    console.log(ssc_q3zux_q3zuxhz(bet));
+    console.log(count);
     return ssc_q3zux_q3zuxhz(bet) * count;
 }
 
@@ -512,9 +514,9 @@ export function ssc_r4zux_12(value) {
     const bet2 = value.split("@")[1].split(",")[0].split("");
     const bet1 = value.split("@")[1].split(",")[1];
     const pcount = ComAndArrangeUtil.combination(positionList.length, 4); //位置组合
-    const temp = "";
-    const bcount = 0;
-    for (const i = 0; i < bet2.length; i++) {
+    var temp = "";
+    var bcount = 0;
+    for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
             temp = bet1.replace(bet2[i], "");
             bcount = bcount + ComAndArrangeUtil.combination(temp.length, 2);
@@ -538,9 +540,9 @@ export function ssc_r4zux_4(value) {
     const bet2 = value.split("@")[1].split(",")[0].split("");
     const bet1 = value.split("@")[1].split(",")[1];
     const pcount = ComAndArrangeUtil.combination(position.length, 4); //位置组合
-    const temp = "";
-    const bcount = 0;
-    for (const i = 0; i < bet2.length; i++) {
+    var temp = "";
+    var bcount = 0;
+    for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
             temp = bet1.replace(bet2[i], "");
             bcount = bcount + temp.length;
@@ -664,8 +666,8 @@ export function pk10_cq10_q10(value) {
 //定位胆  bet:1,2,10--3,5--5--10---1,1
 export function pk10_gp_dwd_child(value) {
     const s = value.split("-");
-    const count = 0;
-    for (const i = 0; i < s.length; i++) {
+    var count = 0;
+    for (var i = 0; i < s.length; i++) {
         if (!(/\s/g.test(s[i]))) {
             const temp = s[i].split(",");
             count = count + temp.length;
@@ -701,7 +703,7 @@ export function pk10_hz_gyj(value) {
 
 //龙虎斗    bet:1vs10-龙虎,2vs9-龙虎,3vs8-龙虎
 export function pk10_lhd(value) {
-    const count = 0;
+    var count = 0;
     value.split(',').forEach(item => {
         count += item.split('-')[1].length;
     });
@@ -850,8 +852,8 @@ export function k3_2bth_dt(value) {
 export function k3_2th_bz(value) {
     const tonghao = value.split("-")[0].split(",");
     const buTh = value.split("-")[1].replace(",", "");
-    const count = 0;
-    for (const i = 0; i < tonghao.length; i++) {
+    var count = 0;
+    for (var i = 0; i < tonghao.length; i++) {
         count = count + buTh.replace(tonghao[i], "").length;
     }
     return count;
@@ -875,8 +877,8 @@ export function k3_3bth_dt(value) {
 //三不同和值   bet:6,7,12,15
 export function k3_3bth_hz(value) {
     const temp = value.split(",");
-    const count = 0;
-    for (const i = 0; i < temp.length; i++) {
+    var count = 0;
+    for (var i = 0; i < temp.length; i++) {
         const tv = parseInt(temp[i]);
         if (tv == 6 || tv == 7 || tv == 14 || tv == 15) {
             count += 1;
@@ -919,8 +921,8 @@ export function k3_hz_hz(value) {
 export function countZuxuan1(value, num) {
     const bet2 = value.split(",")[0].split("");   //一般代表多重号
     const bet1 = value.split(",")[1];
-    const count = 0;
-    for (const i = 0; i < bet2.length; i++) {
+    var count = 0;
+    for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
             const temp = bet1.replace(bet2[i], "");   //用下面的数据进行组合,上面的数据循环
             count = count + ComAndArrangeUtil.combination(temp.length, num);
@@ -940,8 +942,8 @@ export function countZuxuan1(value, num) {
 export function countZuxuan2(value,num) {
     const bet2 = value.split(",")[0];
     const bet1 = value.split(",")[1].split("");
-    const count = 0;
-    for (const i = 0; i < bet1.length; i++) {
+    var count = 0;
+    for (var i = 0; i < bet1.length; i++) {
         if (!(/\s/g.test(bet1[i]))) {
             const temp = bet2.replace(bet1[i], "");  //用上面的数据进行组合,下面的数据循环
             count = count + ComAndArrangeUtil.combination(temp.length, 2);
@@ -959,8 +961,8 @@ export function countZuxuan2(value,num) {
  */
 export function countRX(value, rxNum) {
     const temp = value.split(",");
-    const s = "";
-    for (const i = 0; i < temp.length; i++) {
+    var s = "";
+    for (var i = 0; i < temp.length; i++) {
         if (!(/\s/g.test(temp[i]))) {
             s = s + i + ",";
         }
@@ -968,11 +970,11 @@ export function countRX(value, rxNum) {
     s = s.substring(0, s.lastIndexOf(","));
     const str = s.split(",");
     const list = ComAndArrangeUtil.getCombination(str, rxNum);//位置组合
-    const count = 0;
-    for (const i = 0; i < list.length; i++) {
+    var count = 0;
+    for (var i = 0; i < list.length; i++) {
         const ss = list[i].split(",");//0,1,2,3
-        const tempconst = 1;
-        for (const j = 0; j < rxNum; j++) {
+        var tempconst = 1;
+        for (var j = 0; j < rxNum; j++) {
             tempconst = temp[parseInt(ss[j])].length * tempInt;
         }
         count = count + tempInt;
@@ -985,7 +987,7 @@ export function sscCountFs(value) {
     const list = value.split(',');
     const needSize = value.split(',').length;
     if (list.length == needSize) {
-        const count = 1;
+        var count = 1;
         list.forEach((item) => {
             count = count * item.length;
         });
@@ -1019,7 +1021,7 @@ export function caclQnSNoRepeat(value, specialValue) {
  */
 export function caclQSxuhuan(str, p, specialValue, set, count) {
     const s = str[p - 1].split(",");
-    for (const i = 0; i < s.length; i++) {
+    for (var i = 0; i < s.length; i++) {
         set.push(s[i]);
         if (p == specialValue) {  // 第3此循环
             if (set.length == specialValue) {
@@ -1048,8 +1050,8 @@ export function m11x5RXDT(value, num) {
     value = value.replace("10", "a").replace("11", "b");
     const str = value.split("-");
     const danma = str[0].split(",");   //胆码
-    const tuoma = str[1].replace(",", "");   //5678ab
-    for (const i = 0; i < danma.length; i++) {
+    var tuoma = str[1].replace(",", "");   //5678ab
+    for (var i = 0; i < danma.length; i++) {
         tuoma = tuoma.replace(danma[i], "");
     }
     const count = ComAndArrangeUtil.combination(tuoma.length, num - danma.length);

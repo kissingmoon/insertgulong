@@ -137,7 +137,6 @@ export function regroupLotteryData(param){
         data.splice((i*2-i%2),1,item);
         data.splice((i*2+((i+1)%2+1)),1,item.sub_lottery);
     });
-    console.log(data);
     return data;
 }
 

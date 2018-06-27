@@ -44,12 +44,58 @@ export const httpUrl = {
         drawNumber:'cp/kj-trend-history',
         winMoney:'/cp/accumulated-winning'
     },
+    bet:{
+        lotteryWf:'/gc/cz-wf',
+        lotteryWfLHC:'/gc/cz-wf-lhc28',
+        lockTime:'gc/cp-lock-time',
+        betOrder:'/bet/bet-order'
+    },
     config:{
         urlList:'/config/url-list',
         message:'/ad/message',
         messageHandle:'/ad/message-handle'
 
     }
+};
+
+export const lotteryName ={
+    'cqssc':'重庆时时彩',
+    'jxssc':'江西时时彩',
+    'tjssc':'天津时时彩',
+    'xjssc':'新疆时时彩',
+    'ffc':'分分彩',
+    'wfc':'五分彩',
+    'jnd3d5fc':'加拿大3.5分彩',
+    'tw5fc':'台湾5分彩',
+    'els1d5fc':'俄罗斯1.5分彩',
+    'xxl45mc':'新西兰45秒彩',
+    'fc3d':'福彩3D',
+    'jx11x5':'江西11选5',
+    'cq11x5':'重庆11选5',
+    'ah11x5':'安徽11选5',
+    'sd11x5':'山东11选5',
+    'gd11x5':'广东11选5',
+    'tjklsf':'天津快乐十分',
+    'gdklsf':'广东快乐十分',
+    'cqklsf':'重庆快乐十分',
+    'bjkl8':'北京快乐8',
+    'xjpkl8':'新加坡快乐8',
+    'jndkl8':'加拿大快乐8',
+    'xglhc':'香港六合彩',
+    'jsk3':'江苏快3',
+    'ahk3':'安徽快3',
+    'jlk3':'吉林快3',
+    'pk10':'pk拾',
+    'hg28':'韩国28',
+    'jnd28':'加拿大28',
+    'tw28':'台湾28',
+    'bj28':'北京28'
+};
+
+export const betUnit = {
+    0:'元',
+    1:'角',
+    2:'分',
 };
 
 export const betType = {
@@ -169,12 +215,12 @@ export const headerConfig = {
         time:true,
         moneyType:true
     },
-    '/info/bet':{
+    '/bet':{
         title:'投注记录',
         back:true,
         time:true
     },
-    '/info/bet/detail':{
+    '/bet/detail':{
         title:'投注详情',
         back:true
     },

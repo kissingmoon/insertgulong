@@ -171,6 +171,16 @@ export default new Router({
             component:Recharge
         },
         {
+            path:'/bet',
+            component:Bet,
+            children:[
+                {
+                    path:'detail',
+                    component:BetDetail
+                }
+            ]
+        },
+        {
             path:'/info',
             component:Info,
             children:[
@@ -181,16 +191,6 @@ export default new Router({
                 {
                     path:'bill',
                     component:Bill
-                },
-                {
-                    path:'bet',
-                    component:Bet,
-                    children:[
-                        {
-                            path:'detail',
-                            component:BetDetail
-                        }
-                    ]
                 },
                 {
                     path:'cash',

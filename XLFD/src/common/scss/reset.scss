@@ -65,6 +65,6 @@ li{
 }
 
 //移除选中时的外边框
-input,button,select,textarea{outline:none};
+input,button,select,textarea{outline:none;border-radius: 0;};
 textarea{resize:none};
 

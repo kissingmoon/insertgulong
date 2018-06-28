@@ -202,6 +202,7 @@
             overflow: hidden;
             @include bg-image('slider-bg');
             background-size: 100% 100%;
+            
             .slider-wrapper{
                 position: relative;
                 width: 100%;

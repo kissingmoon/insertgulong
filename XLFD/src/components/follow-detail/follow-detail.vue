@@ -51,8 +51,8 @@
                         <p v-show="!order.show_hm" class="lock-main">跟单后号码可见<i class="icon-lock"></i></p>
                     </div>
                     <div class="title-wrapper">
-                        <p :class="detailType ? 'on':''" @click="showDetail">方案详情</p>
-                        <p :class="!detailType ? 'on':''" @click="showUser">跟单用户({{userList.length}})</p>
+                        <p :class="{'on':detailType}" @click="showDetail">方案详情</p>
+                        <p :class="{'on':!detailType}" @click="showUser">跟单用户({{userList.length}})</p>
                     </div>
                     <div class="detail-wrapper">
                         <table>
@@ -96,7 +96,7 @@
         data() {
             return{
                 detailType:true,
-                click:false,
+                click:true,
                 author:[],
                 order:{},
                 detailList:[],

@@ -48,7 +48,9 @@ export const httpUrl = {
         lotteryWf:'/gc/cz-wf',
         lotteryWfLHC:'/gc/cz-wf-lhc28',
         lockTime:'gc/cp-lock-time',
-        betOrder:'/bet/bet-order'
+        betOrder:'/bet/bet-order',
+        betOrderZh:'/v2/bet/bet-order-zh',
+        betZyj:'/v2/bet/bet-zyj'
     },
     config:{
         urlList:'/config/url-list',

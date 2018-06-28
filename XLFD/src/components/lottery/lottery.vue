@@ -63,11 +63,11 @@
                         <p class="bet-count">{{betCount}}注{{calculateBetMoney}}元</p>
                         <p class="balance">余额:{{account.balance || 0}}元</p>
                     </div>
-                    <div class="brokerage">
-                        <p class="check-box"><i class="icon-right"></i></p>
+                    <div class="brokerage" @click="show('gdSetShow')">
+                        <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p>
                         <p>赚佣金</p>
                     </div>
-                    <div class="follow-num">
+                    <div class="follow-num" @click="show('followNumberShow')">
                         <p>追号</p>
                     </div>
                     <div class="bet-btn" @click="show('betAffirmShow')">
@@ -139,11 +139,11 @@
                                 <li class="item-wrapper">
                                     <div class="title">方案公开:</div>
                                     <div class="txt">
-                                        <p class="open-type on">
+                                        <p class="open-type" :class="{'on': gdParam.kj_show_hm == 1}" @click="setKjShow(1)">
                                             <span>结束后</span>
                                             <i class="icon-right-ak right-ak"></i>
                                         </p>
-                                        <p class="open-type">
+                                        <p class="open-type" :class="{'on': gdParam.kj_show_hm == 0}" @click="setKjShow(0)">
                                             <span>跟单后</span>
                                             <i class="icon-right-ak right-ak"></i>
                                         </p>
@@ -152,11 +152,11 @@
                                 <li class="item-wrapper">
                                     <div class="title">薪酬设置:</div>
                                     <div class="set-num">
-                                        <input type="text">%
+                                        <input type="text" v-model.numbe="gdParam.commission" >%
                                     </div>
                                     <div class="title">预计收益:</div>
                                     <div class="set-num">
-                                        <input type="text">倍
+                                        <input type="text" v-model.number="gdParam.back_rate" >倍
                                     </div>
                                 </li>
                                 <li class="item-wrapper">
@@ -165,17 +165,33 @@
                                         <p class="gd-length">0/100</p>
                                     </div>
                                     <div class="txt">
-                                        <textarea class="gd-instructions" maxlength="100">说明是一个汉语词汇，读音为shuō míng，属于动词，意思是解释清楚，讲明解；说明原因。说明是一个汉语词汇，读音为shuō míng，属于动词，意思是解释清楚，讲明解；说明原因。</textarea>
+                                        <textarea class="gd-instructions" maxlength="100" v-model="gdParam.content" placeholder="潜心研究了这组跟单，跟我必胜！" ></textarea>
                                         <p class="gd-instructions-tip">跟单说明很重要，玩家将从您的描述中来决定是否购买，请您认真填写！</p>
                                     </div>
                                 </li>
                             </ul>
                             <div class="btn-wrapper">
-                                <button class="cancel" @click="hide('gdSetShow')">放弃发起</button>
-                                <button class="affirm">确认</button>
+                                <button class="cancel" @click="setEarnCommission(false)">放弃发起</button>
+                                <button class="affirm"  @click="setEarnCommission(true)">确认</button>
                             </div>
                             <div class="gd-tip">
                                 <p>温馨提示:您可以在我的-跟单列表界面查看跟单明细<br>发起跟单将会在您成功付款后展示</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="gdTipShow" class="wf--success-content">
+                <div class="background" @click="gdAffirm"></div>
+                <div class="bet-success-detail">
+                    <div class="bet-success-wrapper clearfix">
+                        <div class="detail-title">提示</div>
+                        <div class="bet-success-main">
+                            <div class="success-tip">
+                               您的跟单将在您成功投注后生效
+                            </div>
+                            <div class="btn-wrapper">
+                                <button class="affirm" @click="gdAffirm">确认</button>
                             </div>
                         </div>
                     </div>
@@ -231,6 +247,23 @@
             </div>
             <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList"></draw-history>
             <wf-kind v-if="wfKindShow" :data="wfList" @close="hide" @selectWf="changeWf"></wf-kind>
+            <follow-number 
+                v-if="followNumberShow" 
+                :gdParam="gdParam" 
+                :lotteryId="lotteryId"
+                :betNumber="betNumber"
+                :betCount="betCount"
+                :lotteryModes="lotteryModes"
+                :lotteryInfo="lotteryInfo"
+                :earnCommission="earnCommission"
+                :wfFlag="wfFlag"
+                @close="hide"
+                @changeNumber="changeNumber"
+                @earnMoney="show"
+                @gdBetSuccess="gdBetSuccess"
+                >
+
+            </follow-number>
         </div>
     </parcel>
 </template>
@@ -239,8 +272,9 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import BetNumber from 'base/bet-number/bet-number';
-    import DrawHistory from 'components/draw-history/draw-history';
-    import WfKind from 'components/wf-kind/wf-kind';
+    import DrawHistory from 'components/lottery/draw-history';
+    import WfKind from 'components/lottery/wf-kind';
+    import FollowNumber from 'components/lottery/follow-number';
     import {httpUrl,lotteryName,betUnit} from 'common/js/map';
     import {BaseVM} from 'common/js/BuyCM';
     import LotteryWfDetail from 'common/js/Lottery_wf_detail';
@@ -253,11 +287,14 @@
                 isReady:false, //加载完成
                 wfRuleShow:false, //玩法规则
                 gdSetShow:false,  //跟单设置
+                gdTipShow:false,  //跟单提示
                 betAffirmShow:false,  //下注确认
                 betSuccessShow:false,  //下注成功
                 drawHistoryShow:false,  //开奖历史
                 wfKindShow:false,  //玩法种类
                 modesShow:false,  //模式选择
+                followNumberShow:false,  //追号页面
+                earnCommission:false,  //是否赚佣
                 lotteryId:'',
                 lotteryName,
                 betUnit,
@@ -274,7 +311,13 @@
                 betCount:0,
                 betNumber:'',
                 betTimes:1,
-                lotteryModes:0
+                lotteryModes:0,
+                gdParam:{
+                    commission:'',
+                    back_rate:'',
+                    content:'',
+                    kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
+                }
             }
         },
         components:{
@@ -282,11 +325,11 @@
             Scroll,
             BetNumber,
             DrawHistory,
-            WfKind
+            WfKind,
+            FollowNumber
         },
         created() {
             this.init();
-            //this.getBetList();
         },
         computed: {
             //计算下注金额
@@ -395,6 +438,7 @@
                 //this.makeWfParam();
                 this.selectNumList=[];
                 this.selectPosition=[];
+                this.earnCommission=false;
                 this.wfDetail.param.titles.forEach((item,i) => {
                     this.selectNumList.push([]);
                 });
@@ -435,6 +479,30 @@
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                     };
                 });
+            },
+            setEarnCommission(b){
+                this.earnCommission=b;
+                this.hide('gdSetShow');
+                if(b){
+                    this.show('gdTipShow');
+                }
+            },
+            setKjShow(type){
+                this.gdParam.kj_show_hm=type;
+            },
+            //跟单确认
+            gdAffirm(){
+                this.hide('gdTipShow');
+                this.show('followNumberShow');
+            },
+            changeNumber(){
+                this.hide('followNumberShow');
+                this.allClear();
+            },
+            gdBetSuccess(){
+                this.hide('followNumberShow');
+                this.show('betSuccessShow');
+                this.allClear();
             }
 
         },
@@ -707,15 +775,17 @@
             }
             .brokerage{
                 float: left;
-                width:1.9rem;
-                height:0.67rem;
-                line-height: 0.67rem;
+                width:1.7rem;
+                height:0.52rem;
                 text-align: center;
                 background:$color-bg-deep-gray;
                 border-radius: 0.1rem;
                 margin-top:0.25rem;
+                padding-top:0.15rem;
+                padding-left:0.2rem;
                 p{
-                    display: inline-block;
+                    float: left;
+                    line-height: 0.45rem;
                     &.check-box{
                         width:0.4rem;
                         height:0.4rem;
@@ -770,14 +840,14 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 110;
+        z-index: 300;
         background:$color-bg-shade-a5;
     }
     .detail{
         position:fixed;
         top:calc((100% - 9rem) / 2);
         left:1.2rem;
-        z-index:120;
+        z-index:310;
         width:7.6rem;
         height:9rem;
         overflow: hidden;
@@ -1095,7 +1165,7 @@
         position:fixed;
         top:calc((100% - 5.6rem) / 2);
         left:1.2rem;
-        z-index:120;
+        z-index:320;
         width:7.6rem;
         height:5.6rem;
         overflow: hidden;
@@ -1165,7 +1235,7 @@
     }
     .modes-main{
         position:fixed;
-        z-index:140;
+        z-index:440;
         width:100%;
         height:auto;
         overflow: hidden;

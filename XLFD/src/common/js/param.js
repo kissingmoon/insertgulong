@@ -132,8 +132,9 @@ export function regroupPickData(param){
 export function regroupLotteryData(param){
     const data=new Array(param.length*2);
     param.forEach((item,i) => {
-        //const subIndex = i==0 ? 2:((i+1)%2+1);
-        //console.log(subIndex);
+        item.sub_lottery.forEach((sub,s) => {
+            sub.lottery_type=item.lottery_type;
+        });
         data.splice((i*2-i%2),1,item);
         data.splice((i*2+((i+1)%2+1)),1,item.sub_lottery);
     });

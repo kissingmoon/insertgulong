@@ -1,10 +1,10 @@
 import * as BuyUtil from 'common/js/BuyUtil.js';
 
-export function BaseVM(wfBeanParam,position,shengXiaoLHCRecvListParam,is28OrLhc) {
+export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam) {
     let TYPE_CIRCLE = 1;
     let TYPE_ROUND_RECT = 2;
-    let TYPE_ROUND_HALF_RECT = 3;
-    let TYPE_WHOLE_ROUND_RECT = 4;
+    let TYPE_ROUND_HALF_RECT = 2;
+    let TYPE_WHOLE_ROUND_RECT = 3;
     const str0 = ["十个", "百个", "百十", "千个", "千十", "千百", "万个", "万十", "万百", "万千"];
     const str1 = ["龙", "虎", "合"];
     const str8 = ["龙", "虎"];

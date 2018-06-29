@@ -91,8 +91,11 @@
         },
         methods: {
             changeConcern(index,status){
-                console.log(1);
-                this.$emit('setFans',index,status);
+                clearTimeout(this.time);
+                this.time=setTimeout(() => {
+                    console.log(0);
+                    this.$emit('setFans',index,status);
+                },20)
             }
         }
     }

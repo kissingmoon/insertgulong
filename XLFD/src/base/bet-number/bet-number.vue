@@ -28,26 +28,25 @@
                     <p>{{posi.title}}</p>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
-                        <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">{{item.str}}</p>
-                        <p class="txt" v-if="posi.is28OrLhc">47.6</p>
+                    <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
+                        <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}">{{item.str}}</p>
+                        <p class="txt" v-if="posi.is28OrLhc">{{item.pl}}</p>
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 2">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
-                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">
-                            <div class="zodiac-title">红波</div>
-                            <div class="zodiac-num">01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04<br>01&nbsp;&nbsp;02&nbsp;&nbsp;03&nbsp;&nbsp;04</div>
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
+                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}">
+                            <div class="zodiac-title" v-html="item.numberStr"></div>
+                            <div class="zodiac-num" v-html="item.str"></div>
                         </div>
-                        <div class="txt" v-if="posi.is28OrLhc">47.6</div>
+                        <div class="txt" v-if="posi.is28OrLhc">{{item.pl}}</div>
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 3">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,item.number)">
-                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number) != -1}">
-                            红波
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
+                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}" v-html="item.str">
                         </div>
-                        <div class="txt" v-if="posi.is28OrLhc">47.6</div>
+                        <div class="txt" v-if="posi.is28OrLhc">{{item.pl}}</div>
                     </div>
                 </div>
             </div>
@@ -96,8 +95,8 @@
                 //     this.kindTypeList.push();
                 // }
             },
-            selectNum(p,num){
-                this.$emit('selectNum',p,num)
+            selectNum(p,i,num){
+                this.$emit('selectNum',p,i,num)
             },
             selectPosi(num){
                 this.$emit('selectPosi',num)
@@ -110,14 +109,14 @@
                     case 0:
                         this.kindTypeList.splice(p,1,[1,0,0,0,0,0]);
                         numberList.forEach((item,i) => {
-                            arr.push(item.number);
+                            arr.push(item.numberStr);
                         });
                         break;
                     case 1:
                         this.kindTypeList.splice(p,1,[0,1,0,0,0,0]);
                         numberList.forEach((item,i) => {
                             if(i >= length/2){
-                                arr.push(item.number);
+                                arr.push(item.numberStr);
                             }
                         });
                         break;
@@ -125,7 +124,7 @@
                         this.kindTypeList.splice(p,1,[0,0,1,0,0,0]);
                         numberList.forEach((item,i) => {
                             if(i < length/2){
-                                arr.push(item.number);
+                                arr.push(item.numberStr);
                             }
                         });
                         break;
@@ -133,7 +132,7 @@
                         this.kindTypeList.splice(p,1,[0,0,0,1,0,0]);
                         numberList.forEach((item,i) => {
                             if(i % 2 == 1){
-                                arr.push(item.number);
+                                arr.push(item.numberStr);
                             }
                         });
                         break;
@@ -141,7 +140,7 @@
                         this.kindTypeList.splice(p,1,[0,0,0,0,1,0]);
                         numberList.forEach((item,i) => {
                             if(i % 2 == 0){
-                                arr.push(item.number);
+                                arr.push(item.numberStr);
                             }
                         });
                         break;
@@ -238,6 +237,9 @@
                         text-align: center;
                         color: #fff;
                         margin:0.2rem 0.3rem 0.2rem 0;
+                        &.mr37{
+                            margin-right: 0.37rem;
+                        }
                         .num-con{
                             height:0.96rem;
                             width:0.96rem;
@@ -267,6 +269,7 @@
                             background-size:  1rem;
                             &.on{
                                 border-color:$color-text-yellow;
+                                @include bg-image('bg-num-deep');
                             }
                         }
                         .zodiac-con{
@@ -294,11 +297,11 @@
                             }
                         }
                         .txt{
-                            width:0.9rem;
+                            width:0.96rem;
                             padding-top:0.1rem;
                             margin: 0 auto;
                             line-height: 0.4rem;
-                            color:#093F23;
+                            word-break:break-all;
                         }
 
                     }

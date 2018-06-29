@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <scroll ref="scroll" class="scroll-content" :data="numberList">
+                <scroll ref="scroll" class="scroll-content" :class="{'lhc-scroll':is28OrLhc}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
                         :numList="numberList"
@@ -41,7 +41,7 @@
 
                     </bet-number>
                 </scroll>
-                <div class="lottery-set">
+                <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
                         <p class="number"><input type="text" v-model.number="betTimes"></p>
@@ -55,7 +55,7 @@
                         <p>单注奖金12548.36元</p>
                     </div>
                 </div>
-                <div class="lottery-bottom">
+                <div v-if="!is28OrLhc" class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
@@ -72,6 +72,17 @@
                     </div>
                     <div class="bet-btn" @click="show('betAffirmShow')">
                         <p>投注</p>
+                    </div>
+                </div>
+                <div v-if="is28OrLhc" class="lottery-bottom">
+                    <div class="clear-all" @click="allClear">
+                        <p>清空</p>
+                    </div>
+                    <div class="bet-btn" @click="makeBetOrder">
+                        <p>投注</p>
+                    </div>
+                    <div class="lhc-bet-count">
+                        {{betCount}}注
                     </div>
                 </div>
             </div>
@@ -264,6 +275,17 @@
                 >
 
             </follow-number>
+            <bet-order-list 
+                v-if="betOrderListShow" 
+                :lotteryId="lotteryId"
+                :lotteryInfo="lotteryInfo"
+                :wfFlag="wfFlag"
+                :updataNumberList="updataNumberList"
+                @close="hide"
+                >
+
+            </bet-order-list >
+
         </div>
     </parcel>
 </template>
@@ -275,10 +297,11 @@
     import DrawHistory from 'components/lottery/draw-history';
     import WfKind from 'components/lottery/wf-kind';
     import FollowNumber from 'components/lottery/follow-number';
+    import BetOrderList from 'components/lottery/bet-order-list';
     import {httpUrl,lotteryName,betUnit} from 'common/js/map';
     import {BaseVM} from 'common/js/BuyCM';
     import LotteryWfDetail from 'common/js/Lottery_wf_detail';
-    import * as BetCount from 'common/js/CalcBetCountUtil.js';
+    import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
     import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
     import {slicer} from 'common/js/param.js'
     export default {
@@ -294,19 +317,20 @@
                 wfKindShow:false,  //玩法种类
                 modesShow:false,  //模式选择
                 followNumberShow:false,  //追号页面
+                betOrderListShow:false,  //六合彩下注页面
                 earnCommission:false,  //是否赚佣
-                lotteryId:'',
-                lotteryName,
                 betUnit,
-                lottery:'',
                 lotteryInfo:{},
                 wfList:[],
+                zodiac:[],
                 currentWf:{},
                 wfFlag:'',
                 wfDetail:{},
                 numberList:[],
                 selectNumList:[],
                 selectPosition:[],
+                selectObj:{},
+                updataNumberList:[],
                 drawHistoryList:[],
                 betCount:0,
                 betNumber:'',
@@ -326,10 +350,13 @@
             BetNumber,
             DrawHistory,
             WfKind,
-            FollowNumber
+            FollowNumber,
+            BetOrderList
         },
         created() {
             this.init();
+        },
+        mounted(){
         },
         computed: {
             //计算下注金额
@@ -344,10 +371,23 @@
         },
         methods: {
             init(){
-                this.lotteryId=this.$router.history.current.query.id;
+                this.lotteryName=lotteryName;
+                this.lotteryId =this.$router.history.current.query.id;
+                this.lotteryType =this.$router.history.current.query.type;
+                this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
                 this.getUser();
                 this._getBetWF();
+                this._getZodiac();
                 this._getLockTime();
+            },
+            watchInit(){
+                const _this=this;
+                this.$watch('selectNumList',() => {
+                    this.recount();
+                });
+                this.$watch('selectPosition',() => {
+                    this.recount();
+                });
             },
             ...mapActions([
                 'getUser'
@@ -362,7 +402,7 @@
                 this[key]=false;
             },
             _getBetWF(){
-                const api=this.lotteryId === 'xglhc' || this.lotteryId === 'bj28'? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
+                const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
                 this.$axios.postRequest(api,{lottery_id:this.lotteryId})
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -371,6 +411,15 @@
                         this.wfFlag=res.data[0].wf[0].wf_flag;
                         this.makeWfParam();
                         console.log(this.wfList);
+                    };
+                });
+            },
+            _getZodiac(){
+                this.$axios.postRequest(httpUrl.bet.zodiac)
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.zodiac=res.data;
+                        console.log(this.zodiac);
                     };
                 });
             },
@@ -383,6 +432,7 @@
                     };
                 });
             },
+            //修改玩法
             changeWf(i,s){
                 this.currentWf=this.wfList[i].wf[s];
                 this.wfFlag=this.wfList[i].wf[s].wf_flag;
@@ -390,18 +440,20 @@
                 this.hide('wfKindShow');
             },
             makeWfParam(){
+                const lottery=this.wfFlag.split('_')[0];
                 this.selectNumList=[];
                 this.selectPosition=[];
-                this.lottery=this.wfFlag.split('_')[0];
-                if(this.lottery != "xglhc"){
-                    this.wfDetail=LotteryWfDetail[this.lottery].wf_class[this.wfFlag];
+                if(!this.is28OrLhc){
+                    this.wfDetail=LotteryWfDetail[lottery].wf_class[this.wfFlag];
                 }
                 this.wfDetail.wf_pl=this.currentWf.wf_pl;
                 this.wfDetail.wf_flag = this.wfFlag;
                 this.numberList=[];
-                if(this.lottery == "xglhc"){
-                    const detail=BaseVM(this.wfDetail,0);
+                if(this.is28OrLhc){
+                    const detail=BaseVM(this.wfDetail,0,true,this.zodiac);
                     this.numberList.push(detail);
+                    this.selectNumList.push([]);
+                    console.log(this.numberList);
                 }else{
                     this.wfDetail.param.titles.forEach((item,i) => {
                         const detail=BaseVM(this.wfDetail,i);
@@ -410,13 +462,20 @@
                         this.selectNumList.push([]);
                     });
                 }
+                this.watchInit();
             },
-            selectNum(p,num){
+            selectNum(p,i,num){
                 const index=this.selectNumList[p].indexOf(num);
                 if(index != -1){
                     this.selectNumList[p].splice(index,1);
+                    if(this.is28OrLhc){
+                        delete this.selectObj[num];
+                    }
                 }else{
                     this.selectNumList[p].push(num);
+                    if(this.is28OrLhc){
+                        this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
+                    }
                 }
             },
             selectPosi(num){
@@ -439,9 +498,14 @@
                 this.selectNumList=[];
                 this.selectPosition=[];
                 this.earnCommission=false;
-                this.wfDetail.param.titles.forEach((item,i) => {
+                this.selectObj={};
+                if(!this.is28OrLhc){
+                    this.wfDetail.param.titles.forEach((item,i) => {
+                        this.selectNumList.push([]);
+                    });
+                }else{
                     this.selectNumList.push([]);
-                });
+                }
                 this.$refs.betnumberlist.clearKind();
             },
             betOrder(){
@@ -503,18 +567,26 @@
                 this.hide('followNumberShow');
                 this.show('betSuccessShow');
                 this.allClear();
+            },
+            //组合下注号码和计算注数
+            recount(){
+                this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
+                if(this.is28OrLhc){
+                    this.betCount=this.selectNumList[0].length;
+                }else{
+                    this.betCount=CalcBetCount[this.wfFlag](this.betNumber);
+
+                }
+            },
+            makeBetOrder(){
+                for ( var key in this.selectObj){
+                    this.updataNumberList.push(this.selectObj[key]);
+                };
+                this.show('betOrderListShow');
             }
 
         },
         watch:{
-            selectNumList(){
-                this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
-                this.betCount=BetCount[this.wfFlag](this.betNumber);
-            },
-            selectPosition(){
-                this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
-                this.betCount=BetCount[this.wfFlag](this.betNumber);
-            },
             betTimes(newVal,oldVal){
                 const regex = /^\d*$/;
                 if(!regex.test(newVal)) {
@@ -743,6 +815,7 @@
             width:100%;
             bottom:0;
             line-height: 1.15rem;
+            text-align: center;
             @include bg-image('bg-lottery-bottom');
             background-repeat: no-repeat;
             background-size: 100%;
@@ -770,6 +843,7 @@
                 p{
                     height:0.45rem;
                     line-height: 0.45rem;
+                    text-align: left;
                     @include no-wrap();
                 }
             }
@@ -813,8 +887,9 @@
             .bet-btn{
                 height:1.15rem;
                 width:1.6rem;
-                float: left;
+                float: right;
                 padding-top:0.25rem;
+                margin-right:0.2rem;
                 p{
                     width:1.6rem;
                     height:0.67rem;
@@ -826,12 +901,21 @@
                     font-size: $font-size-medium-x;
                 }
             }
-
+            .lhc-bet-count{
+                display: inline-block;
+                padding:0.15rem 0.3rem;
+                color:#fff;
+                background: rgb(13, 85, 48);
+                border-radius: 0.1rem;
+                line-height: 0.4rem;
+            }
         }
         .scroll-content{
             height: calc(100% - 4.98rem);
             overflow: hidden;
-            
+            &.lhc-scroll{
+                height: calc(100% - 3.98rem);
+            }
         }
     }
     .background {

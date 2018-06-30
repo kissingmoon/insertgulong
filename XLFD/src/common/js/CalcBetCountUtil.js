@@ -1,4 +1,5 @@
 import * as ComAndArrangeUtil from 'common/js/ComAndArrangeUtil.js'
+import { debug } from 'util';
 /**
  * 计算投注
  *
@@ -1006,8 +1007,15 @@ export function sscCountFs(value) {
  * @return
  */
 export function caclQnSNoRepeat(value, specialValue) {
-    const count = {};
-    caclQSxuhuan(value.split("-"), 1, specialValue, [], count);
+    const count = {value:0};
+    var arr=value.split("-");
+    // var strArr=[];
+    // arr.forEach((item,i) => {
+    //     if(item !== ""){
+    //         strArr.push(item);
+    //     }
+    // });
+    caclQSxuhuan(arr, 1, specialValue, [], count);
     return count.value;
 }
 
@@ -1021,17 +1029,18 @@ export function caclQnSNoRepeat(value, specialValue) {
  */
 export function caclQSxuhuan(str, p, specialValue, set, count) {
     const s = str[p - 1].split(",");
+    //debugger;
     for (var i = 0; i < s.length; i++) {
         set.push(s[i]);
         if (p == specialValue) {  // 第3此循环
             if (set.length == specialValue) {
                 count.value = count.value + 1;
-                set.splice((set.length-1), 1);
+                set.splice(set.indexOf(s[i]), 1);
             }
         } else { //小于3次的循环
             if (set.length == p) {   //p=2,size=2代表添加了两个不同的数
                 caclQSxuhuan(str, p + 1, specialValue, set, count);
-                set.splice((set.length-1), 1);
+                set.splice(set.indexOf(s[i]), 1);
             }
         }
         //此处不需要set，remove掉s[i]值，因为set是不可能重复的

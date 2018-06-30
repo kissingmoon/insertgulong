@@ -45,7 +45,7 @@
                     user_id:'',
                     password:''
                 },
-                codeUrl:`http://www.xlfdapi.com/config/generator-code?code_id=2154`
+                codeUrl:`https://www.xlfdapi.com/config/generator-code?code_id=2154`
             }
         },
         components:{
@@ -65,7 +65,7 @@
             },
             setCode(){
                 this.loginParam.code_id = randomWord(false,6,8);
-                this.codeUrl=`http://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
+                this.codeUrl=`https://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
             },
             resetAccount(){
                 removeSession('user_token');

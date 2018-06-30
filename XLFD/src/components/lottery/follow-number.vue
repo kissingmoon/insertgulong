@@ -44,7 +44,8 @@
                     编辑
                 </div>
             </div>
-            <scroll ref="scroll" class="scroll-content" :data="numberList">
+            <!-- <scroll ref="scroll" class="scroll-content" :data="numberList"> -->
+            <div class="scroll-content">
                 <ul class="follow-number-wrapper">
                     <li class="follow-number-item" v-for="(item,i) in numberList">
                         <div class="qh">{{item.period}}</div>
@@ -59,7 +60,8 @@
                         </div>
                     </li>
                 </ul>
-            </scroll>
+            </div>
+            <!-- </scroll> -->
             <div class="lottery-set">
                 <div class="number">
                     <p>号码:{{betNumber}}</p>
@@ -97,6 +99,7 @@
   export default {
     data() {
       return {
+          isMake:true,
           zhuihaoCountQs:5,
           zhuihaoStop:1,
           zhuihaoAllQh:'',
@@ -168,6 +171,7 @@
         //     this.$emit('close','followNumberShow');
         // },
         makeNumberList(){
+            if(!this.isMake){return}
             this.numberList=[];
             var times=this.baseTimes;
             var period = this.lotteryInfo.show_qh;
@@ -204,7 +208,11 @@
         },
         deletePeriod(i){
             this.numberList.splice(i,1);
+            this.isMake=false;
             this.zhuihaoCountQs = this.zhuihaoCountQs-1;
+            this.isMakeTime = setTimeout(() => {
+                this.isMake=true;
+            },300);
         },
         changeNumber(){
             this.$emit('changeNumber');
@@ -240,11 +248,11 @@
                 param=Object.assign({},param,this.gdParam);
             }
             this.$axios.postRequest(url,param)
-                .then((res)=> {
-                    if(!res.data.errorCode){
-                        this.$emit("gdBetSuccess");
-                    };
-                });
+            .then((res)=> {
+                if(!res.data.errorCode){
+                    this.$emit("betSuccess");
+                };
+            });
         }
         
     },
@@ -396,7 +404,7 @@
         }
         .scroll-content{
             height:calc( 100% - 5.25rem);
-            overflow: hidden;
+            overflow-y: auto;
             .follow-number-wrapper{
                 height:auto;
                 overflow: hidden;

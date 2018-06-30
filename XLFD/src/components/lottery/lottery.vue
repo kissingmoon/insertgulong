@@ -28,7 +28,11 @@
                         </div>
                     </div>
                 </div>
-                <scroll ref="scroll" class="scroll-content" :class="{'lhc-scroll':is28OrLhc}" :data="numberList">
+                <div class="lottery-odds" v-if="!isShowOdds">
+                    <div class="wf-name">{{currentWf.name}}</div>
+                    <div class="odds">赔率:{{totalOdds}}</div>
+                </div>
+                <scroll ref="scroll" class="scroll-content" :class="{'lhc-scroll':is28OrLhc, 'odds-scroll': !isShowOdds}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
                         :numList="numberList"
@@ -38,7 +42,6 @@
                         @selectPosi="selectPosi"
                         @selectKind="selectKind"
                         >
-
                     </bet-number>
                 </scroll>
                 <div v-if="!is28OrLhc" class="lottery-set">
@@ -271,7 +274,7 @@
                 @close="hide"
                 @changeNumber="changeNumber"
                 @earnMoney="show"
-                @gdBetSuccess="gdBetSuccess"
+                @betSuccess="betSuccess"
                 >
 
             </follow-number>
@@ -282,6 +285,9 @@
                 :wfFlag="wfFlag"
                 :updataNumberList="updataNumberList"
                 @close="hide"
+                @clearBetOrderList="clearBetOrderList"
+                @betSuccess="betSuccess"
+                @deleteOrder="deleteOrder"
                 >
 
             </bet-order-list >
@@ -319,6 +325,7 @@
                 followNumberShow:false,  //追号页面
                 betOrderListShow:false,  //六合彩下注页面
                 earnCommission:false,  //是否赚佣
+                isShowOdds:true,
                 betUnit,
                 lotteryInfo:{},
                 wfList:[],
@@ -336,6 +343,8 @@
                 betNumber:'',
                 betTimes:1,
                 lotteryModes:0,
+                totalOdds:'',
+                totalPlFlag:'',
                 gdParam:{
                     commission:'',
                     back_rate:'',
@@ -443,17 +452,16 @@
                 const lottery=this.wfFlag.split('_')[0];
                 this.selectNumList=[];
                 this.selectPosition=[];
+                this.selectObj={};
                 if(!this.is28OrLhc){
                     this.wfDetail=LotteryWfDetail[lottery].wf_class[this.wfFlag];
                 }
-                this.wfDetail.wf_pl=this.currentWf.wf_pl;
-                this.wfDetail.wf_flag = this.wfFlag;
+                this.wfDetail=Object.assign({},this.wfDetail,this.currentWf);
                 this.numberList=[];
                 if(this.is28OrLhc){
                     const detail=BaseVM(this.wfDetail,0,true,this.zodiac);
                     this.numberList.push(detail);
                     this.selectNumList.push([]);
-                    console.log(this.numberList);
                 }else{
                     this.wfDetail.param.titles.forEach((item,i) => {
                         const detail=BaseVM(this.wfDetail,i);
@@ -462,7 +470,26 @@
                         this.selectNumList.push([]);
                     });
                 }
+                this.isShowOdds=this.numberList[0].isShowOdds;
+                console.log(this.numberList);
+                this.setTotalOdds();
                 this.watchInit();
+            },
+            setTotalOdds(){
+                switch(this.wfFlag){
+                    case "xglhc_lm_3z2":case "xglhc_lm_2zt":
+                        this.totalOdds=this.currentWf.wf_pl[0].award_money+','+this.currentWf.wf_pl[1].award_money;
+                        this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
+                        break;
+                    case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":
+                        this.totalOdds=this.currentWf.wf_pl[0].award_money;
+                        this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag
+                        break;
+                    default:
+                        this.totalOdds='';
+                        this.totalPlFlag='';
+                    break;
+                };
             },
             selectNum(p,i,num){
                 const index=this.selectNumList[p].indexOf(num);
@@ -476,6 +503,32 @@
                     if(this.is28OrLhc){
                         this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                     }
+                }
+                this.changeTotalOdds();
+
+            },
+            changeTotalOdds(){
+                switch(this.wfFlag){
+                    case "xglhc_zxbz_zxbz":
+                        const n=this.selectNumList[0].length-6;
+                        if(n >= 0 && n <= 5){
+                            this.totalOdds=this.currentWf.wf_pl[n].award_money;
+                            this.totalPlFlag=this.currentWf.wf_pl[n].pl_flag;
+                        }else{
+                            this.totalOdds='';
+                            this.totalPlFlag='';
+                        }
+                        break;
+                    case "xglhc_hexiao_hx":
+                        const m=this.selectNumList[0].length-2;
+                        if(m >= 0 && m <= 9){
+                            this.totalOdds=this.currentWf.wf_pl[m].award_money;
+                            this.totalPlFlag=this.currentWf.wf_pl[m].pl_flag;
+                        }else{
+                            this.totalOdds='';
+                            this.totalPlFlag='';
+                        }
+                        break;
                 }
             },
             selectPosi(num){
@@ -563,8 +616,13 @@
                 this.hide('followNumberShow');
                 this.allClear();
             },
-            gdBetSuccess(){
-                this.hide('followNumberShow');
+            betSuccess(){
+                if(this.is28OrLhc){
+                    this.hide('betOrderListShow');
+                    this.updataNumberList=[];
+                }else{
+                    this.hide('followNumberShow');
+                }
                 this.show('betSuccessShow');
                 this.allClear();
             },
@@ -574,15 +632,49 @@
                 if(this.is28OrLhc){
                     this.betCount=this.selectNumList[0].length;
                 }else{
-                    this.betCount=CalcBetCount[this.wfFlag](this.betNumber);
+                    const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
+                    console.log(this.betNumber);
+                    this.betCount=CalcBetCount[funName](this.betNumber);
 
                 }
             },
             makeBetOrder(){
-                for ( var key in this.selectObj){
-                    this.updataNumberList.push(this.selectObj[key]);
+                switch(this.wfFlag){
+                    case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
+                    case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
+                        const obj={
+                            wf_flag:this.currentWf.wf_flag,
+                            wf_name:this.currentWf.name,
+                            bet_money:'',
+                            number_str:'',
+                            pl_flag:''
+                        }
+                        const arr = [];
+                        for ( var key in this.selectObj){
+                            obj.pl_flag=this.totalPlFlag;
+                            arr.push(this.selectObj[key].number_str);
+                        };
+                        obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
+                        obj.pl=this.totalOdds;
+                        this.updataNumberList.push(obj);
+                        break;
+                    default:
+                        for ( var key in this.selectObj){
+                            this.updataNumberList.push(this.selectObj[key]);
+                        };
+                        break;
                 };
+                
                 this.show('betOrderListShow');
+                this.allClear();
+            },
+            //清空六或28的下注列表
+            clearBetOrderList(){
+                this.updataNumberList=[];
+            },
+            //删除六|28的下注号码
+            deleteOrder(i){
+                this.updataNumberList.splice(i,1);
             }
 
         },
@@ -736,6 +828,19 @@
                         vertical-align:text-bottom;
                     }
                 }
+            }
+        }
+        .lottery-odds{
+            height:0.8rem;
+            line-height: 0.8rem;
+            padding:0 0.4rem;
+            color:#fff;
+            @include border-bottom-1px(solid,#064206);
+            .wf-name{
+                float: left;
+            }
+            .odds{
+                float: right;
             }
         }
         .lottery-set{
@@ -915,6 +1020,9 @@
             overflow: hidden;
             &.lhc-scroll{
                 height: calc(100% - 3.98rem);
+            }
+            &.odds-scroll{
+                height: calc(100% - 4.78rem);
             }
         }
     }

@@ -18,7 +18,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
     var shengXiaoLHCRecvList = shengXiaoLHCRecvListParam || []; //生肖容器
     var is28OrLhc = is28OrLhc; // 是不是6或新28
     var buyNumberBeanList = []; // 号码容器
-    var topPickFlags = [0,0,0,0,0]; // 标记是否选中位置（顶部圆圈，时时彩）
+    var isShowOdds = true; // 标记是否选中位置（顶部圆圈，时时彩）
     var lineColumnCount = 0;                // 每行显示几个，0表示不限制
     var isCanTopFastPick = false;           // 是否显示位置（顶部圆圈，时时彩）
     var isShowSign = false;                  // 是否显示最左侧的名字
@@ -107,7 +107,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             break;
         case "xglhc_tema_xuma":case "xglhc_zhma_xm":case "xglhc_zhmat_z1t":case "xglhc_zhmat_z2t":
         case "xglhc_zhmat_z3t":case "xglhc_zhmat_z4t":case "xglhc_zhmat_z5t":case "xglhc_zhmat_z6t":case "xy28_tmtm_tm":
-            buyNumberBeanList = BuyUtil.initDataLHCPL(wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataLHCPL(wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 6;
             isCanTopFastPick = false;
             isShowSign = false;
@@ -129,7 +129,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             break;
         // 方形色波
         case "xglhc_sebo_sebo":case "xy28_qtbs_bs":
-            buyNumberBeanList = BuyUtil.initDataBy(1, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(1, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;
@@ -163,10 +163,11 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             isShowSign = false;
             isCanBottomFastPick = false;
             backgroundType = TYPE_ROUND_HALF_RECT;
+            isShowOdds = false;
             break;
         // 五行
         case "xglhc_wuxing_wx":
-            buyNumberBeanList = BuyUtil.initDataBy(3, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(3, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;
@@ -175,7 +176,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             break;
         // 尾数
         case "xglhc_pt1xws_ws":
-            buyNumberBeanList = BuyUtil.initDataBy(9, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(9, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 7;
             isCanTopFastPick = false;
             isShowSign = false;
@@ -183,7 +184,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             break;
         // 尾数
         case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
-            buyNumberBeanList = BuyUtil.initDataBy(9, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(9, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 7;
             isCanTopFastPick = false;
             isShowSign = false;
@@ -191,18 +192,20 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             break;
         case "xglhc_zxbz_zxbz":case "xglhc_lm_3z2":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
         case "xglhc_lm_2zt":case "xglhc_lm_tc":case "xglhc_lm_4qz":
-            buyNumberBeanList = BuyUtil.initDataBy(5, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(5, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 7;
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
+            isShowOdds = false;
             break;
         case "xy28_tmb3_b3":
-            buyNumberBeanList = BuyUtil.initDataBy(6, wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataBy(6, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 7;
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
+            isShowOdds = false;
             break;
         case "pk10_lhd":
             buyNumberBeanList = BuyUtil.initPk10_lhdData(str8,position);
@@ -221,14 +224,14 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
     }
     return {
                 wfBean,
-                shengXiaoLHCRecvList,
                 is28OrLhc,
                 buyNumberBeanList,
                 lineColumnCount,
                 isCanTopFastPick,
                 isShowSign,
                 isCanBottomFastPick,
-                backgroundType
+                backgroundType,
+                isShowOdds
             }
     
     // function selectFastPick(type) {

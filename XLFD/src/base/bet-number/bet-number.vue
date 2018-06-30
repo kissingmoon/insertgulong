@@ -28,25 +28,25 @@
                     <p>{{posi.title}}</p>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
-                    <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
-                        <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}">{{item.str}}</p>
-                        <p class="txt" v-if="posi.is28OrLhc">{{item.pl}}</p>
+                    <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                        <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">{{item.str}}</p>
+                        <p class="txt" v-if="posi.isShowOdds">{{item.pl}}</p>
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 2">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
-                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}">
-                            <div class="zodiac-title" v-html="item.numberStr"></div>
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                            <div class="zodiac-title" v-html="item.number_str"></div>
                             <div class="zodiac-num" v-html="item.str"></div>
                         </div>
-                        <div class="txt" v-if="posi.is28OrLhc">{{item.pl}}</div>
+                        <div class="txt" v-if="posi.isShowOdds">{{item.pl}}</div>
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 3">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.numberStr)">
-                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.numberStr) != -1}" v-html="item.str">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}" v-html="item.str">
                         </div>
-                        <div class="txt" v-if="posi.is28OrLhc">{{item.pl}}</div>
+                        <div class="txt" v-if="posi.isShowOdds">{{item.pl}}</div>
                     </div>
                 </div>
             </div>
@@ -109,14 +109,14 @@
                     case 0:
                         this.kindTypeList.splice(p,1,[1,0,0,0,0,0]);
                         numberList.forEach((item,i) => {
-                            arr.push(item.numberStr);
+                            arr.push(item.number_str);
                         });
                         break;
                     case 1:
                         this.kindTypeList.splice(p,1,[0,1,0,0,0,0]);
                         numberList.forEach((item,i) => {
                             if(i >= length/2){
-                                arr.push(item.numberStr);
+                                arr.push(item.number_str);
                             }
                         });
                         break;
@@ -124,7 +124,7 @@
                         this.kindTypeList.splice(p,1,[0,0,1,0,0,0]);
                         numberList.forEach((item,i) => {
                             if(i < length/2){
-                                arr.push(item.numberStr);
+                                arr.push(item.number_str);
                             }
                         });
                         break;
@@ -132,7 +132,7 @@
                         this.kindTypeList.splice(p,1,[0,0,0,1,0,0]);
                         numberList.forEach((item,i) => {
                             if(i % 2 == 1){
-                                arr.push(item.numberStr);
+                                arr.push(item.number_str);
                             }
                         });
                         break;
@@ -140,7 +140,7 @@
                         this.kindTypeList.splice(p,1,[0,0,0,0,1,0]);
                         numberList.forEach((item,i) => {
                             if(i % 2 == 0){
-                                arr.push(item.numberStr);
+                                arr.push(item.number_str);
                             }
                         });
                         break;

@@ -7,31 +7,32 @@
             </div>
             <div class="unify-money">
                 <p class="">请输入统一金额：</p>
-                <p><input type="text" v-model="unifyMoney" placeholder="请输入金额" /></p>
+                <p><input type="text" v-model.number="unifyMoney" placeholder="请输入金额" /></p>
             </div>
-            <scroll ref="scroll" class="scroll-content" :data="updataNumberList" :click="true">
+            <!-- <scroll ref="scroll" class="scroll-content" :data="updataNumberList" > -->
+            <div class="scroll-content">
                 <div class="order-main">
                     <ul class="order-wrapper">
                         <li class="order-item" v-for="(item,i) in updataNumberList">
                             <div class="number-wrapper">
-                                <div class="code">{{item.numberStr}}</div>
-                                <div class="delete-code"><i class="icon-close-circle"></i></div>
+                                <div class="code">{{item.number_str}}</div>
+                                <div class="delete-code" @click="deleteOrder(i)"><i class="icon-close-circle"></i></div>
                             </div>
                             <div class="pl-wrapper">
                                 赔率：{{item.pl}}
                             </div>
                             <div class="money-wrapper">
-                                <div class="wf">合肖</div>
+                                <div class="wf">{{item.wf_name}}</div>
                                 <div class="code-money">
                                     <p>金额:</p>
-                                    <p><input type="text" placeholder="请输入金额" /></p>
+                                    <p><input type="text" placeholder="请输入金额" v-model="item.bet_money" /></p>
                                     <p>元</p>
                                 </div>
                             </div>
                         </li>
                     </ul>
                     <div class="add-order">
-                        <div class="add-order-btn">
+                        <div class="add-order-btn" @click="close">
                             <div class="txt">
                                 <i class="icon-add-circle add-circle"></i>
                                 添加一注
@@ -39,12 +40,13 @@
                         </div>
                     </div>
                 </div>
-            </scroll>
+            </div>
+            <!-- </scroll> -->
             <div class="lottery-bottom">
-                <div class="clear-all">
+                <div class="clear-all" @click="clearBetOrderList">
                     <p>清空</p>
                 </div>
-                <div class="bet-btn">
+                <div class="bet-btn" @click="bet">
                     <p>投注</p>
                 </div>
                 <div class="lhc-bet-count">
@@ -100,10 +102,54 @@
         },
         close(){
             this.$emit('close','betOrderListShow');
+        },
+        clearBetOrderList(){
+            this.$emit('clearBetOrderList');
+        },
+        deleteOrder(i){
+            this.$emit('deleteOrder', i);
+        },
+        bet(){
+            var bet_number='';
+            var count_money='';
+            var wf_flag='';
+            var pl_flag='';
+            this.updataNumberList.forEach((item,i) => {
+                bet_number += item.number_str;
+                count_money += item.bet_money;
+                wf_flag += item.wf_flag;
+                pl_flag += item.pl_flag;
+                if(i != this.updataNumberList.length-1){
+                    bet_number +=  "#";
+                    count_money +=  "#";
+                    wf_flag +=  "#";
+                    pl_flag +=  "#";
+                }
+            });
+            var param={
+                lottery_id:this.lotteryId,
+                lottery_qh:this.lotteryInfo.lottery_qh,
+                bet_number,
+                count_money,
+                wf_flag,
+                pl_flag
+            };
+            this.$axios.postRequest(httpUrl.bet.betLHC28,param)
+            .then((res)=> {
+                if(!res.data.errorCode){
+                    this.$emit('betSuccess');
+                };
+            });
+
         }
         
     },
     watch: {
+        unifyMoney(newVue){
+            this.updataNumberList.forEach((item,i) => {
+                item.bet_money=newVue;
+            });
+        }
     }
   }
 </script>
@@ -186,7 +232,7 @@
         }
         .scroll-content{
             height:calc( 100% - 3.85rem);
-            overflow: hidden;
+            overflow-y: auto;
             .order-main{
                 height:auto;
                 overflow: hidden;
@@ -208,7 +254,7 @@
                             .code{
                                 float: left;
                                 font-size: $font-size-large;
-                                width:7rem;
+                                width:7.6rem;
                                 @include no-wrap;
                             }
                             .delete-code{

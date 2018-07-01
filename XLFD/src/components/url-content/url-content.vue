@@ -15,7 +15,6 @@
         },
         created(){
             this.init();
-            this.getUrl();
         },
         components:{
             MIframe
@@ -28,6 +27,7 @@
         methods:{
             init(){
                 this.flag=this.$router.history.current.query.flag;
+                this.getUrl();
             },
             getUrl(){
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})

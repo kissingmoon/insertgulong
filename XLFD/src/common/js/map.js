@@ -42,7 +42,8 @@ export const httpUrl = {
         order:'/v2/gd-dsb/get-all-gd',
         draw:'/cp/kj-trend',
         drawNumber:'cp/kj-trend-history',
-        winMoney:'/cp/accumulated-winning'
+        winMoney:'/cp/accumulated-winning',
+        betGd:'/v2/bet/bet-gd'
     },
     bet:{
         lotteryWf:'/gc/cz-wf',

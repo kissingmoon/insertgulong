@@ -6,7 +6,8 @@
                     <div class="back" @click="goBack"><i class="icon-arrows-left"></i></div>
                     <div class="time-money-wrapper">
                         <div class="kind" @click="show('wfKindShow')">玩<br>法</div>
-                        <div class="rule" @click="show('wfRuleShow')">说<br>明</div>
+                        <div class="rule" @click="show('wfRuleShow')" v-if="!is28OrLhc">说<br>明</div>
+                        <div class="rule" @click="setRuleParam" v-if="is28OrLhc">说<br>明</div>
                     </div>
                     <h1 class="title">{{lotteryName[lotteryId]}}</h1>
                 </div>
@@ -16,7 +17,7 @@
                             <p class="follow" @click="gotoPage('/descover')">大神跟单<i class="icon-triangle-below"></i></p>
                         </div>
                         <div class="count-down">
-                            距{{lotteryInfo.show_qh}}期截止:00:04:26
+                            距{{lotteryInfo.show_qh}}期截止:{{drawCountTime}}
                         </div>
                     </div>
                     <div class="nav-right">
@@ -28,7 +29,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="lottery-odds" v-if="!isShowOdds">
+                <div class="lottery-odds border-bottom-1px" v-if="!isShowOdds">
                     <div class="wf-name">{{currentWf.name}}</div>
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
@@ -66,14 +67,14 @@
                         <p class="bet-count">{{betCount}}注{{calculateBetMoney}}元</p>
                         <p class="balance">余额:{{account.balance || 0}}元</p>
                     </div>
-                    <div class="brokerage" @click="show('gdSetShow')">
+                    <div class="brokerage" @click="betExamine('gdSetShow')">
                         <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p>
                         <p>赚佣金</p>
                     </div>
-                    <div class="follow-num" @click="show('followNumberShow')">
+                    <div class="follow-num" @click="betExamine('followNumberShow')">
                         <p>追号</p>
                     </div>
-                    <div class="bet-btn" @click="show('betAffirmShow')">
+                    <div class="bet-btn" @click="betExamine('betAffirmShow')">
                         <p>投注</p>
                     </div>
                 </div>
@@ -142,11 +143,8 @@
                 <div class="detail">
                     <div class="gd-detail-wrapper clearfix">
                         <div class="detail-title">
-                            <div class="gd-rule">
-                                <span></span>
-                                <i class=""></i>
-                            </div>
-                            <span>发起跟单</span>
+                            <div class="gd-rule" @click="setRuleParam">说<br>明</div>
+                            <div class="gd-title">发起跟单</div>
                         </div>
                         <div class="gd-detail-main">
                             <ul>
@@ -291,7 +289,13 @@
                 >
 
             </bet-order-list >
+            <rule-pare v-if="ruleShow"
+                :ruleUrl="ruleUrl"
+                :ruleTitle="ruleTitle"
+                @close="hide"
+            >
 
+            </rule-pare>
         </div>
     </parcel>
 </template>
@@ -304,12 +308,13 @@
     import WfKind from 'components/lottery/wf-kind';
     import FollowNumber from 'components/lottery/follow-number';
     import BetOrderList from 'components/lottery/bet-order-list';
+    import RulePare from 'components/lottery/rule-page';
     import {httpUrl,lotteryName,betUnit} from 'common/js/map';
     import {BaseVM} from 'common/js/BuyCM';
     import LotteryWfDetail from 'common/js/Lottery_wf_detail';
     import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
     import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
-    import {slicer} from 'common/js/param.js'
+    import {slicer,add0} from 'common/js/param.js';
     export default {
         data() {
             return{
@@ -326,8 +331,12 @@
                 betOrderListShow:false,  //六合彩下注页面
                 earnCommission:false,  //是否赚佣
                 isShowOdds:true,
+                ruleShow:false,  //是否显示规则页面
+                ruleTitle:'',
+                ruleUrl:'',
                 betUnit,
                 lotteryInfo:{},
+                drawCountTime:'',
                 wfList:[],
                 zodiac:[],
                 currentWf:{},
@@ -360,12 +369,18 @@
             DrawHistory,
             WfKind,
             FollowNumber,
-            BetOrderList
+            BetOrderList,
+            RulePare
         },
         created() {
             this.init();
         },
         mounted(){
+        },
+        beforeDestroy(){
+            if(this.lockTimes){
+                clearTimeout(this.lockTimes);
+            }
         },
         computed: {
             //计算下注金额
@@ -388,6 +403,7 @@
                 this._getBetWF();
                 this._getZodiac();
                 this._getLockTime();
+
             },
             watchInit(){
                 const _this=this;
@@ -401,6 +417,9 @@
             ...mapActions([
                 'getUser'
             ]),
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
             goBack(){
                 this.$router.back();
             },
@@ -437,9 +456,35 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.lotteryInfo=res.data;
-                        console.log(this.lotteryInfo);
+                        this.countTime(res.data.lock_time.replace(/-/g,'/'));
                     };
                 });
+            },
+            //倒计时功能
+            countTime(dateStr) {
+                //获取当前时间
+                const date = new Date();
+                const now = date.getTime();
+                const endDate = new Date(dateStr);
+                const end = endDate.getTime();
+                const leftTime = end-now;
+                //定义变量 d,h,m,s保存倒计时的时间
+                var h,m,s;
+                if (leftTime > 0) {
+                    h = Math.floor(leftTime/1000/60/60);
+                    m = Math.floor(leftTime/1000/60%60);
+                    s = Math.floor(leftTime/1000%60);  
+                    this.drawCountTime=add0(h)+":"+add0(m)+":"+add0(s);
+                    //递归每秒调用countTime方法，显示动态时间效果
+                    clearTimeout(this.lockTimes);
+                    this.lockTimes=setTimeout(() => {
+                        this.countTime(dateStr)
+                    },1000);
+                }else{
+                    this.setTip("本期已封单");
+                    this.drawCountTime= "00:00:00"; 
+                    this._getLockTime();
+                }
             },
             //修改玩法
             changeWf(i,s){
@@ -472,10 +517,10 @@
                 }
                 this.isShowOdds=this.numberList[0].isShowOdds;
                 console.log(this.numberList);
-                this.setTotalOdds();
+                this.setTotal();
                 this.watchInit();
             },
-            setTotalOdds(){
+            setTotal(){
                 switch(this.wfFlag){
                     case "xglhc_lm_3z2":case "xglhc_lm_2zt":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money+','+this.currentWf.wf_pl[1].award_money;
@@ -504,10 +549,10 @@
                         this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                     }
                 }
-                this.changeTotalOdds();
+                this.changeTotal();
 
             },
-            changeTotalOdds(){
+            changeTotal(){
                 switch(this.wfFlag){
                     case "xglhc_zxbz_zxbz":
                         const n=this.selectNumList[0].length-6;
@@ -552,6 +597,8 @@
                 this.selectPosition=[];
                 this.earnCommission=false;
                 this.selectObj={};
+                this.totalOdds='';
+                this.totalPlFlag='';
                 if(!this.is28OrLhc){
                     this.wfDetail.param.titles.forEach((item,i) => {
                         this.selectNumList.push([]);
@@ -616,6 +663,19 @@
                 this.hide('followNumberShow');
                 this.allClear();
             },
+            betExamine(showElm){
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                    return;
+                }
+                if(this.betCount > 0){
+                    this.show(showElm);
+                }else{
+                    this.setTip("请选择一组号码")
+                }
+            },
             betSuccess(){
                 if(this.is28OrLhc){
                     this.hide('betOrderListShow');
@@ -639,6 +699,12 @@
                 }
             },
             makeBetOrder(){
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                    return;
+                }
                 switch(this.wfFlag){
                     case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
                     case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
@@ -664,7 +730,6 @@
                         };
                         break;
                 };
-                
                 this.show('betOrderListShow');
                 this.allClear();
             },
@@ -675,6 +740,30 @@
             //删除六|28的下注号码
             deleteOrder(i){
                 this.updataNumberList.splice(i,1);
+            },
+            setRuleParam(){
+                console.log(this.lotteryType);
+                switch(this.lotteryType){
+                    case '6':
+                        this.ruleTitle="香港六合彩玩法规则";
+                        this.ruleUrl=location.host+'/wf-explain/lhc-wf';
+                        break;
+                    case '11':
+                        this.ruleTitle="28玩法规则";
+                        this.ruleUrl=location.host+'/wf-explain/xy28-wf';
+                        break;
+                    default:
+                        this.ruleTitle="跟单说明"
+                        this.$axios.postRequest(httpUrl.config.urlList,{flag:'gd_helper_url'})
+                        .then((res)=> {
+                            if(!res.data.errorCode){
+                                this.ruleUrl=res.data[0].url;
+                            }
+                        });
+                        break;
+                }
+                console.log(location.host)
+                this.show('ruleShow');
             }
 
         },
@@ -730,12 +819,12 @@
                 right:0;
                 font-size:$font-size-small;
                 padding-right: 0.2rem;
-                color:$color-text-yellow;
+                color:#fff;
                 .rule{
                     float:right;
                     height:0.9rem;
                     padding-top:0.3rem;
-                    padding-right: 0.38rem;
+                    padding-right: 0.39rem;
                     padding-left: 0.2rem;
                     width:0.5rem;
                     line-height: 0.32rem;
@@ -749,7 +838,7 @@
                     width:0.5rem;
                     height:0.9rem;
                     padding-top:0.3rem;
-                    padding-right: 0.46rem;
+                    padding-right: 0.47rem;
                     padding-left: 0.2rem;
                     line-height: 0.32rem;
                     @include bg-image('icon-wf-kind');
@@ -805,9 +894,10 @@
             }
             .nav-right{
                 height:1.63rem;
-                width:5rem;
+                width:4.8rem;
                 float: left;
-                text-align: center;
+                text-align: right;
+                padding-right: 0.2rem;
                 .lottery-wf{
                     height:0.7rem;
                     padding-top: 0.1rem;
@@ -826,6 +916,7 @@
                         border-radius: 0.1rem;
                         margin-left: 0.15rem;
                         vertical-align:text-bottom;
+                        text-align: center;
                     }
                 }
             }
@@ -835,7 +926,7 @@
             line-height: 0.8rem;
             padding:0 0.4rem;
             color:#fff;
-            @include border-bottom-1px(solid,#064206);
+            @include border-bottom-1px(solid,#163316);
             .wf-name{
                 float: left;
             }
@@ -1059,6 +1150,25 @@
             line-height: 1.2rem;
             text-align: center;
             font-size: $font-size-large;
+        }
+        .gd-title{
+            width:4rem;
+            margin: 0 auto;
+        }
+        .gd-rule{
+            font-size: $font-size-small;
+            float:right;
+            height:0.9rem;
+            margin-right: 0.3rem;
+            padding-top:0.3rem;
+            padding-right: 0.39rem;
+            padding-left: 0.2rem;
+            width:0.5rem;
+            line-height: 0.32rem;
+            @include bg-image('icon-wf-rule');
+            background-repeat: no-repeat;
+            background-size:0.4rem;
+            background-position: right center;
         }
         .wf-detail-wrapper{
             min-height:100%;
@@ -1455,5 +1565,6 @@
             color:$color-text-gray;
         }
     }
+    
 }
 </style>

@@ -231,7 +231,21 @@ export default new Router({
         },
         {
             path:'/lottery',
-            component:Lottery
+            component:Lottery,
+            children:[
+                {
+                    path:'lhc-rule',
+                    component:UrlContent
+                },
+                {
+                    path:'m28-rule',
+                    component:UrlContent
+                },
+                {
+                    path:'gd-rule',
+                    component:UrlContent
+                }
+            ]
         }
     ]
 })

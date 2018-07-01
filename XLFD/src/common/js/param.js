@@ -91,7 +91,7 @@ export function randomWord(randomFlag, min, max){
 
 
 
-function add0(m){return m<10?'0'+m:m }
+export function add0(m){return m<10?'0'+m:m }
 //时间戳转化成时间格式
 export function timeFormat(timestamp){
   //timestamp是整数，否则要parseInt转换,不会出现少个0的情况
@@ -104,6 +104,38 @@ export function timeFormat(timestamp){
     var seconds = time.getSeconds();
     return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
 }
+
+//倒计时功能 时分秒
+export function countTime(dateStr) {
+    //获取当前时间
+    var date = new Date();
+    var now = date.getTime();
+    var endDate = new Date(dateStr);
+    var end = endDate.getTime();
+    var leftTime = end-now;
+    //定义变量 d,h,m,s保存倒计时的时间
+    var d,h,m,s;
+    console.log(leftTime);
+    if (leftTime >= 0) {
+        //d = Math.floor(leftTime/1000/60/60/24);
+        h = Math.floor(leftTime/1000/60/60);
+        m = Math.floor(leftTime/1000/60%60);
+        s = Math.floor(leftTime/1000%60);  
+        
+    }else{
+        return "00:00:00"; 
+    }
+    //递归每秒调用countTime方法，显示动态时间效果
+    clearTimeout(time);
+    if( leftTime >= 0){
+        var time = setTimeout(() => {
+            countTime(dateStr)
+        },1000);
+    }
+    return add0(h)+":"+add0(m)+":"+add0(s);
+}
+
+
 
 //分割对象属性
 export function slicer(arr, key, symbol){

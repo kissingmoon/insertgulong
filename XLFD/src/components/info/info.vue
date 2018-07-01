@@ -32,60 +32,60 @@
                                 <span>{{account.balance || 0}}元</span>
                             </p>
                         </li>
-                        <router-link tag="li" :to="{path:'/info/balance'}" class="item-mode border-bottom-1px margin-bottom">
+                        <li @click="goto('/info/balance')" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-withdraw">提现</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/info/bill'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/info/bill')" class="item-mode border-bottom-1px">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/bet'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/bet')" class="item-mode border-bottom-1px">
                             <p class="title icon-bet">投注记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/recharge'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/recharge')" class="item-mode border-bottom-1px">
                             <p class="title icon-recharge">充值记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/info/cash'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/info/cash')" class="item-mode border-bottom-1px">
                             <p class="title icon-deposit">提现记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/follow'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/follow')" class="item-mode border-bottom-1px">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/attention'}" class="item-mode border-bottom-1px margin-bottom">
+                        </li>
+                        <li @click="goto('/attention')" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-attention">我的关注</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <router-link tag="li" :to="{path:'/info/safety'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <li @click="goto('/info/safety')" class="item-mode border-bottom-1px">
                             <p class="title icon-safety">安全中心</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link>
-                        <!-- <router-link tag="li" :to="{path:'/info/more'}" class="item-mode border-bottom-1px">
+                        </li>
+                        <!-- <li @click=goto('/info/more') class="item-mode border-bottom-1px">
                             <p class="title icon-more">更多</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </router-link> -->
+                        </li> -->
                     </ul>
                 </div>
             </div>
@@ -125,6 +125,12 @@
                 this.$router.push({
                     path:url
                 })
+            },
+            goto(infoUrl){
+                const url = this.user_token ? infoUrl:'/login';
+                this.$router.push({
+                    path:url
+                });
             },
             ...mapMutations({
                 setAccount:'SET_ACCOUNT',

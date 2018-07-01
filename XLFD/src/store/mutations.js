@@ -21,6 +21,9 @@ const mutations = {
   },
   [types.SET_TIP](state, param) {
     state.tip = param;
+  },
+  [types.SET_IS_DEBUGGER](state, param) {
+    state.is_debugger = param;
   }
 }
 

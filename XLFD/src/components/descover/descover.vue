@@ -197,7 +197,6 @@
     width: 100%;
     top: 1.2rem;
     bottom: 1.44rem;
-    overflow: hidden;
     z-index: 101;
     .scroll-content{
         height:100%;

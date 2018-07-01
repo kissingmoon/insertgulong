@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="attention">
-            <scroll ref="scroll" class="scroll-content" :data="attention" :click="click" >
+            <scroll ref="scroll" class="scroll-content" :data="attention" >
                 <attention-list :data="attention" :url="url" :isLink="isLink" @setFans="setFans"></attention-list>
             </scroll>
             <router-view></router-view>
@@ -18,8 +18,7 @@
             return{
                 attention:[],
                 url:'/attention/detail',
-                isLink:true,
-                click:false
+                isLink:true
             }
         },
         components:{
@@ -45,6 +44,7 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.attention[index].has_gz=!this.attention[index].has_gz;
+                        this.attention[index].count_fans=status == 1?this.attention[index].count_fans+=1 : this.attention[index].count_fans-=1;
                     };
                 });
             }

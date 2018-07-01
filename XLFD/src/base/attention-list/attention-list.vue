@@ -19,8 +19,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <button v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</button>
-                        <button v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</button>
+                        <a v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</a>
+                        <a v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</a>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <button v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</button>
-                        <button v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</button>
+                        <a v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</a>
+                        <a v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</a>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -59,6 +59,7 @@
     </div>
 </template>
 <script type="text/ecmascript-6">
+    import {mapGetters} from 'vuex';
     import {httpUrl} from 'common/js/map';
     export default {
         data() {
@@ -87,15 +88,20 @@
         created() {
 
         },
-        computed:{
+        computed: {
+            ...mapGetters([
+                'user_token'
+            ])
         },
         methods: {
             changeConcern(index,status){
-                clearTimeout(this.time);
-                this.time=setTimeout(() => {
-                    console.log(0);
-                    this.$emit('setFans',index,status);
-                },20)
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                    return;
+                }
+                this.$emit('setFans',index,status);
             }
         }
     }
@@ -175,7 +181,10 @@
                 height: auto;
                 overflow: hidden;
                 padding-top:0.3rem;
-                button{
+                a{
+                    display: block;
+                    line-height: 0.56rem;
+                    text-align: center;
                     height:0.56rem;
                     width:1.56rem;
                     border:1px solid $color-border-red;

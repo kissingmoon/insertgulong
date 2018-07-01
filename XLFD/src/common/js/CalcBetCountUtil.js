@@ -974,9 +974,9 @@ export function countRX(value, rxNum) {
     var count = 0;
     for (var i = 0; i < list.length; i++) {
         const ss = list[i].split(",");//0,1,2,3
-        var tempconst = 1;
+        var tempInt = 1;
         for (var j = 0; j < rxNum; j++) {
-            tempconst = temp[parseInt(ss[j])].length * tempInt;
+            tempInt = temp[parseInt(ss[j])].length * tempInt;
         }
         count = count + tempInt;
     }
@@ -1009,13 +1009,16 @@ export function sscCountFs(value) {
 export function caclQnSNoRepeat(value, specialValue) {
     const count = {value:0};
     var arr=value.split("-");
-    // var strArr=[];
-    // arr.forEach((item,i) => {
-    //     if(item !== ""){
-    //         strArr.push(item);
-    //     }
-    // });
-    caclQSxuhuan(arr, 1, specialValue, [], count);
+    var strArr=[];
+    arr.forEach((item,i) => {
+        // debugger;
+        if(item !== ""){
+            strArr.push(item);
+        }else{
+            strArr.push([]);
+        }
+    });
+    caclQSxuhuan(strArr, 1, specialValue, [], count);
     return count.value;
 }
 
@@ -1028,7 +1031,8 @@ export function caclQnSNoRepeat(value, specialValue) {
  * @param specialValue：指定的第几个循环为最后一个
  */
 export function caclQSxuhuan(str, p, specialValue, set, count) {
-    const s = str[p - 1].split(",");
+    const a = str[p - 1];
+    const s= a.length > 0 ? a.split(","):[];
     //debugger;
     for (var i = 0; i < s.length; i++) {
         set.push(s[i]);

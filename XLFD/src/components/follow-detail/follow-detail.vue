@@ -58,7 +58,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <td v-for="(item,i) in showThead" :class="(i+1) != showThead.length ? 'border-right':''" :width="item.width">{{item.title}}</td>
+                                    <td class="border-right-1px" v-for="(item,i) in showThead" :class="(i+1) != showThead.length ? 'border-right':''" :width="item.width">{{item.title}}</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -70,23 +70,24 @@
                     </div>
                 </div>
             </scroll>
-            <div class="bet-content" v-show="order.finish_status == 0">
+            <div class="bet-content border-top-1px" v-show="order.finish_status == 0">
                 <div class="bet-txt">
                     <p class="txt">
-                        <button class="minus"><i class="icon-minus"></i></button>
-                        <input type="text">
-                        <button class="add"><i class="icon-add"></i></button>
+                        <button class="minus" @click="changeGdMoney('minus')"><i class="icon-minus"></i></button>
+                        <input type="text" v-model.number="gdMoney">
+                        <button class="add" @click="changeGdMoney('add')"><i class="icon-add"></i></button>
                     </p>
-                    <p class="money">您的余额：215487.36元</p>
+                    <p class="money">您的余额：{{account.balance || 0}}元</p>
                 </div>
                 <div class="bet-btn">
-                    <button>立即投注</button>
+                    <button @click="betFollow">立即投注</button>
                 </div>
             </div>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import OrderList from 'base/order-list/order-list';
@@ -101,6 +102,7 @@
                 order:{},
                 detailList:[],
                 userList:[],
+                gdMoney:"",
                 detailThead:[
                     {
                         title:'期号',
@@ -154,7 +156,16 @@
             this.getDetail();
             this.showThead=this.detailThead;
         },
+        computed: {
+            ...mapGetters([
+                'account',
+                'user_token'
+            ])
+        },
         methods: {
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
             getDetail(){
                 const gd_number = this.$router.history.current.query.id;
                 const user_flag = this.$router.history.current.query.flag;
@@ -187,9 +198,22 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.author[index].has_gz=!this.author[index].has_gz;
+                        this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
                     };
                 });
-            }
+            },
+            betFollow(){
+                this.$axios.postRequest(httpUrl.descover.betGd,{gd_number:this.order.gd_number,gd_money:this.gdMoney})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.gdMoney="";
+                        this.setTip('跟单成功');
+                    };
+                });
+            },
+            changeGdMoney(type){
+                this.gdMoney = type == 'add'? this.gdMoney +1 : ((this.gdMoney - 1 <= 0)? 1:this.gdMoney - 1);
+            },
         }
     }
 </script>
@@ -347,7 +371,7 @@
                         td{
                             padding: 0.1rem;
                             &.border-right{
-                                border-right:1px solid rgb(223, 223, 223);
+                                @include border-right-1px(solid, rgb(218, 218, 218));
                             }
                         }
                     }
@@ -377,7 +401,7 @@
         bottom:0;
         height:2.2rem;
         width:100%;
-        border-top:1px solid $color-border-gray;
+        @include border-top-1px(solid, $color-border-gray);
         background:$color-bg-gray;
         z-index: 330;
 
@@ -426,6 +450,7 @@
                 line-height: 0.7rem;
                 border-radius:0.08rem;
                 background:$color-bg-theme;
+                font-size: $font-size-medium;
                 border:none;
                 color:#fff;
 

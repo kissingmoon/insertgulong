@@ -25,8 +25,7 @@
                         </router-link>
                     </div>
                     <div class="lottery-wrapper">
-                        <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" 
-                        :class="{'sub-wrapper':(i % 4 > 1)}">
+                        <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}">
                             <div class="item" v-if="i % 4 < 2" @click="subtag(i)">
                                 <div class="item-main">
                                     <div class="icon">
@@ -37,8 +36,15 @@
                                         <p class="desc" v-html="item.remarks"></p>
                                     </div>
                                 </div>
+                                <i class="icon-triangle-below triangle-below" v-show="(showSub-2) == i" v-if="i % 4 < 2"></i>
                             </div>
-                            <router-link tag="div" :to="{path:'/lottery',query:{id:sub.lottery_id,type:sub.lottery_type}}" class="item sub-item"  v-if="i % 4 > 1" v-for="(sub,s) in item" :key="s" v-show="showSub == i" :ref="'sub'+(i*2+((i+1)%2+1))">
+                            <router-link tag="div" :to="{path:'/lottery',query:{id:sub.lottery_id,type:sub.lottery_type}}" 
+                                class="item sub-item"  
+                                v-if="i % 4 > 1" 
+                                v-for="(sub,s) in item" 
+                                :key="s" 
+                                v-show="showSub == i" 
+                                :ref="'sub'+(i*2+((i+1)%2+1))">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="sub.lottery_image">
@@ -52,7 +58,7 @@
                         </div>
                         
                     </div>
-                    <div class="rank-wrapper">
+                    <div class="rank-wrapper" v-if="user_token">
                         <div class="rank-img"></div>
                         <div class="rank-flow-money">
                             <p class="title">您的今日流水</p>
@@ -67,10 +73,10 @@
                             <p class="num">{{rank.user_ranking}}</p>
                         </div>
                         <div class="rank-receive-money">
-                            <a href="">
+                            <router-link tag="a" :to="{path:'/activity',query:{title:gift.title,url:gift.turn_url}}">
                                 <p class="icon"></p>
                                 <p class="title">补助金领取</p>
-                            </a>
+                            </router-link>
                         </div>
                     </div>
                 </div>
@@ -97,6 +103,7 @@
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     import {regroupLotteryData} from 'common/js/param';
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
 
     export default {
         data() {
@@ -127,6 +134,11 @@
             this._getLottery();
             this._getRank();
             this._getBetWin();
+        },
+        computed: {
+            ...mapGetters([
+                'user_token'
+            ])
         },
         methods: {
             loadImage() {
@@ -265,7 +277,7 @@
                 &.sub-wrapper{
                     width:100%;
                     background: #F6F4E6;
-                    @include border-bottom-1px(solid,$color-bg-white-a0);
+                    //@include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
             .item{
@@ -273,6 +285,7 @@
                 width:100%;
                 height: auto;
                 overflow: hidden;
+                position: relative;
                 &.sub-item{
                     width:50%;
                 }
@@ -300,7 +313,7 @@
                         line-height: 20px;
                         overflow: hidden;
                         &.border-right-1xp{
-                            border-right:1px solid $color-border-gray;
+                            @include border-right-1px(solid,$color-border-gray);
                         }
                         .name{
                             height:0.67rem;
@@ -314,6 +327,16 @@
                             font-size: $font-size-medium;
                         }
                     }
+                }
+                .triangle-below{
+                    position: absolute;
+                    width:0.6rem;
+                    color:#F6F4E6;
+                    bottom:-0.1rem;
+                    font-size: $font-size-large;
+                    transform:rotate(180deg);
+                    left:calc((100% - 0.6rem)/2);
+                    z-index: 100;
                 }
                 
             }

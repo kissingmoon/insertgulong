@@ -32,7 +32,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapActions} from 'vuex';
+    import {mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import {session,randomWord,removeSession} from 'common/js/param';
@@ -45,7 +45,7 @@
                     user_id:'',
                     password:''
                 },
-                codeUrl:`https://www.xlfdapi.com/config/generator-code?code_id=2154`
+                codeUrl:``
             }
         },
         components:{
@@ -54,18 +54,23 @@
         created() {
             this.resetAccount();
             this.setCode();
-            //this._getGeneratorCode();
+        },
+        computed: {
+            ...mapGetters([
+                'is_debugger'
+            ])
         },
         methods: {
-            _getGeneratorCode() {
-                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
-                .then((res)=> {
-                    this.codeUrl=res.data;
-                });
-            },
             setCode(){
                 this.loginParam.code_id = randomWord(false,6,8);
-                this.codeUrl=`https://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
+                if(this.is_debugger){
+                    this.codeUrl=`https://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
+                }else{
+                    this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.code_id})
+                    .then((res)=> {
+                        this.codeUrl=res.data;
+                    });
+                }
             },
             resetAccount(){
                 removeSession('user_token');

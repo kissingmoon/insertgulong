@@ -17,7 +17,8 @@ export function reData(data){
     baseObj=objKeySort(baseObj);
     let url=dataParam(baseObj);
     let sign=md5(url+(md5_salt || default_key));
-    return dataParam({...baseObj,'sign':sign});
+    let codeObj=encodeObj(baseObj);
+    return dataParam({...codeObj,'sign':sign});
 }
 //拼接上传的属性值
 export function dataParam(data) {
@@ -34,6 +35,14 @@ export function objKeySort(obj) {
     let newObj = {};
     for (let i = 0; i < newkey.length; i++) {
         newObj[newkey[i]] = obj[newkey[i]];
+    }
+    return newObj;
+}
+//给数据编码
+export function encodeObj(obj) {
+    let newObj = {};
+    for (var key in obj) {
+        newObj[key] = encodeURIComponent(obj[key]);
     }
     return newObj;
 }
@@ -93,46 +102,49 @@ export function randomWord(randomFlag, min, max){
 
 export function add0(m){return m<10?'0'+m:m }
 //时间戳转化成时间格式
-export function timeFormat(timestamp){
+export function timeFormat(timestamp,typeStr){
   //timestamp是整数，否则要parseInt转换,不会出现少个0的情况
-    var time = new Date(timestamp);
-    var year = time.getFullYear();
-    var month = time.getMonth()+1;
-    var date = time.getDate();
-    var hours = time.getHours();
-    var minutes = time.getMinutes();
-    var seconds = time.getSeconds();
-    return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
+    console.log(timestamp);
+    const time = new Date(timestamp);
+    const Y = time.getFullYear();
+    const M = time.getMonth()+1;
+    const D = time.getDate();
+    const h = time.getHours();
+    const m = time.getMinutes();
+    const s = time.getSeconds();
+    //return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
+    switch(typeStr){
+        case 'Y-M-D':
+            return Y+'-'+add0(M)+'-'+add0(D);
+        case 'h:m:d':
+            return h+'-'+add0(m)+'-'+add0(s);
+        case 'Y-M-D&h:m:d':
+            return Y+'-'+add0(M)+'-'+add0(D)+' '+add0(h)+':'+add0(m)+':'+add0(s);
+        case 'M-D&h:m':
+            return add0(M)+'-'+add0(D)+' '+add0(h)+':'+add0(m);
+        default:
+            return Y+'-'+add0(M)+'-'+add0(D)+' '+add0(h)+':'+add0(m)+':'+add0(s);
+    }
 }
 
 //倒计时功能 时分秒
 export function countTime(dateStr) {
     //获取当前时间
-    var date = new Date();
-    var now = date.getTime();
-    var endDate = new Date(dateStr);
-    var end = endDate.getTime();
-    var leftTime = end-now;
+    const date = new Date();
+    const now = date.getTime();
+    const endDate = new Date(dateStr);
+    const end = endDate.getTime();
+    const leftTime = end-now;
     //定义变量 d,h,m,s保存倒计时的时间
-    var d,h,m,s;
-    console.log(leftTime);
-    if (leftTime >= 0) {
-        //d = Math.floor(leftTime/1000/60/60/24);
+    var h,m,s;
+    if (leftTime > 0) {
         h = Math.floor(leftTime/1000/60/60);
         m = Math.floor(leftTime/1000/60%60);
         s = Math.floor(leftTime/1000%60);  
-        
+        return add0(h)+":"+add0(m)+":"+add0(s);
     }else{
         return "00:00:00"; 
     }
-    //递归每秒调用countTime方法，显示动态时间效果
-    clearTimeout(time);
-    if( leftTime >= 0){
-        var time = setTimeout(() => {
-            countTime(dateStr)
-        },1000);
-    }
-    return add0(h)+":"+add0(m)+":"+add0(s);
 }
 
 
@@ -171,6 +183,39 @@ export function regroupLotteryData(param){
         data.splice((i*2+((i+1)%2+1)),1,item.sub_lottery);
     });
     return data;
+}
+
+//字符分割
+export function splitStr(str,symbol){
+    var prev = 0,arr = [];
+    for (var i = 0; i < str.length; i++) {
+        if (str[i] == symbol) {
+            var temp = str.substring(prev, i);
+            arr.push(temp);
+            prev = i + 1;
+        }
+    }
+    if (prev <= str.length) {
+        var temp = str.substring(prev, str.length);
+        arr.push(temp);
+    }
+    return arr;
+}
+
+//整理数组
+export function trimArr(str,symbol,type){
+    if(str == undefined){return null};
+    var arr=str.split(symbol);
+    var after=arr.slice(0);
+    for(var i = arr.length-1; i >= 0; i--){
+        if(arr[i] == ""){
+            after.splice(i,1);
+        }else if(arr[i] != "" && type == 1){
+            break;
+        }
+    }
+    console.log(after);
+    return after;
 }
 
 

@@ -16,8 +16,8 @@
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
                     </p>
-                    <p class="code-img">
-                        <img :src="codeUrl" alt="" @click="setCode">
+                    <p class="code-img" @click="setCode">
+                        <img :src="codeUrl" alt="">
                     </p>
                 </li>
                 <li>

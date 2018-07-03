@@ -6,7 +6,7 @@
                 <h1 class="title">智能追号</h1>
             </div>
             <div class="period-content">
-                距2018125636期截止:00:00:00
+                距{{lotteryInfo.show_qh}}期截止:{{drawCountTime}}
             </div>
             <div class="set-base-content">
                  <div class="set-item">
@@ -127,6 +127,10 @@
             type: String,
             default: null
         },
+        drawCountTime:{
+            type: String,
+            default: '00:00:00'
+        },
         betCount:{
             type: Number,
             default: 0
@@ -162,14 +166,14 @@
     },
     methods: {
         init(){
-            // this.$watch('numberList', function(){ 
-
-            // }, {deep: true});
+            this.watchInit();
             this.makeNumberList();
         },
-        // close(){
-        //     this.$emit('close','followNumberShow');
-        // },
+        watchInit(){
+            this.$watch('lotteryInfo',() => { 
+                this.makeNumberList();
+            }, {deep: true});
+        },
         makeNumberList(){
             if(!this.isMake){return}
             this.numberList=[];

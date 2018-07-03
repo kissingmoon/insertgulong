@@ -2,10 +2,15 @@
 /**
  * 根据已经选择的注列表生成下注的数字字符串：996,13,,3,,
  */
-export function getBetNumberByBetGroupList(listList,wf_flag,positionList) {
+export function getBetNumberByBetGroupList(list,wf_flag,positionList) {
     var i = 0;
     var bet = "";
     var str = "";
+    var arr=JSON.parse(JSON.stringify(list));
+    var listList=[];
+    arr.forEach((item,i) => {
+        listList[i]=item.sort();
+    });
     if (!wf_flag) {
         return "";
     }

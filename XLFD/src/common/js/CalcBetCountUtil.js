@@ -1,5 +1,5 @@
 import * as ComAndArrangeUtil from 'common/js/ComAndArrangeUtil.js'
-import { debug } from 'util';
+import {trimArr} from 'common/js/param.js';
 /**
  * 计算投注
  *
@@ -144,7 +144,8 @@ export function ssc_q3zhix_zh(value) {
 //前三直选和值   bet:2,27
 export function ssc_q3zhix_hz(value) {
     var count = 0;
-    value.split(',').forEach(item => {
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
         count += ComAndArrangeUtil.combineZhixhz(3, parseInt(item));
     });
     return count;
@@ -153,7 +154,8 @@ export function ssc_q3zhix_hz(value) {
 //前三直选跨度   bet:1,2,3
 export function ssc_q3zhix_kd(value) {
     var count = 0;
-    value.split(',').forEach(item => {
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
         count += ComAndArrangeUtil.combineZhixKd(3, parseInt(item),3);
     });
     return count;
@@ -172,7 +174,8 @@ export function ssc_q3zux_q3zu6fs(value) {
 //前三组选和值   bet:2,27
 export function ssc_q3zux_q3zuxhz(value) {
     var count = 0;
-    value.split(',').forEach(item => {
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
         count += ComAndArrangeUtil.combineZuxhz(3, parseInt(item),3);
     });
     return count;
@@ -180,7 +183,7 @@ export function ssc_q3zux_q3zuxhz(value) {
 
 //前三组选包胆   bet:1,2,3,4,5
 export function ssc_q3zux_q3zuxbd(value) {
-    return value.split(',').length * 54;
+    return trimArr(value,',').length * 54;
 }
 
 //------------------------------------------------中三----------------------------------
@@ -274,8 +277,9 @@ export function ssc_q2zhix_fs(value) {
 //前二直选和值   bet:1,2,17
 export function ssc_q2zhix_hz(value) {
     var count = 0;
-    value.split(',').forEach(item => {
-        count += ComAndArrangeUtil.combineZhixhz(3, parseInt(item));
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
+        count += ComAndArrangeUtil.combineZhixhz(2, parseInt(item));
     });
     return count;
 }
@@ -283,8 +287,9 @@ export function ssc_q2zhix_hz(value) {
 //前二直选跨度   bet:1,2,3
 export function ssc_q2zhix_kd(value) {
     var count = 0;
-    value.split(',').forEach(item => {
-        count += ComAndArrangeUtil.combineZhixKd(3, parseInt(item),3);
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
+        count += ComAndArrangeUtil.combineZhixKd(2, parseInt(item),2);
     });
     return count;
 }
@@ -297,7 +302,8 @@ export function ssc_q2zux_fs(value) {
 //前二组选和值   bet:2,17
 export function ssc_q2zux_hz(value) {
     var count = 0;
-    value.split(',').forEach(item => {
+    const arr =trimArr(value,',');
+    arr.forEach(item => {
         count += ComAndArrangeUtil.combineZuxhz(2, parseInt(item),2);
     });
     return count;
@@ -305,7 +311,7 @@ export function ssc_q2zux_hz(value) {
 
 //前二组选包胆   bet:1,2,3,4,5
 export function ssc_q2zux_bd(value) {
-    return value.split(",").length * 9;
+    return trimArr(value,",",1).length * 9;
 }
 
 //------------------------------------------------后二----------------------------------
@@ -343,8 +349,9 @@ export function ssc_h2zux_bd(value) {
 //五星定位胆   bet:1,2,,4,5
 export function ssc_5xdwd(value) {
     var count = 0;
-    value.split(',').forEach(item => {
-        count += string.length;
+    const arr=trimArr(value,',',1)
+    arr.forEach(item => {
+        count += item.length;
     });
     return count;
 }
@@ -429,16 +436,16 @@ export function ssc_r2zhix_fs(value) {
 
 //任二直选和值   bet:0,2,4@5$6$7$15
 export function ssc_r2zhix_hz(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1].replace("$", ",");
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1].replace(/\$/g, ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 2);
     return ssc_q2zhix_hz(bet) * count;
 }
 
 //任二组选复式   bet:0,2,4@123
 export function ssc_r2zux_fs(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1];
     const bcount = ComAndArrangeUtil.combination(bet.length, 2);
     const pcount = ComAndArrangeUtil.combination(positionList.length, 2);
     return pcount * bcount;
@@ -446,8 +453,8 @@ export function ssc_r2zux_fs(value) {
 
 //任二组选和值   bet:0,2,4@5$6$7$15
 export function ssc_r2zux_hz(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1].replace("$", ",");
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1].replace(/\$/g, ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 2);
     return ssc_q2zux_hz(bet) * count;
 }
@@ -460,16 +467,16 @@ export function ssc_r3zhix_fs(value) {
 
 //任三直选和值   bet:0,2,4@5$6$7$15
 export function ssc_r3zhix_hz(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1].replace("$", ",");
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1].replace(/\$/g, ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 3);
     return ssc_q3zhix_hz(bet) * count;
 }
 
 //任3组三复式   bet:2,3,4@123
 export function ssc_r3zux_z3fs(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1];
     const bcount = ComAndArrangeUtil.combination(bet.length, 2) * 2;
     const pcount = ComAndArrangeUtil.combination(positionList.length, 3);
     return pcount * bcount;
@@ -477,8 +484,8 @@ export function ssc_r3zux_z3fs(value) {
 
 //任3组六复式   bet:2,3,4@123
 export function ssc_r3zux_z6hz(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1];
     const bcount = ComAndArrangeUtil.combination(bet.length, 3);
     const pcount = ComAndArrangeUtil.combination(positionList.length, 3);
     return pcount * bcount;
@@ -486,8 +493,8 @@ export function ssc_r3zux_z6hz(value) {
 
 //任3组选和值   bet:0,2,4@5$6$7$15$27
 export function ssc_r3zux_hz(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1].replace("$", ",");
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1].replace(/\$/g, ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 3);
     console.log(ssc_q3zux_q3zuxhz(bet));
     console.log(count);
@@ -502,8 +509,8 @@ export function ssc_r4zhix_fs(value) {
 
 //任4组选24   bet:1,2,3,4@123
 export function ssc_r4zux_24(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split('@')[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,'@')[1]
     const bcount = ComAndArrangeUtil.combination(bet.length, 4);
     const pcount = ComAndArrangeUtil.combination(positionList.length, 4);
     return pcount * bcount;
@@ -511,15 +518,16 @@ export function ssc_r4zux_24(value) {
 
 //任4组选12   bet:1,2,3,4@12,123
 export function ssc_r4zux_12(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet2 = value.split("@")[1].split(",")[0].split("");
-    const bet1 = value.split("@")[1].split(",")[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet2 = trimArr(trimArr(trimArr(value,"@",1)[1],",",1)[0],"",1);
+    const bet1 = trimArr(trimArr(value,"@",1)[1],",",1)[1];
     const pcount = ComAndArrangeUtil.combination(positionList.length, 4); //位置组合
     var temp = "";
     var bcount = 0;
     for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
-            temp = bet1.replace(bet2[i], "");
+            const reg=new RegExp(bet2[i],'g');
+            temp = bet1.replace(reg, "");
             bcount = bcount + ComAndArrangeUtil.combination(temp.length, 2);
         }
     }
@@ -528,8 +536,8 @@ export function ssc_r4zux_12(value) {
 
 //任4组选6   bet:1,2,3,4@123
 export function ssc_r4zux_6(value) {
-    const positionList = value.split('@')[0].split(',');
-    const bet = value.split("@")[1];
+    const positionList = trimArr(trimArr(value,'@')[0],',');
+    const bet = trimArr(value,"@",1)[1];
     const pcount = ComAndArrangeUtil.combination(positionList.length, 4);
     const bcount = ComAndArrangeUtil.combination(bet.length, 2);
     return pcount * bcount;
@@ -537,15 +545,16 @@ export function ssc_r4zux_6(value) {
 
 //任4组选4  bet:1,2,3,4@12,123
 export function ssc_r4zux_4(value) {
-    const position = value.split("@")[0].split(",");
-    const bet2 = value.split("@")[1].split(",")[0].split("");
-    const bet1 = value.split("@")[1].split(",")[1];
+    const position = trimArr(trimArr(value,"@",1)[0],",",1);
+    const bet2 = trimArr(trimArr(trimArr(value,"@",1)[1],",",1)[0],"",1);
+    const bet1 = trimArr(trimArr(value,"@",1)[1],",",1)[1];
     const pcount = ComAndArrangeUtil.combination(position.length, 4); //位置组合
     var temp = "";
     var bcount = 0;
     for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
-            temp = bet1.replace(bet2[i], "");
+            const reg=new RegExp(bet2[i],'g');
+            temp = bet1.replace(reg, "");
             bcount = bcount + temp.length;
         }
     }
@@ -555,9 +564,9 @@ export function ssc_r4zux_4(value) {
 //------------------------------------------------龙虎斗----------------------------------
 //任4组选4  bet:十个,百个,百十-龙,虎
 export function ssc_lhd(value) {
-    const list = value.split("-");
+    const list = trimArr(value,"-");
     if (list.length == 2) {
-        return list[0].split(",").length * list[1].split(",").length
+        return trimArr(list[0],",").length * trimArr(list[1],",").length
     } else {
         return 0;
     }
@@ -569,7 +578,7 @@ export function ssc_lhd(value) {
 
 //猜第一  bet:1,2,3,4,5,6,7,10
 export function pk10_cq1_d1(value) {
-    return value.split(",").length;
+    return trimArr(value,",").length;
 }
 
 //第二名  bet:1,2,3,4,5,6,7,10
@@ -666,11 +675,11 @@ export function pk10_cq10_q10(value) {
 //-------------------------------定位胆-----------------------------------
 //定位胆  bet:1,2,10--3,5--5--10---1,1
 export function pk10_gp_dwd_child(value) {
-    const s = value.split("-");
+    const s = trimArr(value,"-",1);
     var count = 0;
     for (var i = 0; i < s.length; i++) {
         if (!(/\s/g.test(s[i]))) {
-            const temp = s[i].split(",");
+            const temp = trimArr(s[i],",",1);
             count = count + temp.length;
         }
     }
@@ -694,7 +703,7 @@ export function pk10_dxds_jj(value) {
 
 //冠亚和值    bet:3,4,5,8,12,16,19
 export function pk10_hz_gy(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //冠亚季和值    bet:8,12,16,19,23,26,27
@@ -705,8 +714,9 @@ export function pk10_hz_gyj(value) {
 //龙虎斗    bet:1vs10-龙虎,2vs9-龙虎,3vs8-龙虎
 export function pk10_lhd(value) {
     var count = 0;
-    value.split(',').forEach(item => {
-        count += item.split('-')[1].length;
+    var arr=trimArr(value,',');
+    arr.forEach(item => {
+        count += trimArr(item,'-')[1].length;
     });
     return count;
 }
@@ -720,7 +730,7 @@ export function m11x5_3m_q3zhixfs(value) {
 
 //前三组选复式  bet:1,2,3,4,5,6,7,10,11
 export function m11x5_3m_q3zuxfs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 3);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 3);
 }
 
 //前三组选胆拖  bet:1,2-3,4,5,6,7,10,11
@@ -735,7 +745,7 @@ export function m11x5_2m_q2zhixfs(value) {
 
 //前二组选复式  bet:1,2,3,4,5,6,7,10,11
 export function m11x5_2m_q2zuxfs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 2);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 2);
 }
 
 //	//前二组选胆拖  bet:1,2-3,4,5,6,7,10,11
@@ -745,12 +755,12 @@ export function m11x5_2m_q2zuxdt(value) {
 
 //前一直选  bet:1,2,10,11
 export function m11x5_1m_q1zhix(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //前三不定胆  bet:1,2,10,11
 export function m11x5_bdw_q3bdw(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //前三定位胆  bet:-1,2,3-1,3
@@ -760,7 +770,7 @@ export function m11x5_dwd_q3dwd(value) {
 
 //定单双  bet:5单0双,4单1双,3单2双
 export function m11x5_qwx_dds(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //猜中数  bet:23456
@@ -770,42 +780,42 @@ export function m11x5_qwx_czs(value) {
 
 //任选1中1复式  bet:1,2,10,11
 export function m11x5_rx_1z1fs(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //任选2中2复式 bet:1,2,10,11
 export function m11x5_rx_2z2fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 2);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 2);
 }
 
 //任选3中3复式 bet:1,2,10,11
 export function m11x5_rx_3z3fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 3);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 3);
 }
 
 //任选4中4复式 bet:1,2,10,11
 export function m11x5_rx_4z4fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 4);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 4);
 }
 
 //任选5中5复式 bet:1,2,10,11
 export function m11x5_rx_5z5fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 5);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 5);
 }
 
 //任选6中5复式 bet:1,2,10,11
 export function m11x5_rx_6z5fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 6);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 6);
 }
 
 //任选7中5复式 bet:1,2,10,11
 export function m11x5_rx_7z5fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 7);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 7);
 }
 
 //任选8中5复式 bet:1,2,10,11
 export function m11x5_rx_8z5fs(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 8);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 8);
 }
 
 //任选二胆拖  bet:1,2-3,4,5,6,7,10,11
@@ -841,33 +851,36 @@ export function m11x5_dt_7(value) {
 //------------------------------------------------------快3-------------------------------
 //二不同标准  bet:3,4,5,6
 export function k3_2bth_bz(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 2);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 2);
 }
 
 //二不同胆拖  bet:1-3,4,5,6
 export function k3_2bth_dt(value) {
-    return value.split('-')[1].split(',').length;
+    const str=trimArr(value,'-')[1]
+    return trimArr(str,',').length;
 }
 
 //二同号标准  bet:1,2,3-1,2,3,4,5,6
 export function k3_2th_bz(value) {
-    const tonghao = value.split("-")[0].split(",");
-    const buTh = value.split("-")[1].replace(",", "");
+    const str = trimArr(value,"-",1)[0];
+    const tonghao = trimArr(str,",",1);
+    const buTh = trimArr(value,"-",1)[1].replace(/,/g, "");
     var count = 0;
     for (var i = 0; i < tonghao.length; i++) {
-        count = count + buTh.replace(tonghao[i], "").length;
+        const reg=new RegExp(tonghao[i],'g');
+        count = count + buTh.replace(reg, "").length;
     }
     return count;
 }
 
 //二同号复选  bet:11*,55*,66*
 export function k3_2th_fx(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //三不同标准  bet:3,4,5,6
 export function k3_3bth_bz(value) {
-    return ComAndArrangeUtil.combination(value.split(',').length, 3);
+    return ComAndArrangeUtil.combination(trimArr(value,',').length, 3);
 }
 
 //三不同胆拖  bet:1,2-3,4,5,6
@@ -877,7 +890,7 @@ export function k3_3bth_dt(value) {
 
 //三不同和值   bet:6,7,12,15
 export function k3_3bth_hz(value) {
-    const temp = value.split(",");
+    const temp = trimArr(value,",",1);
     var count = 0;
     for (var i = 0; i < temp.length; i++) {
         const tv = parseInt(temp[i]);
@@ -894,7 +907,7 @@ export function k3_3bth_hz(value) {
 
 //三同号单选  bet:111,555,666
 export function k3_3th_dx(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 //三同号通选  bet:111,222,333,444,555,666
@@ -909,7 +922,7 @@ export function k3_3th_lhtx(value) {
 
 //和值  bet:6,7,12,15
 export function k3_hz_hz(value) {
-    return value.split(',').length;
+    return trimArr(value,',').length;
 }
 
 /**
@@ -920,12 +933,14 @@ export function k3_hz_hz(value) {
  * @return
  */
 export function countZuxuan1(value, num) {
-    const bet2 = value.split(",")[0].split("");   //一般代表多重号
-    const bet1 = value.split(",")[1];
+    const str = trimArr(value,",",1)[0];
+    const bet2 =  trimArr(str,"",1);
+    const bet1 = trimArr(value,",",1)[1];
     var count = 0;
     for (var i = 0; i < bet2.length; i++) {
         if (!(/\s/g.test(bet2[i]))) {
-            const temp = bet1.replace(bet2[i], "");   //用下面的数据进行组合,上面的数据循环
+            const reg=new RegExp(bet2[i],'g');
+            const temp = bet1.replace(reg, "");   //用下面的数据进行组合,上面的数据循环
             count = count + ComAndArrangeUtil.combination(temp.length, num);
         }
     }
@@ -941,12 +956,14 @@ export function countZuxuan1(value, num) {
  * @return
  */
 export function countZuxuan2(value,num) {
-    const bet2 = value.split(",")[0];
-    const bet1 = value.split(",")[1].split("");
+    const bet2 = trimArr(value,",",1)[0];
+    const str = trimArr(value,",",1)[1];
+    const bet1 =  trimArr(str,"",1);
     var count = 0;
     for (var i = 0; i < bet1.length; i++) {
         if (!(/\s/g.test(bet1[i]))) {
-            const temp = bet2.replace(bet1[i], "");  //用上面的数据进行组合,下面的数据循环
+            const reg=new RegExp(bet1[i],'g');
+            const temp = bet2.replace(reg, "");  //用上面的数据进行组合,下面的数据循环
             count = count + ComAndArrangeUtil.combination(temp.length, 2);
         }
     }
@@ -961,7 +978,7 @@ export function countZuxuan2(value,num) {
  * @return
  */
 export function countRX(value, rxNum) {
-    const temp = value.split(",");
+    const temp = trimArr(value,",",1);
     var s = "";
     for (var i = 0; i < temp.length; i++) {
         if (!(/\s/g.test(temp[i]))) {
@@ -969,11 +986,11 @@ export function countRX(value, rxNum) {
         }
     }
     s = s.substring(0, s.lastIndexOf(","));
-    const str = s.split(",");
+    const str = trimArr(s,",",1);
     const list = ComAndArrangeUtil.getCombination(str, rxNum);//位置组合
     var count = 0;
     for (var i = 0; i < list.length; i++) {
-        const ss = list[i].split(",");//0,1,2,3
+        const ss = trimArr(list[i],",",1);//0,1,2,3
         var tempInt = 1;
         for (var j = 0; j < rxNum; j++) {
             tempInt = temp[parseInt(ss[j])].length * tempInt;
@@ -985,7 +1002,7 @@ export function countRX(value, rxNum) {
 
 //复式方法计算         bet:12,23,56,78,56
 export function sscCountFs(value) {
-    const list = value.split(',');
+    const list = trimArr(value,',');
     const needSize = value.split(',').length;
     if (list.length == needSize) {
         var count = 1;
@@ -1008,17 +1025,8 @@ export function sscCountFs(value) {
  */
 export function caclQnSNoRepeat(value, specialValue) {
     const count = {value:0};
-    var arr=value.split("-");
-    var strArr=[];
-    arr.forEach((item,i) => {
-        // debugger;
-        if(item !== ""){
-            strArr.push(item);
-        }else{
-            strArr.push([]);
-        }
-    });
-    caclQSxuhuan(strArr, 1, specialValue, [], count);
+    var arr=trimArr(value,'-',1);
+    caclQSxuhuan(arr, 1, specialValue, [], count);
     return count.value;
 }
 
@@ -1031,23 +1039,27 @@ export function caclQnSNoRepeat(value, specialValue) {
  * @param specialValue：指定的第几个循环为最后一个
  */
 export function caclQSxuhuan(str, p, specialValue, set, count) {
-    const a = str[p - 1];
-    const s= a.length > 0 ? a.split(","):[];
-    //debugger;
-    for (var i = 0; i < s.length; i++) {
-        set.push(s[i]);
-        if (p == specialValue) {  // 第3此循环
-            if (set.length == specialValue) {
-                count.value = count.value + 1;
-                set.splice(set.indexOf(s[i]), 1);
+    const s= trimArr(str[p - 1],',',1);
+    try{
+        for (var i = 0; i < s.length; i++) {
+            if(set.indexOf(s[i]) == -1){
+                set.push(s[i]);
             }
-        } else { //小于3次的循环
-            if (set.length == p) {   //p=2,size=2代表添加了两个不同的数
-                caclQSxuhuan(str, p + 1, specialValue, set, count);
-                set.splice(set.indexOf(s[i]), 1);
+            if (p == specialValue) {  // 第3此循环
+                if (set.length == specialValue) {
+                    count.value = count.value + 1;
+                    set.splice(set.indexOf(s[i]), 1);
+                }
+            } else { //小于3次的循环
+                if (set.length == p) {   //p=2,size=2代表添加了两个不同的数
+                    caclQSxuhuan(str, p + 1, specialValue, set, count);
+                    set.splice(set.indexOf(s[i]), 1);
+                }
             }
         }
-        //此处不需要set，remove掉s[i]值，因为set是不可能重复的
+    }
+    catch(err) {
+        const count = {value:0};
     }
 
 }
@@ -1060,13 +1072,16 @@ export function caclQSxuhuan(str, p, specialValue, set, count) {
  * @return
  */
 export function m11x5RXDT(value, num) {
-    value = value.replace("10", "a").replace("11", "b");
-    const str = value.split("-");
-    const danma = str[0].split(",");   //胆码
-    var tuoma = str[1].replace(",", "");   //5678ab
+    const reg10=new RegExp('10','g');
+    const reg11=new RegExp('11','g');
+    value = value.replace(reg10, "a").replace(reg11, "b");
+    const str =  trimArr(value,'-',1);
+    const danma = trimArr(str[0],',',1);   //胆码
+    var tuoma = str[1].replace(/,/g, "");   //5678ab
     for (var i = 0; i < danma.length; i++) {
-        tuoma = tuoma.replace(danma[i], "");
+        const reg=new RegExp(danma[i],'g');
+        tuoma = tuoma.replace(reg, "");
     }
     const count = ComAndArrangeUtil.combination(tuoma.length, num - danma.length);
-    return count;
+    return Math.floor(count);
 }

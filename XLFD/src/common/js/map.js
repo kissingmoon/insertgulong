@@ -31,7 +31,7 @@ export const httpUrl = {
         bindBank:'/user/bind-bank',
         bankInfo:'/user/bank-info',
         bankList:'/config/bank-list',
-        userImg:'/user/edit-user-image',
+        userImg:'/user/edit-user-image-front',
         flowType:'/v2/sys-config/get-flow-type'
     },
     discount:{
@@ -318,8 +318,8 @@ export const headerConfig = {
         title:'注册协议',
         back:true
     },
-    '/portrait':{
-        title:'上传头像',
+    '/info/information/portrait':{
+        title:'设置头像',
         back:true
     },
 

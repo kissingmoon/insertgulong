@@ -2,15 +2,12 @@
     <div class="info">
         <scroll ref="scroll" class="info-content">
             <div>
-                <div class="datum-wrapper">
+                <div class="datum-wrapper" @click="skipLink">
                     
                     <div class="datum-img">
-                        <!-- <simple-cropper :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
-                            <img v-lazy="account.image_url" @click="upload">
-                        </simple-cropper> -->
                         <img v-lazy="account.image_url">
                     </div>
-                    <div class="datum-txt" @click="skipLink">
+                    <div class="datum-txt">
                         <p class="datum-login" v-show="!user_token">
                             登陆/注册
                         </p>

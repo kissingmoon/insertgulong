@@ -26,7 +26,7 @@
                 pullup: true,
                 loadStatus:false,
                 isAllData:false,
-                click:false,
+                click:true,
                 crunchiesList:[],
                 url:'/crunchies/detail',
                 childurl:'/crunchies/detail/detail',

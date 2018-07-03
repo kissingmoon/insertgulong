@@ -11,13 +11,13 @@
                                     <b class="money">{{account.balance || 0}}元</b>
                                 </p>
                             </li>
-                            <li class="item-mode border-bottom-1px">
+                            <li class="item-mode border-bottom-1px" @click="goto('/info/information/portrait')">
                                 <p class="title icon-portrait">头像</p>
                                 <p class="remarks">
                                     <span>更换<i class="icon-arrows-right icon"></i></span>
                                 </p>
                             </li>
-                            <li class="item-mode border-bottom-1px" @click="toNick">
+                            <li class="item-mode border-bottom-1px" @click="goto('/info/information/nick')">
                                 <p class="title icon-nick">昵称</p>
                                 <p class="remarks">
                                     <span>立即设置<i class="icon-arrows-right icon"></i></span>
@@ -56,9 +56,9 @@
             ])
         },
         methods: {
-            toNick(){
+            goto(url){
                 this.$router.push({
-                    path:'/info/information/nick'
+                    path:url
                 })
             },
             logOut(){

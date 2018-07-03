@@ -13,7 +13,6 @@ module.exports = {
     proxyTable: {
         '/api': {
             target: 'https://www.xlfdapi.com', 
-            //target: 'http://192.168.195.164:8081', 
             changeOrigin: true, 
             pathRewrite: {
               '^/api': ''
@@ -53,7 +52,15 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-
+    proxyTable: {
+        '/api': {
+            target: 'https://www.xlfdapi.com', 
+            changeOrigin: true, 
+            pathRewrite: {
+              '^/api': ''
+            }
+          }
+    },
     /**
      * Source Maps
      */

@@ -19,8 +19,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <a v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</a>
-                        <a v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</a>
+                        <span v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</span>
+                        <span v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</span>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="right">
                     <div class="btn">
-                        <a v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</a>
-                        <a v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</a>
+                        <span v-if="item.has_gz == 0" @click.stop="changeConcern(index,'1')">关注+</span>
+                        <span v-if="item.has_gz == 1" class="cancel" @click.stop="changeConcern(index,'2')">取消关注</span>
                     </div>
                     <div class="fans">
                         粉丝数:<span class="txt-red">{{item.count_fans}}</span>
@@ -181,7 +181,7 @@
                 height: auto;
                 overflow: hidden;
                 padding-top:0.3rem;
-                a{
+                span{
                     display: block;
                     line-height: 0.56rem;
                     text-align: center;

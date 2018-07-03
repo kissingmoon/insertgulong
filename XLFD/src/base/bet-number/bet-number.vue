@@ -115,7 +115,8 @@
                     case 1:
                         this.kindTypeList.splice(p,1,[0,1,0,0,0,0]);
                         numberList.forEach((item,i) => {
-                            if(i >= length/2){
+                            if(i >= Math.floor(length/2)){
+                                console.log(Math.ceil(length/2));
                                 arr.push(item.number_str);
                             }
                         });
@@ -123,7 +124,7 @@
                     case 2:
                         this.kindTypeList.splice(p,1,[0,0,1,0,0,0]);
                         numberList.forEach((item,i) => {
-                            if(i < length/2){
+                            if(i < Math.floor(length/2)){
                                 arr.push(item.number_str);
                             }
                         });
@@ -131,7 +132,7 @@
                     case 3:
                         this.kindTypeList.splice(p,1,[0,0,0,1,0,0]);
                         numberList.forEach((item,i) => {
-                            if(i % 2 == 1){
+                            if(parseInt(item.number_str) % 2 == 1){
                                 arr.push(item.number_str);
                             }
                         });
@@ -139,7 +140,7 @@
                     case 4:
                         this.kindTypeList.splice(p,1,[0,0,0,0,1,0]);
                         numberList.forEach((item,i) => {
-                            if(i % 2 == 0){
+                            if(parseInt(item.number_str) % 2 == 0){
                                 arr.push(item.number_str);
                             }
                         });

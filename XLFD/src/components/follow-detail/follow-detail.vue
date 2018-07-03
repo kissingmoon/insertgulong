@@ -42,7 +42,7 @@
                                 单号：{{order.gd_number}}
                             </div>
                             <div class="time">
-                                发布时间：{{order.create_time}}
+                                发布时间:{{formatTime(order.create_time,'M-D&h:m')}}
                             </div>
                         </div>
                     </div>
@@ -63,7 +63,10 @@
                             </thead>
                             <tbody>
                                 <tr v-for="(group,g) in showTbody" :class="g%2 != 0? 'bg-even':''" v-if="showTbody[0] !== null">
-                                    <td v-for="item in showThead">{{group[item.key]}}</td>
+                                    <td v-for="item in showThead">
+                                        <span v-if="item.key != 'kj_result'">{{group[item.key]}}</span>
+                                        <span v-if="item.key == 'kj_result'">{{betType[group[item.key]]}}</span>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -93,9 +96,11 @@
     import OrderList from 'base/order-list/order-list';
     import AttentionList from 'base/attention-list/attention-list';
     import {httpUrl,betType} from 'common/js/map';
+    import {timeFormat} from 'common/js/param';
     export default {
         data() {
             return{
+                betType,
                 detailType:true,
                 click:true,
                 author:[],
@@ -214,6 +219,9 @@
             changeGdMoney(type){
                 this.gdMoney = type == 'add'? this.gdMoney +1 : ((this.gdMoney - 1 <= 0)? 1:this.gdMoney - 1);
             },
+            formatTime(times,type){
+                return timeFormat(times,type);
+            }
         }
     }
 </script>

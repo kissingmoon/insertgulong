@@ -57,6 +57,7 @@
     },
     activated() {
       if (this.autoPlay) {
+          console.log(4523);
         this._play()
       }
     },
@@ -96,7 +97,7 @@
         })
 
         this.slider.on('scrollEnd', () => {
-          let pageIndex = this.slider.getCurrentPage().pageX
+          let pageIndex = this.slider.getCurrentPage().pageX;
           if (this.loop) {
             pageIndex -= 1
           }

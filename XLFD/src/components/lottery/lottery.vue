@@ -55,8 +55,8 @@
                         <p>模式</p>
                         <p class="type" @click="show('modesShow')">{{betUnit[lotteryModes]}}</p>
                     </div>  
-                    <div class="bonus">
-                        <p>单注奖金12548.36元</p>
+                    <div class="bonus" @click="winMoney">
+                        <p>单注奖金{{showWinMoney}}元</p>
                     </div>
                 </div>
                 <div v-if="!is28OrLhc" class="lottery-bottom">
@@ -111,6 +111,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 玩法规则 -->
             <div v-if="wfRuleShow" class="wf-content">
                 <div class="background" @click="hide('wfRuleShow')"></div>
                 <div class="detail">
@@ -134,6 +135,24 @@
                         </div>
                         <div class="wf-detail-close">
                             <button @click="hide('wfRuleShow')"><i class="icon-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="winMoneyShow" class="wf-content">
+                <div class="background" @click="hide('winMoneyShow')"></div>
+                <div class="detail">
+                    <div class="wf-detail-wrapper clearfix">
+                        <div class="detail-title">奖金提示</div>
+                        <div class="wf-detail-main">
+                            <ul>
+                                <li class="win-money" v-for="item in currentWf.wf_pl">
+                                    {{item.pl_name}}:{{item.award_money}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="wf-detail-close">
+                            <button @click="hide('winMoneyShow')"><i class="icon-right"></i></button>
                         </div>
                     </div>
                 </div>
@@ -269,6 +288,7 @@
                 :lotteryInfo="lotteryInfo"
                 :earnCommission="earnCommission"
                 :wfFlag="wfFlag"
+                :drawCountTime="drawCountTime"
                 @close="hide"
                 @changeNumber="changeNumber"
                 @earnMoney="show"
@@ -314,7 +334,7 @@
     import LotteryWfDetail from 'common/js/Lottery_wf_detail';
     import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
     import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
-    import {slicer,add0} from 'common/js/param.js';
+    import {slicer,countTime} from 'common/js/param.js';
     export default {
         data() {
             return{
@@ -332,6 +352,7 @@
                 earnCommission:false,  //是否赚佣
                 isShowOdds:true,
                 ruleShow:false,  //是否显示规则页面
+                winMoneyShow:false,  //是否显示奖金提示页面
                 ruleTitle:'',
                 ruleUrl:'',
                 betUnit,
@@ -383,6 +404,14 @@
             }
         },
         computed: {
+            //显示单注奖金
+            showWinMoney(){
+                if(this.currentWf.wf_pl){
+                    return this.currentWf.wf_pl[0].award_money;
+                }else{
+                    return "";
+                }
+            },
             //计算下注金额
             calculateBetMoney(){
                 var mode=1/Math.pow(10,this.lotteryModes);
@@ -456,34 +485,23 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.lotteryInfo=res.data;
-                        this.countTime(res.data.lock_time.replace(/-/g,'/'));
+                        this.setCountTime(res.data.lock_time.replace(/-/g,'/'));
                     };
                 });
             },
             //倒计时功能
-            countTime(dateStr) {
-                //获取当前时间
-                const date = new Date();
-                const now = date.getTime();
-                const endDate = new Date(dateStr);
-                const end = endDate.getTime();
-                const leftTime = end-now;
-                //定义变量 d,h,m,s保存倒计时的时间
-                var h,m,s;
-                if (leftTime > 0) {
-                    h = Math.floor(leftTime/1000/60/60);
-                    m = Math.floor(leftTime/1000/60%60);
-                    s = Math.floor(leftTime/1000%60);  
-                    this.drawCountTime=add0(h)+":"+add0(m)+":"+add0(s);
-                    //递归每秒调用countTime方法，显示动态时间效果
-                    clearTimeout(this.lockTimes);
-                    this.lockTimes=setTimeout(() => {
-                        this.countTime(dateStr)
+            setCountTime(dateStr) {
+                this.drawCountTime=countTime(dateStr);
+                if (this.drawCountTime == "00:00:00") {
+                    this.setTip("本期已封单");
+                    setTimeout(() => {
+                        this._getLockTime();
                     },1000);
                 }else{
-                    this.setTip("本期已封单");
-                    this.drawCountTime= "00:00:00"; 
-                    this._getLockTime();
+                    clearTimeout(this.lockTimes);
+                    this.lockTimes=setTimeout(() => {
+                        this.setCountTime(dateStr)
+                    },1000);
                 }
             },
             //修改玩法
@@ -635,6 +653,7 @@
                     path:url
                 });
             },
+            //获取开奖历史
             getDrawHis(){
                 this.show('drawHistoryShow');
                 this.$axios.postRequest(httpUrl.descover.drawNumber,{lottery_id:this.lotteryId,page_size:20,page_no:1})
@@ -694,8 +713,12 @@
                 }else{
                     const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
                     console.log(this.betNumber);
-                    this.betCount=CalcBetCount[funName](this.betNumber);
-
+                    try{
+                        this.betCount=CalcBetCount[funName](this.betNumber);
+                    }
+                    catch(err){
+                        this.betCount=0;
+                    }
                 }
             },
             makeBetOrder(){
@@ -705,6 +728,48 @@
                     });
                     return;
                 }
+                const keyLength=Object.keys(this.selectObj).length;
+                const plLength=this.currentWf.wf_pl.length;
+                // 号码判断
+                if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                    if (keyLength < 2) {
+                        this.setTip("最少选择2个号码");
+                    } else {
+                        this.setTip("最多选择11个号码");
+                    }
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                        || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                        || this.wfFlag=="xglhc_lxlw_2lw")
+                        && keyLength != 2) {
+                    this.setTip("请选择2个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                        || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                        || this.wfFlag=="xy28_tmb3_b3")
+                        && keyLength != 3) {
+                    this.setTip("请选择3个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                        || this.wfFlag=="xglhc_lxlw_4lw")
+                        && keyLength != 4) {
+                    this.setTip("请选择4个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                    this.setTip("请选择5个号码");
+                    return;
+                } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                    if (keyLength < 6) {
+                        this.setTip("最少选择6个号码");
+                    } else {
+                        this.setTip(`最多选择${5+plLength}个号码`);
+                    }
+                    return;
+                }else if(keyLength == 0){
+                    this.setTip("请选择一组号码");
+                    return;
+                }
+                
                 switch(this.wfFlag){
                     case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
                     case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
@@ -764,6 +829,13 @@
                 }
                 console.log(location.host)
                 this.show('ruleShow');
+            },
+            //显示奖金提示
+            winMoney(){
+                if(this.currentWf.wf_pl.length > 1){
+                    this.show('winMoneyShow');
+                }
+                
             }
 
         },
@@ -1176,6 +1248,11 @@
                 padding:0rem 0.4rem 0.2rem;
                 overflow:auto;
                 height:6.2rem;
+                .win-money{
+                    line-height: 0.5rem;
+                    color:#fff;
+                    padding-top:0.2rem;
+                }
                 .item-wrapper{
                     height:auto;
                     overflow: hidden;

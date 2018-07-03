@@ -17,10 +17,10 @@
                         <p class="icon-con icon-crunchies"></p>
                         <p class="txt">大神榜</p>
                     </router-link>
-                    <router-link tag="div" :to="{path:'/follow'}" class="kind-item">
+                    <div @click="goto('/follow')" class="kind-item">
                         <p class="icon-con icon-flag"></p>
                         <p class="txt">我的跟单</p>
-                    </router-link>
+                    </div>
                 </div>
                 <div class="crunchies-wrapper">
                     <div class="title-wrapper border-bottom-1px cup-con">
@@ -89,6 +89,7 @@
     </div>
 </template>
 <script>
+    import {mapGetters} from 'vuex';
     import {httpUrl,activityKind} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
     import Loading from 'base/loading/loading';
@@ -125,6 +126,11 @@
         created(){
             this.getRank();
             this.getOrder();
+        },
+        computed: {
+            ...mapGetters([
+                'user_token'
+            ])
         },
         methods:{
             getLottery(){
@@ -185,6 +191,12 @@
             },
             closeLottery(){
                 this.lotteryShow=false;
+            },
+            goto(infoUrl){
+                const url = this.user_token ? infoUrl:'/login';
+                this.$router.push({
+                    path:url
+                });
             }
         }
     }

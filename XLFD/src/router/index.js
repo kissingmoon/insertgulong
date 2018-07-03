@@ -153,10 +153,6 @@ export default new Router({
             ]
         },
         {
-            path:'/portrait',
-            component:UserPortrait
-        },
-        {
             path:'/draw',
             component:Draw,
             children:[
@@ -223,7 +219,11 @@ export default new Router({
                         {
                             path:'nick',
                             component:Nick
-                        }
+                        },
+                        {
+                            path:'portrait',
+                            component:UserPortrait
+                        },
                     ]
                 }
             ]

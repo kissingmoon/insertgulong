@@ -191,7 +191,7 @@
                 font-size:$font-size-large-x;
                 padding-right: 0.4rem;
                 vertical-align: bottom;
-                color:$color-text-yellow;
+                color:$color-yellow;
                 right: 0;
                 span{
                     font-size:$font-size-small-x;
@@ -250,7 +250,7 @@
                         .number-wrapper{
                             height: 0.7rem;
                             line-height: 0.7rem;
-                            color:$color-text-yellow;
+                            color:$color-yellow;
                             .code{
                                 float: left;
                                 font-size: $font-size-large;
@@ -308,7 +308,7 @@
                         border-radius: 0.6rem;
                         text-align: center;
                         font-size: $font-size-large;
-                        color:$color-text-yellow;
+                        color:$color-yellow;
                         .txt{
                             width:3rem;
                             margin: 0 auto;
@@ -360,7 +360,7 @@
                     height:0.67rem;
                     line-height: 0.67rem;
                     text-align: center;
-                    background:$color-text-yellow;
+                    background:$color-yellow;
                     border-radius: 0.1rem;
                     color:$color-text;
                     font-size: $font-size-medium-x;

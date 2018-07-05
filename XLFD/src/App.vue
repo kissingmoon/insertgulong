@@ -3,7 +3,9 @@
     <m-header></m-header> 
     <m-nav></m-nav>
     <tip></tip>
-    <router-view></router-view>
+    <keep-alive>
+        <router-view></router-view>
+    </keep-alive>
   </div>
 </template>
 

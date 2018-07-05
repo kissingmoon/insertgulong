@@ -128,8 +128,8 @@
             line-height: 0.75rem;
             text-align: center;
             &.on{
-                color:$color-text-red;
-                @include border-bottom-1px(solid,$color-border-red);
+                color:$color-red;
+                @include border-bottom-1px(solid,$color-red);
             }
         }
     }

@@ -57,20 +57,18 @@
         },
         computed: {
             ...mapGetters([
-                'is_debugger'
+                'api_base'
             ])
         },
         methods: {
             setCode(){
                 this.loginParam.code_id = randomWord(false,6,8);
-                if(this.is_debugger){
-                    this.codeUrl=`https://www.xlfdapi.com/config/generator-code?code_id=${this.loginParam.code_id}`
-                }else{
-                    this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.code_id})
-                    .then((res)=> {
-                        this.codeUrl=res.data;
-                    });
-                }
+                this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
+                // if(this.is_debugger){
+                //     this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
+                // }else{
+                //     this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
+                // }
             },
             resetAccount(){
                 removeSession('user_token');
@@ -153,7 +151,7 @@
                 height:1.17rem;
                 width:100%;
                 text-align: center;
-                background:$color-bg-theme;
+                background:$color-red;
                 color: #fff;
                 font-size: $font-size-large;
                 border-radius: 0.1rem;

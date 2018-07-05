@@ -1,8 +1,14 @@
 <template>
     <div class="header">
         <div class="back" @click="goBack" v-show="header.back"><i class="icon-arrows-left"></i></div>
-        <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip"><i class="icon-question-circle"></i></router-link>
-        <router-link tag="div" :to="{path:'/message'}" class="message" v-show="header.message"><i class="icon-message change-message"><b class="path1"></b><b class="path2"></b></i></router-link>
+        <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
+            <i class="icon-question-circle"></i>
+        </router-link>
+        <div @click="goto('/message')" class="message" v-show="header.message">
+            <i class="icon-message change-message"><b class="path1"></b><b class="path2"></b>
+                <div v-show="message_count > 0" class="message-count">{{message_count}}</div>
+            </i>
+        </div>
         <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service" v-show="header.service"><i class="icon-diamond"></i><span>客服</span></router-link>
         <div class="time-money-wrapper" v-show="header.time || header.moneyType">
             <div class="money" v-show="header.moneyType" @click="pickerShow"><i class="icon-money"></i></div>
@@ -12,11 +18,19 @@
     </div>
 </template>
 <script>
-    import {mapGetters,mapMutations} from 'vuex'
+    import {mapGetters,mapMutations,mapActions} from 'vuex'
+    import {httpUrl} from 'common/js/map';
     export default {
+        data(){
+            return{
+                messageCount:0
+            }
+        },
         computed: {
             ...mapGetters([
-                'header'
+                'header',
+                'user_token',
+                'message_count'
             ])
         },
         methods:{
@@ -25,14 +39,33 @@
             },
             ...mapMutations({
                 setShowTime:'SET_SHOW_TIME',
-                setShowPicker:'SET_SHOW_PICKER'
+                setShowPicker:'SET_SHOW_PICKER',
+                setMessageCount:'SET_MESSAGE_COUNT'
             }),
+            ...mapActions([
+                'getMessageCount'
+            ]),
             timeShow(){
                 this.setShowTime(true);
             },
             pickerShow(){
                 this.setShowPicker(true);
             },
+            goto(infoUrl){
+                const url = this.user_token ? infoUrl:'/login';
+                this.$router.push({
+                    path:url
+                });
+            }
+        },
+        watch:{
+            user_token(newVal){
+                if(newVal){
+                    this.getMessageCount();
+                }else{
+                    this.setMessageCount(0);
+                }
+            }
         }
     }
 </script>
@@ -45,7 +78,7 @@
     line-height: 1.3rem;
     text-align: center;
     color:#fff;
-    background:$color-bg-theme;
+    background:$color-red;
     
     .back{
         position:absolute;
@@ -61,6 +94,22 @@
         line-height: 1.5rem;
         right:0;
         padding:0 0.4rem;
+        .change-message{
+            position: relative;
+            .message-count{
+                position:absolute;
+                height:0.4rem;
+                width:0.4rem;
+                border-radius: 50%;
+                background: #FFF700;
+                color:$color-text;
+                font-size: $font-size-small;
+                top:-0.36rem;
+                right:-0.2rem;
+                line-height: 0.4rem;
+                text-align: center;
+            }
+        }
         .change-message .path1{
             font-size: $font-size-large-xx;
         }
@@ -84,7 +133,7 @@
         font-size:$font-size-large-x;
         padding-left: 0.4rem;
         vertical-align: bottom;
-        color:$color-text-yellow;
+        color:$color-yellow;
         span{
             font-size:$font-size-small-x;
         }

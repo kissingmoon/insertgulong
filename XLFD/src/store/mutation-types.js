@@ -6,3 +6,5 @@ export const SET_SHOW_TIME = 'SET_SHOW_TIME';
 export const SET_SHOW_PICKER = 'SET_SHOW_PICKER';
 export const SET_TIP = 'SET_TIP';
 export const SET_IS_DEBUGGER = 'SET_IS_DEBUGGER';
+export const SET_API_BASE = 'SET_API_BASE';
+export const SET_MESSAGE_COUNT = 'SET_MESSAGE_COUNT';

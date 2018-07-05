@@ -26,7 +26,7 @@
                     </div>
                     <div class="lottery-wrapper">
                         <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}">
-                            <div class="item" v-if="i % 4 < 2" @click="subtag(i)">
+                            <div class="item" v-if="i % 4 < 2 && item.lottery_type != 6 && item.lottery_type != 10" @click="subtag(i)">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="item.lottery_image">
@@ -38,9 +38,24 @@
                                 </div>
                                 <i class="icon-triangle-below triangle-below" v-show="(showSub-2) == i" v-if="i % 4 < 2"></i>
                             </div>
+                            <router-link tag="div" class="item" 
+                                v-if="i % 4 < 2 && (item.lottery_type == 6 || item.lottery_type == 10)"
+                                :to="{path:'/lottery',query:{id:item.sub_lottery[0].lottery_id,type:item.lottery_type}}"
+                                >
+                                <div class="item-main">
+                                    <div class="icon">
+                                        <img width="60" height="60" v-lazy="item.lottery_image">
+                                    </div>
+                                    <div class="text" :class="{'border-right-1xp':i % 2 != 1}">
+                                        <h2 class="name" v-html="item.lottery_label"></h2>
+                                        <p class="desc" :ref="item.sub_lottery[0].lottery_id"></p>
+                                    </div>
+                                </div>
+                                <i class="icon-triangle-below triangle-below" v-show="(showSub-2) == i" v-if="i % 4 < 2"></i>
+                            </router-link>
                             <router-link tag="div" :to="{path:'/lottery',query:{id:sub.lottery_id,type:sub.lottery_type}}" 
                                 class="item sub-item"  
-                                v-if="i % 4 > 1" 
+                                v-if="i % 4 > 1 && item.lottery_type != 6 && item.lottery_type != 10" 
                                 v-for="(sub,s) in item" 
                                 :key="s" 
                                 v-show="showSub == i" 
@@ -51,7 +66,7 @@
                                     </div>
                                     <div class="text">
                                         <h2 class="name" v-html="sub.lottery_name"></h2>
-                                        <p class="desc" v-html="sub.remarks"></p>
+                                        <p class="desc" :ref="sub.lottery_id"></p>
                                     </div>
                                 </div>
                             </router-link>
@@ -86,7 +101,6 @@
                 </div> -->
             </scroll>
         </div>
-
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
             <slider-y class="betwin-main">
                 <div class="betwin-txt" v-for='item in betWin'>
@@ -94,6 +108,7 @@
                 </div>
             </slider-y>
         </div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
@@ -102,7 +117,7 @@
     import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import {regroupLotteryData} from 'common/js/param';
+    import {regroupLotteryData,countTime} from 'common/js/param';
     import {mapMutations,mapActions,mapGetters} from 'vuex';
 
     export default {
@@ -128,12 +143,12 @@
             SliderY
         },
         created() {
-            this._getActivitys();
-            this._getNotice();
-            this._getGift();
-            this._getLottery();
-            this._getRank();
-            this._getBetWin();
+            this.getActivitys();
+            this.getNotice();
+            this.getGift();
+            this.getLottery();
+            this.getRank();
+            this.getBetWin();
         },
         computed: {
             ...mapGetters([
@@ -143,46 +158,98 @@
         methods: {
             loadImage() {
                 if (!this.checkloaded) {
-                this.checkloaded = true
-                this.$refs.scroll.refresh()
+                    this.checkloaded = true
+                    this.$refs.scroll.refresh()
                 }
             },
-            _getActivitys() {
+            getActivitys() {
                 this.$axios.postRequest(httpUrl.home.sliderImg)
                 .then((res)=> {
-                    this.activitys=res.data;
+                    if(!res.data.errorCode){
+                        this.activitys=res.data;
+                    }
                 });
             },
-            _getNotice(){
+            getNotice(){
                 this.$axios.postRequest(httpUrl.home.notice)
                 .then((res)=> {
-                    this.notice=res.data;
+                    if(!res.data.errorCode){
+                        this.notice=res.data;
+                    }
                 });
             },
-            _getGift(){
+            getGift(){
                 this.$axios.postRequest(httpUrl.home.gift,{'type':'01'})
                 .then((res)=> {
-                    this.gift=res.data;
+                    if(!res.data.errorCode){
+                        this.gift=res.data;
+                    }
                 });
             },
-            _getLottery(){
+            getLottery(){
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
-                    this.lotteryList=regroupLotteryData(res.data);
+                    if(!res.data.errorCode){
+                        console.log(res.data);
+                        this.lotteryList=regroupLotteryData(res.data);
+                        console.log(this.lotteryList);
+                        this.forEachLottery(res.data);
+                    }
                 });
             },
-            _getRank(){
+            forEachLottery(lottery){
+                lottery.forEach((item,i) => {
+                    this.getSubLotteryLocktime(item.lottery_type,i);
+                });
+                
+            },
+            //获取子彩种开奖时间
+            getSubLotteryLocktime(type,i){
+                this.$axios.postRequest(httpUrl.bet.subLotteryLocktime,{lottery_type:type})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        res.data.forEach((sub,s) => {
+                            //this.lotteryList[(i*2+((i+1)%2+1))][s].lock_time=sub.lock_time;
+                            this.subLotteryCountTime(sub,type,i)
+                        });
+                    }
+                });
+            },
+            //子彩种倒计时
+            subLotteryCountTime(sub,type,i){
+                if(type == 6){
+                    this.$refs[sub.lottery_id][0].innerHTML=sub.lock_time;
+                    return;
+                }
+                const drawCountTime=countTime(sub.lock_time.replace(/-/g,'/'));
+                if(this.$refs[sub.lottery_id][0]){
+                    this.$refs[sub.lottery_id][0].innerHTML=drawCountTime;
+                }
+                if (drawCountTime == "00:00:00") {
+                    setTimeout(() => {
+                        this.getSubLotteryLocktime(type,i);
+                    },2000);
+                }else{
+                    clearTimeout(this[sub.lottery_id]);
+                    this[sub.lottery_id]=setTimeout(() => {
+                        this.subLotteryCountTime(sub,type,i);
+                    },1000);
+                }
+            },
+            getRank(){
                 this.$axios.postRequest(httpUrl.home.rank)
                 .then((res)=> {
-                    if(res){
+                    if(!res.data.errorCode){
                         this.rank=res.data;
                     }
                 });
             },
-            _getBetWin(){
+            getBetWin(){
                 this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
-                    this.betWin=res.data;
+                    if(!res.data.errorCode){
+                        this.betWin=res.data;
+                    }
                 });
             },
             subtag(i){
@@ -190,7 +257,8 @@
                 setTimeout(() => {
                     this.$refs.scroll.refresh();
                 },50);
-            }
+            },
+            
 
         }
     }

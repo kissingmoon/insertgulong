@@ -120,7 +120,6 @@ export default {
         pageIndex += 1;
       }
       this.timer = setTimeout(() => {
-          console.log(pageIndex);
         this.slider.goToPage(0,pageIndex, 400);
       }, this.interval);
     }

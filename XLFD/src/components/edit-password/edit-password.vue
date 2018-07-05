@@ -33,6 +33,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapGetters,mapActions,mapMutations} from 'vuex'
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
@@ -58,20 +59,24 @@
         methods: {
             editPassword(e) {
                 if(this.param.new_passwd !== this.affirm_password){
-                    console.log('新密码不一致');
+                    this.setTip('新密码不一致');
                     return;
                 }
                 if(this.param.password === this.param.new_passwd){
-                    console.log('新密码不能与旧密码相同');
+                    this.setTip('新密码不能与旧密码相同');
                     return;
                 }
                 this.$axios.postRequest(httpUrl.info[this.api],this.param)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        console.log('修改成功');
+                        this.setTip('修改成功');
+                        this.$router.back();
                     }
                 });
-            }
+            },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            })
         }
     }
 </script>
@@ -134,7 +139,7 @@
                     height:1.17rem;
                     width:100%;
                     text-align: center;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     color: #fff;
                     font-size: $font-size-large;
                     border-radius: 0.1rem;

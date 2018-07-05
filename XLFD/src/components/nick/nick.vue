@@ -92,7 +92,7 @@
             height:1.17rem;
             width:100%;
             text-align: center;
-            background:$color-bg-theme;
+            background:$color-red;
             color: #fff;
             font-size: $font-size-large;
             border-radius: 0.1rem;

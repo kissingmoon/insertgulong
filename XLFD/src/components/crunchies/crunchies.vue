@@ -71,6 +71,7 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.crunchiesList[index].has_gz=!this.crunchiesList[index].has_gz;
+                        this.crunchiesList[index].count_fans=status == 1?this.crunchiesList[index].count_fans+=1 : this.crunchiesList[index].count_fans-=1;
                     };
                 });
             }

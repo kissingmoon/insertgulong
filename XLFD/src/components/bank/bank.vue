@@ -26,7 +26,7 @@
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" v-model="bankParam.account_no":readonly="account.bank_status == 1">
+                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" v-model.number="bankParam.account_no" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                     </ul>
@@ -49,7 +49,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapGetters,mapActions} from 'vuex';
+    import {mapGetters,mapActions,mapMutations} from 'vuex'
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
@@ -95,7 +95,6 @@
                     this.$axios.postRequest(httpUrl.info.bankList)
                     .then((res)=> {
                         if(!res.data.errorCode){
-                            console.log(res.data);
                             this.bankList.data1=res.data;
                         }
                     });
@@ -113,11 +112,14 @@
                 this.$axios.postRequest(httpUrl.info.bindBank,this.bankParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        console.log('设置成功！');
+                        this.setTip('设置成功！');
                         this.getUser();
                     }
                 });
             },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
             ...mapActions([
                 'getUser'
             ]),
@@ -201,7 +203,7 @@
                     height:1.17rem;
                     width:100%;
                     text-align: center;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     color: #fff;
                     font-size: $font-size-large;
                     border-radius: 0.1rem;

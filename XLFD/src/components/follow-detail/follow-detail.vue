@@ -269,7 +269,7 @@
                         span{
                             padding-right: 0.4rem;
                             b{
-                                color:$color-text-red;
+                                color:$color-red;
                             }
                         }
                         
@@ -286,7 +286,7 @@
                         line-height: 0.5rem;
                         color:$color-text-gray;
                         b{
-                            color:$color-text-red;
+                            color:$color-red;
                         }
                     }
                 };
@@ -302,7 +302,7 @@
                 font-size: $font-size-small-x;
                 padding-bottom: 0.3rem;
                 b{
-                    color:$color-text-red;
+                    color:$color-red;
                 }
                 .minor-left{
                     float: left;
@@ -355,8 +355,8 @@
                 line-height: 0.9rem;
                 text-align: center;
                 &.on{
-                    color:$color-text-red;
-                    @include border-bottom-1px(solid,$color-border-red);
+                    color:$color-red;
+                    @include border-bottom-1px(solid,$color-red);
                 }
             }
         }
@@ -434,8 +434,8 @@
                     width:0.67rem;
                     background: #fff;
                     border-radius: 50%;
-                    border:1px solid $color-border-red;
-                    color:$color-text-red;
+                    border:1px solid $color-red;
+                    color:$color-red;
                     font-size: $font-size-medium-x;
                     padding:0;
                     line-height: 0.74rem;
@@ -457,7 +457,7 @@
                 height:0.7rem;
                 line-height: 0.7rem;
                 border-radius:0.08rem;
-                background:$color-bg-theme;
+                background:$color-red;
                 font-size: $font-size-medium;
                 border:none;
                 color:#fff;

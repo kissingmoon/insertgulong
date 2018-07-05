@@ -143,7 +143,7 @@
                     color:$color-text-gray;
                     font-size: $font-size-medium;
                     .win-money{
-                        color:$color-text-red;
+                        color:$color-red;
                     }
                 }
                 &.special{
@@ -163,7 +163,7 @@
                             font-size: $font-size-medium-x;
                             color:$color-text;
                             span{
-                                color:$color-text-red;
+                                color:$color-red;
                             }
                         }
                     }

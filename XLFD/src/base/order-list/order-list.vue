@@ -186,13 +186,13 @@
                     background:#E8E8E8;
                     text-align: center;
                     line-height: 0.92rem;
-                    color:$color-text-red;
+                    color:$color-red;
                 }
                 .order-status-ing{
                     height:0.7rem;
                     margin-top: 0.5rem;
                     border-radius: 0.1rem;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     text-align: center;
                     line-height: 0.7rem;
                     color:#fff;

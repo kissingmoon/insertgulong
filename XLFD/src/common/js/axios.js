@@ -12,7 +12,7 @@ axios.interceptors.request.use(config=> {
 })
 axios.interceptors.response.use(res=> {
     if (res.status && res.status == 200 && res.data.errorCode) {
-        store.commit('SET_TIP',res.data.errorMsg);
+        // store.commit('SET_TIP',res.data.errorMsg);
         switch (res.data.errorCode) {
             case '20012':
                 removeSession('user_token');
@@ -22,6 +22,7 @@ axios.interceptors.response.use(res=> {
                 store.commit('SET_ACCOUNT','');
                 break;
             default:
+                store.commit('SET_TIP',res.data.errorMsg);
                 return res;
         }
     }

@@ -168,7 +168,7 @@
         overflow: hidden;
         .datum-wrapper{
             height:1.78rem;
-            background:$color-bg-theme;
+            background:$color-red;
             padding: 0.43rem 0.35rem;
             font-size: $font-size-large;
             color:#fff;
@@ -202,7 +202,7 @@
                     @include no-wrap();
                     .money{
                         font-size: $font-size-medium-x;
-                        color:$color-text-yellow;
+                        color:$color-yellow;
                     }
                 }
                 .datum-arrows{

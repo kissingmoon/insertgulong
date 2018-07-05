@@ -296,7 +296,7 @@
                     font-size: 0.32rem;
                 }
                 &.bg-red{
-                    background:$color-bg-theme;
+                    background:$color-red;
                 }
             }
             .hot{
@@ -340,7 +340,7 @@
                 }
                 .rate{
                     font-size: $font-size-small;
-                    color:$color-text-red;
+                    color:$color-red;
                 }
             }
         }

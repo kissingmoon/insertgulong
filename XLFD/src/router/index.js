@@ -38,9 +38,19 @@ Vue.use(Router)
 export default new Router({
     mode:'history',
     routes: [
+        // {
+        //     path: '/',
+        //     redirect: '/home'
+        // },
         {
-            path: '/',
-            redirect: '/home'
+            path:'/',
+            component:Home,
+            children:[
+                {
+                    path:'lottery',
+                    component:Lottery
+                }
+            ]
         },
         {
             path:'/register',
@@ -49,10 +59,6 @@ export default new Router({
         {
             path:'/login',
             component:Login
-        },
-        {
-            path:'/home',
-            component:Home
         },
         {
             path:'/pay',
@@ -229,23 +235,6 @@ export default new Router({
             ]
             
         },
-        {
-            path:'/lottery',
-            component:Lottery,
-            children:[
-                {
-                    path:'lhc-rule',
-                    component:UrlContent
-                },
-                {
-                    path:'m28-rule',
-                    component:UrlContent
-                },
-                {
-                    path:'gd-rule',
-                    component:UrlContent
-                }
-            ]
-        }
+        
     ]
 })

@@ -121,7 +121,7 @@
         @include border-bottom-1px(solid,$color-border-gray);
         font-size:$font-size-small-x;
         .txt-red{
-            color:$color-text-red;
+            color:$color-red;
         }
         .left{
             float: left;
@@ -163,7 +163,7 @@
                     border-radius: 0.05rem;
                     color:#fff;
                     .txt-red{
-                        color:$color-text-red;
+                        color:$color-red;
                     }
                 }
                 .win{
@@ -187,8 +187,8 @@
                     text-align: center;
                     height:0.56rem;
                     width:1.56rem;
-                    border:1px solid $color-border-red;
-                    color:$color-border-red;
+                    border:1px solid $color-red;
+                    color:$color-red;
                     background:#fff;
                     border-radius: 0.06rem;
                     padding:0;

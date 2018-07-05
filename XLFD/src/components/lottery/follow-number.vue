@@ -322,7 +322,7 @@
                 font-size:$font-size-large-x;
                 padding-right: 0.4rem;
                 vertical-align: bottom;
-                color:$color-text-yellow;
+                color:$color-yellow;
                 right: 0;
                 span{
                     font-size:$font-size-small-x;
@@ -551,7 +551,7 @@
                     line-height: 1.15rem;
                     @include no-wrap();
                     span{
-                        color:$color-text-yellow;
+                        color:$color-yellow;
                     }
                 }
             }
@@ -590,7 +590,7 @@
                     height:0.67rem;
                     line-height: 0.67rem;
                     text-align: center;
-                    background:$color-text-yellow;
+                    background:$color-yellow;
                     border-radius: 0.1rem;
                     color:$color-text;
                     font-size: $font-size-medium-x;

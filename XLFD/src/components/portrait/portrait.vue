@@ -77,7 +77,7 @@ export default {
         line-height: 1.15rem;
         width: 8rem;
         text-align: center;
-        background: $color-bg-theme;
+        background: $color-red;
         color: #fff;
         font-size: $font-size-large;
         border-radius: 0.1rem;

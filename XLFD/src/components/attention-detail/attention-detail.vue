@@ -84,6 +84,7 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.author[index].has_gz=!this.author[index].has_gz;
+                        this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
                     };
                 });
             }

@@ -63,7 +63,7 @@
             line-height: 1.3rem;
             text-align: center;
             color:#fff;
-            background:$color-bg-theme;
+            background:$color-red;
             
             .back{
                 position:absolute;

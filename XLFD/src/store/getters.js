@@ -6,4 +6,6 @@ export const show_time = state => state.show_time;
 export const show_picker = state => state.show_picker;
 export const tip = state => state.tip;
 export const is_debugger = state => state.is_debugger;
+export const api_base = state => state.api_base;
+export const message_count = state => state.message_count;
 

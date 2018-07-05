@@ -100,7 +100,7 @@
                     background-size: 0.7rem;
                     background-repeat: no-repeat;
                     .money{
-                        color:$color-text-red;
+                        color:$color-red;
                     }
                 }
                 .icon-balance{
@@ -140,7 +140,7 @@
                 height:1.17rem;
                 width:100%;
                 text-align: center;
-                background:$color-bg-theme;
+                background:$color-red;
                 color: #fff;
                 font-size: $font-size-large;
                 border-radius: 0.1rem;

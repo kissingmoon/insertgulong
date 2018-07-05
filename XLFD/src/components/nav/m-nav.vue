@@ -1,6 +1,6 @@
 <template>
     <div class="nav">
-        <router-link tag="div" class="nav-item" to="/home">
+        <router-link tag="div" class="nav-item" to="/">
             <p class="icon-con icon-home"></p>
             <p class="txt">大厅</p>
         </router-link>
@@ -71,7 +71,7 @@
             margin: 0 auto;
             line-height: 0.5rem;
         }
-        &.router-link-active{
+        &.router-link-exact-active{
             color:#FFE212;
             .icon-home{
                 @include bg-image('home-on');

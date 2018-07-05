@@ -68,7 +68,6 @@
             this.getDiscount();
         },
         methods:{
-
             getDiscount(){
                 this.$axios.postRequest(httpUrl.discount.activity,this.activityParam)
                 .then((res)=> {

@@ -5,7 +5,8 @@ export const httpUrl = {
         gift: '/v2/gc/syad-image',
         lottery:'/v2/gc/get-cp-type',
         rank:'/v2/user-info/get-user-rank',
-        betWin:'/v2/gc/betwin-notice'
+        betWin:'/v2/gc/betwin-notice',
+        messageCount:'/ad/message-not-read'
     },
     account:{
         generatorCode:'/config/generator-code',
@@ -41,19 +42,21 @@ export const httpUrl = {
         rank:'/v2/gd-dsb/get-dsb-rank',
         order:'/v2/gd-dsb/get-all-gd',
         draw:'/cp/kj-trend',
-        drawNumber:'cp/kj-trend-history',
+        drawNumber:'/cp/kj-trend-history',
         winMoney:'/cp/accumulated-winning',
         betGd:'/v2/bet/bet-gd'
     },
     bet:{
         lotteryWf:'/gc/cz-wf',
         lotteryWfLHC:'/gc/cz-wf-lhc28',
-        lockTime:'gc/cp-lock-time',
+        lockTime:'/gc/cp-lock-time',
         zodiac:'/gc/sx-lhc',
         betOrder:'/bet/bet-order',
         betOrderZh:'/v2/bet/bet-order-zh',
         betZyj:'/v2/bet/bet-zyj',
-        betLHC28:'/bet/bet-order-lhc28'
+        betLHC28:'/bet/bet-order-lhc28',
+        subLotteryLocktime:'/v2/gc/sub-lottery-locktime'
+
     },
     config:{
         urlList:'/config/url-list',
@@ -68,6 +71,7 @@ export const lotteryName ={
     'jxssc':'江西时时彩',
     'tjssc':'天津时时彩',
     'xjssc':'新疆时时彩',
+    'xssc':'新时时彩',
     'ffc':'分分彩',
     'wfc':'五分彩',
     'jnd3d5fc':'加拿大3.5分彩',
@@ -156,7 +160,7 @@ export const fiveElement ={
 
 
 export const headerConfig = {
-    '/home':{
+    '/':{
         title:'小李飞刀',
         service:true,
         message:true

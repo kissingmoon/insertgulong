@@ -194,8 +194,8 @@
                         border:1px solid $color-border-num;
                         border-radius: 50%;
                         &.on{
-                            border-color:$color-text-yellow;
-                            color:$color-text-yellow;
+                            border-color:$color-yellow;
+                            color:$color-yellow;
                         }
                     }
                     .txt{
@@ -253,7 +253,7 @@
                             @include bg-image('bg-num-shallow');
                             background-size: 1rem;
                             &.on{
-                                border-color:$color-text-yellow;
+                                border-color:$color-yellow;
                                 @include bg-image('bg-num-deep');
                             }
                         }
@@ -269,7 +269,7 @@
                             @include bg-image('bg-num-shallow');
                             background-size:  1rem;
                             &.on{
-                                border-color:$color-text-yellow;
+                                border-color:$color-yellow;
                                 @include bg-image('bg-num-deep');
                             }
                         }
@@ -293,7 +293,7 @@
                                 line-height: 0.5rem;
                             }
                             &.on{
-                                border-color:$color-text-yellow;
+                                border-color:$color-yellow;
                                 @include bg-image('bg-num-deep');
                             }
                         }
@@ -324,7 +324,7 @@
                     &.on{
                         @include bg-image('bg-num-deep');
                         background-size:  1rem;
-                        border:1px solid $color-border-yellow;
+                        border:1px solid $color-yellow;
                         height:0.72rem;
                         line-height: 0.72rem;
                     }

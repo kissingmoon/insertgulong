@@ -3,7 +3,7 @@
         <div class="lottery">
             <div class="lottery-content">
                 <div class="lottery-title-content">
-                    <div class="back" @click="goBack"><i class="icon-arrows-left"></i></div>
+                    <div class="back" @click="judgeBack"><i class="icon-arrows-left"></i></div>
                     <div class="time-money-wrapper">
                         <div class="kind" @click="show('wfKindShow')">玩<br>法</div>
                         <div class="rule" @click="show('wfRuleShow')" v-if="!is28OrLhc">说<br>明</div>
@@ -112,7 +112,7 @@
                 </div>
             </div>
             <!-- 玩法规则 -->
-            <div v-if="wfRuleShow" class="wf-content">
+            <div v-if="wfRuleShow">
                 <div class="background" @click="hide('wfRuleShow')"></div>
                 <div class="detail">
                     <div class="wf-detail-wrapper clearfix">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="winMoneyShow" class="wf-content">
+            <div v-if="winMoneyShow">
                 <div class="background" @click="hide('winMoneyShow')"></div>
                 <div class="detail">
                     <div class="wf-detail-wrapper clearfix">
@@ -157,7 +157,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="gdSetShow" class="gd-content">
+            <div v-if="gdSetShow">
                 <div class="background"  @click="hide('gdSetShow')"></div>
                 <div class="detail">
                     <div class="gd-detail-wrapper clearfix">
@@ -212,7 +212,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="gdTipShow" class="wf--success-content">
+            <div v-if="gdTipShow">
                 <div class="background" @click="gdAffirm"></div>
                 <div class="bet-success-detail">
                     <div class="bet-success-wrapper clearfix">
@@ -228,7 +228,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="betAffirmShow" class="bet-affirm-content">
+            <div v-if="betAffirmShow">
                 <div class="background"  @click="hide('betAffirmShow')"></div>
                 <div class="detail">
                     <div class="bet-detail-wrapper clearfix">
@@ -259,7 +259,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="betSuccessShow" class="wf--success-content">
+            <div v-if="betSuccessShow">
                 <div class="background" @click="hide('betSuccessShow')"></div>
                 <div class="bet-success-detail">
                     <div class="bet-success-wrapper clearfix">
@@ -271,6 +271,23 @@
                             <div class="btn-wrapper">
                                 <button class="cancel" @click="gotoPage('/bet')">投注记录</button>
                                 <button class="affirm"  @click="hide('betSuccessShow')">继续投注</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="leaveTipShow">
+                <div class="background" @click="hide('leaveTipShow')"></div>
+                <div class="bet-success-detail">
+                    <div class="bet-success-wrapper clearfix">
+                        <div class="detail-title">提示</div>
+                        <div class="bet-success-main">
+                            <div class="success-tip">
+                                退出将取消已选择的号码是否退出？
+                            </div>
+                            <div class="btn-wrapper">
+                                <button class="cancel" @click="hide('leaveTipShow')">取消</button>
+                                <button class="affirm" @click="goBack()">确定</button>
                             </div>
                         </div>
                     </div>
@@ -353,6 +370,7 @@
                 isShowOdds:true,
                 ruleShow:false,  //是否显示规则页面
                 winMoneyShow:false,  //是否显示奖金提示页面
+                leaveTipShow:false,  //是否确认离开
                 ruleTitle:'',
                 ruleUrl:'',
                 betUnit,
@@ -419,7 +437,8 @@
             },
             ...mapGetters([
                 'account',
-                'user_token'
+                'user_token',
+                'api_base'
             ])
         },
         methods: {
@@ -429,9 +448,9 @@
                 this.lotteryType =this.$router.history.current.query.type;
                 this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
                 this.getUser();
-                this._getBetWF();
-                this._getZodiac();
-                this._getLockTime();
+                this.getBetWF();
+                this.getZodiac();
+                this.getLockTime();
 
             },
             watchInit(){
@@ -449,6 +468,13 @@
             ...mapMutations({
                 setTip:'SET_TIP',
             }),
+            judgeBack(){
+                if(this.is28OrLhc && this.updataNumberList.length > 0){
+                    this.show('leaveTipShow');
+                }else{
+                    this.goBack()
+                }
+            },
             goBack(){
                 this.$router.back();
             },
@@ -458,7 +484,7 @@
             hide(key){
                 this[key]=false;
             },
-            _getBetWF(){
+            getBetWF(){
                 const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
                 this.$axios.postRequest(api,{lottery_id:this.lotteryId})
                 .then((res)=> {
@@ -471,7 +497,7 @@
                     };
                 });
             },
-            _getZodiac(){
+            getZodiac(){
                 this.$axios.postRequest(httpUrl.bet.zodiac)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -480,7 +506,7 @@
                     };
                 });
             },
-            _getLockTime(){
+            getLockTime(){
                 this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -495,7 +521,7 @@
                 if (this.drawCountTime == "00:00:00") {
                     this.setTip("本期已封单");
                     setTimeout(() => {
-                        this._getLockTime();
+                        this.getLockTime();
                     },1000);
                 }else{
                     clearTimeout(this.lockTimes);
@@ -811,11 +837,11 @@
                 switch(this.lotteryType){
                     case '6':
                         this.ruleTitle="香港六合彩玩法规则";
-                        this.ruleUrl=location.host+'/wf-explain/lhc-wf';
+                        this.ruleUrl=`${this.api_base}/wf-explain/lhc-wf`;
                         break;
                     case '11':
                         this.ruleTitle="28玩法规则";
-                        this.ruleUrl=location.host+'/wf-explain/xy28-wf';
+                        this.ruleUrl=`${this.api_base}/wf-explain/xy28-wf`;
                         break;
                     default:
                         this.ruleTitle="跟单说明"
@@ -1037,7 +1063,7 @@
                             padding:0;
                             margin: 0;
                             line-height: 0.6rem;
-                            color:$color-text-yellow;
+                            color:$color-yellow;
                             text-align: center;
                         }
                     }
@@ -1163,7 +1189,7 @@
                     height:0.67rem;
                     line-height: 0.67rem;
                     text-align: center;
-                    background:$color-text-yellow;
+                    background:$color-yellow;
                     border-radius: 0.1rem;
                     color:$color-text;
                     font-size: $font-size-medium-x;
@@ -1263,7 +1289,7 @@
                         overflow: hidden;
                         line-height: 0.5rem;
                         &.title{
-                            color:$color-text-yellow;
+                            color:$color-yellow;
                         }
                         &.txt{
                             color:#fff;
@@ -1287,7 +1313,7 @@
                     border:1px solid $color-border-num;
                     text-align: center;
                     background:none;
-                    color: $color-text-yellow;
+                    color: $color-yellow;
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;
@@ -1355,10 +1381,10 @@
                                 color:$color-border-num;
                             }
                             &.on{
-                                border:1px solid $color-border-yellow;
-                                color:$color-text-yellow;
+                                border:1px solid $color-yellow;
+                                color:$color-yellow;
                                 .right-ak{
-                                    color:$color-text-yellow;
+                                    color:$color-yellow;
                                 }
                             }
                         }
@@ -1412,7 +1438,7 @@
                         width:2.5rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:$color-border-yellow;
+                        background:$color-yellow;
                         color: #fff;
                         font-size: $font-size-medium-x;
                         border-radius: 0.1rem;
@@ -1453,7 +1479,7 @@
                                 padding:0 0.5rem;
                                 word-wrap: break-word; 
                                 .txt{
-                                    color:$color-text-yellow;
+                                    color:$color-yellow;
                                 }
                             }
                             &.set-num{
@@ -1522,7 +1548,7 @@
                         width:2.5rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:$color-border-yellow;
+                        background:$color-yellow;
                         color: #fff;
                         font-size: $font-size-medium-x;
                         border-radius: 0.1rem;
@@ -1601,7 +1627,7 @@
                         width:2.5rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:$color-border-yellow;
+                        background:$color-yellow;
                         color: #fff;
                         font-size: $font-size-medium-x;
                         border-radius: 0.1rem;

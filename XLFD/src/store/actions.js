@@ -33,3 +33,13 @@ export const getUser = ({commit, state}) => {
         };
     });
 }
+
+//获取未读消息条数
+export const getMessageCount = ({commit, state}) => {
+    $axios.postRequest(httpUrl.home.messageCount)
+    .then((res)=> {
+        if(!res.data.errorCode){
+            commit('SET_MESSAGE_COUNT',res.data.num);
+        };
+    });
+}

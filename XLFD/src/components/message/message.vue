@@ -28,7 +28,7 @@
                     </ul>
                 </div>
             </scroll>
-            <div v-show="detailShow" class="background" @click="closeDetail">
+            <div v-show="detailShow" class="background" @click="setMessage(1)">
             </div>
             <div v-show="detailShow" class="detail">
                 <div class="detail-wrapper clearfix">
@@ -47,14 +47,15 @@
                     </div>
                 </div>
                 <div class="detail-close">
-                    <button @click="closeDetail" class="m-r">关闭</button>
-                    <button @click="deleteMessage">删除</button>
+                    <button @click="setMessage(1)" class="m-r">关闭</button>
+                    <button @click="setMessage(2)">删除</button>
                 </div>
             </div>
         </div>
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapActions} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
@@ -82,6 +83,9 @@
             this.getMessage();
         },
         methods: {
+            ...mapActions([
+                'getMessageCount'
+            ]),
             getMessage(type){
                 if(type == 'up'){
                     this.loadStatus=true;
@@ -104,18 +108,19 @@
             showDetail(item,index){
                 this.messageDetail=item;
                 this.detailIndex=index;
+                this.messageList[this.detailIndex].is_read=1;
                 this.detailShow=true;
             },
-            closeDetail(){
+            setMessage(type){
                 this.detailShow=false;
-            },
-            deleteMessage(){
-                this.detailShow=false;
-                this.$axios.postRequest(httpUrl.config.messageHandle,{msg_id:this.messageDetail.id,flag:2})
+                this.$axios.postRequest(httpUrl.config.messageHandle,{msg_id:this.messageDetail.id,flag:type})
                 .then((res)=> {
                     if(!res.data.errorCode){
                         if(res.data.status == 1){
-                            this.messageList.splice(this.detailIndex, 1);
+                            if( type == 2){
+                                this.messageList.splice(this.detailIndex, 1);
+                            }
+                            this.getMessageCount();
                         }
                     }
                 });
@@ -151,7 +156,7 @@
                     text-align: center;
                     font-size: $font-size-large-x;
                     .red-icon{
-                        color:$color-text-red;
+                        color:$color-red;
                     }
                 }
                 .message-info{
@@ -163,7 +168,7 @@
                         .title{
                             float: left;
                             font-size: $font-size-medium-x;
-                            color:$color-text-red;
+                            color:$color-red;
                         }
                         .time{
                             float:right;
@@ -209,7 +214,7 @@
                     line-height: 1rem;
                     text-align: center;
                     font-size: $font-size-large;
-                    color:$color-text-red;
+                    color:$color-red;
                     @include border-bottom-1px(solid,$color-border-gray);
                     @include no-wrap();
                 }
@@ -243,7 +248,7 @@
                 height:0.8rem;
                 width:2.5rem;
                 text-align: center;
-                background:$color-bg-theme;
+                background:$color-red;
                 color: #fff;
                 font-size: $font-size-medium-x;
                 border-radius: 0.1rem;

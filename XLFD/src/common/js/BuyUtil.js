@@ -24,7 +24,7 @@ export function initDataStr(arr) {
         buyNumberBean = {};
         buyNumberBean.str = tiem + "";
         buyNumberBean.number = i;
-        buyNumberBean.number_str = i;
+        buyNumberBean.number_str = arr[i];
         buyNumberBean.index = i+1;
         list.push(buyNumberBean);
     });
@@ -40,7 +40,7 @@ export function initPk10_lhdData(str,position) {
         buyNumberBean = {};
         buyNumberBean.str = str[i] + "";
         buyNumberBean.number = i;
-        buyNumberBean.number_str = i;
+        buyNumberBean.number_str = str[i];
         buyNumberBean.index = m;
         buyNumberBean.pk10_title = getTitle(position);
         m++;

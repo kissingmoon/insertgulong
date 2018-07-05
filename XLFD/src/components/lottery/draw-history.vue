@@ -89,7 +89,7 @@
                 float: left;
                 display: flex;
                 font-size: $font-size-large;
-                color:$color-text-yellow;
+                color:$color-yellow;
                 .clock-01{
                     line-height: 1.15rem;
                     padding-right: 0.1rem;

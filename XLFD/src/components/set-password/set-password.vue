@@ -26,6 +26,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapGetters,mapActions,mapMutations} from 'vuex'
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
@@ -47,10 +48,18 @@
                 this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        console.log('设置成功');
+                        this.setTip('设置成功');
+                        this.getUser();
+                        this.$router.back();
                     }
                 });
-            }
+            },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
+            ...mapActions([
+                'getUser'
+            ]),
         
         }
     }
@@ -114,7 +123,7 @@
                     height:1.17rem;
                     width:100%;
                     text-align: center;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     color: #fff;
                     font-size: $font-size-large;
                     border-radius: 0.1rem;

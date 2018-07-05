@@ -88,7 +88,7 @@
             height: 0.7rem;
             line-height: 0.7rem;
             margin-bottom: 0.1rem;
-            color:$color-text-red;
+            color:$color-red;
             font-size: $font-size-large;
             span{
                 display: inline-block;

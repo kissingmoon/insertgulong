@@ -335,7 +335,7 @@
             height:1rem;
             width:100%;
             text-align: center;
-            background:$color-bg-theme;
+            background:$color-red;
             color: #fff;
             font-size: $font-size-medium-x;
             border-radius: 0.1rem;

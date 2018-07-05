@@ -26,7 +26,7 @@
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code">
                     </p>
-                    <p class="code-img">
+                    <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
                     </p>
                 </li>
@@ -41,13 +41,13 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    import {reData,session,randomWord} from 'common/js/param';
+    import {session,randomWord} from 'common/js/param';
     export default {
         data() {
             return{
-                paramData:{},
                 registerParam:{
                     code_id:'2154',
                     code:'',
@@ -56,31 +56,51 @@
                     repeat_password:'',
                     phone:''
                 },
-                codeUrl:'http://www.xlfdapi.com/config/generator-code?code_id=2154'
+                codeUrl:''
             }
         },
         components:{
             Parcel
         },
         created() {
-            this.paramData=reData();
-            //设置code_id随机数
-            //this.code_id = randomWord(false,6,8);
-            //this._getGeneratorCode();
+            this.setCode();
+        },
+        computed: {
+            ...mapGetters([
+                'api_base'
+            ])
         },
         methods: {
-            _getGeneratorCode() {
-                this.$axios.postRequest(httpUrl.account.generatorCode,{'code_id':this.loginParam.codeId})
-                .then((res)=> {
-                    this.codeUrl=res.data;
-                });
+            setCode(){
+                this.registerParam.code_id = randomWord(false,6,8);
+                this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
             register(){
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
-                    session('account',res.data);
+                    if(!res.data.errorCode){
+                        session('user_token',res.data.user_token);
+                        session('md5_salt',res.data.md5_salt);
+                        this.resetUser({
+                            account:res.data,
+                            token:res.data.user_token,
+                            md5:res.data.md5_salt
+                        })
+                        this.setTip("注册成功");
+                        this.$router.push({
+                            path:'/info'
+                        });
+                    }else{
+                        this.setCode();
+                    }
                 });
-            }
+            },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
+            ...mapActions([
+                'resetUser'
+            ])
         
         }
     }
@@ -127,7 +147,7 @@
             height:1.17rem;
             width:100%;
             text-align: center;
-            background:$color-bg-theme;
+            background:$color-red;
             color: #fff;
             font-size: $font-size-large;
             border-radius: 0.1rem;

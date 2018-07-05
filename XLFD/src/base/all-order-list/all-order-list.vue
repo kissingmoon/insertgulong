@@ -121,7 +121,7 @@
                             span{
                                 margin-right: 0.3rem;
                                 b{
-                                    color:$color-text-red;
+                                    color:$color-red;
                                 }
                             }
                         }
@@ -176,7 +176,7 @@
                     height:0.6rem;
                     line-height: 0.6rem;
                     b{
-                        color:$color-text-red;
+                        color:$color-red;
                     }
                 }
                 .least{
@@ -195,7 +195,7 @@
                     height:0.7rem;
                     margin-top: 0.5rem;
                     border-radius: 0.1rem;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     text-align: center;
                     line-height: 0.7rem;
                     color:#fff;

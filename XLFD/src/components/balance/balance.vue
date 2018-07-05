@@ -17,28 +17,53 @@
                             </div>
                         </div>
                         <div class="form-btn">
-                            <button @click="showPassword">提交</button>
+                            <button @click="show('passwordShow')" :class="{'btn-disabled': account.bank_passwd_status != 1}" :disabled="account.bank_passwd_status != 1" >提交</button>
                         </div>
                     </div>
                 </div>
             </scroll>
-            <div v-show="passwordShow" class="background" >
+            <div  v-show="passwordShow">
+                <div class="background" @click="hide('passwordShow')">
+                </div>
+                <div class="password">
+                    <div class="password-wrapper clearfix">
+                        <div class="password-main">
+                            <ul>
+                                <li class="item-wrapper">
+                                    输入提现密码
+                                </li>
+                                <li class="item-wrapper">
+                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" >
+                                </li>
+                                <li class="item-wrapper">
+                                    <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
+                                    <button @click="withdrawCash">确认</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div v-show="passwordShow" class="password">
-                <div class="password-wrapper clearfix">
-                    <div class="password-main">
-                        <ul>
-                            <li class="item-wrapper">
-                                输入提现密码
-                            </li>
-                            <li class="item-wrapper">
-                                <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" >
-                            </li>
-                            <li class="item-wrapper">
-                                <button class="margin-right-1rem" @click="closePassword">取消</button>
-                                <button @click="withdrawCash">确认</button>
-                            </li>
-                        </ul>
+            <div  v-show="passworTipShow">
+                <div class="background"  @click="hide('passworTipShow')">
+                </div>
+                <div class="password">
+                    <div class="password-wrapper clearfix">
+                        <div class="password-main">
+                            <ul>
+                                <li class="item-wrapper">
+                                </li>
+                                <li class="item-wrapper">
+                                    您还没有设置提现密码，请先设置。
+                                </li>
+                                <li class="item-wrapper">
+                                </li>
+                                <li class="item-wrapper">
+                                    <button class="margin-right-1rem" @click="hide('passworTipShow')">取消</button>
+                                    <button @click="goto">确认</button>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,7 +71,8 @@
     </parcel>    
 </template>
 <script type="text/ecmascript-6">
-    import {mapGetters,mapActions} from 'vuex'
+    import {mapGetters,mapActions,mapMutations} from 'vuex'
+    import md5 from 'js-md5';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
@@ -55,7 +81,8 @@
             return{
                 money:'',
                 bank_passwd:'',
-                passwordShow:false
+                passwordShow:false,
+                passworTipShow:false,
             }
         },
         components:{
@@ -63,6 +90,7 @@
             Scroll
         },
         created() {
+            this.init();
         },
         computed: {
             ...mapGetters([
@@ -78,25 +106,42 @@
             }
         },
         methods: {
+            init(){
+                this.passworTipShow = this.account.bank_passwd_status != 1;
+            },
             withdrawCash(){
-                this.passwordShow = false;
-                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:this.bank_passwd})
+                this.hide('passwordShow');
+                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
                 .then((res)=> {
                     if(!res.data.errorCode){
+                        this.setTip('提现成功');
                         this.getUser();
                         this.$router.back();
                     };
                 });
             },
-            closePassword(){
-                this.passwordShow = false;
+            hide(type){
+                this[type] = false;
             },
-            showPassword(){
-                this.passwordShow = true;
+            show(type){
+                this[type] = true;
             },
             ...mapActions([
                 'getUser'
-            ])
+            ]),
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
+            goto(){
+                this.$router.push({
+                    path:'/info/safety/set-password'
+                });
+            }
+        },
+        watch:{
+            account(){
+                this.passworTipShow = this.account.bank_passwd_status != 1;
+            }
         }
     }
 </script>
@@ -131,7 +176,7 @@
                 background-size: 0.7rem;
                 background-repeat: no-repeat;
                 @include bg-image('icon-balance');
-                color:$color-text-red;
+                color:$color-red;
             }
         }
         .balance-form{
@@ -181,11 +226,15 @@
                     height:1.17rem;
                     width:100%;
                     text-align: center;
-                    background:$color-bg-theme;
+                    background:$color-red;
                     color: #fff;
                     font-size: $font-size-large;
                     border-radius: 0.1rem;
                     border:0;
+                    &.btn-disabled{
+                        background:$color-btn-gray;
+                        color: $color-text;
+                    }
                 }
             }
         }
@@ -232,13 +281,15 @@
                         line-height: 0.7rem;
                         width:2.2rem;
                         text-align: center;
-                        background:$color-bg-theme;
+                        background:$color-red;
                         color: #fff;
                         font-size: $font-size-medium;
                         border-radius: 0.1rem;
                         border:0;
                         &.margin-right-1rem{
                             margin-right:1rem;
+                            background:$color-btn-gray;
+                            color: $color-text;
                         }
                     }
 

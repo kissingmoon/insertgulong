@@ -129,7 +129,7 @@
                         color:#fff;
                         font-size:$font-size-large;
                         border-radius: 50%;
-                        background: $color-bg-theme;
+                        background: $color-red;
                         margin-right: 0.1rem;
                     }
                 }
@@ -143,7 +143,7 @@
                         color:#fff;
                         font-size:$font-size-large;
                         border-radius: 50%;
-                        background: $color-bg-theme;
+                        background: $color-red;
                         margin-right: 0.1rem;
                         &.blue{
                             background:#1b6197;
@@ -173,7 +173,7 @@
                         color:#fff;
                         font-size:$font-size-large;
                         border-radius: 50%;
-                        background: $color-bg-theme;
+                        background: $color-red;
                         margin-right: 0.1rem;
                     }
                 }

@@ -9,7 +9,7 @@ export function getBetNumberByBetGroupList(list,wf_flag,positionList) {
     var arr=JSON.parse(JSON.stringify(list));
     var listList=[];
     arr.forEach((item,i) => {
-        listList[i]=item.sort();
+        listList[i]=item.sort((a,b) => { return a-b });
     });
     if (!wf_flag) {
         return "";

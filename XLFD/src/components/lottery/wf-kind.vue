@@ -101,7 +101,7 @@
                 font-size:$font-size-large-x;
                 padding-right: 0.4rem;
                 vertical-align: bottom;
-                color:$color-text-yellow;
+                color:$color-yellow;
                 right: 0;
                 span{
                     font-size:$font-size-small-x;

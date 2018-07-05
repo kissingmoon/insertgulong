@@ -24,6 +24,12 @@ const mutations = {
   },
   [types.SET_IS_DEBUGGER](state, param) {
     state.is_debugger = param;
+  },
+  [types.SET_API_BASE](state, param) {
+    state.api_base = param;
+  },
+  [types.SET_MESSAGE_COUNT](state, param) {
+    state.message_count = param;
   }
 }
 

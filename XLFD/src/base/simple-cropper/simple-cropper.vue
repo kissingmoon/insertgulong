@@ -124,7 +124,7 @@ export default {
         width:1.2rem;
         float: left;
         text-align: center;
-        background: $color-bg-theme;
+        background: $color-red;
         color: #fff;
         border-radius: 0.1rem;
         border: 0;

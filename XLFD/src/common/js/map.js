@@ -6,7 +6,8 @@ export const httpUrl = {
         lottery:'/v2/gc/get-cp-type',
         rank:'/v2/user-info/get-user-rank',
         betWin:'/v2/gc/betwin-notice',
-        messageCount:'/ad/message-not-read'
+        messageCount:'/ad/message-not-read',
+        qiandao:'/v2/activity/user-sign'
     },
     account:{
         generatorCode:'/config/generator-code',
@@ -61,7 +62,8 @@ export const httpUrl = {
     config:{
         urlList:'/config/url-list',
         message:'/ad/message',
-        messageHandle:'/ad/message-handle'
+        messageHandle:'/ad/message-handle',
+        isReceived:'/v2/activity/today-is-received'
 
     }
 };
@@ -160,7 +162,7 @@ export const fiveElement ={
 
 
 export const headerConfig = {
-    '/':{
+    '/home':{
         title:'小李飞刀',
         service:true,
         message:true
@@ -172,10 +174,6 @@ export const headerConfig = {
     },
     '/pay/tip':{
         title:'充值提醒',
-        back:true
-    },
-    '/Attention':{
-        title:'活动详情',
         back:true
     },
     '/descover':{
@@ -201,6 +199,10 @@ export const headerConfig = {
         message:true
     },
     '/discount/activity':{
+        title:'活动详情',
+        back:true
+    },
+    '/home/activity':{
         title:'活动详情',
         back:true
     },

@@ -48,7 +48,7 @@
                 <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
-                        <p class="number"><input type="text" v-model.number="betTimes"></p>
+                        <p class="number"><input type="text" v-model.number="betTimes" maxlength="5" ></p>
                         <p>倍</p>
                     </div>
                     <div class="unit">
@@ -183,11 +183,11 @@
                                 <li class="item-wrapper">
                                     <div class="title">薪酬设置:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.numbe="gdParam.commission" >%
+                                        <input type="text" v-model.number="gdParam.commission" maxlength="2" >%
                                     </div>
                                     <div class="title">预计收益:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.number="gdParam.back_rate" >倍
+                                        <input type="text" v-model.number="gdParam.back_rate" maxlength="3" >倍
                                     </div>
                                 </li>
                                 <li class="item-wrapper">
@@ -425,7 +425,7 @@
             //显示单注奖金
             showWinMoney(){
                 if(this.currentWf.wf_pl){
-                    return this.currentWf.wf_pl[0].award_money;
+                    return (this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2);
                 }else{
                     return "";
                 }
@@ -461,6 +461,11 @@
                 this.$watch('selectPosition',() => {
                     this.recount();
                 });
+                this.$watch('gdParam',(newVal) => {
+                    if(newVal.commission > 10){
+                        this.gdParam.commission =10
+                    }
+                }, {deep: true});
             },
             ...mapActions([
                 'getUser'

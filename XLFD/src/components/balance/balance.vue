@@ -12,12 +12,12 @@
                         <div class="form-main">
                             <div class="form-txt">
                                 <p class="title">提现金额</p>
-                                <p class="txt border-bottom-1px"><input type="text" v-model.number="money" placeholder="请输入提现金额" tocomplete="off" /></p>
+                                <p class="txt border-bottom-1px"><input type="text" v-model.number="money" maxlength="10" placeholder="请输入提现金额" tocomplete="off" /></p>
                                 <p class="tip">提现金额最低100元</p>
                             </div>
                         </div>
                         <div class="form-btn">
-                            <button @click="show('passwordShow')" :class="{'btn-disabled': account.bank_passwd_status != 1}" :disabled="account.bank_passwd_status != 1" >提交</button>
+                            <button @click="showPassword()" :class="{'btn-disabled': account.bank_passwd_status != 1}" :disabled="account.bank_passwd_status != 1" >提交</button>
                         </div>
                     </div>
                 </div>
@@ -82,7 +82,7 @@
                 money:'',
                 bank_passwd:'',
                 passwordShow:false,
-                passworTipShow:false,
+                passworTipShow:false
             }
         },
         components:{
@@ -107,7 +107,9 @@
         },
         methods: {
             init(){
-                this.passworTipShow = this.account.bank_passwd_status != 1;
+                if(this.account.bank_passwd_status){
+                    this.passworTipShow = this.account.bank_passwd_status != 1;
+                }
             },
             withdrawCash(){
                 this.hide('passwordShow');
@@ -126,6 +128,13 @@
             show(type){
                 this[type] = true;
             },
+            showPassword(){
+                if(this.money < 100){
+                    this.setTip('提现金额最低100元');
+                    return;
+                };
+                this.passwordShow = true;
+            },
             ...mapActions([
                 'getUser'
             ]),
@@ -141,6 +150,12 @@
         watch:{
             account(){
                 this.passworTipShow = this.account.bank_passwd_status != 1;
+            },
+            money(newVal,oldVal){
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.money = oldVal ;
+                }
             }
         }
     }

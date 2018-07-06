@@ -7,7 +7,7 @@
                         <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">
                             <slider>
                                 <div v-for="item in activitys">
-                                    <router-link tag="a" :to="{path:'/activity',query:{title:item.title,url:item.target_url}}">
+                                    <router-link tag="a" :to="{path:'/home/activity',query:{title:item.title,url:item.target_url}}">
                                         <img class="needsclick" @load="loadImage" :src="item.image_url" :alt="item.title">
                                     </router-link>
                                 </div>
@@ -20,7 +20,7 @@
                         </marquee>
                     </div>
                     <div class="new-gift-wrapper">
-                        <router-link tag="a" :to="{path:'/activity',query:{title:gift.title,url:gift.turn_url}}">
+                        <router-link tag="a" :to="{path:'/home/activity',query:{title:gift.title,url:gift.turn_url}}">
                             <img :src="gift.image_url">
                         </router-link>
                     </div>
@@ -40,7 +40,7 @@
                             </div>
                             <router-link tag="div" class="item" 
                                 v-if="i % 4 < 2 && (item.lottery_type == 6 || item.lottery_type == 10)"
-                                :to="{path:'/lottery',query:{id:item.sub_lottery[0].lottery_id,type:item.lottery_type}}"
+                                :to="{path:'/home/lottery',query:{id:item.sub_lottery[0].lottery_id,type:item.lottery_type}}"
                                 >
                                 <div class="item-main">
                                     <div class="icon">
@@ -53,7 +53,7 @@
                                 </div>
                                 <i class="icon-triangle-below triangle-below" v-show="(showSub-2) == i" v-if="i % 4 < 2"></i>
                             </router-link>
-                            <router-link tag="div" :to="{path:'/lottery',query:{id:sub.lottery_id,type:sub.lottery_type}}" 
+                            <router-link tag="div" :to="{path:'/home/lottery',query:{id:sub.lottery_id,type:sub.lottery_type}}" 
                                 class="item sub-item"  
                                 v-if="i % 4 > 1 && item.lottery_type != 6 && item.lottery_type != 10" 
                                 v-for="(sub,s) in item" 
@@ -88,7 +88,7 @@
                             <p class="num">{{rank.user_ranking}}</p>
                         </div>
                         <div class="rank-receive-money">
-                            <router-link tag="a" :to="{path:'/activity',query:{title:gift.title,url:gift.turn_url}}">
+                            <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
                                 <p class="icon"></p>
                                 <p class="title">补助金领取</p>
                             </router-link>
@@ -133,7 +133,8 @@
                     today_profit_loss:0,
                     user_ranking:0
                 },
-                betWin:{}
+                betWin:{},
+                bzjlq_url:''
             }
         },
         components: {
@@ -149,6 +150,7 @@
             this.getLottery();
             this.getRank();
             this.getBetWin();
+            this.getBzjlq();
         },
         computed: {
             ...mapGetters([
@@ -175,6 +177,15 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.notice=res.data;
+                    }
+                });
+            },
+            getBzjlq(){
+                this.$axios.postRequest(httpUrl.config.urlList,{flag:'sy_bzjlq_url'})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        console.log(res.data);
+                        this.bzjlq_url=res.data[0].url;
                     }
                 });
             },
@@ -278,7 +289,7 @@
         overflow: hidden;
         .slider-content{
             padding:0 0.2rem;
-            height:auto;
+            height:3.9rem;
             overflow: hidden;
             @include bg-image('slider-bg');
             background-size: 100% 100%;
@@ -286,6 +297,7 @@
             .slider-wrapper{
                 position: relative;
                 width: 100%;
+                height:3.86rem;
                 overflow: hidden;
                 border-top-left-radius: 0.12rem;
                 border-top-right-radius: 0.12rem;

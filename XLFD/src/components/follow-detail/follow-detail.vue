@@ -77,7 +77,7 @@
                 <div class="bet-txt">
                     <p class="txt">
                         <button class="minus" @click="changeGdMoney('minus')"><i class="icon-minus"></i></button>
-                        <input type="text" v-model.number="gdMoney">
+                        <input type="text" v-model.number="gdMoney" maxlength="6">
                         <button class="add" @click="changeGdMoney('add')"><i class="icon-add"></i></button>
                     </p>
                     <p class="money">您的余额：{{account.balance || 0}}元</p>
@@ -222,7 +222,18 @@
             formatTime(times,type){
                 return timeFormat(times,type);
             }
-        }
+        },
+        // watch:{
+        //     gdMoney(newVal,oldVal){
+        //         const regex = /^\d*$/;
+        //         if(!regex.test(newVal)) {
+        //             this.unifyMoney = oldVal ;
+        //         }
+        //         this.updataNumberList.forEach((item,i) => {
+        //             item.bet_money=newVal;
+        //         });
+        //     }
+        // }
     }
 </script>
 <style lang="scss">

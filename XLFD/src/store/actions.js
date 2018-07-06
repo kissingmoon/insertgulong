@@ -43,3 +43,14 @@ export const getMessageCount = ({commit, state}) => {
         };
     });
 }
+
+//获取活动领取情况
+export const getIsReceived = ({commit, state},type) => {
+    $axios.postRequest(httpUrl.config.isReceived,{hd_flag:type})
+    .then((res)=> {
+        if(!res.data.errorCode){
+            const name= 'SET_' + type.toUpperCase();
+            commit(name,res.data.is_received);
+        };
+    });
+}

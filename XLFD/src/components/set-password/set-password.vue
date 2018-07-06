@@ -7,13 +7,13 @@
                         <li>
                             <p class="title">设置密码</p>
                             <p class="txt-con">
-                                <input type="password" placeholder="请输入您的提款密码" autocomplete="off" class="input-txt red" v-model="bank_passwd">
+                                <input type="password" placeholder="请输入您的提款密码" autocomplete="off" class="input-txt red" v-model="bank_passwd" maxlength="20">
                             </p>
                         </li>
                         <li>
                             <p class="title">确认密码</p>
                             <p class="txt-con">
-                                <input type="password" placeholder="请再次输入您的提款密码" class="input-txt" v-model="affirm_password">
+                                <input type="password" placeholder="请再次输入您的提款密码" class="input-txt" v-model="affirm_password" maxlength="20">
                             </p>
                         </li>
                     </ul>
@@ -45,6 +45,10 @@
         },
         methods: {
             setBankPassword() {
+                if(this.bank_passwd !== this.affirm_password){
+                    this.setTip("确认密码不同");
+                    return;
+                }
                 this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
                     if(!res.data.errorCode){

@@ -32,7 +32,7 @@
                         </li>
                     </ul>
                 </div>
-                <loading v-show="billList && !billList.length"></loading>
+                <!-- <loading v-show="billList && !billList.length"></loading> -->
             </scroll>
             <div class="detail-content"  v-show="detailShow">
                 <div class="background" @click="closeDetail"></div>

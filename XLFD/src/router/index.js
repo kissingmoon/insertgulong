@@ -38,17 +38,21 @@ Vue.use(Router)
 export default new Router({
     mode:'history',
     routes: [
-        // {
-        //     path: '/',
-        //     redirect: '/home'
-        // },
         {
-            path:'/',
+            path: '/',
+            redirect: '/home'
+        },
+        {
+            path:'/home',
             component:Home,
             children:[
                 {
                     path:'lottery',
                     component:Lottery
+                },
+                {
+                    path:'activity',
+                    component:Activity
                 }
             ]
         },
@@ -121,10 +125,6 @@ export default new Router({
                     ]
                 }
             ]
-        },
-        {
-            path:'/activity',
-            component:Activity
         },
         {
             path:'/message',

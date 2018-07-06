@@ -10,24 +10,16 @@
             </div>
             <div class="set-base-content">
                  <div class="set-item">
-                    <p>追号</p>
-                    <p class="number"><input type="text" v-model.number="zhuihaoCountQs" ></p>
-                    <p>期</p>
+                    <p>追号</p><p class="number"><input type="text" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始倍数</p>
-                    <p class="number"><input type="text" v-model.number="baseTimes" ></p>
-                    <p>倍</p>
+                    <p>起始倍数</p><p class="number"><input type="text" v-model.number="baseTimes" maxlength="2" ></p><p>倍</p>
                 </div>
                 <div class="set-item">
-                    <p>隔</p>
-                    <p class="number"><input type="text" v-model.number="apartPeriod" ></p>
-                    <p>期</p>
+                    <p>隔</p><p class="number"><input type="text" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>翻</p>
-                    <p class="number"><input type="text" v-model.number="times" ></p>
-                    <p>倍</p>
+                    <p>翻</p><p class="number times"><input type="text" v-model.number="times" maxlength="4" ></p><p>倍</p>
                 </div>
             </div>
             <div class="list-title">
@@ -51,10 +43,10 @@
                         <div class="qh">{{item.period}}</div>
                         <div class="bs">
                             <p class="minus" @click="changeTimes(i,'minus')"><i class="icon-minus"></i></p>
-                            <p class="txt"><input type="text" v-model.number="item.times"></p>
+                            <p class="txt"><input type="text" v-model.number="item.times" maxlength="4"></p>
                             <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p>
                         </div>
-                        <div class="je">{{item.money}}</div>
+                        <div class="je">{{countMoney(item.times)}}</div>
                         <div class="bj" @click="deletePeriod(i)">
                             <i class="icon-delete"></i>
                         </div>
@@ -108,6 +100,7 @@
           apartPeriod:1,
           times:1,
           numberList:[],
+          betMoney:0
       }
     },
     props: {
@@ -156,13 +149,13 @@
         this.init();
     },
     computed:{
-        betMoney(){
-            var money=0;
-            this.numberList.forEach((item,i) => {
-                money += item.money;
-            });
-            return money;
-        }
+        // betMoney(){
+        //     var money=0;
+        //     this.numberList.forEach((item,i) => {
+        //         money += item.money;
+        //     });
+        //     return money;
+        // }
     },
     methods: {
         init(){
@@ -173,26 +166,42 @@
             this.$watch('lotteryInfo',() => { 
                 this.makeNumberList();
             }, {deep: true});
+            this.$watch('numberList',(newVal) => {
+                const regex = /^\d*$/;
+                let mode=2/Math.pow(10,this.lotteryModes)*this.betCount;
+                this.betMoney = 0;
+                if(!regex.test(newVal)) {
+                    this.numberList.forEach((item) => {
+                        if(item.times){
+                            item.times=Math.floor(item.times);
+                        }
+                        const oneMoney = item.times*mode > 99990 ? 99990 : item.times*mode;
+                        this.betMoney += oneMoney
+                    });
+                }else{
+                    this.numberList.forEach((item) => {
+                        const oneMoney = item.times*mode > 99990 ? 99990 : item.times*mode;
+                        this.betMoney += oneMoney
+                    });
+                }
+            }, {deep: true});
         },
         makeNumberList(){
             if(!this.isMake){return}
             this.numberList=[];
-            var times=this.baseTimes;
-            var period = this.lotteryInfo.show_qh;
-            var hide_period = this.lotteryInfo.lottery_qh;
-            var mode=2/Math.pow(10,this.lotteryModes)*this.betCount;
-            var money= 0;
+            let times=this.baseTimes;
+            let period = this.lotteryInfo.show_qh;
+            let hide_period = this.lotteryInfo.lottery_qh;
+            this.betMoney = 0;
             for(var i = 0; i< this.zhuihaoCountQs; i++){
                 period=(this.lotteryInfo.show_qh-0+i) > 99 ? ""+this.lotteryInfo.show_qh-0+i : "0"+(this.lotteryInfo.show_qh-0+i);
                 hide_period=this.lotteryInfo.lottery_qh-0+i+"";
                 if( i != 0 &&  i%this.apartPeriod == 0){
-                    times= times*this.times;
+                    times= times*this.times > 9999 ? 9999 : times*this.times;
                 }
-                money= times*mode;
                 this.numberList.push({
                     period,
                     times,
-                    money,
                     hide_period
                 })
             }
@@ -257,27 +266,48 @@
                     this.$emit("betSuccess");
                 };
             });
-        }
+        },
+        countMoney(times){
+            let mode=2/Math.pow(10,this.lotteryModes)*this.betCount;
+            return times*mode > 99990 ? 99990 : times*mode;
+        },
         
     },
     watch: {
-        zhuihaoCountQs(newVue){
-            if(newVue > 1){
+        zhuihaoCountQs(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.zhuihaoCountQs = oldVal ;
+            }
+            if(newVal >= 1){
+                this.zhuihaoCountQs = newVal > 20 ? 20 : newVal;
                 this.makeNumberList();
             }
         },
-        baseTimes(newVue){
-            if(newVue > 1){
+        baseTimes(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.baseTimes = oldVal ;
+            }
+            if(newVal >= 1){
                 this.makeNumberList();
             }
         },
-        apartPeriod(newVue){
-            if(newVue > 1){
+        apartPeriod(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.apartPeriod = oldVal ;
+            }
+            if(newVal >= 1){
                 this.makeNumberList();
             }
         },
-        times(newVue){
-            if(newVue > 1){
+        times(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.times = oldVal ;
+            }
+            if(newVal >= 1){
                 this.makeNumberList();
             }
         }
@@ -355,7 +385,7 @@
             .set-item{
                 height:0.7rem;
                 float: left;
-                padding-left:0.5rem;
+                padding-left:0.34rem;
                 padding-top:0.22rem;
                 p{
                     display: inline-block;
@@ -363,12 +393,12 @@
                     line-height: 0.6rem;
                     text-align: center;
                     &.number{
-                        width:0.6rem;
+                        width:0.8rem;
                         height:0.56rem;
                         border-radius: 0.1rem;
                         background:#FFF;
                         input{
-                            width:0.6rem;
+                            width:100%;
                             height:0.56rem;
                             background: none;
                             border:0;
@@ -377,6 +407,9 @@
                             line-height: 0.56rem;
                             text-align: center;
                         }
+                    }
+                    &.times{
+                        width:1.2rem;
                     }
                 }
             }
@@ -468,6 +501,7 @@
                         }
                         &.je{
                             width:2.8rem;
+                            @include no-wrap();
                         }
                         &.bj{
                             width:1rem;

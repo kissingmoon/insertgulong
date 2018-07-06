@@ -8,4 +8,9 @@ export const tip = state => state.tip;
 export const is_debugger = state => state.is_debugger;
 export const api_base = state => state.api_base;
 export const message_count = state => state.message_count;
+export const hd_qiandao = state => state.hd_qiandao;
+export const hd_charge = state => state.hd_charge;
+export const hd_zlcj = state => state.hd_zlcj;
+export const hd_xrkh = state => state.hd_xrkh;
+export const hd_fxpyq = state => state.hd_fxpyq;
 

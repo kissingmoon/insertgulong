@@ -15,7 +15,7 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapGetters,mapActions} from 'vuex';
+    import {mapGetters,mapActions,mapMutations} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     export default {
@@ -45,6 +45,7 @@
                 this.$axios.postRequest(httpUrl.info.editNick,nick)
                 .then((res)=> {
                     if(!res.data.errorCode){
+                        this.setTip('修改成功')
                         this.getUser();
                         this.$router.back();
                     };
@@ -57,7 +58,10 @@
             },
             ...mapActions([
                 'getUser'
-            ])
+            ]),
+            ...mapMutations({
+                setTip:'SET_TIP',
+            })
         }
     }
 </script>

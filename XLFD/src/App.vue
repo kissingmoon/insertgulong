@@ -3,9 +3,13 @@
     <m-header></m-header> 
     <m-nav></m-nav>
     <tip></tip>
-    <keep-alive>
+    <!-- <keep-alive>
         <router-view></router-view>
-    </keep-alive>
+    </keep-alive> -->
+    <router-view></router-view>
+    <div>
+        <activity-qiandao></activity-qiandao>
+    </div>
   </div>
 </template>
 
@@ -13,6 +17,7 @@
 import {mapActions} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
+import ActivityQiandao from 'components/activity-qiandao/activity-qiandao.vue';
 import Parcel from 'base/parcel/parcel';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
@@ -23,7 +28,8 @@ export default {
         Parcel,
         MHeader,
         MNav,
-        Tip
+        Tip,
+        ActivityQiandao
     },
     created() {
         this.init();

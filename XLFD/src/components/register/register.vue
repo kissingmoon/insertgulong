@@ -4,27 +4,27 @@
             <ul class="register-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id">
+                        <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id" maxlength="12">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password">
+                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password" maxlength="16">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password">
+                        <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password" maxlength="16">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone">
+                        <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone" maxlength="16">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con code-txt border-bottom-1px">
-                        <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code">
+                        <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code" maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
@@ -76,6 +76,10 @@
                 this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
             register(){
+                if(this.registerParam.password !== this.registerParam.repeat_password){
+                    this.setTip("确认密码不同");
+                    return;
+                }
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -87,6 +91,7 @@
                             md5:res.data.md5_salt
                         })
                         this.setTip("注册成功");
+                        this.getIsReceived('hd_qiandao');
                         this.$router.push({
                             path:'/info'
                         });
@@ -99,7 +104,8 @@
                 setTip:'SET_TIP',
             }),
             ...mapActions([
-                'resetUser'
+                'resetUser',
+                'getIsReceived'
             ])
         
         }

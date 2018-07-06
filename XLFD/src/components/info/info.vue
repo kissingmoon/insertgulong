@@ -113,7 +113,8 @@
         computed: {
             ...mapGetters([
                 'account',
-                'user_token'
+                'user_token',
+                'hd_qiandao'
             ])
         },
         methods: {
@@ -284,6 +285,9 @@
                 }
             }
         }
+    }
+    .qiandao-content{
+
     }
 
 }

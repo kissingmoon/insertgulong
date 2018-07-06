@@ -30,6 +30,21 @@ const mutations = {
   },
   [types.SET_MESSAGE_COUNT](state, param) {
     state.message_count = param;
+  },
+  [types.SET_HD_QIANDAO](state, param) {
+    state.hd_qiandao = param;
+  },
+  [types.SET_HD_CHARGE](state, param) {
+    state.hd_charge = param;
+  },
+  [types.SET_HD_ZLCJ](state, param) {
+    state.hd_zlcj = param;
+  },
+  [types.SET_HD_XRKH](state, param) {
+    state.hd_xrkh = param;
+  },
+  [types.SET_HD_FXPYQ](state, param) {
+    state.hd_fxpyq = param;
   }
 }
 

@@ -7,7 +7,7 @@
                         <li>
                             <p class="title">真实姓名</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的真实姓名" autocomplete="off" class="input-txt red" v-model="bankParam.user_name" maxlength="20" :readonly="account.bank_status == 1">
+                                <input type="text" placeholder="请输入您的真实姓名" autocomplete="off" class="input-txt red" v-model="bankParam.user_name" maxlength="10" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                         <li>
@@ -20,13 +20,13 @@
                         <li>
                             <p class="title">开户支行</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的开户支行" class="input-txt" v-model="bankParam.bank_branch_no" :readonly="account.bank_status == 1">
+                                <input type="text" placeholder="请输入您的开户支行" class="input-txt" maxlength="20" v-model="bankParam.bank_branch_no" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" v-model.number="bankParam.account_no" :readonly="account.bank_status == 1">
+                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="accountNo" :readonly="account.bank_status == 1">
                             </p>
                         </li>
                     </ul>
@@ -65,6 +65,7 @@
                     account_no:''
                 },
                 bankName:'',
+                accountNo:'',
                 show:false,
                 link:false,
                 columns: 1,
@@ -109,6 +110,7 @@
                 
             },
             setBankInfo(){
+                this.bankParam.account_no=this.accountNo
                 this.$axios.postRequest(httpUrl.info.bindBank,this.bankParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -139,6 +141,12 @@
         watch:{
             account(){
                 this.getBankInfo();
+            },
+            accountNo(newVal,oldVal){
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.accountNo = oldVal ;
+                }
             }
         }
     }

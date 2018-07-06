@@ -145,9 +145,9 @@
                         border-radius: 50%;
                         background: $color-red;
                         margin-right: 0.1rem;
-                        &.blue{
-                            background:#1b6197;
-                        }
+                        // &.blue{
+                        //     background:#1b6197;
+                        // }
                     }
                 }
                 &.show_type4{

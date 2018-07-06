@@ -1,6 +1,6 @@
 <template>
     <div class="nav">
-        <router-link tag="div" class="nav-item" to="/">
+        <router-link tag="div" class="nav-item" to="/home">
             <p class="icon-con icon-home"></p>
             <p class="txt">大厅</p>
         </router-link>

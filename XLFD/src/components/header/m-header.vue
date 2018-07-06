@@ -26,6 +26,9 @@
                 messageCount:0
             }
         },
+        mounted(){
+            this.getMessageCount();
+        },
         computed: {
             ...mapGetters([
                 'header',

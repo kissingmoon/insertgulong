@@ -84,7 +84,8 @@
         },
         methods: {
             ...mapActions([
-                'getMessageCount'
+                'getMessageCount',
+                'getUser'
             ]),
             getMessage(type){
                 if(type == 'up'){
@@ -120,6 +121,7 @@
                             if( type == 2){
                                 this.messageList.splice(this.detailIndex, 1);
                             }
+                            this.getUser();
                             this.getMessageCount();
                         }
                     }

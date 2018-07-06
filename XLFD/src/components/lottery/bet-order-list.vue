@@ -25,7 +25,7 @@
                                 <div class="wf">{{item.wf_name}}</div>
                                 <div class="code-money">
                                     <p>金额:</p>
-                                    <p><input type="text" placeholder="请输入金额" v-model="item.bet_money" /></p>
+                                    <p><input type="text" placeholder="请输入金额" v-model.number="item.bet_money" maxlength="6" /></p>
                                     <p>元</p>
                                 </div>
                             </div>
@@ -99,6 +99,19 @@
     },
     methods: {
         init(){
+            this.watchInit();
+        },
+        watchInit(){
+            this.$watch('updataNumberList',(newVal) => {
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.updataNumberList.forEach((item,i) => {
+                        if(item.bet_money){
+                            item.bet_money=Math.floor(item.bet_money);
+                        }
+                    });
+                }
+            }, {deep: true});
         },
         close(){
             this.$emit('close','betOrderListShow');
@@ -145,9 +158,13 @@
         
     },
     watch: {
-        unifyMoney(newVue){
+        unifyMoney(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.unifyMoney = oldVal ;
+            }
             this.updataNumberList.forEach((item,i) => {
-                item.bet_money=newVue;
+                item.bet_money=newVal;
             });
         }
     }

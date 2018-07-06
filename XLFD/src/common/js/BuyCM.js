@@ -120,7 +120,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
         case "xglhc_zhma1d6_zm2":case "xglhc_zhma1d6_zm3":case "xglhc_zhma1d6_zm4":case "xglhc_zhma1d6_zm5":
         case "xglhc_zhma1d6_zm6":case "xglhc_7sebo_7sb":case "xglhc_zoxiao_zx":case "xy28_qthh_hh":
         case "xy28_qtbz_bz":
-            buyNumberBeanList = BuyUtil.initDataLHCPL(wfBean.wf_pl);
+            buyNumberBeanList = BuyUtil.initDataLHCPL(wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;

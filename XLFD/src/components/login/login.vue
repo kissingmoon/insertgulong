@@ -4,7 +4,7 @@
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
+                        <input type="tel" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
                     </p>
                 </li>
                 <li>
@@ -90,6 +90,10 @@
                             token:res.data.user_token,
                             md5:res.data.md5_salt
                         })
+                        this.getIsReceived('hd_qiandao');
+                        setTimeout(() => {
+                            this.getUser();
+                        },1000)
                         this.$router.push({
                             path:'/info'
                         });
@@ -99,7 +103,9 @@
                 });
             },
             ...mapActions([
-                'resetUser'
+                'resetUser',
+                'getIsReceived',
+                'getUser'
             ])
         
         }

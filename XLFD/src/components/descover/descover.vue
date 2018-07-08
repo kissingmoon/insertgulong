@@ -59,7 +59,7 @@
             </div>
         <div v-show="lotteryShow" class="detail">
             <div class="detail-wrapper clearfix">
-                <div class="detail-main">
+                <scroll class="detail-main" :data="lotteryList">
                     <ul>
                         <li class="item-wrapper border-bottom-1px">
                             <div class="sub-lottery-wrapper">
@@ -79,7 +79,7 @@
                             </div>
                         </li>
                     </ul>
-                </div>
+                </scroll>
             </div>
             <div class="detail-close">
                 <i class="icon-close-circle " @click="closeLottery"></i>
@@ -126,6 +126,11 @@
         created(){
             this.getRank();
             this.getOrder();
+        },
+        mounted(){
+            // document.body.addEventListener('touchmove', function (e) {
+            //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
+            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
         },
         computed: {
             ...mapGetters([
@@ -377,7 +382,7 @@
             .detail-main{
                 padding:0.1rem;
                 height:7.4rem;
-                overflow:auto;
+                // overflow:auto;
                 background:$color-bg;
                 border-radius: 0.2rem;
                 .item-wrapper{

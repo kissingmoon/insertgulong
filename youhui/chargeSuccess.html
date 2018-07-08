@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>充值成功</title>
+    <script src="js/common/jquery-3.1.1.min.js" type="text/javascript"></script>
+    <script src="js/common/common.js" type="text/javascript"></script>
+</head>
+<body style="text-align: center">
+    <h1>充值成功</h1>
+    <h1>订单号：<span id="orderNumber"></span></h1>
+    <h1>金额：<font color="red"></font> 元</h1>
+
+<script>
+    var orderMoney = GetQueryString('orderMoney');
+    var orderNumber = GetQueryString('orderNumber');
+    $('font').text(orderMoney);
+    $('#orderNumber').text(orderNumber);
+</script>
+</body>
+</html>

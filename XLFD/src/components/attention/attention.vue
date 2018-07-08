@@ -3,6 +3,7 @@
         <div class="attention">
             <scroll ref="scroll" class="scroll-content" :data="attention" >
                 <attention-list :data="attention" :url="url" :isLink="isLink" @setFans="setFans"></attention-list>
+                <data-none v-show="attention && attention.length < 1"></data-none>
             </scroll>
             <router-view></router-view>
         </div>
@@ -11,6 +12,7 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import DataNone from 'components/data-none/data-none';
     import attentionList from 'base/attention-list/attention-list';
     import {httpUrl} from 'common/js/map';
     export default {
@@ -24,7 +26,8 @@
         components:{
             Parcel,
             Scroll,
-            attentionList
+            attentionList,
+            DataNone
         },
         created() {
             this.getAttention();

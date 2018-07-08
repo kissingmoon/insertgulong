@@ -17,7 +17,8 @@
                             </div>
                         </div>
                         <div class="form-btn">
-                            <button @click="showPassword()" :class="{'btn-disabled': account.bank_passwd_status != 1}" :disabled="account.bank_passwd_status != 1" >提交</button>
+                            <div v-if="account.bank_passwd_status == 1" class="btn" @click="showPassword()">提交</div>
+                            <div v-if="account.bank_passwd_status != 1" class="btn btn-disabled" >提交</div>
                         </div>
                     </div>
                 </div>
@@ -33,7 +34,7 @@
                                     输入提现密码
                                 </li>
                                 <li class="item-wrapper">
-                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" >
+                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off" >
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
@@ -108,7 +109,9 @@
         methods: {
             init(){
                 if(this.account.bank_passwd_status){
-                    this.passworTipShow = this.account.bank_passwd_status != 1;
+                    setTimeout(()=>{
+                        this.passworTipShow = this.account.bank_passwd_status != 1;
+                    },500);
                 }
             },
             withdrawCash(){
@@ -148,9 +151,9 @@
             }
         },
         watch:{
-            account(){
-                this.passworTipShow = this.account.bank_passwd_status != 1;
-            },
+            // account(){
+            //     this.passworTipShow = this.account.bank_passwd_status != 1;
+            // },
             money(newVal,oldVal){
                 const regex = /^\d*$/;
                 if(!regex.test(newVal)) {
@@ -237,8 +240,9 @@
                 height:1.17rem;
                 clear: both;
                 padding:0 0.56rem;
-                button{
+                .btn{
                     height:1.17rem;
+                    line-height: 1.17rem;
                     width:100%;
                     text-align: center;
                     background:$color-red;

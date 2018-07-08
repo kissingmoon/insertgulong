@@ -34,6 +34,7 @@ export default {
     created() {
         this.init();
     },
+    
     methods:{
         init(){
             let user_token = session('user_token') || '';
@@ -45,11 +46,23 @@ export default {
                 md5:md5_salt
             });
             this.setHeader(headerConfig[path]);
-
+            this.getUserData();
+        },
+        getUserData(){
+            if(this.dataTimes){
+                clearTimeout(this.dataTimes);
+            }
+            this.dataTimes=setTimeout(()=>{
+                this.getUser();
+                this.getMessageCount();
+                this.getUserData();
+            },5000);
         },
         ...mapActions([
             'setHeader',
-            'resetUser'
+            'resetUser',
+            'getUser',
+            'getMessageCount'
         ])
     },
     watch:{

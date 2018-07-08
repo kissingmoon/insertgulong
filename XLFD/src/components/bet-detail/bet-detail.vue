@@ -63,6 +63,9 @@
                             <p class="title">返点金额</p>
                             <p class="remarks">{{betDetail.max_return_money}}元</p>
                         </li>
+                        <li v-if="betDetail.status == 0" class="item-mode border-bottom-1px border-none bt">
+                            <a class="btn" @click="undoOrder">撤单</a>
+                        </li>
                     </ul>
                 </div>
             </scroll>
@@ -73,6 +76,7 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl,betType} from 'common/js/map';
+    import {mapMutations} from 'vuex'
     export default {
         data() {
             return{
@@ -98,7 +102,20 @@
                         this.betDetail=res.data;
                     };
                 });
-            }
+            },
+            undoOrder(){
+                const order_number = this.$router.history.current.query.id;
+                this.$axios.postRequest(httpUrl.bet.undoOrder,{order_number})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.setTip('撤单成功');
+                        this.getBetDetail();
+                    };
+                });
+            },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
         }
     }
     
@@ -177,6 +194,22 @@
                     font-size: $font-size-medium-x;
                     background:$color-bg-gray;
                     color:rgb(168, 0, 0);
+                }
+                &.bt{
+                    padding-bottom:1rem;
+                }
+                .btn{
+                    display: block;
+                    height:1.17rem;
+                    line-height: 1.17rem;
+                    width:100%;
+                    text-align: center;
+                    background:$color-red;
+                    color: #fff;
+                    font-size: $font-size-large;
+                    border-radius: 0.1rem;
+                    border:0;
+                    margin-top: 0.6rem;
                 }
             }
         }

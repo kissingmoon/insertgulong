@@ -29,6 +29,7 @@
                         </router-link>
                     </ul>
                 </div>
+                <data-none v-show="betList && betList.length < 1"></data-none>
             </scroll>
             <router-view></router-view>
             <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
@@ -39,12 +40,13 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import SelectTime from 'base/select-time/select-time';
+    import DataNone from 'components/data-none/data-none';
     import {httpUrl,betType} from 'common/js/map';
     import {mapGetters,mapMutations} from 'vuex'
     export default {
         data() {
             return{
-                pulldown: true,
+                pulldown: false,
                 pullup: true,
                 refreshStatus:false,
                 loadStatus:false,
@@ -61,7 +63,8 @@
         components:{
             Parcel,
             Scroll,
-            SelectTime
+            SelectTime,
+            DataNone
         },
         created() {
             this.getBetList();
@@ -98,6 +101,12 @@
             setTimeType(type){
                 this.betParam.data_type=type;
                 this.betParam.page_no=1
+                this.getBetList();
+            }
+        },
+        watch:{
+            $route(newUrl){
+                this.betParam.page_no=1;
                 this.getBetList();
             }
         }

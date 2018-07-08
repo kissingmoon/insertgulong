@@ -1,0 +1,261 @@
+/*reset*/
+a, abbr, acronym, address, applet, article, aside, audio, b, big, blockquote, body, canvas, caption, center, cite, code, dd, del, details, dfn, div, dl, dt, em, embed, fieldset, figcaption, figure, footer, form, h1, h2, h3, h4, h5, h6, header, hgroup, html, i, iframe, img, ins, kbd, label, legend, li, mark, menu, nav, object, ol, output, p, pre, q, ruby, s, samp, section, small, span, strike, strong, sub, summary, sup, table, tbody, td, tfoot, th, thead, time, tr, tt, u, ul, var, video {margin: 0; padding: 0; font: inherit; font-size: 100% }
+a, a img, audio, body, canvas, fieldset, figcaption, figure, html, img, video {border: 0 }
+h1 {margin: 0; padding: 0 }
+html {-ms-touch-action: pan-y; touch-action: pan-y; font-family: sans-serif; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100% }
+body, html {-webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; height: 100% }
+body {font-family: Microsoft Yahei, -apple-system, Helvetica Neue, Roboto, Segoe UI, sans-serif; -webkit-touch-callout: none; -webkit-font-smoothing: antialiased; font-smoothing: antialiased; -webkit-text-size-adjust: none; -ms-text-size-adjust: none; text-size-adjust: none; -webkit-tap-highlight-color: transparent; cursor: url(../images/finger.png), auto; background: #ececec; color: #343434 }
+*, :after, :before {box-sizing: border-box }
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {font-family: Microsoft Yahei; color: #343434 }
+b, strong {font-weight: 700 }
+img {pointer-events: none }
+div {display: block }
+ol, ul {list-style: none }
+a {text-decoration: none; -webkit-user-drag: none; -webkit-tap-highlight-color: transparent; color: #387ef5 }
+:active, :focus, a, a:active, a:focus, a:hover, button, button:focus {outline: 0 }
+a, img {-webkit-touch-callout: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none }
+button, input, select, textarea {margin: 0; font-size: 100%; font-family: inherit; outline-offset: 0; outline-style: none; outline-width: 0; -webkit-font-smoothing: inherit; background-image: none }
+button, input {line-height: normal; outline: none; -webkit-appearance: none }
+button, select {text-transform: none }
+button, html input[type=button], input[type=reset], input[type=submit] {cursor: pointer; -webkit-appearance: button }
+input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], textarea {display: block; padding-top: 2px; padding-left: 0; height: 34px; color: #111; vertical-align: middle; border: 0 }
+input::-moz-placeholder, textarea::-moz-placeholder {color: #aaa; font-size: 14px }
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {color: #aaa; font-size: 14px }
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {color: #aaa; font-size: 14px }
+button, input, select, textarea {font-family: -apple-system, Helvetica Neue, Roboto, Segoe UI, sans-serif }
+
+
+/*charge*/
+#app{height:100%;overflow-y: auto;}
+.charge-page{height:auto;overflow: hidden;}
+.black {color: #000; }
+.red {color: red; }
+.PaleOrange {color: #ffae5e!important; }
+.yo-pad10 {padding: 10px }
+.button {position: relative; display: inline-block; margin: 0; padding: 0 12px; min-width: 52px; min-height: 40px; border-width: 1px; border-style: solid; vertical-align: top; text-align: center; text-overflow: ellipsis; font-size: 16px; line-height: 40px; cursor: pointer; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px }
+.wrapper {padding-bottom: 51px } 
+.wrapper, .wrapper2 {width: 100%; padding-top: 44px }
+.yo-icon {font-style: normal; font-weight: 400; speak: none; display: inline-block; text-decoration: inherit; margin-right: .2em; text-align: center; font-variant: normal; text-transform: none; line-height: 1em; margin-left: .2em; vertical-align: middle; background-repeat: no-repeat; background-size: contain }
+.icon-kuai {width: 20px; height: 20px; background-image: url(../images/kuai.png) }
+.icon-bulb {width: 22px; height: 22px; background-image: url(../images/ico-bulb.svg) }
+.icon-arrows-right {width: 30px; height: 30px; background-image: url(../images/ico-arrows-right.svg); }
+.icon-radio-yes {background-image: url(../images/ico-radio-yes.svg); }
+.icon-radio-no {background-image: url(../images/ico-radio-no.svg); }
+i[class*=icon-radio] {width: 30px; height: 30px; }
+.yo-anOne {border: none; display: block; color: #fff; border-radius: 40px; -moz-border-radius: 40px; -webkit-border-radius: 40px; -ms-border-radius: 40px; -o-border-radius: 40px; width: calc(100% - 20px); min-height: 30px; background-color: #e83b50; margin: 10px auto 0; box-shadow: 0 0.125rem 0.325rem rgba(255,86,113,.61); } 
+.yo-anniu-one {margin-top: 10px } 
+.yo-anniu-one:after, .yo-anniu-one:before {display: table; content: " "} 
+.yo-anniu-one:after {clear: both } 
+.yo-anniu-one a, .yo-anniu-one button {display: block; float: left; width: 50%; margin: 0; font-size: 14px } 
+.yo-anniu-one a.firstc, .yo-anniu-one button.firstc {border-color: #e83b50; color: #e83b50; border-radius: 30px 0 0 30px; background: none } 
+.yo-anniu-one a.firstc.actived, .yo-anniu-one a.firstc:active, .yo-anniu-one button.firstc.actived, .yo-anniu-one button.firstc:active {background: #e83b50; color: #fff } 
+.yo-anniu-one a.lastc, .yo-anniu-one button.lastc {border-color: #e83b50; background-color: #e83b50; color: #fff; border-radius: 0 30px 30px 0 } 
+.yo-anniu-one a.lastc.actived, .yo-anniu-one a.lastc:active, .yo-anniu-one button.lastc.actived, .yo-anniu-one button.lastc:active {background: #d83637 } 
+.tab-nav ul {width: 100% } 
+.tab-nav ul:after, .tab-nav ul:before {display: table; content: " "} 
+.tab-nav ul:after {clear: both }
+.tab-nav ul li a {display: block; text-align: center; font-size: 14px }
+
+.onlineMenu {padding: 8px; background: #fff; margin-bottom: 10px }
+.onlineMenu ul {margin-bottom: 2px }
+.onlineMenu ul li a {background: #fff; color: #343434; border: 1px solid #ddd; border-left: 0 }
+.onlineMenu ul li:first-child a {border-left: 1px solid #ddd }
+.onlineMenu ul.firstStage {display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: nowrap; flex-wrap: nowrap; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center }
+.onlineMenu ul.firstStage li {-webkit-box-flex: 1; -ms-flex: 1; flex: 1; position: relative }
+.onlineMenu ul.firstStage li a {height: 38px; line-height: 36px }
+.onlineMenu ul.firstStage li:first-child a {border-radius: 5px 0 0 5px; -moz-border-radius: 5px 0 0 5px; -webkit-border-radius: 5px 0 0 5px; -ms-border-radius: 5px 0 0 5px; -o-border-radius: 5px 0 0 5px }
+.onlineMenu ul.firstStage li:last-child a {border-radius: 0 5px 5px 0; -moz-border-radius: 0 5px 5px 0; -webkit-border-radius: 0 5px 5px 0; -ms-border-radius: 0 5px 5px 0; -o-border-radius: 0 5px 5px 0 }
+.onlineMenu ul.firstStage li.active a, .onlineMenu ul.firstStage li:active a {border-color: #e83b50; background-color: #e83b50; color: #fff }
+.secondStageWrap{ background: #fff; padding: 0 8px 8px; margin: -10px 0 10px;}
+ul.secondStage {padding-top: 5px; margin: 0 0 2px; width: 100%;}
+ul.secondStage:after, ul.secondStage:before {display: block; clear: both; content: " "; }
+ul.secondStage li {display: block; float: left; width: 20%; background: #fafafa }
+ul.secondStage li a {height: 36px; line-height: 34px;    display: block; text-align: center; font-size: 14px; background: #fff; color: #343434; border: 1px solid #ddd; border-left: 0;}
+ul.secondStage li:first-child a {border-radius: 5px 0 0 5px; -moz-border-radius: 5px 0 0 5px; -webkit-border-radius: 5px 0 0 5px; -ms-border-radius: 5px 0 0 5px; -o-border-radius: 5px 0 0 5px }
+ul.secondStage li:last-child a {border-radius: 0 5px 5px 0; -moz-border-radius: 0 5px 5px 0; -webkit-border-radius: 0 5px 5px 0; -ms-border-radius: 0 5px 5px 0; -o-border-radius: 0 5px 5px 0 }
+ul.secondStage li.active a, .onlineMenu ul.secondStage li:active a {border-color: #529e45; background: #529e45; color: #fff }
+.onlineMenu .icon-kuai {position: absolute; top: -8px; right: -9px; z-index: 6; margin: 0 }
+
+.item-input {background: #fff; padding: 6px 0 5px 8px; display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: nowrap; flex-wrap: nowrap; -webkit-box-pack: start; -ms-flex-pack: start; justify-content: flex-start } 
+.item-input:after, .item-input:before {display: table; content: " "} 
+.item-input:after {clear: both } 
+.item-input .itemTxt {padding: 7px 0; width: 85px; font-size: 16px } 
+.item-input .typeinput {padding-left: 5px; line-height: 20px; width: 100% } 
+.item-input .typeinput, .item-input .typeselect {border: 1px solid #ececec; border-radius: 2px; -moz-border-radius: 2px; -webkit-border-radius: 2px; -ms-border-radius: 2px; -o-border-radius: 2px } 
+.item-input .typeselect {height: 34px; padding-left: 10px } 
+.item-input .select-one {width: 85px } 
+
+.specialbox {position: relative; width: calc(100% - 127px) } 
+.specialbox .Tspe {position: absolute; top: 0; right: 0; display: block; width: 46px; height: 34px; line-height: 34px; text-align: center; font-size: 14px; background: #ddd; border-radius: 0 2px 2px 0; -moz-border-radius: 0 2px 2px 0; -webkit-border-radius: 0 2px 2px 0; -ms-border-radius: 0 2px 2px 0; -o-border-radius: 0 2px 2px 0 }
+.depTips { line-height: 34px; font-size: 12px; }
+.yo-headline2 {display: block; padding: 15px 0 15px 10px; margin-left: 12px; font-size: 16px; color: #444; position: relative } 
+.yo-headline2:before {content: ""; display: block; position: absolute; width: 2px; height: 16px; left: 0; top: 18px; background: #f94344 } .yo-headline2 p {line-height: 22px } .yo-titile2 {padding-top: 0 }
+.yo-titile2:before {top: 4px }
+.payitembox {background: #fff }
+.paytype {margin-bottom: 10px }
+.paytype dd {padding: 10px; position: relative; border-bottom: 1px solid #ececec }
+.paytype dd:after, .paytype dd:before {display: table; content: " "}
+.paytype dd:after {clear: both }
+.paytype dd .payImg {float: left; height: 30px; width: 35px }
+.paytype dd .payImg img {height: 100% }
+.paytype dd .txt-list {float: left; margin-left: 18px; color: #444; line-height: 30px; font-size: 16px }
+.paytype dd .radio_span {float: right }
+.paytype dd .banktitle {float: left; font-size: 16px; line-height: 30px }
+.paytype dd .paybankName {float: right; font-size: 16px; line-height: 30px; color: #aaa }
+.payitembox2 {background: #fff; width: 95%; margin: 0 auto }
+.payitembox2 img {max-width: 100% }
+.payitembox2 a {display: block }
+.bankCard {padding: 0 10px }
+.bankCard dd {background: #fff; margin: 0 auto; border: 1px solid #ececec; margin-bottom: 10px; color: #343434; font-size: 14px }
+.bankCard dd p {padding: 5px }
+.bankCard dd .cardName {position: relative }
+.bankCard dd .cardName span {position: absolute; right: -3px; top: -2px }
+.bankCard dd .cardMain {border-top: 1px dashed #ececec; border-bottom: 1px dashed #ececec; padding: 5px; line-height: 24px; background: #fafafa; position: relative }
+.bankCard dd .cardMain .radio_span {position: absolute; right: 5px; top: 12px } 
+.bankCard dd .cardCode, .bankCard dd .cardUserName {display: block; margin-left: 5px }
+.bankCard dd .cardCode {font-size: 14px }
+.bankCard dd .cardBranch {text-align: right }
+.bankCard dd .cardTouchArea {margin: 0; overflow: hidden; padding: 5px; line-height: 24px; background: #fafafa; text-align: center }
+.bankCard dd .ewmImg {-webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; user-select: auto; -webkit-user-select: all; -moz-user-select: all; -ms-user-select: all; user-select: all; -webkit-user-drag: auto; -webkit-touch-callout: default!important; -ms-touch-callout: default!important; -moz-touch-callout: default!important; vertical-align: text-top; pointer-events: auto; width: 200px; height: 200px }
+.bankCard dd .refreshImg {vertical-align: text-top; pointer-events: auto; width: 20px; height: 20px }
+.bankCard dd .lodingPic {transition: All 1s ease-in-out; -webkit-transition: All 1s ease-in-out; -moz-transition: All 1s ease-in-out; -o-transition: All 1s ease-in-out; transform: rotate(2turn); -webkit-transform: rotate(2turn); -moz-transform: rotate(2turn); -o-transform: rotate(2turn); -ms-transform: rotate(2turn) }
+.bankCard dd.active, .bankCard dd:active {border: 1px solid #4fb83d }
+.bankDepOthey .paytype {background: #fff }
+.paytype .yo-toggle {top: 6px; right: 6px }
+.paytype .yo-arrri {margin-right: -10px }
+.explain {padding: 9px; color: #666 }
+.text1 {font-size: 12px }
+.TipsWindown {position: fixed; width: 100%; height: 100%; bottom: 0; left: 0; z-index: 20180119 }
+.TipsWindown .shadeIn {width: 100%; height: 100%; background: rgba(0, 0, 0, .6); overflow: hidden }
+.selBankBox {position: absolute; bottom: 0; max-height: 294px; width: 100%; background: #fff }
+.selBankBox h1 {padding: 10px!important; font-size: 16px; height: 42px; text-align: center; color: #387ef5; border-bottom: 1px solid #ececec; background: #dcdcdc } 
+.selBankBox h1 a {float: right }
+.selBankBox dl {max-height: 252px; overflow-x: hidden; -webkit-overflow-scrolling: touch }
+.selBankBox dl dd {padding: 16px; border: 1px solid #ececec; border-top: none; position: relative; background: #fff } 
+.selBankBox dl dd.actived, .selBankBox dl dd:active {border-color: #ccc; background-color: #d9d9d9 } 
+.selBankBox dl dt {padding: 10px; border: 1px solid #f3f0f0; border-top: none; font-size: 16px } 
+.selBankBox dl dt i {float: right } 
+.selBankBox dl dt i.icon-arrows-bottom, .selBankBox dl dt i.icon-arrows-right, .selBankBox dl dt i.icon-arrows-top {width: 20px; height: 20px } 
+.selBankBox dl .item-note {text-align: right; margin: -37px 0 0; float: right; font-size: 12px }
+.selBankBox dl p {overflow: hidden; text-overflow: ellipsis; white-space: nowrap } 
+.selBankBox dl dt {border-width: 0 0 1px; border-color: #ddd; padding-top: 0!important; padding-bottom: 0!important; padding-left: 10px; padding-right: 10px; height: 42px; line-height: 42px } 
+.selBankBox dl dt i {margin: 5px 0 0 } 
+.onlineDraw .yo-dra-titile {padding: 15px 8px; font-size: 16px } 
+.onlineDraw .itemContent {width: calc(100% - 85px); margin: auto; word-wrap: break-word; padding-right: 5px } 
+.specialbox2 {position: relative; width: calc(100% - 85px)!important; margin-right: 10px!important } 
+.specialbox2 .remaining-sum-text {font-size: 14px; color: #f9ac53 } 
+.specialbox2 .all-take-out {position: absolute; width: 64px; height: 34px; line-height: 34px; background-color: #ff9b39; color: #fff; text-align: center; border-radius: 2px; font-size: 14px; top: 0; right: 0 } 
+.specialbox2 .input-content {width: calc(100% - 64px)!important }
+
+.j-dep-3 .j-step-2{ display: none; }
+.j-dep-3.active .j-step-1{ display: none; }
+.j-dep-3.active .j-step-2{ display: block; }
+
+.j-dep-3 .j-step-3{ display: none; }
+.j-dep-3.active2 .j-step-2{ display: none; }
+.j-dep-3.active2 .j-step-3{ display: block; }
+
+.layermcont div.yo-tancen {display: table; width: 100%; text-align: center; min-height: 60px } 
+.layermcont div.yo-tancen p {vertical-align: middle; display: table-cell }
+.layermchild .icon-bulb {margin-top: -4px; margin-right: 10px; }
+
+.gameNotBox {position: fixed; top: 0; height: 100%; width: 100%; display: -webkit-box; display: -ms-flexbox; display: flex; -ms-flex-wrap: nowrap; flex-wrap: nowrap; -webkit-box-pack: center; -ms-flex-pack: center; justify-content: center; -webkit-box-align: center; -ms-flex-align: center; align-items: center } 
+.gameNotice {background: #fff; width: 250px; max-height: 90%; -webkit-box-direction: normal; -webkit-box-orient: vertical; -moz-flex-direction: column; -ms-flex-direction: column; flex-direction: column; display: -webkit-box; display: -moz-flex; display: -ms-flexbox; display: flex; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -ms-border-radius: 4px; -o-border-radius: 4px } 
+.gameNotice .noticeTitle {padding: 15px 10px; border-bottom: 1px solid #eee; text-align: center } 
+.gameNotice .noticeCenter {padding: 10px; overflow-y: auto; -webkit-overflow-scrolling: touch } 
+.gameNotice .noticeCenter div {word-wrap: break-word; word-break: normal } 
+.gameNotice .noticeCenter div::-webkit-scrollbar-track-piece {background-color: rgba(0,0,0,.2); border-left: 1px solid rgba(0,0,0,.2) } 
+.gameNotice .noticeCenter div::-webkit-scrollbar {width: 2px; border-radius: 2px } 
+.gameNotice .noticeBut {text-align: center; display: -webkit-box; display: -moz-flex; display: -ms-flexbox; display: flex; -webkit-box-direction: normal; -webkit-box-orient: horizontal; -moz-flex-direction: row; -ms-flex-direction: row; flex-direction: row; padding: 10px; min-height: 65px } 
+.gameNotice .noticeBut .yo-anTwo {width: 178px; display: inline-block; border-color: #e83b50; background-color: #e83b50; color: #fff; height: 35px; line-height: 35px; position: relative; z-index: 5; margin: 0 auto; border-radius: 17px; -moz-border-radius: 17px; -webkit-border-radius: 17px; -ms-border-radius: 17px; -o-border-radius: 17px } 
+.gameNotice .noticeBut .yo-anTwo:hover {background: #cd2f42 }
+
+.payExplainBox .gameNotice {width: 90%; height: 92%; max-height: 92% } 
+.payExplainBox .gameNotice .noticeCenter {height: calc(100% - 115px); max-height: calc(100% - 115px) } 
+.payExplainBox .gameNotice .noticeCenter img {width: 100%; height: 100%; display: block } 
+.payExplainBox .gameNotice .noticeCenter .mint-swipe-item {top: 0; left: 0 }
+.payExplainBox .gameNotice .noticeCenter .swiper-pagination-bullet-active{ background: #fff; }
+
+.layerPayintro{ background: transparent; }
+
+.lodingpic {
+    -webkit-animation: run .5s linear 0s infinite;
+    animation: run .5s linear 0s infinite
+}
+
+.lodingPic {
+    transition: All 1s ease-in-out;
+    -webkit-transition: All 1s ease-in-out;
+    -moz-transition: All 1s ease-in-out;
+    -o-transition: All 1s ease-in-out
+}
+
+.lodingPic:hover {
+    transform: rotate(2turn);
+    -webkit-transform: rotate(2turn);
+    -moz-transform: rotate(2turn);
+    -o-transform: rotate(2turn);
+    -ms-transform: rotate(2turn)
+}
+
+
+@media screen and (min-width:0px) and (max-width:359px) {
+    .favoriteList dd, .indexGame dd {width: 33.33333% } 
+    .favoriteList dd:nth-child(3n+0), .indexGame dd:nth-child(3n+0) {border-right: 0; padding-right: 1px } 
+    .favoriteList dd .gameImg, .favoriteList dd.indexFavorite0 .gameImg, .favoriteList dd.indexFavorite0 .gameImg2, .indexGame dd .gameImg {width: 52px; height: 52px } 
+    .specialbox {width: calc(100% - 105px) } 
+    .formIput .itemTxt, .item-input .itemTxt {width: 76px; font-size: 14px } 
+    .fontSize16, .formIput .banktitle {font-size: 14px } 
+    .depTips {padding-left: 82px } 
+    .paytype dd .banktitle, .paytype dd .paybankName, .selBankBox dl dt, .selBankBox h1, .yo-headline2 {font-size: 14px } 
+    .yo-headline2:before {top: 17px } 
+    .yo-titile2:before {top: 2px } 
+    .inpu-box {padding-left: 0 } 
+    .inpu-box p {font-size: 14px; margin-left: -20px } 
+    .inpu-box input, .inpu-box select {width: calc(100% - (35% + 20px)); -webkit-box-flex: 1; -ms-flex: 1; flex: 1; margin-right: 0 } 
+    .inpu-box input::-moz-placeholder, .inpu-box select::-moz-placeholder {color: #aaa; font-size: 12px } 
+    .inpu-box input:-ms-input-placeholder, .inpu-box select:-ms-input-placeholder {color: #aaa; font-size: 12px } 
+    .inpu-box input::-webkit-input-placeholder, .inpu-box select::-webkit-input-placeholder {color: #aaa; font-size: 12px } 
+    .inpu-box .yo-select {font-size: 14px } 
+    .yo-register .yo-pad-bot20 {margin-top: 0 } 
+    .yo-anniu-message {top: 405px!important } 
+    .gxxy {margin-bottom: 0 } 
+    .gxxy span {width: 83%; margin-top: 0 } 
+    img.code {right: 1px } 
+    .yo-register div.passwordTextClick {right: 0 } 
+    input::-moz-placeholder, textarea::-moz-placeholder {color: #aaa; font-size: 12px } 
+    input:-ms-input-placeholder, textarea:-ms-input-placeholder {color: #aaa; font-size: 12px } 
+    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {color: #aaa; font-size: 12px } 
+    .formIput .typeinput::-moz-placeholder {color: #aaa; font-size: 12px } 
+    .formIput .typeinput:-ms-input-placeholder {color: #aaa; font-size: 12px } 
+    .formIput .typeinput::-webkit-input-placeholder {color: #aaa; font-size: 12px }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

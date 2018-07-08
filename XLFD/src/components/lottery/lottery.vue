@@ -183,11 +183,11 @@
                                 <li class="item-wrapper">
                                     <div class="title">薪酬设置:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.number="gdParam.commission" maxlength="2" >%
+                                        <input type="text" v-model.number="commissionCopy" maxlength="2" >%
                                     </div>
                                     <div class="title">预计收益:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.number="gdParam.back_rate" maxlength="3" >倍
+                                        <input type="text" v-model.number="backRateCopy" maxlength="3" >倍
                                     </div>
                                 </li>
                                 <li class="item-wrapper">
@@ -331,8 +331,8 @@
                 :ruleTitle="ruleTitle"
                 @close="hide"
             >
-
             </rule-pare>
+            <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
         </div>
     </parcel>
 </template>
@@ -340,6 +340,7 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import Loading from 'base/loading/loading';
     import BetNumber from 'base/bet-number/bet-number';
     import DrawHistory from 'components/lottery/draw-history';
     import WfKind from 'components/lottery/wf-kind';
@@ -371,6 +372,8 @@
                 ruleShow:false,  //是否显示规则页面
                 winMoneyShow:false,  //是否显示奖金提示页面
                 leaveTipShow:false,  //是否确认离开
+                loadingShow:false,  
+                loadingTip:'正在投注...',
                 ruleTitle:'',
                 ruleUrl:'',
                 betUnit,
@@ -393,6 +396,8 @@
                 lotteryModes:0,
                 totalOdds:'',
                 totalPlFlag:'',
+                commissionCopy:'',
+                backRateCopy:'',
                 gdParam:{
                     commission:'',
                     back_rate:'',
@@ -409,7 +414,8 @@
             WfKind,
             FollowNumber,
             BetOrderList,
-            RulePare
+            RulePare,
+            Loading
         },
         created() {
             this.init();
@@ -461,11 +467,26 @@
                 this.$watch('selectPosition',() => {
                     this.recount();
                 });
-                this.$watch('gdParam',(newVal) => {
-                    if(newVal.commission > 10){
-                        this.gdParam.commission =10
+                this.$watch('commissionCopy',(newVal,oldVal) => {
+                    const regex = /^\d*$/;
+                    if(!regex.test(newVal)) {
+                        this.commissionCopy = oldVal ;
                     }
-                }, {deep: true});
+                    if(this.commissionCopy > 10){
+                        this.commissionCopy =10
+                    }
+                    this.gdParam.commission = this.commissionCopy;
+                });
+                this.$watch('backRateCopy',(newVal,oldVal) => {
+                    const regex = /^\d*$/;
+                    if(!regex.test(newVal)) {
+                        this.backRateCopy = oldVal;
+                    }
+                    if(this.backRateCopy > 100){
+                        this.backRateCopy =100
+                    }
+                    this.gdParam.back_rate = this.backRateCopy;
+                });
             },
             ...mapActions([
                 'getUser'
@@ -524,7 +545,8 @@
             setCountTime(dateStr) {
                 this.drawCountTime=countTime(dateStr);
                 if (this.drawCountTime == "00:00:00") {
-                    this.setTip("本期已封单");
+                    this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
+                    this.hide('betAffirmShow');
                     setTimeout(() => {
                         this.getLockTime();
                     },1000);
@@ -658,7 +680,6 @@
                 this.$refs.betnumberlist.clearKind();
             },
             betOrder(){
-                const url = httpUrl.bet.betOrder;
                 const param={
                     lottery_id:this.lotteryId,
                     lottery_qh:this.lotteryInfo.lottery_qh,
@@ -668,14 +689,21 @@
                     bet_count:this.betCount,
                     lottery_modes:this.lotteryModes
                 }
-                this.$axios.postRequest(url,param)
+                this.loadingTip='正在投注...'
+                this.show('loadingShow')
+                this.$axios.postRequest(httpUrl.bet.betOrder,param)
                 .then((res)=> {
+                    this.hide('loadingShow');
                     if(!res.data.errorCode){
                         this.allClear();
                         this.getUser()
                         this.hide('betAffirmShow');
                         this.show('betSuccessShow');
                     };
+                })
+                .catch((err) => {
+                    this.hide('loadingShow');
+                    console.log(err);
                 });
             },
             //页面跳转

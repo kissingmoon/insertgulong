@@ -26,7 +26,7 @@
     export default {
         data() {
             return{
-                pulldown: true,
+                pulldown: false,
                 pullup: true,
                 refreshStatus:false,
                 loadStatus:false,

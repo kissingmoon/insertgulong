@@ -33,6 +33,7 @@
                     </ul>
                 </div>
                 <!-- <loading v-show="billList && !billList.length"></loading> -->
+                <data-none v-show="billList && billList.length < 1"></data-none>
             </scroll>
             <div class="detail-content"  v-show="detailShow">
                 <div class="background" @click="closeDetail"></div>
@@ -87,6 +88,7 @@
     import Scroll from 'base/scroll/scroll';
     import SelectTime from 'base/select-time/select-time';
     import Loading from 'base/loading/loading';
+    import DataNone from 'components/data-none/data-none';
     import {httpUrl,billType} from 'common/js/map';
     import {mapGetters,mapMutations} from 'vuex';
     import Pickers from 'base/pickers/pickers';
@@ -94,7 +96,7 @@
     export default {
         data() {
             return{
-                pulldown: true,
+                pulldown: false,
                 pullup: true,
                 refreshStatus:false,
                 loadStatus:false,
@@ -128,7 +130,8 @@
             Scroll,
             Loading,
             SelectTime,
-            Pickers
+            Pickers,
+            DataNone
         },
         created() {
             this.getbill();

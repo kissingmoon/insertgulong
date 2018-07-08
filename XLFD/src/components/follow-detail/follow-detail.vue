@@ -86,6 +86,7 @@
                     <button @click="betFollow">立即投注</button>
                 </div>
             </div>
+            <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
         </div>
     </parcel>
 </template>
@@ -94,15 +95,18 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import OrderList from 'base/order-list/order-list';
+    import Loading from 'base/loading/loading';
     import AttentionList from 'base/attention-list/attention-list';
     import {httpUrl,betType} from 'common/js/map';
-    import {timeFormat} from 'common/js/param';
+    import {timeFormat01} from 'common/js/param';
     export default {
         data() {
             return{
                 betType,
                 detailType:true,
                 click:true,
+                loadingShow:false,  
+                loadingTip:'正在提交...',
                 author:[],
                 order:{},
                 detailList:[],
@@ -155,7 +159,8 @@
             Parcel,
             Scroll,
             AttentionList,
-            OrderList
+            OrderList,
+            Loading
         },
         created() {
             this.getDetail();
@@ -208,35 +213,38 @@
                 });
             },
             betFollow(){
+                this.loadingShow=true;
                 this.$axios.postRequest(httpUrl.descover.betGd,{gd_number:this.order.gd_number,gd_money:this.gdMoney})
                 .then((res)=> {
+                    this.loadingShow=false;
                     if(!res.data.errorCode){
                         this.gdMoney="";
                         this.setTip('跟单成功');
                     };
+                })
+                .catch((err) => {
+                    this.loadingShow=false;
+                    console.log(err);
                 });
             },
             changeGdMoney(type){
                 this.gdMoney = type == 'add'? this.gdMoney +1 : ((this.gdMoney - 1 <= 0)? 1:this.gdMoney - 1);
             },
             formatTime(times,type){
-                return timeFormat(times,type);
+                return timeFormat01(times,type);
             }
         },
-        // watch:{
-        //     gdMoney(newVal,oldVal){
-        //         const regex = /^\d*$/;
-        //         if(!regex.test(newVal)) {
-        //             this.unifyMoney = oldVal ;
-        //         }
-        //         this.updataNumberList.forEach((item,i) => {
-        //             item.bet_money=newVal;
-        //         });
-        //     }
-        // }
+        watch:{
+            gdMoney(newVal,oldVal){
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.gdMoney = oldVal ;
+                }
+            }
+        }
     }
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .follow-detail{

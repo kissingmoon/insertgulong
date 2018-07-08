@@ -26,7 +26,8 @@
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="accountNo" :readonly="account.bank_status == 1">
+                                <input type="text" v-if="account.bank_status == 0" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="accountNo">
+                                <input type="text" v-if="account.bank_status == 1" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="bankParam.account_no" readonly="readonly">
                             </p>
                         </li>
                     </ul>
@@ -71,9 +72,9 @@
                 columns: 1,
                 txtKey:'name',
                 valueKey:'flag',
-                defaultData: [{name:'中国工商银行',flag:'01'}],
+                defaultData: [{name:'中国工商银行',flag:'1'}],
                 bankList: {
-                    data1: [{name:'中国工商银行',flag:'01'}]
+                    data1: [{name:'中国工商银行',flag:'1'}]
                 }
             }
         },
@@ -85,6 +86,9 @@
         created() {
             this.getBankInfo();
         },
+        // mounted(){
+        //     this.getBankInfo();
+        // },
         computed: {
             ...mapGetters([
                 'account'
@@ -92,21 +96,25 @@
         },
         methods: {
             getBankInfo() {
-                if(this.account.bank_status == 0){
-                    this.$axios.postRequest(httpUrl.info.bankList)
-                    .then((res)=> {
-                        if(!res.data.errorCode){
-                            this.bankList.data1=res.data;
-                        }
-                    });
-                }else{
-                    this.$axios.postRequest(httpUrl.info.bankInfo)
-                    .then((res)=> {
-                        if(!res.data.errorCode){
-                            this.bankParam=res.data;
-                        }
-                    });
-                }
+                setTimeout(()=>{
+                    if(this.account.bank_status == 0){
+                        this.$axios.postRequest(httpUrl.info.bankList)
+                        .then((res)=> {
+                            if(!res.data.errorCode){
+                                console.log(res.data);
+                                this.bankList.data1=res.data;
+                            }
+                        });
+                    }else{
+                        this.$axios.postRequest(httpUrl.info.bankInfo)
+                        .then((res)=> {
+                            if(!res.data.errorCode){
+                                this.bankParam=res.data;
+                                this.accountNo=res.data.account_no;
+                            }
+                        });
+                    }
+                },500);
                 
             },
             setBankInfo(){
@@ -116,6 +124,7 @@
                     if(!res.data.errorCode){
                         this.setTip('设置成功！');
                         this.getUser();
+                        this.getBankInfo()
                     }
                 });
             },
@@ -139,9 +148,9 @@
             }
         },
         watch:{
-            account(){
-                this.getBankInfo();
-            },
+            // account(){
+            //     this.getBankInfo();
+            // },
             accountNo(newVal,oldVal){
                 const regex = /^\d*$/;
                 if(!regex.test(newVal)) {

@@ -3,7 +3,7 @@
         <slot>
             <button @click="upload">上传图片</button>
         </slot>
-        <input class="file" ref="file" type="file" accept="image/*" @change="uploadChange">
+        <input id="id" class="file" ref="file" type="file" accept="image/*" @change="uploadChange" >
         <div class="v-cropper-layer" ref="layer">
             <div class="layer-header">
                 <button class="cancel" @click="cancelHandle">取消</button>
@@ -41,6 +41,10 @@ export default {
     methods: {
         // 初始化裁剪插件
         init() {
+            // var e = document.createEvent('MouseEvent');     
+            // e.initEvent('click', false, false);     
+            // setTimeout(document.getElementById("id").dispatchEvent(e),0); 
+            
             let cropperImg = this.$refs["cropperImg"];
             this.cropper = new Cropper(cropperImg, {
                 aspectRatio: 1 / 1,
@@ -96,6 +100,7 @@ export default {
 .v-simple-cropper {
   .file {
     display: none;
+    cursor: pointer;
   }
   .v-cropper-layer {
     position: fixed;
@@ -108,7 +113,7 @@ export default {
     display: none;
     .layer-header {
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: 0;
       z-index: 99999;
       background: #fff;

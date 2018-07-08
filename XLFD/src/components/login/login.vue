@@ -4,17 +4,17 @@
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="tel" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id">
+                        <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id" maxlength="12">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password">
+                        <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password" maxlength="20">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con code-txt border-bottom-1px">
-                        <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code">
+                        <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code"  maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
@@ -64,11 +64,6 @@
             setCode(){
                 this.loginParam.code_id = randomWord(false,6,8);
                 this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
-                // if(this.is_debugger){
-                //     this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
-                // }else{
-                //     this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
-                // }
             },
             resetAccount(){
                 removeSession('user_token');
@@ -125,7 +120,8 @@
     .login-wrapper{
         padding:0.56rem;
         li{
-            height: auto;
+            height:auto;
+            
             overflow: hidden;
             .txt-con{
                 height: auto;
@@ -133,9 +129,11 @@
                 @include border-bottom-1px(solid,$color-border-gray);
                 
                 .input-txt{
-                    height:1.4rem;
+                    padding-top:0.4rem;
+                    padding-bottom:0.4rem;
+                    height:0.6rem;
                     width:100%;
-                    line-height: 1.4rem;
+                    line-height: 0.6rem;
                     font-size: $font-size-medium-x;
                 }
 
@@ -175,6 +173,11 @@
                 padding-top: 0.6rem;
                 color:$color-text-blur;
                 font-size:$font-size-medium;
+            }
+            &.btn-wrapper{
+                padding-top:0;
+                padding-bottom: 0;
+                height: auto;
             }
         }
     }

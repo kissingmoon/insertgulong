@@ -1,6 +1,6 @@
 <template>
   <div class="tip" v-show="showTip">
-    <span class="desc">{{tip}}</span>
+    <span class="desc" v-html="tip"></span>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -44,7 +44,7 @@
         text-align: center;
         width:100%;
         z-index: 10000;
-        bottom:2.1rem;
+        top:40%;
         .desc{
             display: inline-block;
             max-width: 50%;

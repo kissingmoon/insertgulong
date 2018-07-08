@@ -73,7 +73,7 @@
     }
     
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .safety{

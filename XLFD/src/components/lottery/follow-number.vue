@@ -78,6 +78,7 @@
                     <p>赚佣金</p>
                 </div>
             </div>
+            <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
         </div>
     </parcel>
 </template>
@@ -86,21 +87,24 @@
   import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
+  import Loading from 'base/loading/loading';
   import {httpUrl} from 'common/js/map';
 
   export default {
     data() {
       return {
-          isMake:true,
-          zhuihaoCountQs:5,
-          zhuihaoStop:1,
-          zhuihaoAllQh:'',
-          zhuihaoAllBs:'',
-          baseTimes:1,
-          apartPeriod:1,
-          times:1,
-          numberList:[],
-          betMoney:0
+        isMake:true,
+        zhuihaoCountQs:5,
+        zhuihaoStop:1,
+        zhuihaoAllQh:'',
+        zhuihaoAllBs:'',
+        baseTimes:1,
+        apartPeriod:1,
+        times:1,
+        numberList:[],
+        betMoney:0,
+        loadingShow:false,  
+        loadingTip:'正在投注...',
       }
     },
     props: {
@@ -143,7 +147,8 @@
     },
     components:{
         Scroll,
-        Parcel
+        Parcel,
+        Loading
     },
     mounted() {
         this.init();
@@ -260,11 +265,17 @@
             if(this.earnCommission){
                 param=Object.assign({},param,this.gdParam);
             }
+            this.loadingShow=true;
             this.$axios.postRequest(url,param)
             .then((res)=> {
+                this.loadingShow=false;
                 if(!res.data.errorCode){
                     this.$emit("betSuccess");
                 };
+            })
+            .catch((err) => {
+                this.loadingShow=false;
+                console.log(err);
             });
         },
         countMoney(times){

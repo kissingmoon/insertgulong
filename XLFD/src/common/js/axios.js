@@ -29,11 +29,11 @@ axios.interceptors.response.use(res=> {
     return res;
 }, err=> {
   if (err.response.status == 504||err.response.status == 404) {
-    console.log('服务器被吃了⊙﹏⊙∥');
+    store.commit('SET_TIP','服务器被吃了⊙﹏⊙∥');
   } else if (err.response.status == 403) {
-    console.log('权限不足,请联系管理员!');
+    store.commit('SET_TIP','权限不足,请联系管理员!');
   }else {
-    console.log('未知错误!');
+    store.commit('SET_TIP','未知错误!');
   }
   return Promise.resolve(err);
 })

@@ -16,6 +16,7 @@
                 @pullup="loadData"
                 >
                 <order-list :data="followList"></order-list>
+                <data-none v-show="followList && followList.length < 1"></data-none>
             </scroll>
             <router-view></router-view>
         </div>
@@ -25,6 +26,7 @@
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import orderList from 'base/order-list/order-list';
+    import DataNone from 'components/data-none/data-none';
     import {httpUrl} from 'common/js/map';
     export default {
         data() {
@@ -35,7 +37,7 @@
                     page_no:1,
                     page_size:20
                 },
-                pulldown: true,
+                pulldown: false,
                 pullup: true,
                 refreshStatus:false,
                 loadStatus:false,
@@ -45,7 +47,8 @@
         components:{
             Parcel,
             Scroll,
-            orderList
+            orderList,
+            DataNone
         },
         created() {
             this.getMyJoin();

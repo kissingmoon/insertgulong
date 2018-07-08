@@ -14,7 +14,7 @@
                             </slider>
                         </div>
                     </div>
-                    <div class="marquee-wrapper">
+                    <div class="marquee-wrapper" @click="showNotice">
                         <marquee class="txt">
                             {{notice.content}}
                         </marquee>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="lottery-wrapper">
                         <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}">
-                            <div class="item" v-if="i % 4 < 2 && item.lottery_type != 6 && item.lottery_type != 10" @click="subtag(i)">
+                            <div class="item" v-if="i % 4 < 2 && item.lottery_type != 6 && item.lottery_type != 10" @click="subtag(i)" :ref="'sub'+i">
                                 <div class="item-main">
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="item.lottery_image">
@@ -108,6 +108,27 @@
                 </div>
             </slider-y>
         </div>
+        <div v-show="noticeShow">
+            <div class="background" @click="hideNotice">
+            </div>
+            <div class="detail">
+                <div class="detail-wrapper clearfix">
+                    <div class="detail-main">
+                       <div class="title border-bottom-1px">
+                           公告详情
+                       </div>
+                       <div class="info">
+                           <div class="txt">
+                               {{notice.content}}
+                           </div>
+                       </div>
+                    </div>
+                </div>
+                <div class="detail-close">
+                    <button @click="hideNotice">确定</button>
+                </div>
+            </div>
+        </div>
         <router-view></router-view>
     </div>
 </template>
@@ -123,8 +144,9 @@
     export default {
         data() {
             return {
+                noticeShow:false,
                 activitys: [],
-                notice:[],
+                notice:{},
                 gift:[],
                 lotteryList:[],
                 showSub:'',
@@ -152,12 +174,23 @@
             this.getBetWin();
             this.getBzjlq();
         },
+        mounted(){
+            // document.body.addEventListener('touchmove', function (e) {
+            //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
+            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+        },
         computed: {
             ...mapGetters([
                 'user_token'
             ])
         },
         methods: {
+            showNotice(){
+                this.noticeShow = true;
+            },
+            hideNotice(){
+                this.noticeShow = false;
+            },
             loadImage() {
                 if (!this.checkloaded) {
                     this.checkloaded = true
@@ -267,7 +300,8 @@
                 this.showSub = this.showSub == (i+2) ? '': (i+2);
                 setTimeout(() => {
                     this.$refs.scroll.refresh();
-                },50);
+                    this.$refs.scroll.scrollToElement(this.$refs['sub'+i][0]);
+                },100);
             },
             
 
@@ -275,7 +309,7 @@
     }
     
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 
@@ -330,7 +364,7 @@
             }
         }
         .new-gift-wrapper{
-            height:auto;
+            height:2.4rem;
             overflow: hidden;
             a{
                 display: block;
@@ -518,5 +552,80 @@
     }
     
 }
+    .background {
+        position:fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+        background:$color-bg-shade-a5;
+    }
+    .detail{
+        position:fixed;
+        top:calc((100% - 8rem) / 2);
+        left:1.5rem;
+        z-index:1200;
+        width:7rem;
+        height:7.8rem;
+        overflow:auto;
+        background:$color-bg;
+        border-radius: 0.2rem;
+        .detail-wrapper{
+            min-height:100%;
+            .detail-main{
+                padding-bottom:1.4rem;
+                .title{
+                    height:1rem;
+                    padding:0.2rem 0.4rem;
+                    line-height: 1rem;
+                    text-align: center;
+                    font-size: $font-size-large;
+                    color:$color-red;
+                    @include border-bottom-1px(solid,$color-border-gray);
+                    @include no-wrap();
+                }
+                .info{
+                    margin:0.3rem;
+                    background:$color-bg-gray;
+                    border-radius: 0.1rem;
+                    height:4rem;
+                    padding:0.3rem 0.2rem 0;
+                    
+                    .txt{
+                        height:3.5rem;
+                        overflow-y: auto;
+                        line-height: 0.5rem;
+                    }
+                    .time{
+                        height: 0.5rem;
+                        text-align: right;
+                        font-size: $font-size-small;
+                        color:$color-text-gray;
+                    }
+                }
+            }
+        }
+        .detail-close{
+            position:relative;
+            margin:-1.4rem auto 0 auto;
+            clear:both;
+            text-align: center;
+            button{
+                height:0.8rem;
+                width:2.5rem;
+                text-align: center;
+                background:$color-red;
+                color: #fff;
+                font-size: $font-size-medium-x;
+                border-radius: 0.1rem;
+                border:0;
+                &.m-r{
+                    margin-right: 0.3rem;
+                    background:$color-btn-gray;
+                }
+            }
+        }
+    }
  
 </style>

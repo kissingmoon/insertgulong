@@ -53,6 +53,7 @@
                     {{updataNumberList.length}}注
                 </div>
             </div>
+            <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
         </div>
     </parcel>
 </template>
@@ -61,13 +62,16 @@
   import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
+  import Loading from 'base/loading/loading';
   import {httpUrl} from 'common/js/map';
 
   export default {
     data() {
-      return {
-          unifyMoney:'',
-      }
+        return {
+            unifyMoney:'',
+            loadingShow:false,  
+            loadingTip:'正在投注...',
+        }
     },
     props: {
         lotteryId:{
@@ -89,7 +93,8 @@
     },
     components:{
         Scroll,
-        Parcel
+        Parcel,
+        Loading
     },
     mounted() {
         this.init();
@@ -147,11 +152,17 @@
                 wf_flag,
                 pl_flag
             };
+            this.loadingShow=true;
             this.$axios.postRequest(httpUrl.bet.betLHC28,param)
             .then((res)=> {
+                this.loadingShow=false;
                 if(!res.data.errorCode){
                     this.$emit('betSuccess');
                 };
+            })
+            .catch((err) => {
+                this.loadingShow=false;
+                console.log(err);
             });
 
         }

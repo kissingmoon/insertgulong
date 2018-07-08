@@ -9,12 +9,12 @@
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password" maxlength="16">
+                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password" maxlength="16" autocomplete="off">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password" maxlength="16">
+                        <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password" maxlength="16" autocomplete="off">
                     </p>
                 </li>
                 <li>
@@ -127,9 +127,11 @@
             overflow: hidden;
             @include border-bottom-1px(solid,$color-border-gray);
             .input-txt{
-                height:1.4rem;
+                height:0.6rem;
+                padding-top:0.4rem;
+                padding-bottom:0.4rem;
                 width:100%;
-                line-height: 1.4rem;
+                line-height: 0.6rem;
                 font-size: $font-size-medium-x;
             }
             .input-txt::placeholder{

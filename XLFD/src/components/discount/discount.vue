@@ -40,13 +40,14 @@
                     </router-link>
                 </ul>
             </div>
-            <loading v-show="!activityList.length"></loading>
+            <!-- <data-none v-show="activityList && activityList.length < 1"></data-none> -->
         </scroll>
         <router-view></router-view>
     </div>
 </template>
 <script>
     import Scroll from 'base/scroll/scroll';
+    import DataNone from 'components/data-none/data-none';
     import {httpUrl,activityKind} from 'common/js/map';
     import Loading from 'base/loading/loading';
     export default {
@@ -62,10 +63,16 @@
         },
         components:{
             Scroll,
-            Loading
+            Loading,
+            DataNone
         },
         created(){
             this.getDiscount();
+        },
+        mounted(){
+            // document.body.addEventListener('touchmove', function (e) {
+            //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
+            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
         },
         methods:{
             getDiscount(){

@@ -48,7 +48,7 @@
                 <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
-                        <p class="number"><input type="text" v-model.number="betTimes" maxlength="5" ></p>
+                        <p class="number"><input type="tel" v-model.number="betTimes" maxlength="5" ></p>
                         <p>倍</p>
                     </div>
                     <div class="unit">
@@ -183,11 +183,11 @@
                                 <li class="item-wrapper">
                                     <div class="title">薪酬设置:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.number="commissionCopy" maxlength="2" >%
+                                        <input type="tel" v-model.number="commissionCopy" maxlength="2" >%
                                     </div>
                                     <div class="title">预计收益:</div>
                                     <div class="set-num">
-                                        <input type="text" v-model.number="backRateCopy" maxlength="3" >倍
+                                        <input type="tel" v-model.number="backRateCopy" maxlength="3" >倍
                                     </div>
                                 </li>
                                 <li class="item-wrapper">
@@ -203,7 +203,7 @@
                             </ul>
                             <div class="btn-wrapper">
                                 <button class="cancel" @click="setEarnCommission(false)">放弃发起</button>
-                                <button class="affirm"  @click="setEarnCommission(true)">确认</button>
+                                <button class="affirm"  @click="setEarnCommission(true)" :disabled="commissionCopy.length < 1 || backRateCopy < 1">确认</button>
                             </div>
                             <div class="gd-tip">
                                 <p>温馨提示:您可以在我的-跟单列表界面查看跟单明细<br>发起跟单将会在您成功付款后展示</p>
@@ -547,6 +547,8 @@
                 if (this.drawCountTime == "00:00:00") {
                     this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
+                    this.hide('gdSetShow');
+                    this.hide('followNumberShow');
                     setTimeout(() => {
                         this.getLockTime();
                     },1000);
@@ -789,6 +791,7 @@
                 }
                 const keyLength=Object.keys(this.selectObj).length;
                 const plLength=this.currentWf.wf_pl.length;
+                
                 // 号码判断
                 if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                     if (keyLength < 2) {
@@ -1477,6 +1480,10 @@
                         border-radius: 0.1rem;
                         border:0;
                         padding:0;
+                        &:disabled{
+                            background:$color-btn-gray;
+                            color: $color-text;
+                        }
                     }
                 }
                 .gd-tip{

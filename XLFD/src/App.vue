@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex';
+import {mapActions,mapGetters} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
 import ActivityQiandao from 'components/activity-qiandao/activity-qiandao.vue';
@@ -34,7 +34,11 @@ export default {
     created() {
         this.init();
     },
-    
+    computed: {
+        ...mapGetters([
+            'user_token'
+        ])
+    },
     methods:{
         init(){
             let user_token = session('user_token') || '';
@@ -53,10 +57,12 @@ export default {
                 clearTimeout(this.dataTimes);
             }
             this.dataTimes=setTimeout(()=>{
-                this.getUser();
-                this.getMessageCount();
+                if(this.user_token){
+                    this.getUser();
+                    this.getMessageCount();
+                }
                 this.getUserData();
-            },5000);
+            },10000);
         },
         ...mapActions([
             'setHeader',

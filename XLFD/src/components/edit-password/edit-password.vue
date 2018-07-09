@@ -119,9 +119,11 @@
                         border-radius: 0.1rem;
                         background:$color-bg-gray;
                         .input-txt{
-                            height:1.2rem;
+                            height:0.6rem;
                             width:100%;
-                            line-height: 1.2rem;
+                            line-height: 0.6rem;
+                            padding-top:0.3rem;
+                            padding-bottom:0.3rem;
                             font-size: $font-size-medium-x;
                             background: none;
                         }

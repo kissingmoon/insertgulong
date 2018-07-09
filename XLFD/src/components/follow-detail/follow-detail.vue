@@ -224,10 +224,13 @@
                 })
                 .catch((err) => {
                     this.loadingShow=false;
-                    console.log(err);
                 });
             },
             changeGdMoney(type){
+                if(!this.gdMoney){
+                    this.gdMoney = 1;
+                    return;
+                }
                 this.gdMoney = type == 'add'? this.gdMoney +1 : ((this.gdMoney - 1 <= 0)? 1:this.gdMoney - 1);
             },
             formatTime(times,type){

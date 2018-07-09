@@ -41,10 +41,6 @@ export default {
     methods: {
         // 初始化裁剪插件
         init() {
-            // var e = document.createEvent('MouseEvent');     
-            // e.initEvent('click', false, false);     
-            // setTimeout(document.getElementById("id").dispatchEvent(e),0); 
-            
             let cropperImg = this.$refs["cropperImg"];
             this.cropper = new Cropper(cropperImg, {
                 aspectRatio: 1 / 1,
@@ -53,7 +49,11 @@ export default {
         },
         // 点击上传按钮
         upload() {
-            this.$refs["file"].click();
+            //解决触发click事件，在safari下不执行问题
+            var e = document.createEvent('MouseEvent');     
+            e.initEvent('click', false, false);     
+            setTimeout(this.$refs["file"].dispatchEvent(e),0); 
+            // this.$refs["file"].click();
         },
         // 选择上传文件
         uploadChange(e) {

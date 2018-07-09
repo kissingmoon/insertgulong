@@ -7,7 +7,7 @@
             </div>
             <div class="unify-money">
                 <p class="">请输入统一金额：</p>
-                <p><input type="text" v-model.number="unifyMoney" placeholder="请输入金额" /></p>
+                <p><input type="tel" v-model.number="unifyMoney" placeholder="请输入金额" /></p>
             </div>
             <!-- <scroll ref="scroll" class="scroll-content" :data="updataNumberList" > -->
             <div class="scroll-content">
@@ -25,7 +25,7 @@
                                 <div class="wf">{{item.wf_name}}</div>
                                 <div class="code-money">
                                     <p>金额:</p>
-                                    <p><input type="text" placeholder="请输入金额" v-model.number="item.bet_money" maxlength="6" /></p>
+                                    <p><input type="tel" placeholder="请输入金额" v-model.number="item.bet_money" maxlength="6" /></p>
                                     <p>元</p>
                                 </div>
                             </div>

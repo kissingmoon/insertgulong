@@ -82,9 +82,11 @@
             overflow: hidden;
             @include border-bottom-1px(solid,$color-border-gray);
             .input-txt{
-                height:1rem;
+                height:0.6rem;
                 width:100%;
-                line-height: 1rem;
+                padding-top:0.2rem;
+                padding-bottom:0.2rem;
+                line-height: 0.6rem;
                 font-size: $font-size-medium-x;
             }
             .input-txt::placeholder{

@@ -7,7 +7,7 @@ import Router from '../../router';
 axios.interceptors.request.use(config=> {
   return config;
 }, err=> {
-  console.log('请求超时!');
+    store.commit('SET_TIP','请求超时!');
   return Promise.resolve(err);
 })
 axios.interceptors.response.use(res=> {
@@ -20,6 +20,7 @@ axios.interceptors.response.use(res=> {
                 store.commit('SET_USER_TOKEN','');
                 store.commit('SET_MD5_SALT','');
                 store.commit('SET_ACCOUNT','');
+                store.commit('SET_MESSAGE_COUNT','');
                 break;
             default:
                 store.commit('SET_TIP',res.data.errorMsg);
@@ -29,7 +30,7 @@ axios.interceptors.response.use(res=> {
     return res;
 }, err=> {
   if (err.response.status == 504||err.response.status == 404) {
-    store.commit('SET_TIP','服务器被吃了⊙﹏⊙∥');
+    store.commit('SET_TIP','系统维护中，请稍等！');
   } else if (err.response.status == 403) {
     store.commit('SET_TIP','权限不足,请联系管理员!');
   }else {

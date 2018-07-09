@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div  v-show="passworTipShow">
+            <div  v-if="passworTipShow">
                 <div class="background"  @click="hide('passworTipShow')">
                 </div>
                 <div class="password">
@@ -61,7 +61,30 @@
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passworTipShow')">取消</button>
-                                    <button @click="goto">确认</button>
+                                    <button @click="goto('/info/safety/set-password')">确认</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  v-else-if="bankTipShow">
+                <div class="background"  @click="hide('bankTipShow')">
+                </div>
+                <div class="password">
+                    <div class="password-wrapper clearfix">
+                        <div class="password-main">
+                            <ul>
+                                <li class="item-wrapper">
+                                </li>
+                                <li class="item-wrapper">
+                                    您还没有设置提款账号，请先设置。
+                                </li>
+                                <li class="item-wrapper">
+                                </li>
+                                <li class="item-wrapper">
+                                    <button class="margin-right-1rem" @click="hide('bankTipShow')">取消</button>
+                                    <button @click="goto('/info/safety/bank')">确认</button>
                                 </li>
                             </ul>
                         </div>
@@ -83,7 +106,8 @@
                 money:'',
                 bank_passwd:'',
                 passwordShow:false,
-                passworTipShow:false
+                passworTipShow:false,
+                bankTipShow:false
             }
         },
         components:{
@@ -111,6 +135,7 @@
                 if(this.account.bank_passwd_status){
                     setTimeout(()=>{
                         this.passworTipShow = this.account.bank_passwd_status != 1;
+                        this.bankTipShow = this.account.bank_status != 1;
                     },500);
                 }
             },
@@ -118,11 +143,15 @@
                 this.hide('passwordShow');
                 this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
                 .then((res)=> {
+                    this.bank_passwd=''
                     if(!res.data.errorCode){
                         this.setTip('提现成功');
                         this.getUser();
                         this.$router.back();
                     };
+                })
+                .catch((err) => {
+                    this.bank_passwd=''
                 });
             },
             hide(type){
@@ -144,9 +173,9 @@
             ...mapMutations({
                 setTip:'SET_TIP',
             }),
-            goto(){
+            goto(url){
                 this.$router.push({
-                    path:'/info/safety/set-password'
+                    path: url
                 });
             }
         },
@@ -218,11 +247,11 @@
                         height:1.2rem;
                         padding-bottom: 0.3rem;
                         input{
-                            padding-left: 0.3rem;
                             width:97%;
+                            padding:0.3rem 0 ;
                             padding-left: 2%;
-                            height:1.2rem;
-                            line-height: 1.2rem;
+                            height:0.6rem;
+                            line-height: 0.6rem;
                             background:$color-bg-gray;
                             border-radius: 0.1rem;
                             font-size: $font-size-medium-x;

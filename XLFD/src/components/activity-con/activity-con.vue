@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="activity-con">
-            <m-iframe url="http://192.168.195.9:8020/youhui/0202/meirishoucun.html?__hbt=1531031078811"></m-iframe>
+            <m-iframe :url="url"></m-iframe>
         </div>
     </parcel>
 </template>

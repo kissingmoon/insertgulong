@@ -253,7 +253,6 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         res.data.forEach((sub,s) => {
-                            //this.lotteryList[(i*2+((i+1)%2+1))][s].lock_time=sub.lock_time;
                             this.subLotteryCountTime(sub,type,i)
                         });
                     }
@@ -266,7 +265,7 @@
                     return;
                 }
                 const drawCountTime=countTime(sub.lock_time.replace(/-/g,'/'));
-                if(this.$refs[sub.lottery_id][0]){
+                if(this.$refs[sub.lottery_id] && this.$refs[sub.lottery_id][0]){
                     this.$refs[sub.lottery_id][0].innerHTML=drawCountTime;
                 }
                 if (drawCountTime == "00:00:00") {

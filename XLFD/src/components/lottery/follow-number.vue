@@ -10,16 +10,16 @@
             </div>
             <div class="set-base-content">
                  <div class="set-item">
-                    <p>追号</p><p class="number"><input type="text" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
+                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始倍数</p><p class="number"><input type="text" v-model.number="baseTimes" maxlength="2" ></p><p>倍</p>
+                    <p>起始倍数</p><p class="number"><input type="tel" v-model.number="baseTimes" maxlength="2" ></p><p>倍</p>
                 </div>
                 <div class="set-item">
-                    <p>隔</p><p class="number"><input type="text" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
+                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>翻</p><p class="number times"><input type="text" v-model.number="times" maxlength="4" ></p><p>倍</p>
+                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" ></p><p>倍</p>
                 </div>
             </div>
             <div class="list-title">
@@ -43,7 +43,7 @@
                         <div class="qh">{{item.period}}</div>
                         <div class="bs">
                             <p class="minus" @click="changeTimes(i,'minus')"><i class="icon-minus"></i></p>
-                            <p class="txt"><input type="text" v-model.number="item.times" maxlength="4"></p>
+                            <p class="txt"><input type="tel" v-model.number="item.times" maxlength="4"></p>
                             <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p>
                         </div>
                         <div class="je">{{countMoney(item.times)}}</div>

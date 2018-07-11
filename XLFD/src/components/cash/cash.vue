@@ -87,11 +87,11 @@
                     if(!res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
-                            this.cashLise=this.cashLise.concat(res.data);
+                            this.cashList=this.cashList.concat(res.data);
                             this.isAllData =res.data.length < 20 ? true : false;
                         }else{
                             this.refreshStatus=false;
-                            this.cashLise=res.data;
+                            this.cashList=res.data;
                             this.isAllData=false;
                         }
                     };

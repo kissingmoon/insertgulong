@@ -261,7 +261,9 @@
             //子彩种倒计时
             subLotteryCountTime(sub,type,i){
                 if(type == 6){
-                    this.$refs[sub.lottery_id][0].innerHTML=sub.lock_time;
+                    if(this.$refs[sub.lottery_id] && this.$refs[sub.lottery_id][0]){
+                        this.$refs[sub.lottery_id][0].innerHTML=sub.lock_time;
+                    }
                     return;
                 }
                 const drawCountTime=countTime(sub.lock_time.replace(/-/g,'/'));

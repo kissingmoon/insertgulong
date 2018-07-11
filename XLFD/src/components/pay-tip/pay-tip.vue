@@ -16,6 +16,7 @@
     </parcel>
 </template>
 <script>
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import {httpUrl} from 'common/js/map';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
@@ -29,13 +30,19 @@
             Parcel,
             Scroll
         },
+        computed: {
+            ...mapGetters([
+                'user_token'
+            ])
+        },
         methods:{
             goBack(){
                 this.$router.back();
             },
             toRecharge(){
+                let url=this.user_token ? '/recharge':'/login';
                 this.$router.push({
-                    path:'/recharge'
+                    path:url
                 });
             }
         }

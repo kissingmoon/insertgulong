@@ -48,7 +48,7 @@
                 <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
-                        <p class="number"><input type="tel" v-model.number="betTimes" maxlength="5" ></p>
+                        <p class="number"><input type="tel" v-model.number="betTimes" maxlength="4" ></p>
                         <p>倍</p>
                     </div>
                     <div class="unit">
@@ -305,6 +305,7 @@
                 :lotteryInfo="lotteryInfo"
                 :earnCommission="earnCommission"
                 :wfFlag="wfFlag"
+                :betTimes="betTimes"
                 :drawCountTime="drawCountTime"
                 @close="hide"
                 @changeNumber="changeNumber"
@@ -549,6 +550,7 @@
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
                     this.hide('followNumberShow');
+                    this.hide('betOrderListShow');
                     setTimeout(() => {
                         this.getLockTime();
                     },1000);
@@ -791,75 +793,108 @@
                 }
                 const keyLength=Object.keys(this.selectObj).length;
                 const plLength=this.currentWf.wf_pl.length;
-                
-                // 号码判断
-                if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
-                    if (keyLength < 2) {
-                        this.setTip("最少选择2个号码");
-                    } else {
-                        this.setTip("最多选择11个号码");
+                let isTrueNumber=true;
+                if(this.updataNumberList.length < 1){
+                    // 号码判断
+                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                        if (keyLength < 2) {
+                            this.setTip("最少选择2个号码");
+                        } else {
+                            this.setTip("最多选择11个号码");
+                        }
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                            || this.wfFlag=="xglhc_lxlw_2lw")
+                            && keyLength != 2) {
+                        this.setTip("请选择2个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                            || this.wfFlag=="xy28_tmb3_b3")
+                            && keyLength != 3) {
+                        this.setTip("请选择3个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                            || this.wfFlag=="xglhc_lxlw_4lw")
+                            && keyLength != 4) {
+                        this.setTip("请选择4个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                        this.setTip("请选择5个号码");
+                        return;
+                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                        if (keyLength < 6) {
+                            this.setTip("最少选择6个号码");
+                        } else {
+                            this.setTip(`最多选择${5+plLength}个号码`);
+                        }
+                        return;
+                    }else if(keyLength == 0){
+                        this.setTip("请选择一组号码");
+                        return;
                     }
-                    return;
-                } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
-                        || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
-                        || this.wfFlag=="xglhc_lxlw_2lw")
-                        && keyLength != 2) {
-                    this.setTip("请选择2个号码");
-                    return;
-                } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
-                        || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
-                        || this.wfFlag=="xy28_tmb3_b3")
-                        && keyLength != 3) {
-                    this.setTip("请选择3个号码");
-                    return;
-                } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
-                        || this.wfFlag=="xglhc_lxlw_4lw")
-                        && keyLength != 4) {
-                    this.setTip("请选择4个号码");
-                    return;
-                } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
-                    this.setTip("请选择5个号码");
-                    return;
-                } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
-                    if (keyLength < 6) {
-                        this.setTip("最少选择6个号码");
-                    } else {
-                        this.setTip(`最多选择${5+plLength}个号码`);
+                }else{
+                    // 号码判断
+                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                            || this.wfFlag=="xglhc_lxlw_2lw")
+                            && keyLength != 2) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                            || this.wfFlag=="xy28_tmb3_b3")
+                            && keyLength != 3) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                            || this.wfFlag=="xglhc_lxlw_4lw")
+                            && keyLength != 4) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                        isTrueNumber=false;
+                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                        isTrueNumber=false;
+                    }else if(keyLength == 0){
+                        isTrueNumber=false;
                     }
-                    return;
-                }else if(keyLength == 0){
-                    this.setTip("请选择一组号码");
-                    return;
+                }
+                if(isTrueNumber){
+                    switch(this.wfFlag){
+                        case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
+                        case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
+                            const obj={
+                                wf_flag:this.currentWf.wf_flag,
+                                wf_name:this.currentWf.name,
+                                bet_money:'',
+                                number_str:'',
+                                pl_flag:''
+                            }
+                            const arr = [];
+                            for ( var key in this.selectObj){
+                                obj.pl_flag=this.totalPlFlag;
+                                arr.push(this.selectObj[key].number_str);
+                            };
+                            obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
+                            obj.pl=this.totalOdds;
+                            this.updataNumberList.push(obj);
+                            break;
+                        default:
+                            for ( var key in this.selectObj){
+                                this.updataNumberList.push(this.selectObj[key]);
+                            };
+                            break;
+                    };
                 }
                 
-                switch(this.wfFlag){
-                    case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
-                    case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
-                        const obj={
-                            wf_flag:this.currentWf.wf_flag,
-                            wf_name:this.currentWf.name,
-                            bet_money:'',
-                            number_str:'',
-                            pl_flag:''
-                        }
-                        const arr = [];
-                        for ( var key in this.selectObj){
-                            obj.pl_flag=this.totalPlFlag;
-                            arr.push(this.selectObj[key].number_str);
-                        };
-                        obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
-                        obj.pl=this.totalOdds;
-                        this.updataNumberList.push(obj);
-                        break;
-                    default:
-                        for ( var key in this.selectObj){
-                            this.updataNumberList.push(this.selectObj[key]);
-                        };
-                        break;
-                };
                 this.show('betOrderListShow');
                 this.allClear();
             },
+            judgeBetNumber(){
+
+            },
+
             //清空六或28的下注列表
             clearBetOrderList(){
                 this.updataNumberList=[];
@@ -907,6 +942,9 @@
                 if(!regex.test(newVal)) {
                     this.betTimes = oldVal ;
                 }
+                // if(this.betTimes > 9999){
+                //     this.betTimes = 9999;
+                // }
             }
         }
     }

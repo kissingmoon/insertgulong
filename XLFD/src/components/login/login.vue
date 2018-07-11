@@ -4,7 +4,7 @@
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id" maxlength="12">
+                        <input type="text" placeholder="以字母开头6-11位用户账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id" maxlength="12">
                     </p>
                 </li>
                 <li>

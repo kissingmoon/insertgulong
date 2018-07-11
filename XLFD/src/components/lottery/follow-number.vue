@@ -13,7 +13,7 @@
                     <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始倍数</p><p class="number"><input type="tel" v-model.number="baseTimes" maxlength="2" ></p><p>倍</p>
+                    <p>起始倍数</p><p class="number"><input type="tel" v-model.number="baseTimes" maxlength="4" ></p><p>倍</p>
                 </div>
                 <div class="set-item">
                     <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
@@ -136,6 +136,10 @@
             type: Number,
             default: 0
         },
+        betTimes:{
+            type: Number,
+            default: 1
+        },
         lotteryInfo:{
             type: Object,
             default: {}
@@ -164,6 +168,7 @@
     },
     methods: {
         init(){
+            this.baseTimes=this.betTimes;
             this.watchInit();
             this.makeNumberList();
         },

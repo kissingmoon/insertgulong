@@ -79,7 +79,8 @@
                 :defaultData="defaultData"
                 :selectData="pickData"
                 @cancel="pickerHide"
-                @confirm="confirmFn"></pickers>
+                @confirm="confirmFn">
+            </pickers>
         </div>
     </parcel>
 </template>
@@ -174,9 +175,7 @@
                 this.$axios.postRequest(httpUrl.info.flowType)
                 .then((res) => {
                     if(!res.data.errorCode){
-                        console.log(res);
                         this.pickData=regroupPickData(res.data);
-                        console.log(this.pickData);
                     }
                 })
             },

@@ -208,11 +208,17 @@
                 .then((res)=> {
                     if(!res.data.errorCode){
                         this.author[index].has_gz=!this.author[index].has_gz;
-                        this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
+                        this.author[index].count_fans=status == 1? this.author[index].count_fans += 1 : this.author[index].count_fans -= 1;
                     };
                 });
             },
             betFollow(){
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                    return;
+                }
                 this.loadingShow=true;
                 this.$axios.postRequest(httpUrl.descover.betGd,{gd_number:this.order.gd_number,gd_money:this.gdMoney})
                 .then((res)=> {

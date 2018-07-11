@@ -4,7 +4,7 @@
             <ul class="register-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="账号" class="input-txt" v-model="registerParam.user_id" maxlength="12">
+                        <input type="text" placeholder="以字母开头6-11位用户账户" class="input-txt" v-model="registerParam.user_id" maxlength="12">
                     </p>
                 </li>
                 <li>

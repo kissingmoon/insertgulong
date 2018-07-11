@@ -26,6 +26,7 @@
                             </div>
                         </li>
                     </ul>
+                    <data-none v-show="messageList && messageList.length < 1"></data-none>
                 </div>
             </scroll>
             <div v-show="detailShow" class="background" @click="setMessage(1)">
@@ -51,6 +52,7 @@
                     <button @click="setMessage(2)">删除</button>
                 </div>
             </div>
+            
         </div>
     </parcel>
 </template>
@@ -58,6 +60,8 @@
     import {mapActions} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
+    import Loading from 'base/loading/loading';
+    import DataNone from 'components/data-none/data-none';
     import {httpUrl} from 'common/js/map';
     export default {
         data() {
@@ -77,7 +81,9 @@
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            Loading,
+            DataNone
         },
         created() {
             this.getMessage();

@@ -3,13 +3,9 @@
     <m-header></m-header> 
     <m-nav></m-nav>
     <tip></tip>
-    <!-- <keep-alive>
-        <router-view></router-view>
-    </keep-alive> -->
     <router-view></router-view>
-    <div>
-        <activity-qiandao></activity-qiandao>
-    </div>
+    <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
+    <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
   </div>
 </template>
 
@@ -17,11 +13,12 @@
 import {mapActions,mapGetters} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
-import ActivityQiandao from 'components/activity-qiandao/activity-qiandao.vue';
+import ActivityQiandao from 'components/activity/activity-qiandao.vue';
+import ActivityXrkh from 'components/activity/activity-xrkh.vue';
 import Parcel from 'base/parcel/parcel';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
-import {headerConfig} from 'common/js/map'
+import {headerConfig} from 'common/js/map';
 export default {
     name: 'App',
     components:{
@@ -29,14 +26,17 @@ export default {
         MHeader,
         MNav,
         Tip,
-        ActivityQiandao
+        ActivityQiandao,
+        ActivityXrkh
     },
     created() {
         this.init();
     },
     computed: {
         ...mapGetters([
-            'user_token'
+            'user_token',
+            'hd_qiandao',
+            'hd_xrkh'
         ])
     },
     methods:{

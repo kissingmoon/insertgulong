@@ -13,7 +13,7 @@
                     <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="4" ></p><p>元</p>
+                    <p>起始倍数</p><p class="number"><input type="tel" v-model.number="baseTimes" maxlength="4" ></p><p>倍</p>
                 </div>
                 <div class="set-item">
                     <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
@@ -27,11 +27,11 @@
                     期号
                 </div>
                 <div class="bs">
+                    倍数
+                </div>
+                <div class="je">
                     金额
                 </div>
-                <!-- <div class="je">
-                    金额
-                </div> -->
                 <div class="bj">
                     编辑
                 </div>
@@ -42,12 +42,11 @@
                     <li class="follow-number-item" v-for="(item,i) in numberList">
                         <div class="qh">{{item.period}}</div>
                         <div class="bs">
-                            <!-- <p class="minus" @click="changeTimes(i,'minus')"><i class="icon-minus"></i></p> -->
+                            <p class="minus" @click="changeTimes(i,'minus')"><i class="icon-minus"></i></p>
                             <p class="txt"><input type="tel" v-model.number="item.times" maxlength="4"></p>
-                            <p class="add">元</p>
-                            <!-- <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p> -->
+                            <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p>
                         </div>
-                        <!-- <div class="je">{{countMoney(item.times)}}</div> -->
+                        <div class="je">{{countMoney(item.times)}}</div>
                         <div class="bj" @click="deletePeriod(i)">
                             <i class="icon-delete"></i>
                         </div>
@@ -246,14 +245,14 @@
         },
         bet(){
             var zhuihao_all_qh='';
-            var zhuihao_all_bs_by_money ='';
+            var zhuihao_all_bs='';
             const url= this.earnCommission  ? httpUrl.bet.betZyj : httpUrl.bet.betOrderZh;
             this.numberList.forEach((item,i) => {
                 zhuihao_all_qh += item.hide_period;
-                zhuihao_all_bs_by_money  += item.times;
+                zhuihao_all_bs += item.times;
                 if(i != this.numberList.length-1){
                     zhuihao_all_qh +=  "#";
-                    zhuihao_all_bs_by_money  +=  "#";
+                    zhuihao_all_bs +=  "#";
                 }
             });
             var param={
@@ -265,7 +264,7 @@
                 zhuihao_count_qs:this.zhuihaoCountQs,
                 zhuihao_stop:this.zhuihaoStop,
                 zhuihao_all_qh,
-                zhuihao_all_bs_by_money 
+                zhuihao_all_bs 
 
             }
             if(this.earnCommission){
@@ -402,7 +401,7 @@
             .set-item{
                 height:0.7rem;
                 float: left;
-                padding-left:0.3rem;
+                padding-left:0.34rem;
                 padding-top:0.22rem;
                 p{
                     display: inline-block;
@@ -442,16 +441,16 @@
                 text-align: center;
                 color:#fff;
                 &.qh{
-                    width:3.7rem;
+                    width:2.3rem;
                 }
                 &.bs{
-                    width:4.5rem;
+                    width:3.5rem;
                 }
                 &.je{
                     width:3rem;
                 }
                 &.bj{
-                    width:1.8rem;
+                    width:1.2rem;
                     @include border-right-1px(solid,$color-bg-white-a0);
                 }
             }
@@ -477,10 +476,10 @@
                         @include border-right-1px(solid,rgb(76, 134, 108));
                         text-align: center;
                         &.qh{
-                            width:3.5rem;
+                            width:2.1rem;
                         }
                         &.bs{
-                            width:4.1rem;
+                            width:3.1rem;
                             color: $color-text;
                             padding-left: 0.2rem;
                             padding-right: 0.2rem;
@@ -496,31 +495,23 @@
                                     border-bottom-left-radius: 0.1rem;
                                 }
                                 &.txt{
-                                    width:3.4rem;
+                                    width:1.7rem;
                                     input{
-                                         width:3.4rem;
+                                         width:1.7rem;
                                          height: 0.6rem;
                                          text-align: center;
                                          padding:0;
                                          margin: 0;
-                                         border-radius: 0.1rem;
                                     }
                                 }
-                                // &.add{
-                                //     width:0.7rem;
-                                //     background: $color-bg-gray;
-                                //     font-size: $font-size-medium-x;
-                                //     height: 0.6rem;
-                                //     line-height: 0.6rem;
-                                //     border-top-right-radius: 0.1rem;
-                                //     border-bottom-right-radius: 0.1rem;
-                                // }
                                 &.add{
                                     width:0.7rem;
+                                    background: $color-bg-gray;
                                     font-size: $font-size-medium-x;
                                     height: 0.6rem;
                                     line-height: 0.6rem;
-                                    color:#fff;
+                                    border-top-right-radius: 0.1rem;
+                                    border-bottom-right-radius: 0.1rem;
                                 }
                             }
                         }
@@ -529,7 +520,7 @@
                             @include no-wrap();
                         }
                         &.bj{
-                            width:1.6rem;
+                            width:1rem;
                             font-size: $font-size-large;
                             @include border-right-1px(solid,$color-bg-white-a0);
                         }

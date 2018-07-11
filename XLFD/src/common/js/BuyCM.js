@@ -3,7 +3,6 @@ import * as BuyUtil from 'common/js/BuyUtil.js';
 export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam) {
     let TYPE_CIRCLE = 1;
     let TYPE_ROUND_RECT = 2;
-    let TYPE_ROUND_HALF_RECT = 2;
     let TYPE_WHOLE_ROUND_RECT = 3;
     const str0 = ["十个", "百个", "百十", "千个", "千十", "千百", "万个", "万十", "万百", "万千"];
     const str1 = ["龙", "虎", "合"];
@@ -23,7 +22,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
     var isCanTopFastPick = false;           // 是否显示位置（顶部圆圈，时时彩）
     var isShowSign = false;                  // 是否显示最左侧的名字
     var isCanBottomFastPick = false;        // 是否可以快速选择，即下方的全、大、小、双、单、清按钮是否可见
-    var backgroundType = TYPE_CIRCLE; //定义号码背景形状，1 = 圆形 ， 2 = 大方形 3 = 小方形；4 = 长园形
+    var backgroundType = TYPE_CIRCLE; //定义号码背景形状，1 = 圆形 ， 2 方形，3 = 长园形
     
     switch (wfBean.wf_flag) {
         case "ssc_lhd":
@@ -67,8 +66,9 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
             buyNumberBeanList = BuyUtil.initDataStr(str3);
             lineColumnCount = 3;
             isCanTopFastPick = false;
-            isShowSign = true;
+            isShowSign = false;
             isCanBottomFastPick = false;
+            backgroundType = TYPE_WHOLE_ROUND_RECT;
             break;
         case "k3_2th_fx":
             buyNumberBeanList = BuyUtil.initDataStr(str4);
@@ -139,30 +139,30 @@ export function BaseVM(wfBeanParam,position,is28OrLhc,shengXiaoLHCRecvListParam)
         // 生肖
         case "xglhc_texiao_tx":case "xglhc_pt1xws_1x":case "xglhc_zhxiao_zx":case "xglhc_lxlw_3lx":
         case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
-            buyNumberBeanList = BuyUtil.initShengxiaoData(8, shengXiaoLHCRecvList, wfBean.wf_pl);  // 现在替换成从服务器动态获取
+            buyNumberBeanList = BuyUtil.initShengxiaoData(8, shengXiaoLHCRecvList, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);  // 现在替换成从服务器动态获取
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
-            backgroundType = TYPE_ROUND_HALF_RECT;
+            backgroundType = TYPE_ROUND_RECT;
             break;
         // 生肖
         case "xglhc_lxlw_2lx":
-            buyNumberBeanList = BuyUtil.initShengxiaoData(8, shengXiaoLHCRecvList, wfBean.wf_pl);  // 现在替换成从服务器动态获取
+            buyNumberBeanList = BuyUtil.initShengxiaoData(8, shengXiaoLHCRecvList, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);  // 现在替换成从服务器动态获取
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
-            backgroundType = TYPE_ROUND_HALF_RECT;
+            backgroundType = TYPE_ROUND_RECT;
             break;
         // 合肖
         case "xglhc_hexiao_hx":
-            buyNumberBeanList = BuyUtil.initShengxiaoData(7, shengXiaoLHCRecvList, wfBean.wf_pl);  // 现在替换成从服务器动态获取
+            buyNumberBeanList = BuyUtil.initShengxiaoData(7, shengXiaoLHCRecvList, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);  // 现在替换成从服务器动态获取
             lineColumnCount = 3;
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
-            backgroundType = TYPE_ROUND_HALF_RECT;
+            backgroundType = TYPE_ROUND_RECT;
             isShowOdds = false;
             break;
         // 五行

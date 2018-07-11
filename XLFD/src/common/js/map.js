@@ -7,12 +7,13 @@ export const httpUrl = {
         rank:'/v2/user-info/get-user-rank',
         betWin:'/v2/gc/betwin-notice',
         messageCount:'/ad/message-not-read',
-        qiandao:'/v2/activity/user-sign'
+        qiandao:'/v2/activity/user-sign',
+        xrkh:'/v2/yhhd/open-gold'
     },
     account:{
         generatorCode:'/config/generator-code',
         register:'/user/register',
-        login:'/user/login',
+        login:'/user/login'
     },
     info:{
         user:'/user/user-info',
@@ -52,20 +53,22 @@ export const httpUrl = {
         lotteryWfLHC:'/gc/cz-wf-lhc28',
         lockTime:'/gc/cp-lock-time',
         zodiac:'/gc/sx-lhc',
-        betOrder:'/bet/bet-order',
-        betOrderZh:'/v2/bet/bet-order-zh',
-        betZyj:'/v2/bet/bet-zyj',
+        // betOrder:'/bet/bet-order',
+        betOrder:'/bet/bet-order-by-money',
+        // betOrderZh:'/v2/bet/bet-order-zh',
+        betOrderZh:'/v2/bet/bet-order-zh-by-money',
+        // betZyj:'/v2/bet/bet-zyj',
+        betZyj:'/v2/bet/bet-zyj-by-money',
         betLHC28:'/bet/bet-order-lhc28',
         subLotteryLocktime:'/v2/gc/sub-lottery-locktime',
         undoOrder:'/v2/bet/undo-order'
-
     },
     config:{
         urlList:'/config/url-list',
         message:'/ad/message',
         messageHandle:'/ad/message-handle',
-        isReceived:'/v2/activity/today-is-received'
-
+        isReceived:'/v2/activity/today-is-received',
+        xrkhIsOK:'/v2/yhhd/open-gold-isok'
     }
 };
 

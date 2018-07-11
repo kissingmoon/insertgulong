@@ -209,7 +209,7 @@ export function initDataBy(type, wfPlBeanList,wf_flag,wf_name) {
     return list;
 }
 
-export function initShengxiaoData(type, shengXiaoLHCRecvList, wfPlBeanList) {
+export function initShengxiaoData(type, shengXiaoLHCRecvList,wfPlBeanList,wf_flag,wf_name) {
     var list = [];
     shengXiaoLHCRecvList.forEach((shengXiaoLHCRecv,i) => {
         var buyNumberBean = {};
@@ -217,6 +217,8 @@ export function initShengxiaoData(type, shengXiaoLHCRecvList, wfPlBeanList) {
         buyNumberBean.str = content;
         buyNumberBean.number_str = shengXiaoLHCRecv.flag;
         buyNumberBean.index = i;
+        buyNumberBean.wf_flag = wf_flag;
+        buyNumberBean.wf_name = wf_name;
         if (type == 8) {
             if (wfPlBeanList.length == 1) {
                 buyNumberBean.pl = wfPlBeanList[0].award_money;

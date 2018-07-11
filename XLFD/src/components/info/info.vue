@@ -94,7 +94,6 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
-    import SimpleCropper from 'base/simple-cropper/simple-cropper'
     export default {
         data() {
             return{
@@ -104,8 +103,7 @@
             }
         },
         components: {
-            Scroll,
-            SimpleCropper
+            Scroll
         },
         created() {
             this.getUser();
@@ -140,22 +138,7 @@
             }),
             ...mapActions([
                 'getUser'
-            ]),
-            upImg(){
-                this.$router.push({
-                    path:'/portrait'
-                });
-            },
-            // 上传头像
-            upload () {
-                this.$refs['cropper'].upload()
-            },
-            // 上传头像成功回调
-            uploadHandle (data) {
-                if (data.state === 'SUCCESS') {
-                    console.log('成功！');
-                }
-            }
+            ])
         }
     }
     

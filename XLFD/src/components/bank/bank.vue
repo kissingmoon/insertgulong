@@ -26,7 +26,7 @@
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" v-if="account.bank_status == 0" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="accountNo">
+                                <input type="text" v-if="account.bank_status == 0" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model="accountNo">
                                 <input type="text" v-if="account.bank_status == 1" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="bankParam.account_no" readonly="readonly">
                             </p>
                         </li>

@@ -166,13 +166,7 @@
             SliderY
         },
         created() {
-            this.getActivitys();
-            this.getNotice();
-            this.getGift();
-            this.getLottery();
-            this.getRank();
-            this.getBetWin();
-            this.getBzjlq();
+            this.init();
         },
         mounted(){
             // document.body.addEventListener('touchmove', function (e) {
@@ -181,10 +175,24 @@
         },
         computed: {
             ...mapGetters([
-                'user_token'
+                'user_token',
+                'hd_qiandao'
             ])
         },
         methods: {
+            // ...mapActions([
+            //     'getIsReceived'
+            // ]),
+            init(){
+                this.getActivitys();
+                this.getNotice();
+                this.getGift();
+                this.getLottery();
+                this.getRank();
+                this.getBetWin();
+                this.getBzjlq();
+                // this.getIsReceived('hd_qiandao');
+            },
             showNotice(){
                 this.noticeShow = true;
             },

@@ -248,11 +248,11 @@
                 display: inline-block;
                 input{
                     width:2.6rem;
-                    height:0.64rem;
-                    line-height: 0.64rem;
+                    height:0.7rem;
+                    line-height: 0.7rem;
                     padding-left: 0.2rem;
                     border-radius: 0.08rem;
-                    background: #13442E ;
+                    background: #13442E;
                     color:#fff;
                     font-size: $font-size-medium-x;
                 }
@@ -298,21 +298,21 @@
                             line-height: 0.7rem;
                         }
                         .money-wrapper{
-                            height: 0.6rem;
-                            line-height: 0.6rem;
+                            height: 0.7rem;
+                            line-height: 0.7rem;
                             .wf{
                                 float: left;
                             }
                             .code-money{
                                 float: right;
-                                height: 0.6rem;
-                                line-height: 0.6rem;
+                                height: 0.7rem;
+                                line-height: 0.7rem;
                                 p{
                                     display: inline-block;
                                     input{
                                         width:2rem;
-                                        height:0.56rem;
-                                        line-height: 0.56rem;
+                                        height:0.7rem;
+                                        line-height: 0.7rem;
                                         padding:0 0.1rem;
                                         border-radius: 0.069rem;
                                         background: #13442E ;

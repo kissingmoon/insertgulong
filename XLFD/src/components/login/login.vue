@@ -85,12 +85,13 @@
                             token:res.data.user_token,
                             md5:res.data.md5_salt
                         })
+                        this.getXrkhType('hd_xrkh');
                         this.getIsReceived('hd_qiandao');
                         setTimeout(() => {
                             this.getUser();
                         },1000)
                         this.$router.push({
-                            path:'/info'
+                            path:'/'
                         });
                     }else{
                         this.setCode();
@@ -100,7 +101,8 @@
             ...mapActions([
                 'resetUser',
                 'getIsReceived',
-                'getUser'
+                'getUser',
+                'getXrkhType'
             ])
         
         }

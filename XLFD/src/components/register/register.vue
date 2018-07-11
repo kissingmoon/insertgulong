@@ -91,9 +91,10 @@
                             md5:res.data.md5_salt
                         })
                         this.setTip("注册成功");
+                        this.getXrkhType('hd_xrkh');
                         this.getIsReceived('hd_qiandao');
                         this.$router.push({
-                            path:'/info'
+                            path:'/'
                         });
                     }else{
                         this.setCode();
@@ -105,7 +106,8 @@
             }),
             ...mapActions([
                 'resetUser',
-                'getIsReceived'
+                'getIsReceived',
+                'getXrkhType'
             ])
         
         }

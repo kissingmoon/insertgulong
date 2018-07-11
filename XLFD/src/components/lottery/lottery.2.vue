@@ -5,41 +5,27 @@
                 <div class="lottery-title-content">
                     <div class="back" @click="judgeBack"><i class="icon-arrows-left"></i></div>
                     <div class="time-money-wrapper">
-                        <!-- <div class="kind" @click="show('wfKindShow')">玩<br>法</div> -->
+                        <div class="kind" @click="show('wfKindShow')">玩<br>法</div>
                         <div class="rule" @click="show('wfRuleShow')" v-if="!is28OrLhc">说<br>明</div>
                         <div class="rule" @click="setRuleParam" v-if="is28OrLhc">说<br>明</div>
                     </div>
-                    <h1 class="title">
-                        <p class="txt" @click="show('wfKindShow')">
-                            {{currentWf.name}}<i class="icon-triangle-below triangle-below"></i>
-                        </p>
-                    </h1>
+                    <h1 class="title">{{lotteryName[lotteryId]}}</h1>
                 </div>
                 <div class="lottery-nav border-bottom-1px">
                     <div class="nav-left border-right-1px">
-                        <!-- <div class="rock-follow">
+                        <div class="rock-follow">
                             <p class="follow" @click="gotoPage('/descover')">大神跟单<i class="icon-triangle-below"></i></p>
-                        </div> -->
+                        </div>
                         <div class="count-down">
                             距{{lotteryInfo.show_qh}}期截止:{{drawCountTime}}
                         </div>
-                        <div class="drow-tip">
-                            <p>等</p>
-                            <p>待</p>
-                            <p>开</p>
-                            <p>奖</p>
-                        </div>
                     </div>
                     <div class="nav-right">
-                        <!-- <div class="lottery-wf">
-                            当前玩法:{{currentWf.name}}
-                        </div> -->
-                        <div class="draw-history">
-                             <!-- <p class="history" @click="getDrawHis">历史开奖记录<i class="icon-triangle-below"></i></p> -->
-                             <p class="history" @click="showDrawHistory">{{newDraw.lottery_qh}}期开奖<i class="icon-triangle-below"></i></p>
-                        </div>
                         <div class="lottery-wf">
-                           {{newDraw.kj_code}}
+                            当前玩法:{{currentWf.name}}
+                        </div>
+                        <div class="draw-history">
+                             <p class="history" @click="getDrawHis">历史开奖记录<i class="icon-triangle-below"></i></p>
                         </div>
                     </div>
                 </div>
@@ -47,7 +33,7 @@
                     <div class="wf-name">{{currentWf.name}}</div>
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
-                <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds}" :data="numberList">
+                <scroll ref="scroll" class="scroll-content" :class="{'lhc-scroll':is28OrLhc, 'odds-scroll': !isShowOdds}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
                         :numList="numberList"
@@ -59,11 +45,11 @@
                         >
                     </bet-number>
                 </scroll>
-                <!-- <div v-if="!is28OrLhc" class="lottery-set">
+                <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
                         <p class="number"><input type="tel" v-model.number="betTimes" maxlength="4" ></p>
-                        <p>元</p>
+                        <p>倍</p>
                     </div>
                     <div class="unit">
                         <p>模式</p>
@@ -72,8 +58,8 @@
                     <div class="bonus" @click="winMoney">
                         <p>单注奖金{{showWinMoney}}元</p>
                     </div>
-                </div> -->
-                <!-- <div v-if="!is28OrLhc" class="lottery-bottom">
+                </div>
+                <div v-if="!is28OrLhc" class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
@@ -90,17 +76,6 @@
                     </div>
                     <div class="bet-btn" @click="betExamine('betAffirmShow')">
                         <p>投注</p>
-                    </div>
-                </div> -->
-                <div v-if="!is28OrLhc" class="lottery-bottom">
-                    <div class="clear-all" @click="allClear">
-                        <p>清空</p>
-                    </div>
-                    <div class="bet-btn"  @click="betExamine('betAffirmShow')">
-                        <p>投注</p>
-                    </div>
-                    <div class="lhc-bet-count">
-                        {{betCount}}注
                     </div>
                 </div>
                 <div v-if="is28OrLhc" class="lottery-bottom">
@@ -267,7 +242,7 @@
                                     <div class="title">玩法：<span class="txt">{{currentWf.name}}</span></div>
                                 </li>
                                 <li class="item-wrapper">
-                                    <div class="title">投注金额：<span class="txt">{{calculateBetMoney}}元（一注{{betTimes}}{{betUnit[lotteryModes]}}）</span></div>
+                                    <div class="title">投注金额：<span class="txt">{{calculateBetMoney}}元（一注{{betTimes*2}}{{betUnit[lotteryModes]}}）</span></div>
                                 </li>
                                 <li class="item-wrapper">
                                     <div class="title">当前余额：<span class="txt">{{account.balance || 0}}元</span></div>
@@ -424,7 +399,6 @@
                 selectObj:{},
                 updataNumberList:[],
                 drawHistoryList:[],
-                newDraw:{},
                 betCount:0,
                 betNumber:'',
                 betTimes:1,
@@ -473,9 +447,8 @@
             },
             //计算下注金额
             calculateBetMoney(){
-                let mode=1/Math.pow(10,this.lotteryModes);
-                let money=this.betTimes*mode*this.betCount
-                return money.toFixed(2);
+                var mode=1/Math.pow(10,this.lotteryModes);
+                return this.betTimes*mode*this.betCount*2;
             },
             ...mapGetters([
                 'account',
@@ -499,7 +472,6 @@
                 this.getBetWF();
                 this.getZodiac();
                 this.getLockTime();
-                this.getDrawHis();
             },
             watchInit(){
                 const _this=this;
@@ -584,9 +556,6 @@
             //倒计时功能
             setCountTime(dateStr) {
                 this.drawCountTime=countTime(dateStr);
-                if(this.drawCountTime == '00:03:00'){
-                    this.getDrawHis();
-                }
                 if (this.drawCountTime == "00:00:00") {
                     this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
@@ -757,16 +726,12 @@
                     path:url
                 });
             },
-            showDrawHistory(){
-                this.show('drawHistoryShow');
-                this.getDrawHis();
-            },
             //获取开奖历史
             getDrawHis(){
+                this.show('drawHistoryShow');
                 this.$axios.postRequest(httpUrl.descover.drawNumber,{lottery_id:this.lotteryId,page_size:20,page_no:1})
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                     };
                 });
@@ -811,7 +776,7 @@
                     lottery_qh:this.lotteryInfo.lottery_qh,
                     wf_flag:this.wfFlag,
                     bet_number:this.betNumber,
-                    by_money:this.betTimes,
+                    bet_times:this.betTimes,
                     bet_count:this.betCount,
                     lottery_modes:this.lotteryModes
                 }
@@ -1095,21 +1060,8 @@
                 line-height: 1.2rem;
                 vertical-align: top;
                 padding: 0 2.4rem;
-                font-size: $font-size-large;
+                font-size: $font-size-large-m;
                 @include no-wrap();
-                text-align: center;
-                .txt{
-                    display: inline-block;
-                    padding:0 0.1rem;
-                    height: 0.66rem;
-                    line-height: 0.66rem;
-                    border:1px solid #fff;
-                    border-radius: 0.1rem;
-                    align-items: center;
-                    .triangle-below{
-                        color: $color-yellow;
-                    }
-                }
             }
         }
         .lottery-nav{
@@ -1123,7 +1075,7 @@
                 height:1.53rem;
                 width:5rem;
                 @include border-right-1px(solid,#053105);
-                // padding-top: 0.1rem;
+                padding-top: 0.1rem;
                 overflow: hidden;
                 .rock-follow{
                     height:0.7rem;
@@ -1143,47 +1095,31 @@
                     height:0.7rem;
                     line-height: 0.7rem;
                     padding-left:0.15rem;
-                    text-align: center;
                     @include no-wrap();
-                }
-                .drow-tip{
-                    height:0.7rem;
-                    text-align: center;
-                    p{
-                        display: inline-block;
-                        width:0.7rem;
-                        height:0.7rem;
-                        line-height: 0.7rem;
-                        text-align: center;
-                        border-radius: 50%;
-                        background: #65A689;
-                        color:#fff;
-                        
-                    }
                 }
 
             }
             .nav-right{
                 height:1.63rem;
-                width:5rem;
+                width:4.8rem;
                 float: left;
-                text-align: center;
+                text-align: right;
+                padding-right: 0.2rem;
                 .lottery-wf{
                     height:0.7rem;
-                    font-size: $font-size-medium;
+                    padding-top: 0.1rem;
                     line-height: 0.7rem;
-                    color:$color-yellow;
+                    padding-left:0.15rem;
                     @include no-wrap();
                 }
                 .draw-history{
                     height:0.7rem;
-                    // padding-top: 0.1rem;
                     .history{
                         display: inline-block;
-                        // border:1px solid #24754b;
-                        // width:3rem;
-                        height:0.7rem;
-                        line-height: 0.7rem;
+                        border:0.026rem solid #24754b;
+                        width:3rem;
+                        height:0.6rem;
+                        line-height: 0.6rem;
                         border-radius: 0.1rem;
                         margin-left: 0.15rem;
                         vertical-align:text-bottom;
@@ -1294,9 +1230,9 @@
                 float: left;
                 padding:0.25rem 0.2rem;
                 p{
-                    width:1.4rem;
-                    height:0.72rem;
-                    line-height: 0.72rem;
+                    width:1rem;
+                    height:0.67rem;
+                    line-height: 0.67rem;
                     text-align: center;
                     background:$color-bg-deep-gray;
                     border-radius: 0.1rem;
@@ -1359,8 +1295,8 @@
                 margin-right:0.2rem;
                 p{
                     width:1.6rem;
-                    height:0.72rem;
-                    line-height: 0.72rem;
+                    height:0.67rem;
+                    line-height: 0.67rem;
                     text-align: center;
                     background:$color-yellow;
                     border-radius: 0.1rem;
@@ -1378,7 +1314,7 @@
             }
         }
         .scroll-content{
-            height: calc(100% - 3.98rem);
+            height: calc(100% - 4.98rem);
             overflow: hidden;
             &.lhc-scroll{
                 height: calc(100% - 3.98rem);

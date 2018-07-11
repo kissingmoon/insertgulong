@@ -1,6 +1,6 @@
 <template>
 <div>
-    <div v-show="hd_qiandao != 1">
+    <div v-show="qiandaoShow">
         <div class="background" ></div>
         <div class="detail">
             <div class="wf-detail-wrapper clearfix">
@@ -36,19 +36,18 @@
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
-    import Pickers from 'base/pickers/pickers';
     import {session,randomWord,removeSession} from 'common/js/param';
     export default {
         data() {
             return{
+                qiandaoShow:false,
                 successShow:false,
                 receive_money:0
             }
         },
         components:{
             Parcel,
-            Scroll,
-            Pickers
+            Scroll
         },
         created() {
         },
@@ -59,13 +58,13 @@
         },
         methods: {
             closeHd(){
-                this.setQaindao('1')
+                this.setHdQiandao('1')
             },
             setQiandao(){
                 this.$axios.postRequest(httpUrl.home.qiandao)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        this.setQaindao('1');
+                        this.qiandaoShow=false;
                         this.getUser();
                         this.successShow = true;
                         this.receive_money=res.data.receive_money;
@@ -73,18 +72,19 @@
                 });
             },
             ...mapMutations({
-                setQaindao:'SET_HD_QIANDAO',
+                setHdQiandao:'SET_HD_QIANDAO',
             }),
             ...mapActions([
                 'getUser'
             ]),
             closeHdSuc(){
                 this.successShow=false;
+                this.setHdQiandao('1');
             }
         },
         watch:{
-            account(){
-                this.getBankInfo();
+            hd_qiandao(){
+                this.qiandaoShow = this.hd_qiandao == 1 ? false : true;
             }
         }
     }
@@ -98,7 +98,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 300;
+        z-index: 400;
         background:$color-bg-shade-a5;
     }
     .detail{
@@ -109,6 +109,7 @@
         width:7.6rem;
         height:9rem;
         overflow: hidden;
+        z-index: 410;
         @include bg-image('bg-qiandao');
         background-size: 100%;
         background-position: center bottom;
@@ -186,7 +187,7 @@
         position:fixed;
         top:calc((100% - 9rem) / 2);
         left:1.2rem;
-        z-index:310;
+        z-index:410;
         width:7.6rem;
         height:9rem;
         overflow: hidden;

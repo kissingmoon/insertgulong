@@ -54,3 +54,13 @@ export const getIsReceived = ({commit, state},type) => {
         };
     });
 }
+//新人开户礼金领取情况
+export const getXrkhType = ({commit, state}) => {
+    $axios.postRequest(httpUrl.config.xrkhIsOK)
+    .then((res)=> {
+        if(!res.data.errorCode){
+            let type =res.data.is_received == 1 ? 0:1;
+            commit('SET_HD_XRKH',type);
+        };
+    });
+}

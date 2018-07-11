@@ -151,10 +151,11 @@ export function countTime(dateStr) {
 
 //分割对象属性
 export function slicer(arr, key, symbol){
-    arr.forEach((item) => {
+    let newArr = JSON.parse(JSON.stringify(arr));
+    newArr.forEach((item) => {
         item[key]=item[key].split(symbol);
     });
-    return arr;
+    return newArr;
 }
 
 //重组pickData

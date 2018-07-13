@@ -56,7 +56,7 @@
                 <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1}" @click="selectKind(p,2)">小</div>
                 <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1}" @click="selectKind(p,3)">单</div>
                 <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][5] == 1}" @click="selectKind(p,5)">清</div>
+                <div class="kind-item" @click="selectKind(p,5)">清</div>
             </div>
         </div>
     </div>

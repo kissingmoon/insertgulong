@@ -99,7 +99,7 @@
         width: 100%;
         height: 100%;
         z-index: 400;
-        background:$color-bg-shade-a5;
+        background:$color-bg-shade-a8;
     }
     .detail{
         position:fixed;

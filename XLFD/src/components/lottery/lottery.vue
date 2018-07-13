@@ -11,6 +11,7 @@
                     </div>
                     <h1 class="title">
                         <p class="txt" @click="show('wfKindShow')">
+                            <span class="kind">玩<br>法</span>
                             {{currentWf.name}}<i class="icon-triangle-below triangle-below"></i>
                         </p>
                     </h1>
@@ -30,13 +31,13 @@
                             <p>奖</p>
                         </div>
                     </div>
-                    <div class="nav-right">
+                    <div class="nav-right" @click="showDrawHistory">
                         <!-- <div class="lottery-wf">
                             当前玩法:{{currentWf.name}}
                         </div> -->
                         <div class="draw-history">
                              <!-- <p class="history" @click="getDrawHis">历史开奖记录<i class="icon-triangle-below"></i></p> -->
-                             <p class="history" @click="showDrawHistory">{{newDraw.lottery_qh}}期开奖<i class="icon-triangle-below"></i></p>
+                             <p class="history">{{newDraw.lottery_qh}}期开奖<i class="icon-triangle-below"></i></p>
                         </div>
                         <div class="lottery-wf">
                            {{newDraw.kj_code}}
@@ -47,7 +48,7 @@
                     <div class="wf-name">{{currentWf.name}}</div>
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
-                <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds}" :data="numberList">
+                <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
                         :numList="numberList"
@@ -92,11 +93,51 @@
                         <p>投注</p>
                     </div>
                 </div> -->
+                <div v-show="lotterySelectShow" class="lottery-select-info">
+                    <div class="bet-money-warpper">
+                        <p class="tit">投注金额</p>
+                        <p class="bet-money">
+                            <input type="tel" v-model.number="betTimes" maxlength="6" @click="clearBetTimes" />
+                        </p>
+                        <p class="unit" :class="{'on': lotteryModes == 0}" @click="changeLotteryModes(0)">元</p>
+                        <p class="unit" :class="{'on': lotteryModes == 1}" @click="changeLotteryModes(1)">角</p>
+                        <p class="unit" :class="{'on': lotteryModes == 2}" @click="changeLotteryModes(2)">分</p>
+                    </div>
+                    <div class="follow-num-brokerage">
+                        <div class="count-money">
+                            <p>注数:<span class="yellow">{{betCount}}</span>注</p>
+                            <p>投注总额:<span class="yellow">{{calculateBetMoney}}</span>元</p>
+                        </div>
+                        <div class="brokerage" @click="betExamine('gdSetShow')">
+                            <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p>
+                            <p>赚佣金</p>
+                        </div>
+                        <div class="follow-num" @click="betExamine('followNumberShow')">
+                            <p>追号</p>
+                        </div>
+                    </div>
+                    <div class="win-money-warpper border-bottom-1px">
+                        <div class="balance">
+                            账户余额:<span class="yellow">{{moneyToFixed}}</span>元
+                        </div>
+                        <div class="bonus" @click="winMoney">
+                            <p>若中奖，单注奖金<span class="yellow">{{formetWinMoney}}</span>元</p>
+                        </div>
+                    </div>
+                    <div class="btn-wrapper">
+                        <div class="close" @click="hide('lotterySelectShow')">
+                            取消
+                        </div>
+                        <div class="affirm" @click="selectInfo">
+                            确定
+                        </div>
+                    </div>
+                </div>
                 <div v-if="!is28OrLhc" class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
-                    <div class="bet-btn"  @click="betExamine('betAffirmShow')">
+                    <div class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
                     </div>
                     <div class="lhc-bet-count">
@@ -115,7 +156,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="modesShow">
+            <!-- <div v-if="modesShow">
                 <div class="background" @click="hide('modesShow')"></div>
                 <div class="modes-main">
                     <div class="modes-wrapper clearfix">
@@ -135,7 +176,7 @@
                         取消
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- 玩法规则 -->
             <div v-if="wfRuleShow">
                 <div class="background" @click="hide('wfRuleShow')"></div>
@@ -183,7 +224,7 @@
                 </div>
             </div>
             <div v-if="gdSetShow">
-                <div class="background"  @click="hide('gdSetShow')"></div>
+                <div class="background"></div>
                 <div class="detail">
                     <div class="gd-detail-wrapper clearfix">
                         <div class="detail-title">
@@ -254,7 +295,7 @@
                 </div>
             </div>
             <div v-if="betAffirmShow">
-                <div class="background"  @click="hide('betAffirmShow')"></div>
+                <div class="background"></div>
                 <div class="detail">
                     <div class="bet-detail-wrapper clearfix">
                         <div class="detail-title">确认投注</div>
@@ -388,7 +429,7 @@
                     '6':'xglhc_tema_xuma',
                     '9':'k3_hz_hz',
                     '10':'pk10_cq1_d1',
-                    '11':'xy28_tmtm_tm'
+                    '11':'xy28_qthh_hh'
                 },
                 isReady:false, //加载完成
                 wfRuleShow:false, //玩法规则
@@ -399,6 +440,7 @@
                 drawHistoryShow:false,  //开奖历史
                 wfKindShow:false,  //玩法种类
                 modesShow:false,  //模式选择
+                lotterySelectShow:false,  //下注信息
                 followNumberShow:false,  //追号页面
                 betOrderListShow:false,  //六合彩下注页面
                 earnCommission:false,  //是否赚佣
@@ -427,7 +469,7 @@
                 newDraw:{},
                 betCount:0,
                 betNumber:'',
-                betTimes:1,
+                betTimes:2,
                 lotteryModes:0,
                 totalOdds:'',
                 totalPlFlag:'',
@@ -476,6 +518,19 @@
                 let mode=1/Math.pow(10,this.lotteryModes);
                 let money=this.betTimes*mode*this.betCount
                 return money.toFixed(2);
+            },
+            //计算下注金额
+            formetWinMoney(){
+                let money= this.showWinMoney*this.betTimes/2;
+                return money.toFixed(2);
+            },
+            moneyToFixed(){
+                if(this.account.balance){
+                    let money=this.account.balance - 0;
+                    return money.toFixed(2);
+                }else{
+                    return '0.00'
+                }
             },
             ...mapGetters([
                 'account',
@@ -543,9 +598,17 @@
             },
             show(key){
                 this[key]=true;
+                clearTimeout(this.timesScroll);
+                this.timesScroll=setTimeout(()=>{
+                    this.$refs.scroll.refresh();
+                },200);
             },
             hide(key){
                 this[key]=false;
+                clearTimeout(this.timesScroll);
+                this.timesScroll=setTimeout(()=>{
+                    this.$refs.scroll.refresh();
+                },200);
             },
             //获取玩法
             getBetWF(){
@@ -690,6 +753,10 @@
                 this.lotteryModes = mode;
                 this.hide('modesShow');
             },
+            //选择模式
+            changeLotteryModes(mode){
+                this.lotteryModes = mode;
+            },
             //清除所有选择的号码
             allClear(){
                 //this.makeWfParam();
@@ -774,6 +841,7 @@
             setEarnCommission(b){
                 this.earnCommission=b;
                 this.hide('gdSetShow');
+                this.hide('lotterySelectShow');
                 if(b){
                     this.show('gdTipShow');
                 }
@@ -790,6 +858,7 @@
                 this.hide('followNumberShow');
                 this.allClear();
             },
+            
             //投注确认
             betExamine(showElm){
                 if(!this.user_token){
@@ -799,10 +868,16 @@
                     return;
                 }
                 if(this.betCount > 0){
+                    this.hide('lotterySelectShow');
                     this.show(showElm);
                 }else{
                     this.setTip("请选择一组号码")
                 }
+            },
+            //投注设置
+            selectInfo(){
+                this.hide('lotterySelectShow');
+                this.show('betAffirmShow');
             },
             //投注
             betOrder(){
@@ -1006,6 +1081,9 @@
                     this.show('winMoneyShow');
                 }
                 
+            },
+            clearBetTimes(){
+                this.betTimes ='';
             }
 
         },
@@ -1060,7 +1138,7 @@
                 line-height: 1.35rem;
                 right:0;
                 font-size:$font-size-small;
-                padding-right: 0.2rem;
+                padding-right: 0.4rem;
                 color:#fff;
                 .rule{
                     float:right;
@@ -1099,6 +1177,7 @@
                 @include no-wrap();
                 text-align: center;
                 .txt{
+                    position: relative;
                     display: inline-block;
                     padding:0 0.1rem;
                     height: 0.66rem;
@@ -1108,6 +1187,13 @@
                     align-items: center;
                     .triangle-below{
                         color: $color-yellow;
+                    }
+                    .kind{
+                        position: absolute;
+                        left:-0.4rem;
+                        height:0.66rem;
+                        line-height: 0.33rem;
+                        font-size: $font-size-small;
                     }
                 }
             }
@@ -1205,83 +1291,220 @@
                 float: right;
             }
         }
-        .lottery-set{
+        // .lottery-set{
+        //     position: absolute;
+        //     height:1rem;
+        //     width:100%;
+        //     bottom:1.15rem;
+        //     line-height: 1rem;
+        //     color:#fff;
+        //     background:#13432A;
+        //     .multiple{
+        //         height:1rem;
+        //         width:2.6rem;
+        //         float: left;
+        //         padding-left:0.2rem;
+        //         p{
+        //             display: inline-block;
+        //             height:0.6rem;
+        //             line-height: 0.6rem;
+        //             text-align: center;
+        //             &.number{
+        //                 width:1rem;
+        //                 height:0.6rem;
+        //                 border-radius: 0.1rem;
+        //                 background:#64A387;
+        //                 input{
+        //                     width:1rem;
+        //                     height:0.6rem;
+        //                     background: none;
+        //                     border:0;
+        //                     padding:0;
+        //                     margin: 0;
+        //                     line-height: 0.6rem;
+        //                     color:$color-yellow;
+        //                     text-align: center;
+        //                 }
+        //             }
+        //         }
+        //     }
+        //     .unit{
+        //         float: left;
+        //         width:3rem;
+        //         height:1rem;
+        //         text-align: center;
+        //         p{
+        //             display:inline-block;
+        //             height:0.6rem;
+        //             line-height: 0.6rem;
+        //             text-align: center;
+        //             &.type{
+        //                 width:1rem;
+        //                 height:0.6rem;
+        //                 border-radius: 0.1rem;
+        //                 background:#64A387;
+        //                 text-align: center;
+        //             }
+        //         }
+        //     }
+        //     .bonus{
+        //         float: left;
+        //         height:1rem;
+        //         width:4.2rem;
+        //         text-align: right;
+        //         p{
+        //             padding-right: 0.2rem;
+        //             padding-top: 0.2rem;
+        //             height:0.6rem;
+        //             line-height: 0.6rem;
+        //             @include no-wrap();
+        //         }
+        //     }
+
+        // }
+        .lottery-select-info{
             position: absolute;
-            height:1rem;
+            height:6rem;
             width:100%;
-            bottom:1.15rem;
-            line-height: 1rem;
-            color:#fff;
+            bottom:0;
             background:#13432A;
-            .multiple{
-                height:1rem;
-                width:2.6rem;
-                float: left;
-                padding-left:0.2rem;
+            z-index: 50;
+            color:#fff;
+            .yellow{
+                color:$color-yellow;
+            }
+            .bet-money-warpper{
+                height:0.8rem;
+                padding:0.5rem 0.4rem 0;
                 p{
-                    display: inline-block;
-                    height:0.6rem;
-                    line-height: 0.6rem;
-                    text-align: center;
-                    &.number{
-                        width:1rem;
-                        height:0.6rem;
-                        border-radius: 0.1rem;
-                        background:#64A387;
+                    float: left;
+                    height:0.8rem;
+                    line-height: 0.8rem;
+                    margin-right: 0.32rem;
+                    &.tit{
+                        margin-right: 0.1rem;
+                        width:1.5rem;
+                        overflow: hidden;
+                    }
+                    &.bet-money{
+                        width:3rem;
                         input{
-                            width:1rem;
-                            height:0.6rem;
-                            background: none;
-                            border:0;
-                            padding:0;
-                            margin: 0;
-                            line-height: 0.6rem;
-                            color:$color-yellow;
+                            height:0.8rem;
+                            border: 0;
+                            border-radius: 0.1rem;
                             text-align: center;
+                            background: #64A387;
+                            width:100%;
+                            color:#fff;
+                        }
+                    }
+                    &.unit{
+                        height:0.8rem;
+                        width:1.2rem;
+                        text-align: center;
+                        background: #64A387;
+                        border-radius: 0.1rem;
+                    }
+                    &.on{
+                        background: #F0CA30;
+                    }
+                    &:last-child{
+                        margin-right: 0rem;
+                    }
+                }
+            }
+            .follow-num-brokerage{
+                height: 1rem;
+                padding: 0.5rem 0.4rem 0;
+                .count-money{
+                    float: left;
+                    p:first-child{
+                        height:0.3rem;
+                        line-height: 0.3rem;
+                    }
+                    p:last-child{
+                        height:0.7rem;
+                        line-height: 1rem;
+                        overflow: hidden;
+                    }
+                }
+                .brokerage{
+                    float: right;
+                    width:1.7rem;
+                    height:0.6rem;
+                    text-align: center;
+                    background:#64A387;
+                    border-radius: 0.1rem;
+                    padding-top:0.2rem;
+                    padding-left:0.2rem;
+                    p{
+                        float: left;
+                        line-height: 0.45rem;
+                        &.check-box{
+                            width:0.4rem;
+                            height:0.4rem;
+                            background: #fff;
+                            color:$color-text;
+                            border-radius: 0.07rem;
+                            line-height: 0.45rem;
                         }
                     }
                 }
-            }
-            .unit{
-                float: left;
-                width:3rem;
-                height:1rem;
-                text-align: center;
-                p{
-                    display:inline-block;
-                    height:0.6rem;
-                    line-height: 0.6rem;
-                    text-align: center;
-                    &.type{
-                        width:1rem;
-                        height:0.6rem;
-                        border-radius: 0.1rem;
-                        background:#64A387;
+                .follow-num{
+                    height:0.8rem;
+                    width:1.1rem;
+                    float: right;
+                    margin-right: 0.3rem;
+                    p{
+                        width:1.1rem;
+                        height:0.8rem;
+                        line-height: 0.8rem;
                         text-align: center;
+                        background:#64A387;
+                        border-radius: 0.1rem;
                     }
                 }
             }
-            .bonus{
-                float: left;
-                height:1rem;
-                width:4.2rem;
-                text-align: right;
-                p{
-                    padding-right: 0.2rem;
-                    padding-top: 0.2rem;
-                    height:0.6rem;
-                    line-height: 0.6rem;
-                    @include no-wrap();
+            .win-money-warpper{
+                height:0.8rem;
+                line-height: 0.8rem;
+                padding:0 0.4rem 0.5rem;
+                @include border-bottom-1px(solid,#65A689);
+                .balance{
+                    float: left;
+                    height:0.8rem;
+                }
+                .bonus{
+                    float: right;
+                    height:0.8rem;
                 }
             }
-
+            .btn-wrapper{
+                padding: 0.4rem;
+                height:1rem;
+                div{
+                    float: left;
+                    width:3.6rem;
+                    height:1rem;
+                    line-height: 1rem;
+                    text-align: center;
+                    background: #38bb80;
+                    font-size: $font-size-large;
+                    border-radius: 0.14rem;
+                    &.affirm{
+                        float: right;
+                        color: $color-text;
+                        background: #F0CA30;
+                    }
+                }
+            }
         }
         .lottery-bottom{
             position: absolute;
-            height:1.15rem;
+            height:1.45rem;
             width:100%;
             bottom:0;
-            line-height: 1.15rem;
+            line-height: 1.45rem;
             text-align: center;
             @include bg-image('bg-lottery-bottom');
             background-repeat: no-repeat;
@@ -1290,13 +1513,13 @@
             color:rgb(230, 230, 230);
             .clear-all{
                 height:1.15rem;
-                width:1rem;
+                width:1.8rem;
                 float: left;
-                padding:0.25rem 0.2rem;
+                padding:0.22rem 0 0 0.2rem;
                 p{
-                    width:1.4rem;
-                    height:0.72rem;
-                    line-height: 0.72rem;
+                    width:1.8rem;
+                    height:1rem;
+                    line-height: 1rem;
                     text-align: center;
                     background:$color-bg-deep-gray;
                     border-radius: 0.1rem;
@@ -1314,53 +1537,53 @@
                     @include no-wrap();
                 }
             }
-            .brokerage{
-                float: left;
-                width:1.7rem;
-                height:0.52rem;
-                text-align: center;
-                background:$color-bg-deep-gray;
-                border-radius: 0.1rem;
-                margin-top:0.25rem;
-                padding-top:0.15rem;
-                padding-left:0.2rem;
-                p{
-                    float: left;
-                    line-height: 0.45rem;
-                    &.check-box{
-                        width:0.4rem;
-                        height:0.4rem;
-                        background: #fff;
-                        color:$color-text;
-                        border-radius: 0.07rem;
-                        line-height: 0.45rem;
-                    }
-                }
-            }
-            .follow-num{
-                height:1.15rem;
-                width:1.1rem;
-                float: left;
-                padding:0.25rem 0.2rem;
-                p{
-                    width:1.1rem;
-                    height:0.67rem;
-                    line-height: 0.67rem;
-                    text-align: center;
-                    background:$color-bg-deep-gray;
-                    border-radius: 0.1rem;
-                }
-            }
+            // .brokerage{
+            //     float: left;
+            //     width:1.7rem;
+            //     height:0.52rem;
+            //     text-align: center;
+            //     background:$color-bg-deep-gray;
+            //     border-radius: 0.1rem;
+            //     margin-top:0.25rem;
+            //     padding-top:0.15rem;
+            //     padding-left:0.2rem;
+            //     p{
+            //         float: left;
+            //         line-height: 0.45rem;
+            //         &.check-box{
+            //             width:0.4rem;
+            //             height:0.4rem;
+            //             background: #fff;
+            //             color:$color-text;
+            //             border-radius: 0.07rem;
+            //             line-height: 0.45rem;
+            //         }
+            //     }
+            // }
+            // .follow-num{
+            //     height:1.15rem;
+            //     width:1.1rem;
+            //     float: left;
+            //     padding:0.25rem 0.2rem;
+            //     p{
+            //         width:1.1rem;
+            //         height:0.67rem;
+            //         line-height: 0.67rem;
+            //         text-align: center;
+            //         background:$color-bg-deep-gray;
+            //         border-radius: 0.1rem;
+            //     }
+            // }
             .bet-btn{
                 height:1.15rem;
-                width:1.6rem;
+                width:1.8rem;
                 float: right;
-                padding-top:0.25rem;
+                padding-top:0.22rem;
                 margin-right:0.2rem;
                 p{
-                    width:1.6rem;
-                    height:0.72rem;
-                    line-height: 0.72rem;
+                    width:1.8rem;
+                    height:1rem;
+                    line-height: 1rem;
                     text-align: center;
                     background:$color-yellow;
                     border-radius: 0.1rem;
@@ -1370,7 +1593,7 @@
             }
             .lhc-bet-count{
                 display: inline-block;
-                padding:0.15rem 0.3rem;
+                padding:0.2rem 0.3rem;
                 color:#fff;
                 background: rgb(13, 85, 48);
                 border-radius: 0.1rem;
@@ -1378,13 +1601,16 @@
             }
         }
         .scroll-content{
-            height: calc(100% - 3.98rem);
+            height: calc(100% - 4.28rem);
             overflow: hidden;
             &.lhc-scroll{
-                height: calc(100% - 3.98rem);
+                height: calc(100% - 4.28rem);
             }
             &.odds-scroll{
-                height: calc(100% - 4.78rem);
+                height: calc(100% - 5.08rem);
+            }
+            &.bet-set-scroll{
+                height: calc(100% - 8.83rem);
             }
         }
     }
@@ -1395,7 +1621,7 @@
         width: 100%;
         height: 100%;
         z-index: 300;
-        background:$color-bg-shade-a5;
+        background:$color-bg-shade-a8;
     }
     .detail{
         position:fixed;
@@ -1815,36 +2041,36 @@
             }
         }
     }
-    .modes-main{
-        position:fixed;
-        z-index:440;
-        width:100%;
-        height:auto;
-        overflow: hidden;
-        bottom:0;
-        background:#fff;
-        .modes-wrapper{
-            height:auto;
-            overflow: hidden;
-            .item-wrapper{
-                height:1.3rem;
-                line-height: 1.3rem;
-                overflow: hidden;
-                padding: 0 0.3rem;
-                text-align: center;
-                @include border-bottom-1px(solid,$color-border-gray);
-                font-size: $font-size-medium-x;
-            }
-        }
-        .modes-close{
-            position:relative;
-            height:1.2rem;
-            text-align: center;
-            line-height: 1.2rem;
-            font-size: $font-size-medium;
-            color:$color-text-gray;
-        }
-    }
+    // .modes-main{
+    //     position:fixed;
+    //     z-index:440;
+    //     width:100%;
+    //     height:auto;
+    //     overflow: hidden;
+    //     bottom:0;
+    //     background:#fff;
+    //     .modes-wrapper{
+    //         height:auto;
+    //         overflow: hidden;
+    //         .item-wrapper{
+    //             height:1.3rem;
+    //             line-height: 1.3rem;
+    //             overflow: hidden;
+    //             padding: 0 0.3rem;
+    //             text-align: center;
+    //             @include border-bottom-1px(solid,$color-border-gray);
+    //             font-size: $font-size-medium-x;
+    //         }
+    //     }
+    //     .modes-close{
+    //         position:relative;
+    //         height:1.2rem;
+    //         text-align: center;
+    //         line-height: 1.2rem;
+    //         font-size: $font-size-medium;
+    //         color:$color-text-gray;
+    //     }
+    // }
     
 }
 </style>

@@ -86,8 +86,8 @@
                             md5:res.data.md5_salt
                         })
                         this.getXrkhType('hd_xrkh');
-                        this.getIsReceived('hd_qiandao');
                         setTimeout(() => {
+                            this.getIsReceived('hd_qiandao');
                             this.getUser();
                         },1000)
                         this.$router.push({

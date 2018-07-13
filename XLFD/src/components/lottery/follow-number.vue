@@ -10,28 +10,29 @@
             </div>
             <div class="set-base-content">
                  <div class="set-item">
-                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" ></p><p>期</p>
+                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" @click="clearData('zhuihaoCountQs')"></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="4" ></p><p>元</p>
+                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="6" @click="clearData('baseTimes')"></p><p>{{betUnit[lotteryModes]}}</p>
                 </div>
                 <div class="set-item">
-                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" ></p><p>期</p>
+                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" @click="clearData('apartPeriod')"></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" ></p><p>倍</p>
+                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" @click="clearData('times')"></p><p>倍</p>
                 </div>
             </div>
             <div class="list-title">
                 <div class="qh">
                     期号
                 </div>
-                <div class="bs">
-                    金额
+                <div class="je">
+                    注数
                 </div>
-                <!-- <div class="je">
-                    金额
-                </div> -->
+                <div class="bs">
+                    单注金额
+                </div>
+                
                 <div class="bj">
                     编辑
                 </div>
@@ -41,13 +42,14 @@
                 <ul class="follow-number-wrapper">
                     <li class="follow-number-item" v-for="(item,i) in numberList">
                         <div class="qh">{{item.period}}</div>
+                        <div class="je">{{betCount}}</div>
                         <div class="bs">
                             <!-- <p class="minus" @click="changeTimes(i,'minus')"><i class="icon-minus"></i></p> -->
-                            <p class="txt"><input type="tel" v-model.number="item.times" maxlength="4"></p>
-                            <p class="add">元</p>
+                            <p class="txt"><input type="tel" v-model.number="item.times" maxlength="6"></p>
+                            <p class="add">{{betUnit[lotteryModes]}}</p>
                             <!-- <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p> -->
                         </div>
-                        <!-- <div class="je">{{countMoney(item.times)}}</div> -->
+                        
                         <div class="bj" @click="deletePeriod(i)">
                             <i class="icon-delete"></i>
                         </div>
@@ -89,7 +91,7 @@
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
   import Loading from 'base/loading/loading';
-  import {httpUrl} from 'common/js/map';
+  import {httpUrl,betUnit} from 'common/js/map';
 
   export default {
     data() {
@@ -104,6 +106,7 @@
         times:1,
         numberList:[],
         betMoney:0,
+        betUnit,
         loadingShow:false,  
         loadingTip:'正在投注...',
       }
@@ -179,7 +182,7 @@
             }, {deep: true});
             this.$watch('numberList',(newVal) => {
                 const regex = /^\d*$/;
-                let mode=2/Math.pow(10,this.lotteryModes)*this.betCount;
+                let mode=1/Math.pow(10,this.lotteryModes)*this.betCount;
                 this.betMoney = 0;
                 if(!regex.test(newVal)) {
                     this.numberList.forEach((item) => {
@@ -195,6 +198,7 @@
                         this.betMoney += oneMoney
                     });
                 }
+                this.betMoney = this.betMoney.toFixed(2)
             }, {deep: true});
         },
         makeNumberList(){
@@ -208,7 +212,7 @@
                 period=(this.lotteryInfo.show_qh-0+i) > 99 ? ""+this.lotteryInfo.show_qh-0+i : "0"+(this.lotteryInfo.show_qh-0+i);
                 hide_period=this.lotteryInfo.lottery_qh-0+i+"";
                 if( i != 0 &&  i%this.apartPeriod == 0){
-                    times= times*this.times > 9999 ? 9999 : times*this.times;
+                    times= times*this.times > 999999 ? 999999 : times*this.times;
                 }
                 this.numberList.push({
                     period,
@@ -285,9 +289,12 @@
             });
         },
         countMoney(times){
-            let mode=2/Math.pow(10,this.lotteryModes)*this.betCount;
+            let mode=1/Math.pow(10,this.lotteryModes)*this.betCount;
             return times*mode > 99990 ? 99990 : times*mode;
         },
+        clearData(dataName){
+            this[dataName] = '';
+        }
         
     },
     watch: {
@@ -442,13 +449,13 @@
                 text-align: center;
                 color:#fff;
                 &.qh{
-                    width:3.7rem;
+                    width:2.2rem;
                 }
                 &.bs{
-                    width:4.5rem;
+                    width:4rem;
                 }
                 &.je{
-                    width:3rem;
+                    width:2rem;
                 }
                 &.bj{
                     width:1.8rem;
@@ -457,7 +464,7 @@
             }
         }
         .scroll-content{
-            height:calc( 100% - 5.25rem);
+            height:calc( 100% - 5.75rem);
             overflow-y: auto;
             .follow-number-wrapper{
                 height:auto;
@@ -477,10 +484,10 @@
                         @include border-right-1px(solid,rgb(76, 134, 108));
                         text-align: center;
                         &.qh{
-                            width:3.5rem;
+                            width:2rem;
                         }
                         &.bs{
-                            width:4.1rem;
+                            width:3.6rem;
                             color: $color-text;
                             padding-left: 0.2rem;
                             padding-right: 0.2rem;
@@ -496,9 +503,9 @@
                                     border-bottom-left-radius: 0.1rem;
                                 }
                                 &.txt{
-                                    width:3.4rem;
+                                    width:2.9rem;
                                     input{
-                                         width:3.4rem;
+                                         width:2.9rem;
                                          height: 0.6rem;
                                          text-align: center;
                                          padding:0;
@@ -525,7 +532,7 @@
                             }
                         }
                         &.je{
-                            width:2.8rem;
+                            width:1.8rem;
                             @include no-wrap();
                         }
                         &.bj{
@@ -540,16 +547,16 @@
         }
         .lottery-set{
             position: absolute;
-            height:0.6rem;
+            height:0.8rem;
             width:100%;
-            bottom:1.15rem;
-            line-height: 0.6rem;
+            bottom:1.45rem;
+            line-height: 0.8rem;
             background:rgb(69, 138, 102);
             
             .number{
                 float: left;
                 width:6.6rem;
-                height:0.6rem;
+                height:0.8rem;
                 p{
                     padding-left: 0.2rem;
                     @include no-wrap();
@@ -561,7 +568,7 @@
                 width:3.4rem;
                 text-align: right;
                 color:#fff;
-                padding-top:0.08rem;
+                padding:0.18rem 0;
                 p{
                     float: left;
                     line-height: 0.45rem;
@@ -579,7 +586,7 @@
         }
         .lottery-bottom{
             position: absolute;
-            height:1.15rem;
+            height:1.45rem;
             width:100%;
             bottom:0;
             line-height: 1.15rem;
@@ -595,19 +602,19 @@
                 padding:0.25rem 0.2rem;
                 p{
                     width:1.8rem;
-                    height:0.67rem;
-                    line-height: 0.67rem;
+                    height:0.9rem;
+                    line-height: 0.9rem;
                     text-align: center;
                     background:$color-bg-deep-gray;
                     border-radius: 0.1rem;
                 }
             }
             .bet-collect{
-                height:1.15rem;
+                height:1.45rem;
                 width:3.8rem;
                 float: left;
                 p{
-                    line-height: 1.15rem;
+                    line-height: 1.45rem;
                     @include no-wrap();
                     span{
                         color:$color-yellow;
@@ -617,12 +624,12 @@
             .brokerage{
                 float: right;
                 width:1.7rem;
-                height:0.52rem;
+                height:0.67rem;
                 text-align: center;
                 background:$color-bg-deep-gray;
                 border-radius: 0.1rem;
                 margin-top:0.25rem;
-                padding-top:0.15rem;
+                padding-top:0.3rem;
                 padding-left:0.2rem;
                 margin-right: 0.2rem;
                 p{
@@ -646,8 +653,8 @@
                 margin-right:0.2rem;
                 p{
                     width:1.6rem;
-                    height:0.67rem;
-                    line-height: 0.67rem;
+                    height:0.9rem;
+                    line-height: 0.9rem;
                     text-align: center;
                     background:$color-yellow;
                     border-radius: 0.1rem;

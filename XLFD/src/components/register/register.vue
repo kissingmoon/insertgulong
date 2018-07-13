@@ -92,7 +92,9 @@
                         })
                         this.setTip("注册成功");
                         this.getXrkhType('hd_xrkh');
-                        this.getIsReceived('hd_qiandao');
+                        setTimeout(() => {
+                            this.getIsReceived('hd_qiandao');
+                        },1000)
                         this.$router.push({
                             path:'/'
                         });

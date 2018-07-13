@@ -53,7 +53,7 @@
             background: #fff;
             box-shadow: 0rem 0.07rem 0.1rem rgba(0,0,0,.2);
             line-height: 0.5rem;
-            font-size: $font-size-medium;
+            font-size: $font-size-medium-x;
         } 
     }
 

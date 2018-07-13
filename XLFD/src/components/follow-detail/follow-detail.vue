@@ -76,11 +76,13 @@
             <div class="bet-content border-top-1px" v-show="order.finish_status == 0">
                 <div class="bet-txt">
                     <p class="txt">
-                        <button class="minus" @click="changeGdMoney('minus')"><i class="icon-minus"></i></button>
-                        <input type="text" v-model.number="gdMoney" maxlength="6">
-                        <button class="add" @click="changeGdMoney('add')"><i class="icon-add"></i></button>
+                        跟单金额：
+                        <!-- <button class="minus" @click="changeGdMoney('minus')"><i class="icon-minus"></i></button> -->
+                        <input type="tel" v-model.number="gdMoney" maxlength="6">
+                        <!-- <button class="add" @click="changeGdMoney('add')"><i class="icon-add"></i></button> -->
+                        元
                     </p>
-                    <p class="money">您的余额：{{account.balance || 0}}元</p>
+                    <p class="money">账户余额：{{account.balance || 0}}元</p>
                 </div>
                 <div class="bet-btn">
                     <button @click="betFollow">立即投注</button>
@@ -472,7 +474,7 @@
             }
             .money{
                 padding-top:0.3rem;
-                font-size: $font-size-small-x;
+                font-size: $font-size-medium;
             }
             
         }

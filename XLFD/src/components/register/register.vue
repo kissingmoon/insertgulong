@@ -22,16 +22,16 @@
                         <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone" maxlength="16">
                     </p>
                 </li>
-                <li>
+                <!-- <li>
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code" maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
                     </p>
-                </li>
+                </li> -->
                 <li>
-                    <button class="login-btn" @click="register">注册</button>
+                    <button id="register" class="login-btn" :disabled="btnDisabledType">注册</button>
                 </li>
                 <li>
                     <p class="forget">注册即表示同意<router-link :to="{path:'/protocol',query:{flag:'register_protocol'}}">《使用协议》</router-link></p>
@@ -44,19 +44,20 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
+    import gt from 'common/js/gt';
     import {session,randomWord} from 'common/js/param';
     export default {
         data() {
             return{
                 registerParam:{
                     code_id:'2154',
-                    code:'',
+                    // code:'',
                     user_id:'',
                     password:'',
                     repeat_password:'',
                     phone:''
                 },
-                codeUrl:''
+                // codeUrl:''
             }
         },
         components:{
@@ -65,21 +66,70 @@
         created() {
             this.setCode();
         },
+        mounted(){
+            this.getBaseData();
+        },
         computed: {
             ...mapGetters([
                 'api_base'
-            ])
+            ]),
+            btnDisabledType(){
+                let type = this.registerParam.user_id.length < 6 || this.registerParam.password.length < 6 || this.registerParam.repeat_password.length < 6;
+                return type
+            }
         },
         methods: {
+            // 生成随机id
             setCode(){
                 this.registerParam.code_id = randomWord(false,6,8);
-                this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
+                // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
-            register(){
-                if(this.registerParam.password !== this.registerParam.repeat_password){
-                    this.setTip("确认密码不同");
-                    return;
-                }
+            // 初始化验证码
+            getBaseData(){
+                var _this = this;
+                this.$axios.postRequest(httpUrl.config.geetestCode,{code_id:this.registerParam.code_id})
+                .then((res)=> {
+                    let data=res.data;
+                    if(data.success == 1){
+                        initGeetest({
+                            gt: data.gt,
+                            challenge: data.challenge,
+                            offline: !data.success,
+                            new_captcha: true,
+                            product: 'bind',
+                            width:'7rem'
+                        }, function(captchaObj){
+                            captchaObj.onReady(() => {
+                                //验证码ready之后才能调用verify方法显示验证码
+                                document.getElementById('register').addEventListener('click',() => {
+                                    if(!_this.registerParam.password || !_this.registerParam.repeat_password){
+                                        _this.setTip("请输入密码和确认密码");
+                                        return;
+                                    }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
+                                        _this.setTip("确认密码不同");
+                                        return;
+                                    }else{
+                                        captchaObj.verify();
+                                    }
+                                });
+                            }).onSuccess(() => {
+                                let result = captchaObj.getValidate();
+                                if(!result){
+                                    _this.setTip('校验未通过');
+                                }else{
+                                    _this.register(result);
+                                }
+                            }).onError(() => {
+                                //your code
+                            });
+                        });
+                    }
+                });
+            },
+            register(result){
+                this.registerParam.geetest_challenge = result.geetest_challenge;
+                this.registerParam.geetest_validate = result.geetest_validate;
+                this.registerParam.geetest_seccode = result.geetest_seccode;
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -99,7 +149,7 @@
                             path:'/'
                         });
                     }else{
-                        this.setCode();
+                        // this.setCode();
                     }
                 });
             },

@@ -12,16 +12,16 @@
                         <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password" maxlength="20">
                     </p>
                 </li>
-                <li>
+                <!-- <li>
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code"  maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
                     </p>
-                </li>
+                </li> -->
                 <li>
-                    <button class="login-btn" @click="login">登录</button>
+                    <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
                 </li>
                 <li>
                     <router-link tag="p" to="/register" class="register">注册</router-link>
@@ -32,20 +32,21 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapActions,mapGetters} from 'vuex';
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
+    import gt from 'common/js/gt';
     import {session,randomWord,removeSession} from 'common/js/param';
     export default {
         data() {
             return{
                 loginParam:{
                     code_id:'2154',
-                    code:'',
+                    // code:'',
                     user_id:'',
                     password:''
                 },
-                codeUrl:``
+                // codeUrl:``
             }
         },
         components:{
@@ -55,15 +56,58 @@
             this.resetAccount();
             this.setCode();
         },
+        mounted(){
+            this.init();
+        },
         computed: {
             ...mapGetters([
                 'api_base'
-            ])
+            ]),
+            btnDisabledType(){
+                let type = this.loginParam.user_id.length < 6 || this.loginParam.password.length < 6;
+                return type
+            }
         },
         methods: {
+            init(){
+                this.getBaseData();
+            },
+            getBaseData(){
+                var _this = this;
+                this.$axios.postRequest(httpUrl.config.geetestCode,{code_id:this.loginParam.code_id})
+                .then((res)=> {
+                    let data=res.data;
+                    if(data.success == 1){
+                        initGeetest({
+                            gt: data.gt,
+                            challenge: data.challenge,
+                            offline: !data.success,
+                            new_captcha: true,
+                            product: 'bind',
+                            width:'7rem'
+                        }, function(captchaObj){
+                            captchaObj.onReady(() => {
+                                //验证码ready之后才能调用verify方法显示验证码
+                                document.getElementById('login').addEventListener('click',() => {
+                                    captchaObj.verify();
+                                });
+                            }).onSuccess(() => {
+                                let result = captchaObj.getValidate();
+                                if(!result){
+                                    _this.setTip('校验未通过');
+                                }else{
+                                    _this.login(result);
+                                }
+                            }).onError(() => {
+                                //your code
+                            });
+                        });
+                    }
+                });
+            },
             setCode(){
-                this.loginParam.code_id = randomWord(false,6,8);
-                this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`
+                this.loginParam.code_id = randomWord(false,8,10);
+                // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
             },
             resetAccount(){
                 removeSession('user_token');
@@ -74,7 +118,10 @@
                     md5:''
                 })
             },
-            login(){
+            login(result){
+                this.loginParam.geetest_challenge = result.geetest_challenge;
+                this.loginParam.geetest_validate = result.geetest_validate;
+                this.loginParam.geetest_seccode = result.geetest_seccode;
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -94,10 +141,13 @@
                             path:'/'
                         });
                     }else{
-                        this.setCode();
+                        // this.setCode();
                     }
                 });
             },
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
             ...mapActions([
                 'resetUser',
                 'getIsReceived',
@@ -123,7 +173,6 @@
         padding:0.56rem;
         li{
             height:auto;
-            
             overflow: hidden;
             .txt-con{
                 height: auto;

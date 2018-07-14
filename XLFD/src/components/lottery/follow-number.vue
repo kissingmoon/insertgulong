@@ -249,8 +249,8 @@
             this.$emit('earnMoney','gdSetShow');
         },
         bet(){
-            var zhuihao_all_qh='';
-            var zhuihao_all_bs_by_money ='';
+            let zhuihao_all_qh='';
+            let zhuihao_all_bs_by_money ='';
             const url= this.earnCommission  ? httpUrl.bet.betZyj : httpUrl.bet.betOrderZh;
             this.numberList.forEach((item,i) => {
                 zhuihao_all_qh += item.hide_period;
@@ -260,7 +260,7 @@
                     zhuihao_all_bs_by_money  +=  "#";
                 }
             });
-            var param={
+            let param={
                 lottery_id:this.lotteryId,
                 wf_flag:this.wfFlag,
                 bet_number:this.betNumber,
@@ -270,7 +270,6 @@
                 zhuihao_stop:this.zhuihaoStop,
                 zhuihao_all_qh,
                 zhuihao_all_bs_by_money 
-
             }
             if(this.earnCommission){
                 param=Object.assign({},param,this.gdParam);
@@ -285,7 +284,6 @@
             })
             .catch((err) => {
                 this.loadingShow=false;
-                console.log(err);
             });
         },
         countMoney(times){

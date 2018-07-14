@@ -68,9 +68,12 @@ export const httpUrl = {
         message:'/ad/message',
         messageHandle:'/ad/message-handle',
         isReceived:'/v2/activity/today-is-received',
-        xrkhIsOK:'/v2/yhhd/open-gold-isok'
+        xrkhIsOK:'/v2/yhhd/open-gold-isok',
+        geetestCode:'/config/geetest-code'
     }
 };
+
+export const serviceUrl = 'https://messenger.providesupport.net/messenger/11s3h541dm5cv1tjkmwtx1vewz.html'
 
 export const lotteryName ={
     'cqssc':'重庆时时彩',

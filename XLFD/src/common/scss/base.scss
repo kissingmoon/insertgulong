@@ -75,9 +75,22 @@ body{
     
 }
 
+
 .hide{
     display: none !important;
 }
 .show{
     display: block !important;
+}
+button:disabled{
+    background:$color-btn-gray !important;
+    color: $color-text !important;
+}
+
+// 隐藏极验标语
+.geetest_copyright{
+    display: none !important;
+}
+.geetest_feedback{
+    display: none !important;
 }

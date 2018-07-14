@@ -178,6 +178,9 @@
             ...mapMutations({
                 setTip:'SET_TIP',
             }),
+            ...mapActions([
+                'getUser'
+            ]),
             getDetail(){
                 const gd_number = this.$router.history.current.query.id;
                 const user_flag = this.$router.history.current.query.flag;
@@ -228,6 +231,7 @@
                     if(!res.data.errorCode){
                         this.gdMoney="";
                         this.setTip('跟单成功');
+                        this.getUser();
                     };
                 })
                 .catch((err) => {

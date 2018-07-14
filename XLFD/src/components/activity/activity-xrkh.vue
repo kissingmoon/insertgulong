@@ -24,7 +24,7 @@
                     恭喜您！获得<span class="yellow">{{receive_money}}</span>元
                 </div>
                 <div class="wf-detail-close">
-                    <button @click="closeHdSuc"></button>
+                    <button v-show="showBtn" @click="closeHdSuc"></button>
                 </div>
             </div>
         </div>
@@ -42,6 +42,7 @@
             return{
                 xrkhShow:false,
                 successShow:false,
+                showBtn:false,
                 receive_money:0
             }
         },
@@ -67,6 +68,9 @@
                         this.xrkhShow=false;
                         this.getUser();
                         this.successShow = true;
+                        setTimeout(() => {
+                            this.showBtn= true;
+                        }, 2000);
                         this.receive_money= res.data.receive_money;
                     }
                 });

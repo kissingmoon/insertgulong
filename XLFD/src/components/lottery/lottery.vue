@@ -2,6 +2,7 @@
     <parcel>
         <div class="lottery">
             <div class="lottery-content">
+                <!-- 头部玩法说明 -->
                 <div class="lottery-title-content">
                     <div class="back" @click="judgeBack"><i class="icon-arrows-left"></i></div>
                     <div class="time-money-wrapper">
@@ -16,6 +17,7 @@
                         </p>
                     </h1>
                 </div>
+                <!-- 期数信息 -->
                 <div class="lottery-nav border-bottom-1px">
                     <div class="nav-left border-right-1px">
                         <!-- <div class="rock-follow">
@@ -44,10 +46,12 @@
                         </div>
                     </div>
                 </div>
+                <!-- 组合赔率 -->
                 <div class="lottery-odds border-bottom-1px" v-if="!isShowOdds">
                     <div class="wf-name">{{currentWf.name}}</div>
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
+                <!-- 投注号码 -->
                 <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
@@ -60,6 +64,7 @@
                         >
                     </bet-number>
                 </scroll>
+                <!-- 倍投模式 -->
                 <!-- <div v-if="!is28OrLhc" class="lottery-set">
                     <div class="multiple">
                         <p>投注</p>
@@ -93,6 +98,7 @@
                         <p>投注</p>
                     </div>
                 </div> -->
+                <!-- 元投模式 -->
                 <div v-show="lotterySelectShow" class="lottery-select-info">
                     <div class="bet-money-warpper">
                         <p class="tit">投注金额</p>
@@ -109,7 +115,7 @@
                             <p>投注总额:<span class="yellow">{{calculateBetMoney}}</span>元</p>
                         </div>
                         <div class="brokerage" @click="betExamine('gdSetShow')">
-                            <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p>
+                            <!-- <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p> -->
                             <p>赚佣金</p>
                         </div>
                         <div class="follow-num" @click="betExamine('followNumberShow')">
@@ -133,22 +139,17 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="!is28OrLhc" class="lottery-bottom">
+                <!-- 底部 -->
+                <div class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
-                    <div class="bet-btn"  @click="betExamine('lotterySelectShow')">
+                    <!-- 非6和28投注按钮 -->
+                    <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
                     </div>
-                    <div class="lhc-bet-count">
-                        {{betCount}}注
-                    </div>
-                </div>
-                <div v-if="is28OrLhc" class="lottery-bottom">
-                    <div class="clear-all" @click="allClear">
-                        <p>清空</p>
-                    </div>
-                    <div class="bet-btn" @click="makeBetOrder">
+                    <!-- 6和28投注按钮 -->
+                    <div v-if="is28OrLhc" class="bet-btn" @click="makeBetOrder">
                         <p>投注</p>
                     </div>
                     <div class="lhc-bet-count">
@@ -156,6 +157,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 倍投模式单位选择 -->
             <!-- <div v-if="modesShow">
                 <div class="background" @click="hide('modesShow')"></div>
                 <div class="modes-main">
@@ -205,6 +207,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 单注奖金显示 -->
             <div v-if="winMoneyShow">
                 <div class="background" @click="hide('winMoneyShow')"></div>
                 <div class="detail">
@@ -223,6 +226,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 赚佣金设置 -->
             <div v-if="gdSetShow">
                 <div class="background"></div>
                 <div class="detail">
@@ -278,6 +282,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 赚佣金提示 -->
             <div v-if="gdTipShow">
                 <div class="background" @click="gdAffirm"></div>
                 <div class="bet-success-detail">
@@ -294,6 +299,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 投注确认 -->
             <div v-if="betAffirmShow">
                 <div class="background"></div>
                 <div class="detail">
@@ -315,8 +321,9 @@
                                 </li>
                             </ul>
                             <div class="btn-wrapper">
-                                <button class="cancel"  @click="hide('betAffirmShow')">取消</button>
-                                <button class="affirm" @click="betOrder">确认</button>
+                                <button class="cancel"  @click="closeBetAffirm">取消</button>
+                                <button v-show="!earnCommission" class="affirm" @click="betOrder">确认</button>
+                                <button v-show="earnCommission" class="affirm" @click="betGdOrder">确认</button>
                             </div>
                             <div class="gd-tip">
                                 <p>温馨提示:您可以在我的-跟单列表界面查看跟单明细<br>发起跟单将会在您成功付款后展示</p>
@@ -325,6 +332,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 投注成功提示 -->
             <div v-if="betSuccessShow">
                 <div class="background" @click="hide('betSuccessShow')"></div>
                 <div class="bet-success-detail">
@@ -342,6 +350,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 离开提示 -->
             <div v-if="leaveTipShow">
                 <div class="background" @click="hide('leaveTipShow')"></div>
                 <div class="bet-success-detail">
@@ -359,8 +368,11 @@
                     </div>
                 </div>
             </div>
+            <!-- 历史开奖 -->
             <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList"></draw-history>
+            <!-- 玩法 -->
             <wf-kind v-if="wfKindShow" :data="wfList" @close="hide" @selectWf="changeWf"></wf-kind>
+            <!-- 跟单 -->
             <follow-number 
                 v-if="followNumberShow" 
                 :gdParam="gdParam" 
@@ -380,6 +392,7 @@
                 >
 
             </follow-number>
+            <!-- 6和28投注号码 -->
             <bet-order-list 
                 v-if="betOrderListShow" 
                 :lotteryId="lotteryId"
@@ -393,6 +406,7 @@
                 >
 
             </bet-order-list >
+            <!-- 6和28玩法规则 -->
             <rule-pare v-if="ruleShow"
                 :ruleUrl="ruleUrl"
                 :ruleTitle="ruleTitle"
@@ -444,11 +458,11 @@
                 followNumberShow:false,  //追号页面
                 betOrderListShow:false,  //六合彩下注页面
                 earnCommission:false,  //是否赚佣
-                isShowOdds:true,
+                isShowOdds:true,  //是否显示号码赔率
                 ruleShow:false,  //是否显示规则页面
                 winMoneyShow:false,  //是否显示奖金提示页面
                 leaveTipShow:false,  //是否确认离开
-                loadingShow:false,  
+                loadingShow:false,  //加载中
                 loadingTip:'正在投注...',
                 ruleTitle:'',
                 ruleUrl:'',
@@ -473,11 +487,11 @@
                 lotteryModes:0,
                 totalOdds:'',
                 totalPlFlag:'',
-                commissionCopy:'',
-                backRateCopy:'',
+                commissionCopy:1,
+                backRateCopy:1,
                 gdParam:{
-                    commission:'',
-                    back_rate:'',
+                    commission:1,
+                    back_rate:1,
                     content:'',
                     kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
                 }
@@ -499,9 +513,12 @@
         },
         mounted(){
         },
-        beforeDestroy(){
+        destroyed(){
             if(this.lockTimes){
                 clearTimeout(this.lockTimes);
+            }
+            if(this.getLockTimes){
+                clearTimeout(this.getLockTimes);
             }
         },
         computed: {
@@ -570,7 +587,7 @@
                         this.commissionCopy = oldVal ;
                     }
                     if(this.commissionCopy > 10){
-                        this.commissionCopy =10
+                        this.commissionCopy =10;
                     }
                     this.gdParam.commission = this.commissionCopy;
                 });
@@ -580,36 +597,12 @@
                         this.backRateCopy = oldVal;
                     }
                     if(this.backRateCopy > 100){
-                        this.backRateCopy =100
+                        this.backRateCopy =100;
                     }
                     this.gdParam.back_rate = this.backRateCopy;
                 });
             },
-            //确认离开
-            judgeBack(){
-                if(this.is28OrLhc && this.updataNumberList.length > 0){
-                    this.show('leaveTipShow');
-                }else{
-                    this.goBack()
-                }
-            },
-            goBack(){
-                this.$router.back();
-            },
-            show(key){
-                this[key]=true;
-                clearTimeout(this.timesScroll);
-                this.timesScroll=setTimeout(()=>{
-                    this.$refs.scroll.refresh();
-                },200);
-            },
-            hide(key){
-                this[key]=false;
-                clearTimeout(this.timesScroll);
-                this.timesScroll=setTimeout(()=>{
-                    this.$refs.scroll.refresh();
-                },200);
-            },
+            
             //获取玩法
             getBetWF(){
                 const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
@@ -651,18 +644,21 @@
                     this.getDrawHis();
                 }
                 if (this.drawCountTime == "00:00:00") {
-                    this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
+                    if(this.$router.history.current.path == '/home/lottery'){
+                        this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
+                    }
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
                     this.hide('followNumberShow');
                     this.hide('betOrderListShow');
-                    setTimeout(() => {
+                    clearTimeout(this.getLockTimes);
+                    this.getLockTimes = setTimeout(() => {
                         this.getLockTime();
-                    },1000);
+                    },2000);
                 }else{
                     clearTimeout(this.lockTimes);
                     this.lockTimes=setTimeout(() => {
-                        this.setCountTime(dateStr)
+                        this.setCountTime(dateStr);
                     },1000);
                 }
             },
@@ -713,7 +709,6 @@
                     });
                 }
                 this.isShowOdds=this.numberList[0].isShowOdds;
-                console.log(this.numberList);
                 this.setTotal();
                 this.watchInit();
             },
@@ -824,6 +819,7 @@
                     path:url
                 });
             },
+            // 显示历史开奖
             showDrawHistory(){
                 this.show('drawHistoryShow');
                 this.getDrawHis();
@@ -838,22 +834,28 @@
                     };
                 });
             },
+            // 赚拥金设置
             setEarnCommission(b){
                 this.earnCommission=b;
                 this.hide('gdSetShow');
                 this.hide('lotterySelectShow');
                 if(b){
-                    this.show('gdTipShow');
+                    if(this.followNumberShow){
+                        this.show('gdTipShow');
+                    }else{
+                        this.show('betAffirmShow');
+                    }
                 }
             },
+            //赚拥金号码显示设置
             setKjShow(type){
                 this.gdParam.kj_show_hm=type;
             },
             //跟单确认
             gdAffirm(){
                 this.hide('gdTipShow');
-                this.show('followNumberShow');
             },
+            //更换跟单号码
             changeNumber(){
                 this.hide('followNumberShow');
                 this.allClear();
@@ -874,6 +876,11 @@
                     this.setTip("请选择一组号码")
                 }
             },
+            // 关闭投注确认
+            closeBetAffirm(){
+                this.earnCommission=false;
+                this.hide('betAffirmShow')
+            },
             //投注设置
             selectInfo(){
                 this.hide('lotterySelectShow');
@@ -890,7 +897,6 @@
                     bet_count:this.betCount,
                     lottery_modes:this.lotteryModes
                 }
-                this.loadingTip='正在投注...'
                 this.show('loadingShow')
                 this.$axios.postRequest(httpUrl.bet.betOrder,param)
                 .then((res)=> {
@@ -905,6 +911,36 @@
                 .catch((err) => {
                     this.hide('loadingShow');
                     console.log(err);
+                });
+            },
+            //赚佣投注
+            betGdOrder(){
+                let param={
+                    lottery_id:this.lotteryId,
+                    wf_flag:this.wfFlag,
+                    bet_number:this.betNumber,
+                    bet_count:this.betCount,
+                    lottery_modes:this.lotteryModes,
+                    zhuihao_count_qs:1,
+                    zhuihao_stop:1,
+                    zhuihao_all_qh:this.lotteryInfo.lottery_qh,
+                    zhuihao_all_bs_by_money:this.betTimes
+                }
+                param=Object.assign({},param,this.gdParam);
+                this.loadingTip='正在投注...'
+                this.show('loadingShow')
+                this.$axios.postRequest(httpUrl.bet.betZyj,param)
+                .then((res)=> {
+                    this.hide('loadingShow');
+                    if(!res.data.errorCode){
+                        this.allClear();
+                        this.getUser()
+                        this.hide('betAffirmShow');
+                        this.show('betSuccessShow');
+                    };
+                })
+                .catch((err) => {
+                    this.hide('loadingShow');
                 });
             },
             //投注成功
@@ -1082,8 +1118,41 @@
                 }
                 
             },
+            // 清除倍数
             clearBetTimes(){
                 this.betTimes ='';
+            },
+            //确认离开
+            judgeBack(){
+                if(this.is28OrLhc && this.updataNumberList.length > 0){
+                    this.show('leaveTipShow');
+                }else{
+                    this.goBack()
+                }
+            },
+            //返回
+            goBack(){
+                this.$router.back();
+            },
+            // 显示
+            show(key){
+                this[key]=true;
+                clearTimeout(this.timesScroll);
+                this.timesScroll=setTimeout(()=>{
+                    if(this.$refs.scroll){
+                        this.$refs.scroll.refresh();
+                    }
+                },200);
+            },
+            // 隐藏
+            hide(key){
+                this[key]=false;
+                clearTimeout(this.timesScroll);
+                this.timesScroll=setTimeout(()=>{
+                    if(this.$refs.scroll){
+                        this.$refs.scroll.refresh();
+                    }
+                },200);
             }
 
         },
@@ -1206,7 +1275,7 @@
             color:#fff;
             .nav-left{
                 float: left;
-                height:1.53rem;
+                height:1.63rem;
                 width:5rem;
                 @include border-right-1px(solid,#053105);
                 // padding-top: 0.1rem;
@@ -1430,7 +1499,7 @@
                 }
                 .brokerage{
                     float: right;
-                    width:1.7rem;
+                    width:1.3rem;
                     height:0.6rem;
                     text-align: center;
                     background:#64A387;

@@ -259,7 +259,7 @@
             }
         }
         .scroll-content{
-            height:calc( 100% - 3.85rem);
+            height:calc( 100% - 4.15rem);
             overflow-y: auto;
             .order-main{
                 height:auto;
@@ -353,10 +353,10 @@
         }
         .lottery-bottom{
             position: absolute;
-            height:1.15rem;
+            height:1.45rem;
             width:100%;
             bottom:0;
-            line-height: 1.15rem;
+            line-height: 1.45rem;
             text-align: center;
             @include bg-image('bg-lottery-bottom');
             background-repeat: no-repeat;
@@ -365,13 +365,13 @@
             color:rgb(230, 230, 230);
             .clear-all{
                 height:1.15rem;
-                width:1rem;
+                width:1.8rem;
                 float: left;
-                padding:0.25rem 0.2rem;
+                padding:0.22rem 0 0 0.2rem;
                 p{
-                    width:1rem;
-                    height:0.67rem;
-                    line-height: 0.67rem;
+                    width:1.8rem;
+                    height:1rem;
+                    line-height: 1rem;
                     text-align: center;
                     background:$color-bg-deep-gray;
                     border-radius: 0.1rem;
@@ -379,14 +379,14 @@
             }
             .bet-btn{
                 height:1.15rem;
-                width:1.6rem;
+                width:1.8rem;
                 float: right;
-                padding-top:0.25rem;
+                padding-top:0.22rem;
                 margin-right:0.2rem;
                 p{
-                    width:1.6rem;
-                    height:0.67rem;
-                    line-height: 0.67rem;
+                    width:1.8rem;
+                    height:1rem;
+                    line-height: 1rem;
                     text-align: center;
                     background:$color-yellow;
                     border-radius: 0.1rem;
@@ -396,7 +396,7 @@
             }
             .lhc-bet-count{
                 display: inline-block;
-                padding:0.15rem 0.3rem;
+                padding:0.2rem 0.3rem;
                 color:#fff;
                 background: rgb(13, 85, 48);
                 border-radius: 0.1rem;

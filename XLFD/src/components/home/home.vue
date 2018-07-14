@@ -31,7 +31,7 @@
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="item.lottery_image">
                                     </div>
-                                    <div class="text" :class="{'border-right-1xp':i % 2 != 1}">
+                                    <div class="text border-right-1px" :class="{'text-border-right-1px':i % 2 != 1}">
                                         <h2 class="name" v-html="item.lottery_label"></h2>
                                         <p class="desc" v-html="item.remarks"></p>
                                     </div>
@@ -46,7 +46,7 @@
                                     <div class="icon">
                                         <img width="60" height="60" v-lazy="item.lottery_image">
                                     </div>
-                                    <div class="text" :class="{'border-right-1xp':i % 2 != 1}">
+                                    <div class="text border-right-1px" :class="{'text-border-right-1px':i % 2 != 1}">
                                         <h2 class="name" v-html="item.lottery_label"></h2>
                                         <p class="desc" :ref="item.sub_lottery[0].lottery_id"></p>
                                     </div>
@@ -435,7 +435,7 @@
                         flex: 1;
                         line-height: 20px;
                         overflow: hidden;
-                        &.border-right-1xp{
+                        &.text-border-right-1px{
                             @include border-right-1px(solid,$color-border-gray);
                         }
                         .name{

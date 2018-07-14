@@ -26,8 +26,8 @@
                         <li>
                             <p class="title">银行卡号</p>
                             <p class="txt-con">
-                                <input type="text" v-if="account.bank_status == 0" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model="accountNo">
-                                <input type="text" v-if="account.bank_status == 1" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model.number="bankParam.account_no" readonly="readonly">
+                                <input type="tel" v-if="account.bank_status == 0" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model="accountNo">
+                                <input type="tel" v-if="account.bank_status == 1" placeholder="请输入您的银行卡号" class="input-txt" maxlength="30" v-model="bankParam.account_no" readonly="readonly">
                             </p>
                         </li>
                     </ul>
@@ -199,9 +199,11 @@
                         border-radius: 0.1rem;
                         background:$color-bg-gray;
                         .input-txt{
-                            height:1.2rem;
+                            height:0.6rem;
                             width:100%;
-                            line-height: 1.2rem;
+                            line-height: 0.6rem;
+                            padding-top:0.3rem;
+                            padding-bottom:0.3rem;
                             font-size: $font-size-medium-x;
                             background: none;
                         }

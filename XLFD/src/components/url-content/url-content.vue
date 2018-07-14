@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-    import {httpUrl} from 'common/js/map';
+    import {httpUrl,serviceUrl} from 'common/js/map';
     import {mapGetters} from 'vuex';
     import MIframe from 'base/m-iframe/m-iframe';
     export default {
@@ -27,7 +27,11 @@
         methods:{
             init(){
                 this.flag=this.$router.history.current.query.flag;
-                this.getUrl();
+                if(this.flag == 'customer_service_url'){
+                    this.url=`${serviceUrl}?user_token=${this.user_token}`
+                }else{
+                    this.getUrl();
+                }
             },
             getUrl(){
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})

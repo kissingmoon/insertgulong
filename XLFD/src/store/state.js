@@ -14,7 +14,8 @@ const state = {
     hd_charge:1, //首次充值
     hd_zlcj:1, //助力彩金
     hd_xrkh:1,  //新人开户
-    hd_fxpyq:1 //分享朋友圈
+    hd_fxpyq:1, //分享朋友圈
+    has_phone:1 //绑定手机号
 
 }
 

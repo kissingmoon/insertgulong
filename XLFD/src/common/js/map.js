@@ -69,7 +69,8 @@ export const httpUrl = {
         messageHandle:'/ad/message-handle',
         isReceived:'/v2/activity/today-is-received',
         xrkhIsOK:'/v2/yhhd/open-gold-isok',
-        geetestCode:'/config/geetest-code'
+        geetestCode:'/config/geetest-code',
+        sendCode:'/user/sendCode'
     }
 };
 

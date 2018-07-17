@@ -64,10 +64,9 @@
             Parcel
         },
         created() {
-            this.setCode();
         },
         mounted(){
-            this.getBaseData();
+            this.init();
         },
         computed: {
             ...mapGetters([
@@ -79,6 +78,10 @@
             }
         },
         methods: {
+            init(){
+                this.setCode();
+                this.getBaseData();
+            },
             // 生成随机id
             setCode(){
                 this.registerParam.code_id = randomWord(false,6,8);
@@ -149,7 +152,7 @@
                             path:'/'
                         });
                     }else{
-                        // this.setCode();
+                        // this.init();
                     }
                 });
             },

@@ -1,6 +1,37 @@
 <template>
 <div>
-    <div v-show="xrkhShow">
+    <div v-show="xrkhShow && isHasPhone">
+        <div class="background" ></div>
+        <div class="detail phone">
+            <div class="wf-detail-wrapper clearfix">
+                <div class="detail-title">
+                    <i @click="closeHd" class="icon-close-circle close-circle"></i>
+                </div>
+                <div class="wf-detail-main">
+                    <div class="phone-wrapper">
+                        <p class="number">
+                             <input placeholder="请输入手机号码" v-model="mobile" type="tel" maxlength="11" >
+                        </p>
+                        
+                    </div>
+                    <div class="code-wrapper">
+                        <p class="code">
+                            <input v-model="code" placeholder="请输入验证码" type="tel" maxlength="6">
+                        </p>
+                        <p class="code-btn">
+                            <button @click="getCode" :disabled="getCodeType || mobile.length < 1">
+                                {{codeBtnTxt}}
+                            </button>
+                        </p>
+                    </div>
+                </div>
+                <div class="wf-detail-close">
+                    <button @click="setXrkh" :disabled="code.length  < 1 || mobile.length  < 1" ><span v-show="code.length  < 1 || mobile.length  < 1">确定</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div v-show="xrkhShow && !isHasPhone">
         <div class="background" ></div>
         <div class="detail">
             <div class="wf-detail-wrapper clearfix">
@@ -8,6 +39,7 @@
                     <i @click="closeHd" class="icon-close-circle close-circle"></i>
                 </div>
                 <div class="wf-detail-main">
+                    
                 </div>
                 <div class="wf-detail-close">
                     <button @click="setXrkh"></button>
@@ -41,9 +73,15 @@
         data() {
             return{
                 xrkhShow:false,
+                isHasPhone:false,
                 successShow:false,
                 showBtn:false,
-                receive_money:0
+                getCodeType:false,
+                receive_money:0,
+                codeBtnTxt:'获取验证码',
+                recTime:60,
+                mobile:'',
+                code:''
             }
         },
         components:{
@@ -54,17 +92,55 @@
         },
         computed: {
             ...mapGetters([
-                'hd_xrkh'
+                'hd_xrkh',
+                'has_phone'
             ])
         },
         methods: {
             closeHd(){
                 this.setHdXrkh('1')
             },
-            setXrkh(){
-                this.$axios.postRequest(httpUrl.home.xrkh)
+            getCode(){
+                this.getCodeType = true;
+                this.recCodeBtn();
+                this.$axios.postRequest(httpUrl.config.sendCode,{mobile:this.mobile})
                 .then((res)=> {
                     if(!res.data.errorCode){
+                        this.getCodeType = true;
+                    }else{
+                        clearTimeout(this.recCode);
+                        this.getCodeType = false;
+                        this.codeBtnTxt = '获取验证码';
+                        this.recTime = 60;
+                    }
+                })
+                .catch((err) => {
+                    clearTimeout(this.recCode);
+                    this.getCodeType = false;
+                    this.codeBtnTxt = '获取验证码';
+                    this.recTime = 60;
+                });
+            },
+            recCodeBtn(){
+                this.recTime -= 1;
+                clearTimeout(this.recCode);
+                this.recCode= setTimeout(()=>{
+                    this.codeBtnTxt = `重新获取(${this.recTime})` 
+                    if(this.recTime  == 0){
+                        this.getCodeType = false;
+                        this.codeBtnTxt = '获取验证码';
+                        this.recTime = 60;
+                    }else{
+                        this.recCodeBtn();
+                    }
+                },1000);
+            },
+            setXrkh(){
+                this.$axios.postRequest(httpUrl.home.xrkh,{mobile:this.mobile,code:this.code})
+                .then((res)=> {
+                    if(!res.data.errorCode){
+                        this.mobile= '';
+                        this.code='';
                         this.xrkhShow=false;
                         this.getUser();
                         this.successShow = true;
@@ -77,19 +153,25 @@
             },
             ...mapMutations({
                 setHdXrkh:'SET_HD_XRKH',
+                setHasPhone:'SET_HAS_PHONE',
             }),
             ...mapActions([
                 'getUser'
             ]),
             closeHdSuc(){
                 this.setHdXrkh('1');
+                this.setHasPhone('1');
                 this.successShow=false;
             }
         },
         watch:{
             hd_xrkh(){
                 this.xrkhShow = this.hd_xrkh == 1 ? false : true;
-            }
+            },
+            has_phone(){
+                this.isHasPhone = this.has_phone == 1 ? false : true;
+            },
+
         }
     }
 </script>
@@ -116,6 +198,7 @@
         @include bg-image('bg-xrkh');
         background-size: 100%;
         background-position: center bottom;
+
         .detail-title{
             height:1.2rem;
             background-repeat: no-repeat;
@@ -160,13 +243,80 @@
                     }
 
                 }
+                .phone-wrapper{
+                    height:1.2rem;
+                    margin-bottom:0.3rem;
+                    background: $color-bg-white-a3;
+                    border:1px solid $color-bg-white-a5;
+                    border-radius: 0.08rem;
+                    padding-left:0.2rem;
+                    .number{
+                        height:1.2rem;
+                        input{
+                            width:100%;
+                            height:0.6rem;
+                            padding-top:0.3rem;
+                            padding-bottom: 0.3rem;
+                            background: none;
+                            color:#fff;
+                            &::placeholder{
+                               color: $color-text;
+                            }
+                        }
+                    }
+                }
+                .code-wrapper{
+                    height:1.2rem;
+                    margin-bottom:0.3rem; 
+                    background: $color-bg-white-a3;
+                    border:1px solid $color-bg-white-a5;
+                    border-radius: 0.08rem;
+                    padding-left:0.2rem;
+                    padding-right:0.2rem;
+                    .code{
+                        height:1.2rem;
+                        float:left;
+                        width:60%;
+                        input{
+                            width:100%;
+                            height:0.6rem;
+                            padding-top:0.3rem;
+                            padding-bottom: 0.3rem;
+                            background: none;
+                            color: #fff;
+                            &::placeholder{
+                               color: $color-text;
+                            }
+                        }
+                    }
+                    .code-btn{
+                        height:1.2rem;
+                        float:left;
+                        width:40%;
+                        line-height: 1.2rem;
+                        text-align: center;
+                        button{
+                            height:0.8rem;
+                            line-height: 0.8rem;
+                            width:100%;
+                            background: #ffe400 !important;
+                            padding:0;
+                            border:0;
+                            color:$color-text;
+                            border-radius: 0.4rem;
+                            font-size: $font-size-small-x;
+                            &:disabled{
+                                color: $color-text-gray !important;
+                            }
+                        }
+                    }
+                }
             }
             .wf-detail-close{
                 position:relative;
                 margin:0 auto;
                 height:1rem;
                 width:100%;
-                padding-top:0.1rem;
                 text-align: center;
                 clear:both;
                 button{
@@ -182,8 +332,47 @@
                     @include bg-image('btn-xrkh');
                     background-size: 100%;
                     background-position: center bottom;
+                    
                 }
             }
+        }
+        &.phone{
+            @include bg-image('wd_bg');
+            background-size: 100%;
+            top:calc((100% - 10.6rem) / 2);
+            height:9.3rem;
+            background-position: center top;
+            overflow:visible;
+            .detail-title{
+                position: absolute;
+                bottom: -1.8rem;
+                width:100%;
+                text-align: center;
+            }
+            .wf-detail-main{
+                padding-top:4rem;
+                height:3.2rem;
+                
+            }
+            .wf-detail-close{
+                height:1.6rem;
+                button{
+                    height:1.2rem;
+                    width:6.8rem;
+                    @include bg-image('btn_n');
+                    background-size: 100%;
+                    border-radius: 0.6rem;
+                    background-position: center top;
+                    background-repeat: no-repeat;
+                    box-shadow: 0rem 0.1rem 0.2rem rgba(red, $alpha: 0.4);
+                    &:disabled{
+                        background:#ccc !important;
+                        color:$color-text-gray !important;
+                        font-size: $font-size-large;
+                    }
+                }
+            }
+
         }
     }
     .qiandao-suc{

@@ -99,46 +99,48 @@
                     </div>
                 </div> -->
                 <!-- 元投模式 -->
-                <div v-show="lotterySelectShow" class="lottery-select-info">
-                    <div class="bet-money-warpper">
-                        <p class="tit">投注金额</p>
-                        <p class="bet-money">
-                            <input type="tel" v-model.number="betTimes" maxlength="6" @click="clearBetTimes" />
-                        </p>
-                        <p class="unit" :class="{'on': lotteryModes == 0}" @click="changeLotteryModes(0)">元</p>
-                        <p class="unit" :class="{'on': lotteryModes == 1}" @click="changeLotteryModes(1)">角</p>
-                        <p class="unit" :class="{'on': lotteryModes == 2}" @click="changeLotteryModes(2)">分</p>
+                <transition name="lottery-select">
+                    <div v-show="lotterySelectShow" class="lottery-select-info">
+                        <div class="bet-money-warpper">
+                            <p class="tit">投注金额</p>
+                            <p class="bet-money">
+                                <input type="tel" v-model.number="betTimes" maxlength="6" @click="clearBetTimes" />
+                            </p>
+                            <p class="unit" :class="{'on': lotteryModes == 0}" @click="changeLotteryModes(0)">元</p>
+                            <p class="unit" :class="{'on': lotteryModes == 1}" @click="changeLotteryModes(1)">角</p>
+                            <p class="unit" :class="{'on': lotteryModes == 2}" @click="changeLotteryModes(2)">分</p>
+                        </div>
+                        <div class="follow-num-brokerage">
+                            <div class="count-money">
+                                <p>注数:<span class="yellow">{{betCount}}</span>注</p>
+                                <p>投注总额:<span class="yellow">{{calculateBetMoney}}</span>元</p>
+                            </div>
+                            <div class="brokerage" @click="betExamine('gdSetShow')">
+                                <!-- <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p> -->
+                                <p>赚佣金</p>
+                            </div>
+                            <div class="follow-num" @click="betExamine('followNumberShow')">
+                                <p>追号</p>
+                            </div>
+                        </div>
+                        <div class="win-money-warpper border-bottom-1px">
+                            <div class="balance">
+                                账户余额:<span class="yellow">{{moneyToFixed}}</span>元
+                            </div>
+                            <div class="bonus" @click="winMoney">
+                                <p>若中奖，单注奖金<span class="yellow">{{formetWinMoney}}</span>元</p>
+                            </div>
+                        </div>
+                        <div class="btn-wrapper">
+                            <div class="close" @click="hide('lotterySelectShow')">
+                                取消
+                            </div>
+                            <div class="affirm" @click="selectInfo">
+                                确定
+                            </div>
+                        </div>
                     </div>
-                    <div class="follow-num-brokerage">
-                        <div class="count-money">
-                            <p>注数:<span class="yellow">{{betCount}}</span>注</p>
-                            <p>投注总额:<span class="yellow">{{calculateBetMoney}}</span>元</p>
-                        </div>
-                        <div class="brokerage" @click="betExamine('gdSetShow')">
-                            <!-- <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p> -->
-                            <p>赚佣金</p>
-                        </div>
-                        <div class="follow-num" @click="betExamine('followNumberShow')">
-                            <p>追号</p>
-                        </div>
-                    </div>
-                    <div class="win-money-warpper border-bottom-1px">
-                        <div class="balance">
-                            账户余额:<span class="yellow">{{moneyToFixed}}</span>元
-                        </div>
-                        <div class="bonus" @click="winMoney">
-                            <p>若中奖，单注奖金<span class="yellow">{{formetWinMoney}}</span>元</p>
-                        </div>
-                    </div>
-                    <div class="btn-wrapper">
-                        <div class="close" @click="hide('lotterySelectShow')">
-                            取消
-                        </div>
-                        <div class="affirm" @click="selectInfo">
-                            确定
-                        </div>
-                    </div>
-                </div>
+                </transition>
                 <!-- 底部 -->
                 <div class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
@@ -2109,6 +2111,13 @@
                 }
             }
         }
+    }
+    .lottery-select-enter-active, .lottery-select-leave-active{
+        transition: all 0.3s;
+    }
+
+    .lottery-select-enter, .lottery-select-leave-to{
+        transform: translate3d(0, 6rem, 0);
     }
     // .modes-main{
     //     position:fixed;

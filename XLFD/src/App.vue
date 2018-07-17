@@ -4,6 +4,7 @@
     <m-nav></m-nav>
     <tip></tip>
     <router-view></router-view>
+    <!-- <activity-xrkh></activity-xrkh> -->
     <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
     <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
   </div>

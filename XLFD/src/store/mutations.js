@@ -45,6 +45,9 @@ const mutations = {
   },
   [types.SET_HD_FXPYQ](state, param) {
     state.hd_fxpyq = param;
+  },
+  [types.SET_HAS_PHONE](state, param) {
+    state.has_phone = param;
   }
 }
 

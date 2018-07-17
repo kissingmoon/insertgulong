@@ -13,4 +13,5 @@ export const hd_charge = state => state.hd_charge;
 export const hd_zlcj = state => state.hd_zlcj;
 export const hd_xrkh = state => state.hd_xrkh;
 export const hd_fxpyq = state => state.hd_fxpyq;
+export const has_phone = state => state.has_phone;
 

@@ -54,7 +54,6 @@
         },
         created() {
             this.resetAccount();
-            this.setCode();
         },
         mounted(){
             this.init();
@@ -69,9 +68,25 @@
             }
         },
         methods: {
+            ...mapMutations({
+                setTip:'SET_TIP',
+            }),
+            ...mapActions([
+                'resetUser',
+                'getIsReceived',
+                'getUser',
+                'getXrkhType'
+            ]),
             init(){
+                this.setCode();
                 this.getBaseData();
             },
+            // 生成8-10位的随机数
+            setCode(){
+                this.loginParam.code_id = randomWord(false,8,10);
+                // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
+            },
+            // 获取验证配置信息
             getBaseData(){
                 var _this = this;
                 this.$axios.postRequest(httpUrl.config.geetestCode,{code_id:this.loginParam.code_id})
@@ -105,10 +120,7 @@
                     }
                 });
             },
-            setCode(){
-                this.loginParam.code_id = randomWord(false,8,10);
-                // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
-            },
+            // 重置用户信息
             resetAccount(){
                 removeSession('user_token');
                 removeSession('md5_salt');
@@ -118,6 +130,7 @@
                     md5:''
                 })
             },
+            // 用户登录
             login(result){
                 this.loginParam.geetest_challenge = result.geetest_challenge;
                 this.loginParam.geetest_validate = result.geetest_validate;
@@ -141,20 +154,10 @@
                             path:'/'
                         });
                     }else{
-                        // this.setCode();
+                        // this.init();
                     }
                 });
-            },
-            ...mapMutations({
-                setTip:'SET_TIP',
-            }),
-            ...mapActions([
-                'resetUser',
-                'getIsReceived',
-                'getUser',
-                'getXrkhType'
-            ])
-        
+            }
         }
     }
 </script>

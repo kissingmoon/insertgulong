@@ -61,6 +61,7 @@ export const getXrkhType = ({commit, state}) => {
         if(!res.data.errorCode){
             let type =res.data.is_received == 1 ? 0:1;
             commit('SET_HD_XRKH',type);
+            commit('SET_HAS_PHONE',res.data.has_phone);
         };
     });
 }

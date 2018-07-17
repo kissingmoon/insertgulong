@@ -44,13 +44,14 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    import gt from 'common/js/gt';
+    // import gt from 'common/js/gt';
+    import gt from 'common/js/gt.sense';
     import {session,randomWord} from 'common/js/param';
     export default {
         data() {
             return{
                 registerParam:{
-                    code_id:'2154',
+                    // code_id:'2154',
                     // code:'',
                     user_id:'',
                     password:'',
@@ -79,13 +80,40 @@
         },
         methods: {
             init(){
-                this.setCode();
-                this.getBaseData();
+                // this.setCode();
+                // this.getBaseData();
+                this.makeVerify();
             },
             // 生成随机id
             setCode(){
                 this.registerParam.code_id = randomWord(false,6,8);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
+            },
+            //极验验证码初始化
+            makeVerify(){
+                let _this = this;
+                initSense({
+                    id:'baa56257af49111e99feb1aa1a13cdd3',        
+                    onError:(err) => {
+                        _this.setTip('验证码初始化错误');
+                    }
+                }, (sense) => {
+                    document.getElementById('register').addEventListener('click',() => {
+                        sense.sense()
+                    });
+                    sense.setInfos( () => {
+                        //设置可上传数据。请务必按照字段规范填写，否则会在服务验证时出错，导致程序无法运行或者后续数据分析出现混乱，参数需求参考api文档。
+                        return {
+                            interactive: 1
+                        }
+                    }).onSuccess( (data) => {
+                        this.register(data);
+                    }).onClose(() => {
+                        //关闭回调
+                    }).onError((err) => {
+                        //错误回调
+                    })
+                });
             },
             // 初始化验证码
             getBaseData(){
@@ -129,10 +157,13 @@
                     }
                 });
             },
-            register(result){
-                this.registerParam.geetest_challenge = result.geetest_challenge;
-                this.registerParam.geetest_validate = result.geetest_validate;
-                this.registerParam.geetest_seccode = result.geetest_seccode;
+            register(data){
+                // this.registerParam.geetest_challenge = result.geetest_challenge;
+                // this.registerParam.geetest_validate = result.geetest_validate;
+                // this.registerParam.geetest_seccode = result.geetest_seccode;
+                this.registerParam.challenge = data.challenge;
+                this.registerParam.idType = 4;
+                this.registerParam.idValue = this.registerParam.user_id;
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
                     if(!res.data.errorCode){

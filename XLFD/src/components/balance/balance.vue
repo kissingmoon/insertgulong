@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="balance">
-            <scroll ref="scroll" class="scroll-content" >
+            <div ref="scroll" class="scroll-content" >
                 <div class="balance-main">
                     <div class="balance-num">
                         <p class="remarks">
@@ -17,12 +17,12 @@
                             </div>
                         </div>
                         <div class="form-btn">
-                            <div v-if="account.bank_passwd_status == 1" class="btn" @click="showPassword()">提交</div>
-                            <div v-if="account.bank_passwd_status != 1" class="btn btn-disabled" >提交</div>
+                            <button class="btn" @click="showPassword()"  :disabled="bankBtnDisabled">提交</button>
+                            <!-- <div v-if="account.bank_passwd_status != 1" class="btn btn-disabled" >提交</div> -->
                         </div>
                     </div>
                 </div>
-            </scroll>
+            </div>
             <div  v-show="passwordShow">
                 <div class="background" @click="hide('passwordShow')">
                 </div>
@@ -120,14 +120,9 @@
         computed: {
             ...mapGetters([
                 'account'
-            ])
-        },
-        watch:{
-            money(newVal,oldVal){
-                const regex = /^\d*$/;
-                if(!regex.test(newVal)) {
-                    this.money = oldVal ;
-                }
+            ]),
+            bankBtnDisabled(){
+                return this.account.bank_passwd_status != 1 || this.account.bank_status != 1 || this.money < 100;
             }
         },
         methods: {
@@ -180,9 +175,6 @@
             }
         },
         watch:{
-            // account(){
-            //     this.passworTipShow = this.account.bank_passwd_status != 1;
-            // },
             money(newVal,oldVal){
                 const regex = /^\d*$/;
                 if(!regex.test(newVal)) {
@@ -204,7 +196,7 @@
     background:$color-bg-gray;
     .scroll-content{
         height: 100%;
-        overflow: hidden;
+        overflow-y: auto;
         .balance-main{
             height: 100%;
             overflow: hidden;
@@ -228,7 +220,7 @@
         }
         .balance-form{
             position:fixed;
-            top:1.8rem;
+            top:3rem;
             left:0;
             z-index:102;
             bottom:0;

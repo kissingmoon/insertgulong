@@ -35,13 +35,14 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    import gt from 'common/js/gt';
-    import {session,randomWord,removeSession} from 'common/js/param';
+    // import gt from 'common/js/gt';
+    import gt from 'common/js/gt.sense';
+    import {local,session,randomWord,removeSession,removeLocal} from 'common/js/param';
     export default {
         data() {
             return{
                 loginParam:{
-                    code_id:'2154',
+                    // code_id:'',
                     // code:'',
                     user_id:'',
                     password:''
@@ -78,8 +79,46 @@
                 'getXrkhType'
             ]),
             init(){
-                this.setCode();
-                this.getBaseData();
+                this.getloginParam();
+                // this.setCode();
+                // this.getBaseData();
+                this.makeVerify();
+                
+                
+            },
+            //极验验证码初始化
+            makeVerify(){
+                let _this = this;
+                initSense({
+                    id:'baa56257af49111e99feb1aa1a13cdd3',        
+                    onError:(err) => {
+                        _this.setTip('验证码初始化错误');
+                    }
+                }, (sense) => {
+                    document.getElementById('login').addEventListener('click',() => {
+                        sense.sense()
+                    });
+                    sense.setInfos( () => {
+                        //设置可上传数据。请务必按照字段规范填写，否则会在服务验证时出错，导致程序无法运行或者后续数据分析出现混乱，参数需求参考api文档。
+                        return {
+                            interactive: 1
+                        }
+                    }).onSuccess( (data) => {
+                        this.login(data);
+                    }).onClose(() => {
+                        //关闭回调
+                    }).onError((err) => {
+                        //错误回调
+                    })
+                });
+            },
+
+            // 获取本地储存的账号密码
+            getloginParam(){
+                let loginParam = local('loginParam');
+                if(loginParam){
+                    this.loginParam = loginParam;
+                }
             },
             // 生成8-10位的随机数
             setCode(){
@@ -131,10 +170,14 @@
                 })
             },
             // 用户登录
-            login(result){
-                this.loginParam.geetest_challenge = result.geetest_challenge;
-                this.loginParam.geetest_validate = result.geetest_validate;
-                this.loginParam.geetest_seccode = result.geetest_seccode;
+            login(data){
+                local('loginParam',this.loginParam);
+                // this.loginParam.geetest_challenge = result.geetest_challenge;
+                // this.loginParam.geetest_validate = result.geetest_validate;
+                // this.loginParam.geetest_seccode = result.geetest_seccode;
+                this.loginParam.challenge = data.challenge;
+                this.loginParam.idType = 4;
+                this.loginParam.idValue = this.loginParam.user_id;
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {
                     if(!res.data.errorCode){
@@ -154,6 +197,7 @@
                             path:'/'
                         });
                     }else{
+                        // this.$router.go(0);
                         // this.init();
                     }
                 });

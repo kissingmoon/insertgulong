@@ -225,7 +225,6 @@
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:'sy_bzjlq_url'})
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        console.log(res.data);
                         this.bzjlq_url=res.data[0].url;
                     }
                 });
@@ -242,9 +241,7 @@
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
                     if(!res.data.errorCode){
-                        console.log(res.data);
                         this.lotteryList=regroupLotteryData(res.data);
-                        console.log(this.lotteryList);
                         this.forEachLottery(res.data);
                     }
                 });

@@ -61,7 +61,7 @@ export function removeSession(key){
     sessionStorage.removeItem(key);
 }
 
-//储存获取sessionStorage属性方法
+//储存获取localStorage属性方法
 export function local(key,val) {
     if(!val && val!='0'){
         let userJsonStr = localStorage.getItem(key);
@@ -215,7 +215,6 @@ export function trimArr(str,symbol,type){
             break;
         }
     }
-    console.log(after);
     return after;
 }
 

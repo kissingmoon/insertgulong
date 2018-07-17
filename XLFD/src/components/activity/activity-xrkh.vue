@@ -340,7 +340,7 @@
             @include bg-image('wd_bg');
             background-size: 100%;
             top:calc((100% - 10.6rem) / 2);
-            height:9.3rem;
+            height:9.44rem;
             background-position: center top;
             overflow:visible;
             .detail-title{
@@ -350,7 +350,7 @@
                 text-align: center;
             }
             .wf-detail-main{
-                padding-top:4rem;
+                padding-top:4.1rem;
                 height:3.2rem;
                 
             }

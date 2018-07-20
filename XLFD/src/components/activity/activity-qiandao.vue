@@ -63,7 +63,7 @@
             setQiandao(){
                 this.$axios.postRequest(httpUrl.home.qiandao)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.qiandaoShow=false;
                         this.getUser();
                         this.successShow = true;

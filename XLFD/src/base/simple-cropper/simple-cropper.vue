@@ -84,7 +84,7 @@ export default {
             //console.log(encodeURIComponent(imgData));
             this.$axios.postRequest(httpUrl.info.userImg,{img:imgData})
             .then((res)=> {
-                if(!res.data.errorCode){
+                if(res.data && !res.data.errorCode){
                     this.successCallback(res.data);
                     this.cancelHandle();
                 };

@@ -156,7 +156,7 @@
             this.$axios.postRequest(httpUrl.bet.betLHC28,param)
             .then((res)=> {
                 this.loadingShow=false;
-                if(!res.data.errorCode){
+                if(res.data && !res.data.errorCode){
                     this.$emit('betSuccess');
                 };
             })

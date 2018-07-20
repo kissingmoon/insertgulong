@@ -68,7 +68,7 @@
                 }
                 this.$axios.postRequest(httpUrl.descover.drawNumber,this.param)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.drawNumber=this.drawNumber.concat(slicer(res.data,'kj_code',','));

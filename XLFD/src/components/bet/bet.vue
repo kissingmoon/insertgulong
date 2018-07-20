@@ -85,7 +85,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.bet,this.betParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.betList=this.betList.concat(res.data);

@@ -28,7 +28,7 @@ export const setHeader = ({commit, state},param) => {
 export const getUser = ({commit, state}) => {
     $axios.postRequest(httpUrl.info.user)
     .then((res)=> {
-        if(!res.data.errorCode){
+        if(res.data && !res.data.errorCode){
             commit('SET_ACCOUNT',res.data);
         };
     });
@@ -38,7 +38,7 @@ export const getUser = ({commit, state}) => {
 export const getMessageCount = ({commit, state}) => {
     $axios.postRequest(httpUrl.home.messageCount)
     .then((res)=> {
-        if(!res.data.errorCode){
+        if(res.data && !res.data.errorCode){
             commit('SET_MESSAGE_COUNT',res.data.num);
         };
     });
@@ -48,7 +48,7 @@ export const getMessageCount = ({commit, state}) => {
 export const getIsReceived = ({commit, state},type) => {
     $axios.postRequest(httpUrl.config.isReceived,{hd_flag:type})
     .then((res)=> {
-        if(!res.data.errorCode){
+        if(res.data && !res.data.errorCode){
             const name= 'SET_' + type.toUpperCase();
             commit(name,res.data.is_received);
         };
@@ -58,7 +58,7 @@ export const getIsReceived = ({commit, state},type) => {
 export const getXrkhType = ({commit, state}) => {
     $axios.postRequest(httpUrl.config.xrkhIsOK)
     .then((res)=> {
-        if(!res.data.errorCode){
+        if(res.data && !res.data.errorCode){
             let type =res.data.is_received == 1 ? 0:1;
             commit('SET_HD_XRKH',type);
             commit('SET_HAS_PHONE',res.data.has_phone);

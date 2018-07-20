@@ -64,7 +64,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.attentionDatail,this.param)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.author=[];
                         this.author.push(res.data.ds_info);
                         if(type == 'up'){
@@ -82,7 +82,7 @@
                 let user_flag=this.author[index].user_flag;
                 this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.author[index].has_gz=!this.author[index].has_gz;
                         this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
                     };

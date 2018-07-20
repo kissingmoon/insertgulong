@@ -84,7 +84,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.coin,this.rechargeParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.rechargeList=this.rechargeList.concat(res.data);

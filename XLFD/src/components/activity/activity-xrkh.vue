@@ -105,7 +105,7 @@
                 this.recCodeBtn();
                 this.$axios.postRequest(httpUrl.config.sendCode,{mobile:this.mobile})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.getCodeType = true;
                     }else{
                         clearTimeout(this.recCode);
@@ -138,7 +138,7 @@
             setXrkh(){
                 this.$axios.postRequest(httpUrl.home.xrkh,{mobile:this.mobile,code:this.code})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.mobile= '';
                         this.code='';
                         this.xrkhShow=false;

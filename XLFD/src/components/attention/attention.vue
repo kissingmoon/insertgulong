@@ -36,7 +36,7 @@
             getAttention(){
                 this.$axios.postRequest(httpUrl.info.attention)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.attention=res.data;
                     };
                 });
@@ -45,7 +45,7 @@
                 let user_flag=this.attention[index].user_flag;
                 this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.attention[index].has_gz=!this.attention[index].has_gz;
                         this.attention[index].count_fans=status == 1?this.attention[index].count_fans+=1 : this.attention[index].count_fans-=1;
                     };

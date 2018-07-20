@@ -149,6 +149,7 @@
                 notice:{},
                 gift:[],
                 lotteryList:[],
+                oldLotteryList:[],
                 showSub:'',
                 rank:{
                     today_flow_money:0,
@@ -172,6 +173,14 @@
             // document.body.addEventListener('touchmove', function (e) {
             //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
             // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+        },
+        beforeDestroy(){
+            this.oldLotteryList.forEach((item,i) => {
+                item.sub_lottery.forEach((sub,s) => {
+                    const id=sub.lottery_id;
+                    clearTimeout(this[id]);
+                });
+            });
         },
         computed: {
             ...mapGetters([
@@ -208,7 +217,7 @@
             getActivitys() {
                 this.$axios.postRequest(httpUrl.home.sliderImg)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.activitys=res.data;
                     }
                 });
@@ -216,7 +225,7 @@
             getNotice(){
                 this.$axios.postRequest(httpUrl.home.notice)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.notice=res.data;
                     }
                 });
@@ -224,7 +233,7 @@
             getBzjlq(){
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:'sy_bzjlq_url'})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.bzjlq_url=res.data[0].url;
                     }
                 });
@@ -232,7 +241,7 @@
             getGift(){
                 this.$axios.postRequest(httpUrl.home.gift,{'type':'01'})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.gift=res.data;
                     }
                 });
@@ -240,32 +249,33 @@
             getLottery(){
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
+                        this.oldLotteryList = res.data;
                         this.lotteryList=regroupLotteryData(res.data);
                         this.forEachLottery(res.data);
                     }
                 });
             },
             forEachLottery(lottery){
-                lottery.forEach((item,i) => {
-                    this.getSubLotteryLocktime(item.lottery_type,i);
+                this.oldLotteryList.forEach((item,i) => {
+                    item.sub_lottery.forEach((sub,s) => {
+                        this.getSubLotteryLocktime(sub.lottery_id);
+                    });
                 });
                 
             },
             //获取子彩种开奖时间
-            getSubLotteryLocktime(type,i){
-                this.$axios.postRequest(httpUrl.bet.subLotteryLocktime,{lottery_type:type})
+            getSubLotteryLocktime(id){
+                this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id})
                 .then((res)=> {
-                    if(!res.data.errorCode){
-                        res.data.forEach((sub,s) => {
-                            this.subLotteryCountTime(sub,type,i)
-                        });
+                    if(res.data && !res.data.errorCode){
+                        this.subLotteryCountTime(res.data)
                     }
                 });
             },
             //子彩种倒计时
-            subLotteryCountTime(sub,type,i){
-                if(type == 6){
+            subLotteryCountTime(sub){
+                if(sub.lottery_id == 'xglhc'){
                     if(this.$refs[sub.lottery_id] && this.$refs[sub.lottery_id][0]){
                         this.$refs[sub.lottery_id][0].innerHTML=sub.lock_time;
                     }
@@ -277,19 +287,19 @@
                 }
                 if (drawCountTime == "00:00:00") {
                     setTimeout(() => {
-                        this.getSubLotteryLocktime(type,i);
-                    },2000);
+                        this.getSubLotteryLocktime(sub.lottery_id);
+                    },6000);
                 }else{
                     clearTimeout(this[sub.lottery_id]);
                     this[sub.lottery_id]=setTimeout(() => {
-                        this.subLotteryCountTime(sub,type,i);
+                        this.subLotteryCountTime(sub);
                     },1000);
                 }
             },
             getRank(){
                 this.$axios.postRequest(httpUrl.home.rank)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.rank=res.data;
                     }
                 });
@@ -297,7 +307,7 @@
             getBetWin(){
                 this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.betWin=res.data;
                     }
                 });

@@ -141,7 +141,7 @@
             getLottery(){
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.lotteryList=res.data;
                     }
                 });
@@ -149,7 +149,7 @@
             getRank(){
                 this.$axios.postRequest(httpUrl.descover.rank,this.crunchiesParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.crunchiesList=res.data;
                     }
                 });
@@ -161,7 +161,7 @@
                 }
                 this.$axios.postRequest(httpUrl.descover.order,this.orderParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.orderList=this.orderList.concat(res.data);

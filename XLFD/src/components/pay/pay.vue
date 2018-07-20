@@ -47,7 +47,7 @@
             getPayUrl(){
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.url=`${res.data[0].url}?user_token=${this.user_token}`
                     }
                 });

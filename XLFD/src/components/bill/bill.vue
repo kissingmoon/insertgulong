@@ -155,7 +155,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.coin,this.billParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.billList=this.billList.concat(res.data);
@@ -174,7 +174,7 @@
             getFlowType(){
                 this.$axios.postRequest(httpUrl.info.flowType)
                 .then((res) => {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.pickData=regroupPickData(res.data);
                     }
                 })

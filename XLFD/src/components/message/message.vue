@@ -100,7 +100,7 @@
                 }
                 this.$axios.postRequest(httpUrl.config.message,this.messageParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.messageList=this.messageList.concat(res.data);
@@ -122,7 +122,7 @@
                 this.detailShow=false;
                 this.$axios.postRequest(httpUrl.config.messageHandle,{msg_id:this.messageDetail.id,flag:type})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(res.data.status == 1){
                             if( type == 2){
                                 this.messageList.splice(this.detailIndex, 1);

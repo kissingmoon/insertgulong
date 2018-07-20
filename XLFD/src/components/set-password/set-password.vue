@@ -51,7 +51,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('设置成功');
                         this.getUser();
                         this.$router.back();

@@ -48,7 +48,7 @@
             getWinMoney(){
                 this.$axios.postRequest(httpUrl.descover.winMoney)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         let money=res.data.money;
                         let length=money.length;
                         this.winMoney.num2=money.slice(-4).split('');
@@ -61,7 +61,7 @@
             getDraw(){
                 this.$axios.postRequest(httpUrl.descover.draw)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.draw=slicer(res.data,'kj_code',',');
                     };
                 });

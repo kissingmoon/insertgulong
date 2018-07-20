@@ -44,7 +44,7 @@
                 let nick={nick_name:this.nick_name};
                 this.$axios.postRequest(httpUrl.info.editNick,nick)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('修改成功')
                         this.getUser();
                         this.$router.back();

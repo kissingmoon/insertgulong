@@ -99,7 +99,7 @@
                 const order_number = this.$router.history.current.query.id;
                 this.$axios.postRequest(httpUrl.info.betDetail,{order_number})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.betDetail=res.data;
                     };
                 });
@@ -111,7 +111,7 @@
                 this.$axios.postRequest(httpUrl.bet.undoOrder,{order_number})
                 .then((res)=> {
                     this.betBtnType = true; 
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('撤单成功');
                         this.getBetDetail();
                     };

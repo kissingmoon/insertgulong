@@ -62,6 +62,7 @@ export const httpUrl = {
         betZyj:'/v2/bet/bet-zyj-by-money',
         betLHC28:'/bet/bet-order-lhc28',
         subLotteryLocktime:'/v2/gc/sub-lottery-locktime',
+        cpLocktime:'/gc/cp-lock-time',
         undoOrder:'/v2/bet/undo-order'
     },
     config:{

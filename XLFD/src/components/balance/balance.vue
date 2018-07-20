@@ -139,7 +139,7 @@
                 this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
                 .then((res)=> {
                     this.bank_passwd=''
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('提现成功');
                         this.getUser();
                         this.$router.back();

@@ -214,7 +214,7 @@
         getLotteryQh(){
             this.$axios.postRequest(httpUrl.bet.lotteryQh,{'lottery_id':this.lotteryId})
             .then((res)=> {
-                if(!res.data.errorCode){
+                if(res.data && !res.data.errorCode){
                     this.lotteryQh = res.data;
                     this.makeNumberList();
                 };
@@ -300,7 +300,7 @@
             this.$axios.postRequest(url,param)
             .then((res)=> {
                 this.loadingShow=false;
-                if(!res.data.errorCode){
+                if(res.data && !res.data.errorCode){
                     this.$emit("betSuccess");
                 };
             })

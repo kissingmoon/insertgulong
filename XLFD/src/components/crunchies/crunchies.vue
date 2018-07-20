@@ -53,7 +53,7 @@
                 }
                 this.$axios.postRequest(httpUrl.descover.rank,this.crunchiesParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
                             this.crunchiesList=this.crunchiesList.concat(res.data);
@@ -69,7 +69,7 @@
                 let user_flag=this.crunchiesList[index].user_flag;
                 this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.crunchiesList[index].has_gz=!this.crunchiesList[index].has_gz;
                         this.crunchiesList[index].count_fans=status == 1?this.crunchiesList[index].count_fans+=1 : this.crunchiesList[index].count_fans-=1;
                     };

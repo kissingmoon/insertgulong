@@ -515,13 +515,9 @@
         },
         mounted(){
         },
-        destroyed(){
-            if(this.lockTimes){
-                clearTimeout(this.lockTimes);
-            }
-            if(this.getLockTimes){
-                clearTimeout(this.getLockTimes);
-            }
+        beforeDestroy(){
+            clearTimeout(this.lockTimes);
+            clearTimeout(this.getLockTimes);
         },
         computed: {
             //显示单注奖金
@@ -610,7 +606,7 @@
                 const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
                 this.$axios.postRequest(api,{lottery_id:this.lotteryId})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.wfList=res.data;
                         this.selectTacitWf();
                         this.makeWfParam();
@@ -622,9 +618,8 @@
             getZodiac(){
                 this.$axios.postRequest(httpUrl.bet.zodiac)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.zodiac=res.data;
-                        console.log(this.zodiac);
                     };
                 });
             },
@@ -632,7 +627,7 @@
             getLockTime(){
                 this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.lotteryInfo=res.data;
                         this.setCountTime(res.data.lock_time.replace(/-/g,'/'));
                     };
@@ -646,9 +641,7 @@
                     this.getDrawHis();
                 }
                 if (this.drawCountTime == "00:00:00") {
-                    if(this.$router.history.current.path == '/home/lottery'){
-                        this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
-                    }
+                    this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
                     this.hide('followNumberShow');
@@ -830,7 +823,7 @@
             getDrawHis(){
                 this.$axios.postRequest(httpUrl.descover.drawNumber,{lottery_id:this.lotteryId,page_size:20,page_no:1})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                     };
@@ -903,7 +896,7 @@
                 this.$axios.postRequest(httpUrl.bet.betOrder,param)
                 .then((res)=> {
                     this.hide('loadingShow');
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.allClear();
                         this.getUser()
                         this.hide('betAffirmShow');
@@ -912,7 +905,6 @@
                 })
                 .catch((err) => {
                     this.hide('loadingShow');
-                    console.log(err);
                 });
             },
             //赚佣投注
@@ -934,7 +926,7 @@
                 this.$axios.postRequest(httpUrl.bet.betZyj,param)
                 .then((res)=> {
                     this.hide('loadingShow');
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.allClear();
                         this.getUser()
                         this.hide('betAffirmShow');
@@ -963,7 +955,6 @@
                     this.betCount=this.selectNumList[0].length;
                 }else{
                     const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
-                    console.log(this.betNumber);
                     try{
                         this.betCount=CalcBetCount[funName](this.betNumber);
                     }
@@ -1091,7 +1082,6 @@
             },
             //设置王法规则显示
             setRuleParam(){
-                console.log(this.lotteryType);
                 switch(this.lotteryType){
                     case '6':
                         this.ruleTitle="香港六合彩玩法规则";
@@ -1105,7 +1095,7 @@
                         this.ruleTitle="跟单说明"
                         this.$axios.postRequest(httpUrl.config.urlList,{flag:'gd_helper_url'})
                         .then((res)=> {
-                            if(!res.data.errorCode){
+                            if(res.data && !res.data.errorCode){
                                 this.ruleUrl=res.data[0].url;
                             }
                         });

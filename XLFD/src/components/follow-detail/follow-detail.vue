@@ -186,7 +186,7 @@
                 const user_flag = this.$router.history.current.query.flag;
                 this.$axios.postRequest(httpUrl.info.followDetail,{gd_number,user_flag})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.author.push(res.data.ds_info);
                         this.order=res.data.gd_info;
                         this.detailList=res.data.gd_detail;
@@ -211,7 +211,7 @@
                 let user_flag=this.author[index].user_flag;
                 this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.author[index].has_gz=!this.author[index].has_gz;
                         this.author[index].count_fans=status == 1? this.author[index].count_fans += 1 : this.author[index].count_fans -= 1;
                     };
@@ -228,7 +228,7 @@
                 this.$axios.postRequest(httpUrl.descover.betGd,{gd_number:this.order.gd_number,gd_money:this.gdMoney})
                 .then((res)=> {
                     this.loadingShow=false;
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.gdMoney="";
                         this.setTip('跟单成功');
                         this.getUser();

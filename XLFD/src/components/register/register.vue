@@ -166,7 +166,7 @@
                 this.registerParam.idValue = this.registerParam.user_id;
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         session('user_token',res.data.user_token);
                         session('md5_salt',res.data.md5_salt);
                         this.resetUser({

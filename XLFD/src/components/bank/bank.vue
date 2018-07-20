@@ -103,7 +103,7 @@
                     if(this.account.bank_status == 0){
                         this.$axios.postRequest(httpUrl.info.bankList)
                         .then((res)=> {
-                            if(!res.data.errorCode){
+                            if(res.data && !res.data.errorCode){
                                 console.log(res.data);
                                 this.bankList.data1=res.data;
                             }
@@ -111,7 +111,7 @@
                     }else{
                         this.$axios.postRequest(httpUrl.info.bankInfo)
                         .then((res)=> {
-                            if(!res.data.errorCode){
+                            if(res.data && !res.data.errorCode){
                                 this.bankParam=res.data;
                                 this.accountNo=res.data.account_no;
                             }
@@ -124,7 +124,7 @@
                 this.bankParam.account_no=this.accountNo
                 this.$axios.postRequest(httpUrl.info.bindBank,this.bankParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('设置成功！');
                         this.getUser();
                         this.getBankInfo()

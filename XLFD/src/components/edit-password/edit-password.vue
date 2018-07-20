@@ -68,7 +68,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info[this.api],this.param)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.setTip('修改成功');
                         this.$router.back();
                     }

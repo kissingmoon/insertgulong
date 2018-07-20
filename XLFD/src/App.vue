@@ -63,7 +63,7 @@ export default {
                     this.getMessageCount();
                 }
                 this.getUserData();
-            },10000);
+            },20000);
         },
         ...mapActions([
             'setHeader',

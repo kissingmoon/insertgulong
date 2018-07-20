@@ -63,7 +63,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.followMyJoin,this.followParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.followList=res.data;
                     };
                 });
@@ -77,7 +77,7 @@
                 }
                 this.$axios.postRequest(httpUrl.info.followMy,this.followParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.followList=res.data;
                     };
                 });
@@ -88,7 +88,7 @@
                 this.refreshStatus=true;
                 this.$axios.postRequest(api,this.followParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.followList=res.data;
                         this.refreshStatus=false;
                         this.isAllData =false;
@@ -101,7 +101,7 @@
                 this.loadStatus=true;
                 this.$axios.postRequest(api,this.followParam)
                 .then((res)=> {
-                    if(!res.data.errorCode){
+                    if(res.data && !res.data.errorCode){
                         this.isAllData =res.data.length < 20 ? true : false;
                         this.followList=this.followList.concat(res.data);
                         console.log(this.followList);

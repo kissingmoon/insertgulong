@@ -38,7 +38,7 @@
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
-                                    <button @click="withdrawCash">确认</button>
+                                    <button @click="withdrawCash":disabled="bank_passwd.length < 1">确认</button>
                                 </li>
                             </ul>
                         </div>
@@ -328,8 +328,8 @@
                         border:0;
                         &.margin-right-1rem{
                             margin-right:1rem;
-                            background:$color-btn-gray;
-                            color: $color-text;
+                            // background:$color-btn-gray;
+                            // color: $color-text;
                         }
                     }
 

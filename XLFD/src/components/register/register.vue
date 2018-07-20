@@ -17,11 +17,11 @@
                         <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password" maxlength="16" autocomplete="off">
                     </p>
                 </li>
-                <li>
+                <!-- <li>
                     <p class="txt-con border-bottom-1px">
                         <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone" maxlength="16">
                     </p>
-                </li>
+                </li> -->
                 <!-- <li>
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code" maxlength="6">

@@ -31,8 +31,8 @@
                             </p>
                         </li>
                     </ul>
-                    <div class="btn-wrapper" :class="account.bank_status == 0 ? 'show':''">
-                        <button @click="setBankInfo">确定</button>
+                    <div class="btn-wrapper" :class="{'show' : account.bank_status == 0 }">
+                        <button @click="setBankInfo" :disabled="bankBtnType">确定</button>
                     </div>
                 </div>
             </scroll>
@@ -92,7 +92,10 @@
         computed: {
             ...mapGetters([
                 'account'
-            ])
+            ]),
+            bankBtnType(){
+                return this.bankParam.user_name.length < 1 || this.bankName.length  < 1 || this.bankParam.bank_branch_no.length  < 1 || this.accountNo.length  < 1 ;
+            }
         },
         methods: {
             getBankInfo() {

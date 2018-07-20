@@ -50,6 +50,7 @@ export const httpUrl = {
     },
     bet:{
         lotteryWf:'/gc/cz-wf',
+        lotteryQh:'/gc/lottery-qh',
         lotteryWfLHC:'/gc/cz-wf-lhc28',
         lockTime:'/gc/cp-lock-time',
         zodiac:'/gc/sx-lhc',

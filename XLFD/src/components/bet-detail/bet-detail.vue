@@ -81,7 +81,8 @@
         data() {
             return{
                 betDetail:{},
-                betType
+                betType,
+                betBtnType:true
             }
         },
         components: {
@@ -104,13 +105,19 @@
                 });
             },
             undoOrder(){
+                if(!this.betBtnType){ return; }
+                this.betBtnType = false; 
                 const order_number = this.$router.history.current.query.id;
                 this.$axios.postRequest(httpUrl.bet.undoOrder,{order_number})
                 .then((res)=> {
+                    this.betBtnType = true; 
                     if(!res.data.errorCode){
                         this.setTip('撤单成功');
                         this.getBetDetail();
                     };
+                })
+                .catch((err) => {
+                    this.betBtnType=true;
                 });
             },
             ...mapMutations({

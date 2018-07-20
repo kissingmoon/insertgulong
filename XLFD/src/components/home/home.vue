@@ -389,11 +389,7 @@
                 float: left;
                 width:50%;
                 height: auto;
-                overflow: hidden;
                 @include border-bottom-1px(solid,$color-border-gray);
-                &.none-1px{
-                    @include border-bottom-1px(solid,$color-bg-white-a0);
-                }
                 &.sub-wrapper{
                     width:100%;
                     background: #F6F4E6;
@@ -450,12 +446,12 @@
                 }
                 .triangle-below{
                     position: absolute;
-                    width:0.6rem;
+                    width:0.5rem;
                     color:#F6F4E6;
                     bottom:-0.1rem;
                     font-size: $font-size-large;
                     transform:rotate(180deg);
-                    left:calc((100% - 0.6rem)/2);
+                    left:calc((100% - 0.5rem)/2);
                     z-index: 100;
                 }
                 

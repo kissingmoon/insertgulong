@@ -162,7 +162,6 @@
             })
             .catch((err) => {
                 this.loadingShow=false;
-                console.log(err);
             });
 
         }

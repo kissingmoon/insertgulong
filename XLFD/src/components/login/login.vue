@@ -83,8 +83,6 @@
                 // this.setCode();
                 // this.getBaseData();
                 this.makeVerify();
-                
-                
             },
             //极验验证码初始化
             makeVerify(){

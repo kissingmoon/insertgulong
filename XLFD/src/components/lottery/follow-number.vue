@@ -105,6 +105,7 @@
         apartPeriod:1,
         times:1,
         numberList:[],
+        lotteryQh:[],
         betMoney:0,
         betUnit,
         loadingShow:false,  
@@ -174,7 +175,7 @@
         init(){
             this.baseTimes=this.betTimes;
             this.watchInit();
-            this.makeNumberList();
+            this.getLotteryQh();
         },
         watchInit(){
             this.$watch('lotteryInfo',() => { 
@@ -200,17 +201,38 @@
                 }
                 this.betMoney = this.betMoney.toFixed(2)
             }, {deep: true});
+            this.$watch('baseTimes',(newVal,oldVal) => {
+                const regex = /^\d*$/;
+                if(!regex.test(newVal)) {
+                    this.baseTimes = oldVal ;
+                }
+                if(newVal >= 1){
+                    this.makeNumberList();
+                }
+            });
+        },
+        getLotteryQh(){
+            this.$axios.postRequest(httpUrl.bet.lotteryQh,{'lottery_id':this.lotteryId})
+            .then((res)=> {
+                if(!res.data.errorCode){
+                    this.lotteryQh = res.data;
+                    this.makeNumberList();
+                };
+            })
         },
         makeNumberList(){
             if(!this.isMake){return}
             this.numberList=[];
             let times=this.baseTimes;
-            let period = this.lotteryInfo.show_qh;
-            let hide_period = this.lotteryInfo.lottery_qh;
+            let period = '';
+            let hide_period = '';
             this.betMoney = 0;
             for(var i = 0; i< this.zhuihaoCountQs; i++){
-                period=(this.lotteryInfo.show_qh-0+i) > 99 ? ""+this.lotteryInfo.show_qh-0+i : "0"+(this.lotteryInfo.show_qh-0+i);
-                hide_period=this.lotteryInfo.lottery_qh-0+i+"";
+                // period=(this.lotteryInfo.show_qh-0+i) > 99 ? ""+this.lotteryInfo.show_qh-0+i : "0"+(this.lotteryInfo.show_qh-0+i);
+                // hide_period=this.lotteryInfo.lottery_qh-0+i+"";
+                console.log(this.lotteryQh[i]);
+                period=this.lotteryQh[i].show_qh
+                hide_period=this.lotteryQh[i].lottery_qh;
                 if( i != 0 &&  i%this.apartPeriod == 0){
                     times= times*this.times > 999999 ? 999999 : times*this.times;
                 }
@@ -306,10 +328,10 @@
                 this.makeNumberList();
             }
         },
-        baseTimes(newVal,oldVal){
+        times(newVal,oldVal){
             const regex = /^\d*$/;
             if(!regex.test(newVal)) {
-                this.baseTimes = oldVal ;
+                this.times = oldVal ;
             }
             if(newVal >= 1){
                 this.makeNumberList();
@@ -319,15 +341,6 @@
             const regex = /^\d*$/;
             if(!regex.test(newVal)) {
                 this.apartPeriod = oldVal ;
-            }
-            if(newVal >= 1){
-                this.makeNumberList();
-            }
-        },
-        times(newVal,oldVal){
-            const regex = /^\d*$/;
-            if(!regex.test(newVal)) {
-                this.times = oldVal ;
             }
             if(newVal >= 1){
                 this.makeNumberList();

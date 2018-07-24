@@ -22,7 +22,8 @@
                         <p class="txt">我的跟单</p>
                     </div>
                 </div>
-                <div class="crunchies-wrapper">
+                <!-- 大神榜 -->
+                <!-- <div class="crunchies-wrapper">
                     <div class="title-wrapper border-bottom-1px cup-con">
                         <div class="title">
                             大神榜
@@ -40,7 +41,7 @@
                             <p class="rate">{{item.win_rate}}%</p>
                         </router-link>
                     </div>
-                </div>
+                </div> -->
                 <div class="order-wrapper">
                     <div class="title-wrapper border-bottom-1px hot-con">
                         <div class="title">全部跟单</div>

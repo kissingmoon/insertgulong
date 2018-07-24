@@ -18,27 +18,52 @@
                         </div>
                         <div class="form-btn">
                             <button class="btn" @click="showPassword()"  :disabled="bankBtnDisabled">提交</button>
-                            <!-- <div v-if="account.bank_passwd_status != 1" class="btn btn-disabled" >提交</div> -->
                         </div>
                     </div>
                 </div>
             </div>
-            <div  v-show="passwordShow">
-                <div class="background" @click="hide('passwordShow')">
-                </div>
+            <div  v-if="phoneShow">
+                <div class="background"></div>
                 <div class="password">
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
                                 <li class="item-wrapper">
-                                    输入提现密码
+                                    绑定手机号
                                 </li>
                                 <li class="item-wrapper">
-                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off" >
+                                    <input type="tel" class="phone-txt" v-model="phone" placeholder="请输入手机号"  autocomplete="off" maxlength="11" ><button @click="getCode" class="phone-btn" :disabled="getCodeType || phone.length < 10" >{{codeBtnTxt}}</button>
+                                </li>
+                                <li class="item-wrapper">
+                                    <input type="tel" class="password-txt" v-model="bindCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" >
+                                </li>
+                                <li class="item-wrapper">
+                                    <button class="margin-right-1rem" @click="hide('phoneShow')">取消</button>
+                                    <button @click="bindphone" :disabled="bindCode.length < 1">确认</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  v-if="passwordShow">
+                <div class="background"></div>
+                <div class="password">
+                    <div class="password-wrapper clearfix">
+                        <div class="password-main">
+                            <ul>
+                                <li class="item-wrapper">
+                                    <input type="tel" class="phone-txt" :value="phoneNum" placeholder="请输入手机号"  autocomplete="off" maxlength="11" readonly="readonly" ><button @click="getCode" class="phone-btn" :disabled="getCodeType" >{{codeBtnTxt}}</button>
+                                </li>
+                                <li class="item-wrapper">
+                                    <input type="tel" class="password-txt" v-model="cashCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" maxlength="6" >
+                                </li>
+                                <li class="item-wrapper">
+                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off"  maxlength="16" >
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
-                                    <button @click="withdrawCash":disabled="bank_passwd.length < 1">确认</button>
+                                    <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button>
                                 </li>
                             </ul>
                         </div>
@@ -106,8 +131,15 @@
                 money:'',
                 bank_passwd:'',
                 passwordShow:false,
+                phoneShow:false,
                 passworTipShow:false,
-                bankTipShow:false
+                bankTipShow:false,
+                phone:'',
+                codeBtnTxt:'获取验证码',
+                recTime:60,
+                getCodeType:false,
+                bindCode:'',
+                cashCode:''
             }
         },
         components:{
@@ -117,12 +149,20 @@
         created() {
             this.init();
         },
+        mounted(){
+            this.phone = this.account.phone;
+        },
         computed: {
             ...mapGetters([
-                'account'
+                'account',
+                'has_phone'
             ]),
             bankBtnDisabled(){
                 return this.account.bank_passwd_status != 1 || this.account.bank_status != 1 || this.money < 100;
+            },
+            phoneNum(){
+                this.phone = this.account.phone;
+                return this.account.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
             }
         },
         methods: {
@@ -134,11 +174,57 @@
                     },500);
                 }
             },
+            getCode(){
+                this.getCodeType = true;
+                this.recCodeBtn();
+                this.$axios.postRequest(httpUrl.config.sendCode,{mobile:this.phone,sendFlag:'Y'})
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.getCodeType = true;
+                    }else{
+                        clearTimeout(this.recCode);
+                        this.recSetCode();
+                    }
+                })
+                .catch((err) => {
+                    clearTimeout(this.recCode);
+                    this.recSetCode();
+                });
+            },
+            recCodeBtn(){
+                this.recTime -= 1;
+                clearTimeout(this.recCode);
+                this.recCode= setTimeout(()=>{
+                    this.codeBtnTxt = `重新获取(${this.recTime})` 
+                    if(this.recTime  == 0){
+                        this.recSetCode();
+                    }else{
+                        this.recCodeBtn();
+                    }
+                },1000);
+            },
+            bindphone(){
+                this.$axios.postRequest(httpUrl.info.bindPhone,{phone:this.phone,code:this.bindCode})
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.recSetCode();
+                        this.setTip('绑定成功');
+                        this.getUser();
+                        this.hide('phoneShow');
+                        this.show('passwordShow');
+                        
+                    };
+                })
+                .catch((err) => {
+                    this.recSetCode();
+                });
+            },
             withdrawCash(){
                 this.hide('passwordShow');
-                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
+                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
                 .then((res)=> {
                     this.bank_passwd=''
+                    this.recSetCode();
                     if(res.data && !res.data.errorCode){
                         this.setTip('提现成功');
                         this.getUser();
@@ -146,8 +232,17 @@
                     };
                 })
                 .catch((err) => {
-                    this.bank_passwd=''
+                    this.bank_passwd='';
+                    this.recSetCode();
                 });
+            },
+            recSetCode(){
+                this.bindCode='';
+                this.cashCode='';
+                this.getCodeType = false;
+                this.codeBtnTxt = '获取验证码';
+                this.recTime = 60;
+                clearTimeout(this.recCode);
             },
             hide(type){
                 this[type] = false;
@@ -160,7 +255,11 @@
                     this.setTip('提现金额最低100元');
                     return;
                 };
-                this.passwordShow = true;
+                if(this.account && this.account.phone && this.account.phone.length > 0){
+                    this.passwordShow = true;
+                }else{
+                    this.phoneShow = true;
+                }
             },
             ...mapActions([
                 'getUser'
@@ -290,18 +389,18 @@
     }
     .password{
         position:fixed;
-        top:calc((100% - 4rem) / 2);
+        top:calc((100% - 6rem) / 2);
         left:1.5rem;
         z-index:120;
         width:7rem;
-        height:4rem;
+        height:6rem;
         overflow:auto;
         background:$color-bg;
         border-radius: 0.2rem;
         .password-wrapper{
             min-height:100%;
             .password-main{
-                padding:0.4rem 0.4rem 0;
+                padding:0.8rem 0.4rem 0;
                 .item-wrapper{
                     height:auto;
                     overflow: hidden;
@@ -314,7 +413,13 @@
                         height:0.7rem;
                         line-height: 0.7rem;
                         border:1px solid $color-border-gray;
-
+                    }
+                    .phone-txt{
+                        width:3rem;
+                        padding-left: 0.3rem;
+                        height:0.7rem;
+                        line-height: 0.7rem;
+                        border:1px solid $color-border-gray;
                     }
                     button{
                         height:0.7rem;
@@ -330,6 +435,10 @@
                             margin-right:1rem;
                             // background:$color-btn-gray;
                             // color: $color-text;
+                        }
+                        &.phone-btn{
+                            margin-left: 0.2rem;
+                            width:2.6rem;
                         }
                     }
 

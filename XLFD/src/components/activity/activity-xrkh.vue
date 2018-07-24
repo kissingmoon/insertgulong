@@ -136,7 +136,8 @@
                 },1000);
             },
             setXrkh(){
-                this.$axios.postRequest(httpUrl.home.xrkh,{mobile:this.mobile,code:this.code})
+                let type = this.has_phone == 1 ? 'Y':'';
+                this.$axios.postRequest(httpUrl.home.xrkh,{mobile:this.mobile,code:this.code,isBindFlag:type})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.mobile= '';

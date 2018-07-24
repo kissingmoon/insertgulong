@@ -35,7 +35,8 @@ export const httpUrl = {
         bankInfo:'/user/bank-info',
         bankList:'/config/bank-list',
         userImg:'/user/edit-user-image-front',
-        flowType:'/v2/sys-config/get-flow-type'
+        flowType:'/v2/sys-config/get-flow-type',
+        bindPhone:'/user/bind-phone'
     },
     discount:{
         activity:'/v2/activity/get-activity'

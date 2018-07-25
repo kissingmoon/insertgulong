@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-            target: 'http://192.168.195.25:8800', 
+            target: 'https://www.xlfdapi.com', 
             changeOrigin: true, 
             pathRewrite: {
               '^/api': ''
@@ -52,20 +52,11 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-        '/api': {
-            target: 'https://www.xlfdapi.com', 
-            changeOrigin: true, 
-            pathRewrite: {
-              '^/api': ''
-            }
-          }
-    },
     /**
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: false,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 

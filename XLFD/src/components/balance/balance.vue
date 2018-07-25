@@ -22,9 +22,10 @@
                     </div>
                 </div>
             </div>
+            <!-- 绑定手机号 -->
             <div  v-if="phoneShow">
                 <div class="background"></div>
-                <div class="password">
+                <div class="password phone-con">
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
@@ -32,7 +33,7 @@
                                     绑定手机号
                                 </li>
                                 <li class="item-wrapper">
-                                    <input type="tel" class="phone-txt" v-model="phone" placeholder="请输入手机号"  autocomplete="off" maxlength="11" ><button @click="getCode" class="phone-btn" :disabled="getCodeType || phone.length < 10" >{{codeBtnTxt}}</button>
+                                    <input type="tel" class="phone-txt" v-model="phone" placeholder="请输入手机号"  autocomplete="off" maxlength="11" ><button @click="getCode" class="phone-btn" :disabled="getCodeType || phone.length < 11" >{{codeBtnTxt}}</button>
                                 </li>
                                 <li class="item-wrapper">
                                     <input type="tel" class="password-txt" v-model="bindCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" >
@@ -46,9 +47,10 @@
                     </div>
                 </div>
             </div>
+            <!-- 输入提现密码 -->
             <div  v-if="passwordShow">
                 <div class="background"></div>
-                <div class="password">
+                <div class="password phone-con">
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
@@ -70,6 +72,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 设置提现密码提示 -->
             <div  v-if="passworTipShow">
                 <div class="background"  @click="hide('passworTipShow')">
                 </div>
@@ -93,6 +96,7 @@
                     </div>
                 </div>
             </div>
+            <!-- 设置提款账号提示 -->
             <div  v-else-if="bankTipShow">
                 <div class="background"  @click="hide('bankTipShow')">
                 </div>
@@ -160,6 +164,7 @@
             bankBtnDisabled(){
                 return this.account.bank_passwd_status != 1 || this.account.bank_status != 1 || this.money < 100;
             },
+            // 隐藏手机号
             phoneNum(){
                 this.phone = this.account.phone;
                 return this.account.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
@@ -174,6 +179,7 @@
                     },500);
                 }
             },
+            // 获取验证码
             getCode(){
                 this.getCodeType = true;
                 this.recCodeBtn();
@@ -191,6 +197,7 @@
                     this.recSetCode();
                 });
             },
+            // 获取验证码按钮倒计时
             recCodeBtn(){
                 this.recTime -= 1;
                 clearTimeout(this.recCode);
@@ -203,6 +210,7 @@
                     }
                 },1000);
             },
+            // 绑定手机号
             bindphone(){
                 this.$axios.postRequest(httpUrl.info.bindPhone,{phone:this.phone,code:this.bindCode})
                 .then((res)=> {
@@ -219,6 +227,7 @@
                     this.recSetCode();
                 });
             },
+            // 提现
             withdrawCash(){
                 this.hide('passwordShow');
                 this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
@@ -236,6 +245,7 @@
                     this.recSetCode();
                 });
             },
+            // 重置获取验证码按钮
             recSetCode(){
                 this.bindCode='';
                 this.cashCode='';
@@ -253,6 +263,10 @@
             showPassword(){
                 if(this.money < 100){
                     this.setTip('提现金额最低100元');
+                    return;
+                };
+                if(this.money > this.account.balance){
+                    this.setTip('余额不足');
                     return;
                 };
                 if(this.account && this.account.phone && this.account.phone.length > 0){
@@ -389,14 +403,18 @@
     }
     .password{
         position:fixed;
-        top:calc((100% - 6rem) / 2);
+        top:calc((100% - 4rem) / 2);
         left:1.5rem;
         z-index:120;
         width:7rem;
-        height:6rem;
+        height:4rem;
         overflow:auto;
         background:$color-bg;
         border-radius: 0.2rem;
+        &.phone-con{
+            top:calc((100% - 6rem) / 2);
+            height:6rem;
+        }
         .password-wrapper{
             min-height:100%;
             .password-main{

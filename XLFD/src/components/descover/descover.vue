@@ -396,6 +396,7 @@
                         line-height: 0.7rem;
                         padding-left:0.1rem;
                         font-size: $font-size-medium-x;
+                        padding-bottom:0.2rem;
                     }
                     .sub-lottery-wrapper{
                         height:auto;
@@ -407,19 +408,19 @@
                             padding-right: 0.25rem;
                             padding-bottom:0.2rem;
                             .img{
-                                height:2rem;
+                                height:1.6rem;
                                 border-radius: 50%;
                                 overflow: hidden;
                                 &.all-img{
                                     @include bg-image('icon-all-lottery');
                                     background-position: center;
-                                    background-size: 1.6rem;
+                                    background-size: 1.2rem;
                                     background-repeat: no-repeat;
                                 }
                                 img{
                                     display: block;
-                                    width:100%;
-                                    
+                                    width:70%;
+                                    margin: 0 auto;
                                 }
                             }
                             .title{

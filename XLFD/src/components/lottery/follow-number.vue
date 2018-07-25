@@ -162,21 +162,13 @@
     mounted() {
         this.init();
     },
-    computed:{
-        // betMoney(){
-        //     var money=0;
-        //     this.numberList.forEach((item,i) => {
-        //         money += item.money;
-        //     });
-        //     return money;
-        // }
-    },
     methods: {
         init(){
             this.baseTimes=this.betTimes;
             this.watchInit();
             this.getLotteryQh();
         },
+        // 初始化监听
         watchInit(){
             this.$watch('lotteryInfo',() => { 
                 this.makeNumberList();
@@ -211,6 +203,7 @@
                 }
             });
         },
+        // 获取往后20期期号
         getLotteryQh(){
             this.$axios.postRequest(httpUrl.bet.lotteryQh,{'lottery_id':this.lotteryId})
             .then((res)=> {
@@ -220,6 +213,7 @@
                 };
             })
         },
+        // 生成跟单数据
         makeNumberList(){
             if(!this.isMake){return}
             this.numberList=[];
@@ -230,7 +224,6 @@
             for(var i = 0; i< this.zhuihaoCountQs; i++){
                 // period=(this.lotteryInfo.show_qh-0+i) > 99 ? ""+this.lotteryInfo.show_qh-0+i : "0"+(this.lotteryInfo.show_qh-0+i);
                 // hide_period=this.lotteryInfo.lottery_qh-0+i+"";
-                console.log(this.lotteryQh[i]);
                 period=this.lotteryQh[i].show_qh
                 hide_period=this.lotteryQh[i].lottery_qh;
                 if( i != 0 &&  i%this.apartPeriod == 0){
@@ -243,6 +236,7 @@
                 })
             }
         },
+        //加减倍数或金额
         changeTimes(i,type){
             if(type){
                 if(!this.numberList[i].times){
@@ -253,9 +247,11 @@
             }
             this.numberList[i].money = this.numberList[i].times * 2 / Math.pow(10,this.lotteryModes) * this.betCount;
         },
+        // 设置追号停止模式
         setZhuihaoStop(){
             this.zhuihaoStop=this.zhuihaoStop == 1 ? 0 : 1;
         },
+        // 删除跟单期号
         deletePeriod(i){
             this.numberList.splice(i,1);
             this.isMake=false;
@@ -264,12 +260,15 @@
                 this.isMake=true;
             },300);
         },
+        //修改号码
         changeNumber(){
             this.$emit('changeNumber');
         },
+        //赚佣金
         earnMoney(){
             this.$emit('earnMoney','gdSetShow');
         },
+        //下注
         bet(){
             let zhuihao_all_qh='';
             let zhuihao_all_bs_by_money ='';
@@ -308,10 +307,12 @@
                 this.loadingShow=false;
             });
         },
-        countMoney(times){
-            let mode=1/Math.pow(10,this.lotteryModes)*this.betCount;
-            return times*mode > 99990 ? 99990 : times*mode;
-        },
+        // 倍投模式计算金额
+        // countMoney(times){
+        //     let mode=1/Math.pow(10,this.lotteryModes)*this.betCount;
+        //     return times*mode > 99990 ? 99990 : times*mode;
+        // },
+        // 清空
         clearData(dataName){
             this[dataName] = '';
         }

@@ -3,6 +3,7 @@
         <div class="home" ref="home">
             <scroll ref="scroll" class="home-content" :data='lotteryList'>
                 <div>
+                    <!-- 广告轮播图 -->
                     <div class="slider-content">
                         <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">
                             <slider>
@@ -14,16 +15,19 @@
                             </slider>
                         </div>
                     </div>
+                    <!-- 跑马灯 -->
                     <div class="marquee-wrapper" @click="showNotice">
                         <marquee class="txt">
                             {{notice.content}}
                         </marquee>
                     </div>
+                    <!-- 活动大图 -->
                     <div class="new-gift-wrapper">
                         <router-link tag="a" :to="{path:'/home/activity',query:{title:gift.title,url:gift.turn_url}}">
                             <img :src="gift.image_url">
                         </router-link>
                     </div>
+                    <!-- 彩种列表 -->
                     <div class="lottery-wrapper">
                         <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}">
                             <div class="item" v-if="i % 4 < 2 && item.lottery_type != 6 && item.lottery_type != 10" @click="subtag(i)" :ref="'sub'+i">
@@ -73,6 +77,7 @@
                         </div>
                         
                     </div>
+                    <!-- 排名 -->
                     <div class="rank-wrapper" v-if="user_token">
                         <div class="rank-img"></div>
                         <div class="rank-flow-money">
@@ -95,10 +100,6 @@
                         </div>
                     </div>
                 </div>
-                
-                <!-- <div class="loading-container" v-show="!discList.length">
-                    <loading></loading>
-                </div> -->
             </scroll>
         </div>
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
@@ -108,6 +109,7 @@
                 </div>
             </slider-y>
         </div>
+        <!-- 跑马灯详情 -->
         <div v-show="noticeShow">
             <div class="background" @click="hideNotice">
             </div>
@@ -189,9 +191,6 @@
             ])
         },
         methods: {
-            // ...mapActions([
-            //     'getIsReceived'
-            // ]),
             init(){
                 this.getActivitys();
                 this.getNotice();
@@ -200,7 +199,6 @@
                 this.getRank();
                 this.getBetWin();
                 this.getBzjlq();
-                // this.getIsReceived('hd_qiandao');
             },
             showNotice(){
                 this.noticeShow = true;

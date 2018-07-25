@@ -4,6 +4,9 @@
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
             <i class="icon-question-circle"></i>
         </router-link>
+        <router-link tag="div" :to="{path:'/descover/explain',query:{flag:'gd_helper_url'}}" class="recharge-tip" v-show="header.followExplain">
+            <i class="icon-question-circle"></i>
+        </router-link>
         <div @click="goto('/message')" class="message" v-show="header.message">
             <i class="icon-message change-message"><b class="path1"></b><b class="path2"></b>
                 <div v-show="message_count > 0" class="message-count">{{message_count}}</div>

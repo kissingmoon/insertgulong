@@ -35,7 +35,6 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    // import gt from 'common/js/gt';
     import gt from 'common/js/gt.sense';
     import {local,session,randomWord,removeSession,removeLocal} from 'common/js/param';
     export default {

@@ -44,7 +44,6 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    // import gt from 'common/js/gt';
     import gt from 'common/js/gt.sense';
     import {session,randomWord} from 'common/js/param';
     export default {

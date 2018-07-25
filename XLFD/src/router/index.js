@@ -83,6 +83,10 @@ export default new Router({
                     component:FollowDetail
                 },
                 {
+                    path:'explain',
+                    component:UrlContent
+                },
+                {
                     path:'ds-detail',
                     component:AttentionDetail,
                     children:[

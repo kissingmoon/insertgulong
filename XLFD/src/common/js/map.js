@@ -190,10 +190,14 @@ export const headerConfig = {
     '/descover':{
         title:'精彩发现',
         service:true,
-        message:true
+        followExplain:true
     },
     '/descover/detail':{
         title:'跟单详情',
+        back:true
+    },
+    '/descover/explain':{
+        title:'跟单说明',
         back:true
     },
     '/descover/ds-detail':{

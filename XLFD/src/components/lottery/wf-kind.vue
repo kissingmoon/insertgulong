@@ -54,7 +54,6 @@
             this.$emit('close','wfKindShow');
         },
         selectWf(i,s){
-            console.log(1245);
             this.$emit('selectWf',i,s);
         },
         

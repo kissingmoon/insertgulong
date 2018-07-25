@@ -104,7 +104,6 @@
                         this.$axios.postRequest(httpUrl.info.bankList)
                         .then((res)=> {
                             if(res.data && !res.data.errorCode){
-                                console.log(res.data);
                                 this.bankList.data1=res.data;
                             }
                         });

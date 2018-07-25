@@ -104,7 +104,6 @@ export function add0(m){return m<10?'0'+m:m }
 //时间戳转化成时间格式
 export function timeFormat01(timestamp,typeStr){
   //timestamp是整数，否则要parseInt转换,不会出现少个0的情况
-    console.log(timestamp);
     const time = new Date(timestamp);
     const Y = time.getFullYear();
     const M = time.getMonth()+1;

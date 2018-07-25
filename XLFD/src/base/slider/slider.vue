@@ -57,7 +57,6 @@
     },
     activated() {
       if (this.autoPlay) {
-          console.log(4523);
         this._play()
       }
     },

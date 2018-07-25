@@ -78,10 +78,6 @@ export default {
                 height: cropBox.height * scale
             });
             let imgData = cropCanvas.toDataURL("image/png");
-            // let formData = new window.FormData();
-            // formData.append("fileType", this.initParam["fileType"]);
-            // formData.append("img", imgData);
-            //console.log(encodeURIComponent(imgData));
             this.$axios.postRequest(httpUrl.info.userImg,{img:imgData})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){

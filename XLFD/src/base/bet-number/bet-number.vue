@@ -116,7 +116,6 @@
                         this.kindTypeList.splice(p,1,[0,1,0,0,0,0]);
                         numberList.forEach((item,i) => {
                             if(i >= Math.floor(length/2)){
-                                console.log(Math.ceil(length/2));
                                 arr.push(item.number_str);
                             }
                         });
@@ -150,7 +149,6 @@
                         break;
                 }
                 this.$emit('selectKind',p,arr);
-                console.log(this.kindTypeList);
             },
             clearKind(){
                 this.kindTypeList=new Array(100);

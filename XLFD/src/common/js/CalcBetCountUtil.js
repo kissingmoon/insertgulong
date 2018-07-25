@@ -496,8 +496,6 @@ export function ssc_r3zux_hz(value) {
     const positionList = trimArr(trimArr(value,'@')[0],',');
     const bet = trimArr(value,'@')[1].replace(/\$/g, ",");
     const count = ComAndArrangeUtil.combination(positionList.length, 3);
-    console.log(ssc_q3zux_q3zuxhz(bet));
-    console.log(count);
     return ssc_q3zux_q3zuxhz(bet) * count;
 }
 

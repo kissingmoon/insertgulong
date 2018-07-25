@@ -104,7 +104,6 @@
                     if(res.data && !res.data.errorCode){
                         this.isAllData =res.data.length < 20 ? true : false;
                         this.followList=this.followList.concat(res.data);
-                        console.log(this.followList);
                         this.loadStatus=false;
                     };
                 });

@@ -70,8 +70,12 @@
                 <div class="clear-all" @click="changeNumber">
                     <p>修改号码</p>
                 </div>
+                <!-- <div class="bet-collect">
+                    <p class="bet-count">共{{zhuihaoCountQs}}期<span>{{betMoney}}</span>元</p>
+                </div> -->
                 <div class="bet-collect">
                     <p class="bet-count">共{{zhuihaoCountQs}}期<span>{{betMoney}}</span>元</p>
+                    <p class="balance">余额:{{account.balance || 0}}元</p>
                 </div>
                 <div class="bet-btn" @click="bet">
                     <p>投注</p>
@@ -87,7 +91,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapMutations} from 'vuex';
+  import {mapMutations,mapGetters} from 'vuex';
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
   import Loading from 'base/loading/loading';
@@ -161,6 +165,11 @@
     },
     mounted() {
         this.init();
+    },
+    computed: {
+        ...mapGetters([
+            'account'
+        ])
     },
     methods: {
         init(){
@@ -266,10 +275,14 @@
         },
         //赚佣金
         earnMoney(){
-            this.$emit('earnMoney','gdSetShow');
+            this.$emit('moneyPop','gdSetShow');
         },
         //下注
         bet(){
+            if(parseFloat(this.betMoney) > parseFloat(this.account.balance)){
+                this.$emit('moneyPop','moneyLackShow');
+                return;
+            }
             let zhuihao_all_qh='';
             let zhuihao_all_bs_by_money ='';
             const url= this.earnCommission  ? httpUrl.bet.betZyj : httpUrl.bet.betOrderZh;
@@ -622,11 +635,12 @@
                 }
             }
             .bet-collect{
-                height:1.45rem;
+                height:1.2rem;
                 width:3.8rem;
                 float: left;
+                padding-top:0.25rem;
                 p{
-                    line-height: 1.45rem;
+                    line-height: 0.5rem;
                     @include no-wrap();
                     span{
                         color:$color-yellow;

@@ -373,6 +373,24 @@
                     </div>
                 </div>
             </div>
+            <!-- 金额不足提示 -->
+            <div v-if="moneyLackShow">
+                <div class="background" @click="hide('moneyLackShow')"></div>
+                <div class="bet-success-detail">
+                    <div class="bet-success-wrapper clearfix">
+                        <div class="detail-title">投注失败</div>
+                        <div class="bet-success-main">
+                            <div class="success-tip">
+                                余额不足，把握机会！
+                            </div>
+                            <div class="btn-wrapper">
+                                <button class="cancel" @click="hide('moneyLackShow')">取消</button>
+                                <button class="affirm"  @click="gotoPage('/pay')">立即充值</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <!-- 历史开奖 -->
             <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList"></draw-history>
             <!-- 玩法 -->
@@ -392,7 +410,7 @@
                 :drawCountTime="drawCountTime"
                 @close="hide"
                 @changeNumber="changeNumber"
-                @earnMoney="show"
+                @moneyPop="show"
                 @betSuccess="betSuccess"
                 >
 
@@ -467,6 +485,7 @@
                 ruleShow:false,  //是否显示规则页面
                 winMoneyShow:false,  //是否显示奖金提示页面
                 leaveTipShow:false,  //是否确认离开
+                moneyLackShow:false,  //金额不足提示
                 loadingShow:false,  //加载中
                 loadingTip:'正在投注...',
                 ruleTitle:'',
@@ -494,6 +513,7 @@
                 totalPlFlag:'',
                 commissionCopy:1,
                 backRateCopy:1,
+                totalMoney:0,
                 gdParam:{
                     commission:1,
                     back_rate:1,
@@ -534,7 +554,8 @@
             //计算下注金额
             calculateBetMoney(){
                 let mode=1/Math.pow(10,this.lotteryModes);
-                let money=this.betTimes*mode*this.betCount
+                let money=this.betTimes*mode*this.betCount;
+                this.totalMoney = money.toFixed(2);
                 return money.toFixed(2);
             },
             //计算下注金额
@@ -613,7 +634,6 @@
                         this.wfList=res.data;
                         this.selectTacitWf();
                         this.makeWfParam();
-                        console.log(this.wfList);
                     };
                 });
             },
@@ -867,8 +887,16 @@
                     return;
                 }
                 if(this.betCount > 0){
-                    this.hide('lotterySelectShow');
-                    this.show(showElm);
+                    if(showElm == 'lotterySelectShow'){
+                        this.show(showElm);
+                    }else{
+                        this.hide('lotterySelectShow');
+                        // 判断余额是否足够
+                        const judge = this.judgeLackMoney();
+                        if(judge){
+                            this.show(showElm);
+                        }
+                    }
                 }else{
                     this.setTip("请选择一组号码")
                 }
@@ -881,7 +909,19 @@
             //投注设置
             selectInfo(){
                 this.hide('lotterySelectShow');
-                this.show('betAffirmShow');
+                const judge = this.judgeLackMoney();
+                if(judge){
+                    this.show('betAffirmShow');
+                };
+            },
+            // 判断余额是否足够
+            judgeLackMoney(){
+                if(parseFloat(this.totalMoney) > parseFloat(this.account.balance)){
+                    this.show('moneyLackShow');
+                    return false;
+                }else{
+                    return true;
+                }
             },
             //投注
             betOrder(){
@@ -1131,22 +1171,24 @@
             // 显示
             show(key){
                 this[key]=true;
-                clearTimeout(this.timesScroll);
-                this.timesScroll=setTimeout(()=>{
-                    if(this.$refs.scroll){
-                        this.$refs.scroll.refresh();
-                    }
-                },200);
+                // 重新计算滑动容器高度
+                // clearTimeout(this.timesScroll);
+                // this.timesScroll=setTimeout(()=>{
+                //     if(this.$refs.scroll){
+                //         this.$refs.scroll.refresh();
+                //     }
+                // },200);
             },
             // 隐藏
             hide(key){
                 this[key]=false;
-                clearTimeout(this.timesScroll);
-                this.timesScroll=setTimeout(()=>{
-                    if(this.$refs.scroll){
-                        this.$refs.scroll.refresh();
-                    }
-                },200);
+                // 重新计算滑动容器高度
+                // clearTimeout(this.timesScroll);
+                // this.timesScroll=setTimeout(()=>{
+                //     if(this.$refs.scroll){
+                //         this.$refs.scroll.refresh();
+                //     }
+                // },200);
             }
 
         },

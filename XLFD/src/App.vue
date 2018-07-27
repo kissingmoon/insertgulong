@@ -1,13 +1,12 @@
 <template>
-  <div id="app" class="app">
-    <m-header></m-header> 
-    <m-nav></m-nav>
-    <tip></tip>
-    <router-view></router-view>
-    <!-- <activity-xrkh></activity-xrkh> -->
-    <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
-    <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
-  </div>
+    <div id="app" class="app">
+        <m-header></m-header> 
+        <m-nav></m-nav>
+        <tip></tip>
+        <router-view></router-view>
+        <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
+        <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
+    </div>
 </template>
 
 <script>

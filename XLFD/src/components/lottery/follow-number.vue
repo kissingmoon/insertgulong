@@ -10,16 +10,16 @@
             </div>
             <div class="set-base-content">
                  <div class="set-item">
-                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" @click="clearData('zhuihaoCountQs')"></p><p>期</p>
+                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" readonly @click="showKeyboard(1)"></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="6" @click="clearData('baseTimes')"></p><p>{{betUnit[lotteryModes]}}</p>
+                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="6" readonly @click="showKeyboard(2)"></p><p>{{betUnit[lotteryModes]}}</p>
                 </div>
                 <div class="set-item">
-                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" @click="clearData('apartPeriod')"></p><p>期</p>
+                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" readonly @click="showKeyboard(3)"></p><p>期</p>
                 </div>
                 <div class="set-item">
-                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" @click="clearData('times')"></p><p>倍</p>
+                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" readonly @click="showKeyboard(4)"></p><p>倍</p>
                 </div>
             </div>
             <div class="list-title">
@@ -86,12 +86,24 @@
                 </div>
             </div>
             <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
+            <!-- 数字键盘 -->
+            <number-keyboard
+                 :keyboardShow="keyboardShow"
+                 :keyboardType="keyboardType"
+                 :oldVal="keyOldVal"
+                 :varName="keyName"
+                 :lotteryModes="lotteryModes"
+                 @close="hide"
+                 @changeKeyNumber="changeKeyNumber"
+                >
+            </number-keyboard>
         </div>
     </parcel>
 </template>
 
 <script type="text/ecmascript-6">
   import {mapMutations,mapGetters} from 'vuex';
+  import numberKeyboard from 'base/number-keyboard/number-keyboard';
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
   import Loading from 'base/loading/loading';
@@ -100,6 +112,7 @@
   export default {
     data() {
       return {
+        keyboardShow:false,  //显示数字键盘
         isMake:true,
         zhuihaoCountQs:5,
         zhuihaoStop:1,
@@ -114,6 +127,9 @@
         betUnit,
         loadingShow:false,  
         loadingTip:'正在投注...',
+        keyboardType:3, // 数字键盘类型 1金额 2倍数 3期数
+        keyName:'zhuihaoCountQs', // 数字键盘改变名称
+        keyOldVal:'5', // 键盘初始值
       }
     },
     props: {
@@ -161,7 +177,8 @@
     components:{
         Scroll,
         Parcel,
-        Loading
+        Loading,
+        numberKeyboard
     },
     mounted() {
         this.init();
@@ -328,7 +345,46 @@
         // 清空
         clearData(dataName){
             this[dataName] = '';
-        }
+        },
+        // 显示数字键盘
+        showKeyboard(type){
+            switch(type){
+                case 1:
+                    this.keyboardType=3 
+                    this.keyName='zhuihaoCountQs' 
+                    this.keyOldVal=this.zhuihaoCountQs + ''
+                    break;
+                case 2:
+                    this.keyboardType=1 
+                    this.keyName='baseTimes' 
+                    this.keyOldVal=this.baseTimes + ''
+                    break;
+                case 3:
+                    this.keyboardType=3 
+                    this.keyName='apartPeriod' 
+                    this.keyOldVal=this.apartPeriod + ''
+                    break;
+                case 4:
+                    this.keyboardType=2 
+                    this.keyName='times' 
+                    this.keyOldVal=this.times + ''
+                    break;
+            }
+            this.show('keyboardShow');
+        },
+        changeKeyNumber(key,val){
+            this.keyOldVal = val;
+            this[key]=val;
+            this.hide('keyboardShow');
+        },
+        // 显示
+        show(key){
+            this[key]=true;
+        },
+        // 隐藏
+        hide(key){
+            this[key]=false;
+        },
         
     },
     watch: {

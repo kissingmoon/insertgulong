@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {reData,session,removeSession} from 'common/js/param';
 import store from 'store';
-import Vue from 'vue';
 import Router from '../../router';
 
 axios.interceptors.request.use(config=> {
@@ -12,7 +11,6 @@ axios.interceptors.request.use(config=> {
 })
 axios.interceptors.response.use(res=> {
     if (res.status && res.status == 200 && res.data.errorCode) {
-        // store.commit('SET_TIP',res.data.errorMsg);
         switch (res.data.errorCode) {
             case '20012':case '20038':
                 removeSession('user_token');

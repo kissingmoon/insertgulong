@@ -104,9 +104,9 @@
                     <transition name="lottery-select">
                         <div v-show="lotterySelectShow" class="lottery-select-info">
                             <div class="bet-money-warpper">
-                                <p class="tit">投注金额</p>
+                                <p class="tit">单注金额</p>
                                 <p class="bet-money">
-                                    <input type="tel" v-model.number="betTimes" maxlength="6" @click="clearBetTimes" />
+                                    <input type="tel" v-model.number="betTimes" maxlength="6" @click="show('keyboardShow')" readonly="readonly" />
                                 </p>
                                 <p class="unit" :class="{'on': lotteryModes == 0}" @click="changeLotteryModes(0)">元</p>
                                 <p class="unit" :class="{'on': lotteryModes == 1}" @click="changeLotteryModes(1)">角</p>
@@ -437,6 +437,17 @@
             >
             </rule-pare>
             <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
+            <!-- 数字键盘 -->
+            <number-keyboard
+                 :keyboardShow="keyboardShow"
+                 :keyboardType="keyboardType"
+                 :oldVal="keyOldVal"
+                 :varName="keyName"
+                 :lotteryModes="lotteryModes"
+                 @close="hide"
+                 @changeKeyNumber="changeKeyNumber"
+                >
+            </number-keyboard>
         </div>
     </parcel>
 </template>
@@ -446,12 +457,13 @@
     import Scroll from 'base/scroll/scroll';
     import Loading from 'base/loading/loading';
     import BetNumber from 'base/bet-number/bet-number';
+    import numberKeyboard from 'base/number-keyboard/number-keyboard';
     import DrawHistory from 'components/lottery/draw-history';
     import WfKind from 'components/lottery/wf-kind';
     import FollowNumber from 'components/lottery/follow-number';
     import BetOrderList from 'components/lottery/bet-order-list';
     import RulePare from 'components/lottery/rule-page';
-    import {httpUrl,lotteryName,betUnit} from 'common/js/map';
+    import {httpUrl,betUnit} from 'common/js/map';
     import {BaseVM} from 'common/js/BuyCM';
     import LotteryWfDetail from 'common/js/Lottery_wf_detail';
     import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
@@ -486,6 +498,7 @@
                 winMoneyShow:false,  //是否显示奖金提示页面
                 leaveTipShow:false,  //是否确认离开
                 moneyLackShow:false,  //金额不足提示
+                keyboardShow:false,  //显示数字键盘
                 loadingShow:false,  //加载中
                 loadingTip:'正在投注...',
                 ruleTitle:'',
@@ -514,6 +527,9 @@
                 commissionCopy:1,
                 backRateCopy:1,
                 totalMoney:0,
+                keyboardType:1, // 数字键盘类型 1金额 2倍数 3期数
+                keyName:'betTimes', // 数字键盘改变名称
+                keyOldVal:'2', // 键盘初始值
                 gdParam:{
                     commission:1,
                     back_rate:1,
@@ -531,7 +547,8 @@
             FollowNumber,
             BetOrderList,
             RulePare,
-            Loading
+            Loading,
+            numberKeyboard
         },
         created() {
             this.init();
@@ -585,7 +602,6 @@
                 setTip:'SET_TIP',
             }),
             init(){
-                this.lotteryName=lotteryName;
                 this.lotteryId =this.$router.history.current.query.id;
                 this.lotteryType =this.$router.history.current.query.type;
                 this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
@@ -1189,6 +1205,11 @@
                 //         this.$refs.scroll.refresh();
                 //     }
                 // },200);
+            },
+            changeKeyNumber(key,val){
+                this.keyOldVal = val;
+                this[key]=val;
+                this.hide('keyboardShow');
             }
 
         },
@@ -1320,7 +1341,7 @@
                     height:0.7rem;
                     padding-top: 0.1rem;
                     .follow{
-                        border:0.026rem solid #24754b;
+                        border:1px solid #24754b;
                         width:2rem;
                         height:0.6rem;
                         line-height: 0.6rem;

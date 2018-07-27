@@ -401,6 +401,7 @@
                 &.sub-wrapper{
                     width:100%;
                     background: #F6F4E6;
+                    overflow: hidden;
                     //@include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }

@@ -79,7 +79,6 @@ export function removeLocal(key){
 /*
 ** randomWord 产生任意长度随机字母数字组合
 ** randomFlag-是否任意长度 min-任意长度最小位[固定位数] max-任意长度最大位
-** xuanfeng 2014-08-28
 */
  
 export function randomWord(randomFlag, min, max){
@@ -111,7 +110,6 @@ export function timeFormat01(timestamp,typeStr){
     const h = time.getHours();
     const m = time.getMinutes();
     const s = time.getSeconds();
-    //return year+'-'+add0(month)+'-'+add0(date)+' '+add0(hours)+':'+add0(minutes)+':'+add0(seconds);
     switch(typeStr){
         case 'Y-M-D':
             return Y+'-'+add0(M)+'-'+add0(D);

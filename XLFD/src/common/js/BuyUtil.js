@@ -239,38 +239,3 @@ export function initShengxiaoData(type, shengXiaoLHCRecvList,wfPlBeanList,wf_fla
     return list;
 }
 
-// export function updateListByStatus(list, type) {
-//     let ALLTYPE = 1;
-//     let BIGTYPE = 2;
-//     let SMALLTYPE = 3;
-//     let EVENTYPE = 4;
-//     let SINGTYPE = 5;
-//     let CLEARTYPE = 6;
-//     if (list != null) {
-//         const middle = (list.length % 2 == 0 ? list.length : (list.length - 1)) / 2;
-//         list.forEach((buyNumberBean) => {
-//             switch (type) {
-//                 case ALLTYPE:
-//                     buyNumberBean.isCkeck = true;
-//                     break;
-//                 case BIGTYPE:
-//                     buyNumberBean.isCkeck = buyNumberBean.index > middle;
-//                     break;
-//                 case SMALLTYPE:
-//                     buyNumberBean.isCkeck = buyNumberBean.index <= middle;
-//                     break;
-//                 case EVENTYPE:
-//                     buyNumberBean.isCkeck = buyNumberBean.number% 2 == 0 ;
-//                     break;
-//                 case SINGTYPE:
-//                     buyNumberBean.isCkeck = !(buyNumberBean.number% 2 == 0) ;
-//                     break;
-//                 case CLEARTYPE:
-//                     buyNumberBean.isCkeck = false;
-//                     break;
-//             }
-//         });
-//     }
-//     return list;
-// }
-

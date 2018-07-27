@@ -117,7 +117,7 @@
                     this.loginParam = loginParam;
                 }
             },
-            // 生成8-10位的随机数
+            // 随机生成8-10位的code_id
             setCode(){
                 this.loginParam.code_id = randomWord(false,8,10);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
@@ -169,9 +169,6 @@
             // 用户登录
             login(data){
                 local('loginParam',this.loginParam);
-                // this.loginParam.geetest_challenge = result.geetest_challenge;
-                // this.loginParam.geetest_validate = result.geetest_validate;
-                // this.loginParam.geetest_seccode = result.geetest_seccode;
                 this.loginParam.challenge = data.challenge;
                 this.loginParam.idType = 4;
                 this.loginParam.idValue = this.loginParam.user_id;
@@ -193,9 +190,6 @@
                         this.$router.push({
                             path:'/'
                         });
-                    }else{
-                        // this.$router.go(0);
-                        // this.init();
                     }
                 });
             }

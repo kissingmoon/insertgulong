@@ -1,6 +1,6 @@
 <template>
     <parcel>
-        <div class="follow-detail" :class="order.finish_status == 0? 'bottom-2rem':''">
+        <div class="follow-detail" :class="{ 'bottom-2rem': order.finish_status == 0}">
             <scroll ref="scroll" class="scroll-content" :data="showTbody" @setFans="setFans" :click="click">
                 <div>
                     <div class="author-wrapper">
@@ -58,11 +58,11 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <td class="border-right-1px" v-for="(item,i) in showThead" :class="(i+1) != showThead.length ? 'border-right':''" :width="item.width">{{item.title}}</td>
+                                    <td class="border-right-1px" v-for="(item,i) in showThead" :class="{'border-right':(i+1) != showThead.length}" :width="item.width">{{item.title}}</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(group,g) in showTbody" :class="g%2 != 0? 'bg-even':''" v-if="showTbody[0] !== null">
+                                <tr v-for="(group,g) in showTbody" :class="{'bg-even':g%2 != 0}" v-if="showTbody[0] !== null">
                                     <td v-for="item in showThead">
                                         <span v-if="item.key != 'kj_result'">{{group[item.key]}}</span>
                                         <span v-if="item.key == 'kj_result'">{{betType[group[item.key]]}}</span>
@@ -100,7 +100,7 @@
     import Loading from 'base/loading/loading';
     import AttentionList from 'base/attention-list/attention-list';
     import {httpUrl,betType} from 'common/js/map';
-    import {timeFormat01} from 'common/js/param';
+    import {timeFormat} from 'common/js/param';
     export default {
         data() {
             return{
@@ -192,6 +192,7 @@
                         this.detailList=res.data.gd_detail;
                         this.userList=res.data.gd_user;
                         this.showTbody=res.data.gd_detail;
+                        this.$refs.scroll.refresh();
                     };
                 });
             },
@@ -246,7 +247,7 @@
                 this.gdMoney = type == 'add'? this.gdMoney +1 : ((this.gdMoney - 1 <= 0)? 1:this.gdMoney - 1);
             },
             formatTime(times,type){
-                return timeFormat01(times,type);
+                return timeFormat(times,type);
             }
         },
         watch:{

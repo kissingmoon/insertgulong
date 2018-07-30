@@ -12,7 +12,7 @@
                         <div class="form-main">
                             <div class="form-txt">
                                 <p class="title">提现金额</p>
-                                <p class="txt border-bottom-1px"><input type="text" v-model.number="money" maxlength="10" placeholder="请输入提现金额" tocomplete="off" /></p>
+                                <p class="txt border-bottom-1px"><input type="text" v-model="money" maxlength="10" placeholder="请输入提现金额" tocomplete="off" /></p>
                                 <p class="tip">提现金额最低100元</p>
                             </div>
                         </div>
@@ -289,7 +289,8 @@
         },
         watch:{
             money(newVal,oldVal){
-                const regex = /^\d*$/;
+                // const regex = /^\d*$/;
+                const regex = /^\d*\.{0,1}\d{0,2}$/;
                 if(!regex.test(newVal)) {
                     this.money = oldVal ;
                 }

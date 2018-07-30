@@ -2,8 +2,8 @@
     <parcel>
         <div class="follow">
             <div class="title-type">
-                <p class="border-bottom-1px" :class="followType ? 'on':''" @click="getMyJoin">我参与的跟单</p>
-                <p class="border-bottom-1px" :class="!followType ? 'on':''" @click="getMy">我发起的跟单</p>
+                <p class="border-bottom-1px" :class="{'on': followType }" @click="getMyJoin">我参与的跟单</p>
+                <p class="border-bottom-1px" :class="{'on': !followType }" @click="getMy">我发起的跟单</p>
             </div>
             <scroll ref="scroll" class="scroll-content" 
                 :data="followList" 

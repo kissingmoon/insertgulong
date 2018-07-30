@@ -675,11 +675,12 @@
             
             //倒计时功能
             setCountTime(dateStr) {
+                const urlHash = this.$router.history.current.path;
                 this.drawCountTime=countTime(dateStr);
-                if(this.drawCountTime == '00:03:00'){
+                if(this.drawCountTime == "00:03:00"){
                     this.getDrawHis();
                 }
-                if (this.drawCountTime == "00:00:00") {
+                if (this.drawCountTime == "00:00:00" && urlHash == "/home/lottery") {
                     this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
@@ -689,7 +690,7 @@
                     this.getLockTimes = setTimeout(() => {
                         this.getLockTime();
                     },2000);
-                }else{
+                }else if(urlHash == "/home/lottery"){
                     clearTimeout(this.lockTimes);
                     this.lockTimes=setTimeout(() => {
                         this.setCountTime(dateStr);

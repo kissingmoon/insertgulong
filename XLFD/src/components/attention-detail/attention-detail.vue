@@ -1,6 +1,6 @@
 <template>
     <parcel>
-        <div class="attention-detail" :class="!order.finish_status? 'bottom-2rem':''">
+        <div class="attention-detail" :class="{'bottom-2rem': !order.finish_status }">
             <div class="author-wrapper">
                 <attention-list :data="author" @setFans="setFans"></attention-list>
             </div>

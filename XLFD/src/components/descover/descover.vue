@@ -129,9 +129,10 @@
             this.getOrder();
         },
         mounted(){
-            // document.body.addEventListener('touchmove', function (e) {
-            //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
-            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+            this._getOrderList();
+        },
+        beforeDestroy(){
+            clearTimeout(this.timesOrder);
         },
         computed: {
             ...mapGetters([
@@ -173,6 +174,14 @@
                         }
                     }
                 });
+            },
+            _getOrderList(){
+                clearTimeout(this.timesOrder);
+                this.timesOrder = setTimeout(()=>{
+                    this.orderParam.page_no = 1;
+                    this.getOrder();
+                    this._getOrderList();
+                },20000)
             },
             changeSort(){
                 this.orderParam.order_by=this.orderParam.order_by == 0 ? 1 : 0;

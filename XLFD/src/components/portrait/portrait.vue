@@ -1,10 +1,22 @@
 <template>
     <parcel>
         <div class="portrait">
+            <!-- 头像上传功能 -->
             <simple-cropper class="portrait-main" :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
                 <img class="img" :src="account.image_url" @click="upload">
                 <button class="btn" @click="upload">设置头像</button>
             </simple-cropper>
+            <!-- 头像选择功能 -->
+            <!-- <div class="portrait-wrapper">
+                <ul>
+                    <li>
+                        <img class="img" :src="account.image_url">
+                    </li>
+                </ul>
+            </div>
+            <div class="btn-wrapper"> -->
+
+            </div>
         </div>
     </parcel>
 </template>

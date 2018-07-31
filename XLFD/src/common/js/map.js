@@ -36,7 +36,9 @@ export const httpUrl = {
         bankList:'/config/bank-list',
         userImg:'/user/edit-user-image-front',
         flowType:'/v2/sys-config/get-flow-type',
-        bindPhone:'/user/bind-phone'
+        bindPhone:'/user/bind-phone',
+        listPhoto:'/user/getListPhoto',
+        userImage:'/user/set-user-image'
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -64,7 +66,8 @@ export const httpUrl = {
         betLHC28:'/bet/bet-order-lhc28',
         subLotteryLocktime:'/v2/gc/sub-lottery-locktime',
         cpLocktime:'/gc/cp-lock-time',
-        undoOrder:'/v2/bet/undo-order'
+        undoOrder:'/v2/bet/undo-order',
+        gdContent:'/v2/gd-dsb/findGdExplainTypeList',
     },
     config:{
         urlList:'/config/url-list',

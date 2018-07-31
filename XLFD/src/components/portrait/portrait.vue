@@ -2,20 +2,21 @@
     <parcel>
         <div class="portrait">
             <!-- 头像上传功能 -->
-            <simple-cropper class="portrait-main" :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
+            <!-- <simple-cropper class="portrait-main" :initParam="uploadParam" :successCallback="uploadHandle" ref="cropper">
                 <img class="img" :src="account.image_url" @click="upload">
                 <button class="btn" @click="upload">设置头像</button>
-            </simple-cropper>
+            </simple-cropper> -->
             <!-- 头像选择功能 -->
-            <!-- <div class="portrait-wrapper">
+            <div class="portrait-wrapper">
                 <ul>
-                    <li>
-                        <img class="img" :src="account.image_url">
+                    <li v-for="(item,i) in portraitList" :class="{'on': portraitUrl == item.imageUrl}" @click="selectImg(item.imageUrl)">
+                        <img :src="item.imageUrl">
                     </li>
+                    
                 </ul>
             </div>
-            <div class="btn-wrapper"> -->
-
+            <div class="btn-wrapper">
+                <button class="btn" :disabled="!portraitUrl || portraitUrl && portraitUrl.length < 1" @click="setPhoto" >保存</button>
             </div>
         </div>
     </parcel>
@@ -27,38 +28,70 @@ import Parcel from "base/parcel/parcel";
 import { httpUrl } from "common/js/map";
 import { mapGetters,mapActions,mapMutations } from "vuex";
 export default {
-  data() {
-    return {
-      uploadParam: {
-        fileType: "recruit",
-        uploadURL: httpUrl.info.userImg // 上传地址
-      }
-    };
-  },
-  components: {
-    Parcel,
-    SimpleCropper
-  },
-  computed: {
-    ...mapGetters(["account"])
-  },
-  methods: {
-    // 上传头像
-    upload() {
-      this.$refs["cropper"].upload();
+    data() {
+        return {
+        //   uploadParam: {
+        //     fileType: "recruit",
+        //     uploadURL: httpUrl.info.userImg // 上传地址
+        //   }
+            portraitList:[],
+            portraitUrl:''
+        }
     },
-    // 上传头像成功回调
-    uploadHandle(data) {
-        this.setTip('设置成功');
-        this.getUser();
+    components: {
+        Parcel,
+        SimpleCropper
     },
-    ...mapActions([
-        'getUser'
-    ]),
-    ...mapMutations({
-        setTip:'SET_TIP'
-    }),
-  }
+    computed: {
+        ...mapGetters(["account"])
+    },
+    created() {
+        this.getPhotoList();
+    },
+    mounted(){
+        this.portraitUrl = this.account.image_url;
+    },
+    methods: {
+        // 上传头像
+        // upload() {
+        //     this.$refs["cropper"].upload();
+        // },
+        // 上传头像成功回调
+        // uploadHandle(data) {
+        //     this.setTip('设置成功');
+        //     this.getUser();
+        // },
+        ...mapActions([
+            'getUser'
+        ]),
+        ...mapMutations({
+            setTip:'SET_TIP'
+        }),
+        // 获取头像列表
+        getPhotoList(){
+            this.$axios.postRequest(httpUrl.info.listPhoto)
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    this.portraitList = res.data.data.list;
+                };
+            })
+        },
+        //选择头像
+        selectImg(url){
+            this.portraitUrl = url;
+        },
+        //上传头像
+        setPhoto(){
+            this.$axios.postRequest(httpUrl.info.userImage,{'imageUrl':this.portraitUrl})
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    this.getUser();
+                    this.setTip('保存成功!');
+                    this.$router.back();
+                };
+            })
+        }
+    }
 };
 </script>
 <style scoped lang="scss">
@@ -95,6 +128,32 @@ export default {
         border-radius: 0.1rem;
         border: 0;
         margin-top: 0.8rem;
+    }
+    .portrait-wrapper{
+        height: auto;
+        overflow: hidden;
+        ul{
+           height: auto;
+            overflow: hidden; 
+            padding-top:0.4rem;
+            li{
+                position: relative;
+                float: left;
+                width:1.8rem;
+                height:1.8rem;
+                border-radius: 2rem;
+                overflow: hidden;
+                border:0.08rem solid $color-border-gray;
+                margin-left: 0.42rem;
+                margin-bottom:0.4rem;
+                &.on{
+                    border:0.08rem solid $color-red;
+                }
+                img{
+                    width:100%;
+                }
+            }
+        }
     }
 }
 </style>

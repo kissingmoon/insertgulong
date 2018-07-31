@@ -268,10 +268,10 @@
                                 <li class="item-wrapper">
                                     <div class="title">
                                         <p>跟单说明:</p>
-                                        <p class="gd-length">0/100</p>
+                                        <!-- <p class="gd-length">0/100</p> -->
                                     </div>
                                     <div class="txt">
-                                        <textarea class="gd-instructions" maxlength="100" v-model="gdParam.content" placeholder="潜心研究了这组跟单，跟我必胜！" ></textarea>
+                                        <textarea class="gd-instructions" maxlength="100" v-model="gdParam.content" @click="show('gdContentShow')" readonly ></textarea>
                                         <p class="gd-instructions-tip">跟单说明很重要，玩家将从您的描述中来决定是否购买，请您认真填写！</p>
                                     </div>
                                 </li>
@@ -283,6 +283,26 @@
                             <div class="gd-tip">
                                 <p>温馨提示:您可以在我的-跟单列表界面查看跟单明细<br>发起跟单将会在您成功付款后展示</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 选择跟单标语 -->
+            <div v-show="gdContentShow">
+                <div class="background"></div>
+                <div class="detail">
+                    <div class="wf-detail-wrapper clearfix">
+                        <div class="detail-title">
+                            选择标语
+                            <!-- <span class="title-tip">(点击选择)</span> -->
+                        </div>
+                        <div class="wf-detail-main">
+                            <ul>
+                                <li class="gd-content border-bottom-1px" v-for="item in gdContentList" @click="setGdContent(item.label)">{{item.label}}</li>
+                            </ul>
+                        </div>
+                        <div class="wf-detail-close">
+                            <button @click="hide('gdContentShow')"><i class="icon-close"></i></button>
                         </div>
                     </div>
                 </div>
@@ -499,6 +519,7 @@
                 leaveTipShow:false,  //是否确认离开
                 moneyLackShow:false,  //金额不足提示
                 keyboardShow:false,  //显示数字键盘
+                gdContentShow:false,  //显示跟单标语
                 loadingShow:false,  //加载中
                 loadingTip:'正在投注...',
                 ruleTitle:'',
@@ -517,6 +538,7 @@
                 selectObj:{},
                 updataNumberList:[],
                 drawHistoryList:[],
+                gdContentList:[],
                 newDraw:{},
                 betCount:0,
                 betNumber:'',
@@ -533,7 +555,7 @@
                 gdParam:{
                     commission:1,
                     back_rate:1,
-                    content:'',
+                    content:'潜心研究了这组跟单，跟我必胜！',
                     kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
                 }
             }
@@ -610,6 +632,7 @@
                 this.getZodiac();
                 this.getLockTime();
                 this.getDrawHis();
+                this.getGdContent();
             },
             watchInit(){
                 const _this=this;
@@ -995,6 +1018,20 @@
                 .catch((err) => {
                     this.hide('loadingShow');
                 });
+            },
+            //获取跟单标语
+            getGdContent(){
+                this.$axios.postRequest(httpUrl.bet.gdContent,{type:'gd_explain_type'})
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.gdContentList=res.data.data.list;
+                    };
+                });
+            },
+            //设置跟单标语
+            setGdContent(txt){
+                this.gdParam.content = txt;
+                this.hide('gdContentShow');
             },
             //投注成功
             betSuccess(){
@@ -1774,6 +1811,9 @@
             line-height: 1.2rem;
             text-align: center;
             font-size: $font-size-large;
+            .title-tip{
+                font-size: $font-size-small;
+            }
         }
         .gd-title{
             width:4rem;
@@ -1823,6 +1863,15 @@
                     }
 
                 }
+                .gd-content{
+                    height:auto;
+                    overflow: hidden;
+                    line-height: 0.5rem;
+                    padding: 0.34rem 0;
+                    color:#fff;
+                    @include no-wrap();
+                    @include border-bottom-1px(solid,$color-border-num);
+                }
             }
             .wf-detail-close{
                 position:relative;
@@ -1835,6 +1884,7 @@
                 button{
                     height:0.96rem;
                     width:0.96rem;
+                    line-height: 1rem;
                     border-radius: 50%;
                     border:1px solid $color-border-num;
                     text-align: center;
@@ -1921,7 +1971,7 @@
                             padding:0.1rem;
                             height:1.94rem;
                             line-height: 0.4rem;
-                            font-size: $font-size-small;
+                            font-size: $font-size-small-x;
                         }
                         .gd-instructions-tip{
                             line-height: 0.32rem;

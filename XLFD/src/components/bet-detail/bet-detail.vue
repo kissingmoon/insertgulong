@@ -96,7 +96,7 @@
         },
         methods: {
             getBetDetail(){
-                const order_number = this.$router.history.current.query.id;
+                const order_number =this.$route.query.id;
                 this.$axios.postRequest(httpUrl.info.betDetail,{order_number})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
@@ -107,7 +107,7 @@
             undoOrder(){
                 if(!this.betBtnType){ return; }
                 this.betBtnType = false; 
-                const order_number = this.$router.history.current.query.id;
+                const order_number =this.$route.query.id;
                 this.$axios.postRequest(httpUrl.bet.undoOrder,{order_number})
                 .then((res)=> {
                     this.betBtnType = true; 

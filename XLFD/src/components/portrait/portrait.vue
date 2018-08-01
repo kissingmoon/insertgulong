@@ -16,7 +16,7 @@
                 </ul>
             </div>
             <div class="btn-wrapper">
-                <button class="btn" :disabled="!portraitUrl || portraitUrl && portraitUrl.length < 1" @click="setPhoto" >保存</button>
+                <button class="btn" :disabled="btnType" @click="setPhoto" >保存</button>
             </div>
         </div>
     </parcel>
@@ -43,7 +43,10 @@ export default {
         SimpleCropper
     },
     computed: {
-        ...mapGetters(["account"])
+        ...mapGetters(["account"]),
+        btnType(){
+            return !this.portraitUrl || (this.portraitUrl && this.portraitUrl.length < 1) || this.portraitUrl == this.account.image_url;
+        }
     },
     created() {
         this.getPhotoList();

@@ -55,8 +55,8 @@
         },
         methods: {
             init(){
-                this.param.lottery_id = this.$router.history.current.query.id;
-                this.header.title = this.$router.history.current.query.name;
+                this.param.lottery_id =this.$route.query.id;
+                this.header.title =this.$route.query.name;
             },
             getDrawNubmer(type){
                 if(type == 'up'){

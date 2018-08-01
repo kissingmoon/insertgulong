@@ -13,16 +13,14 @@
             </div>
             <scroll class="draw-his-wrapper clearfix" :data="data">
                 <ul>
-                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data">
+                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name)">
                         <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
                             <span v-for="num in item.kj_code">{{num}}</span>
                         </div>
                     </li>
-                    
                 </ul>
             </scroll>
-            
         </div>
     </div>
 </template>
@@ -52,6 +50,12 @@
     methods: {
         close(){
             this.$emit('close','drawHistoryShow');
+        },
+        goto(id,name){
+            this.$router.push({
+                path:'/draw/number',
+                query:{id , name}
+            })
         }
         
     }

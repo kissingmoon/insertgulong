@@ -698,7 +698,7 @@
             
             //倒计时功能
             setCountTime(dateStr) {
-                const urlHash = this.$router.history.current.path;
+                const urlHash =this.$route.path;
                 this.drawCountTime=countTime(dateStr);
                 if(this.drawCountTime == "00:03:00"){
                     this.getDrawHis();
@@ -1204,7 +1204,6 @@
                 if(this.currentWf.wf_pl.length > 1){
                     this.show('winMoneyShow');
                 }
-                
             },
             // 清除倍数
             clearBetTimes(){

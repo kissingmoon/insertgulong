@@ -10,7 +10,7 @@
                 <div class="wf-detail-main">
                 </div>
                 <div class="wf-detail-close">
-                    <button @click="setQiandao"></button>
+                    <button @click="setQiandao" v-show="btnType"></button>
                 </div>
             </div>
         </div>
@@ -42,6 +42,7 @@
             return{
                 qiandaoShow:false,
                 successShow:false,
+                btnType:true,
                 receive_money:0
             }
         },
@@ -61,14 +62,19 @@
                 this.setHdQiandao('1')
             },
             setQiandao(){
+                this.btnType = false;
                 this.$axios.postRequest(httpUrl.home.qiandao)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.qiandaoShow=false;
+                        this.btnType=true;
                         this.getUser();
                         this.successShow = true;
                         this.receive_money=res.data.receive_money;
                     }
+                })
+                .catch((err) => {
+                    this.btnType=true;
                 });
             },
             ...mapMutations({

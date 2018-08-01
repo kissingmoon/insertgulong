@@ -182,8 +182,8 @@
                 'getUser'
             ]),
             getDetail(){
-                const gd_number = this.$router.history.current.query.id;
-                const user_flag = this.$router.history.current.query.flag;
+                const gd_number =this.$route.query.id;
+                const user_flag =this.$route.query.flag;
                 this.$axios.postRequest(httpUrl.info.followDetail,{gd_number,user_flag})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

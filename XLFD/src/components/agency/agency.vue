@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div v-else class="apply-agency">
-                <button v-show="" @click="applyAgency">立即申请</button>
+                <button v-show="showBtn" @click="applyAgency">立即申请</button>
             </div>
             <router-view></router-view>
         </div>

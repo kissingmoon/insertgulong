@@ -23,6 +23,12 @@
                 </div>
                 <div class="func-wrapper">
                     <ul>
+                        <li @click="goto('/info/agency')" class="item-mode border-bottom-1px">
+                            <p class="title icon-agency">我的代理</p>
+                            <p class="remarks">
+                                <span><i class="icon-arrows-right icon"></i></span>
+                            </p>
+                        </li>
                         <li class="item-mode border-bottom-1px">
                             <p class="title icon-balance">余额</p>
                             <p class="remarks">
@@ -218,6 +224,9 @@
                     background-position: left center;
                     background-size: 0.7rem;
                     background-repeat: no-repeat;
+                }
+                .icon-agency{
+                    @include bg-image('icon-agency');
                 }
                 .icon-balance{
                     @include bg-image('icon-balance');

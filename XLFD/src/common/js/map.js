@@ -38,7 +38,11 @@ export const httpUrl = {
         flowType:'/v2/sys-config/get-flow-type',
         bindPhone:'/user/bind-phone',
         listPhoto:'/user/getListPhoto',
-        userImage:'/user/set-user-image'
+        userImage:'/user/set-user-image',
+        isAgent:'/userAgentInfo/isAgent',
+        applyAgent :'/userAgentInfo/applyAgent',
+        orderByAgent:'/userAgentInfo/findListOrderByAgent',
+        agentDetail:'/userAgentInfo/userAgentDetail',
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -309,6 +313,15 @@ export const headerConfig = {
     '/attention/detail/detail':{
         title:'跟单详情',
         back:true
+    },
+    '/info/agency':{
+        title:'我的代理',
+        back:true
+    },
+    '/info/agency/report':{
+        title:'报表详情',
+        back:true,
+        search:true
     },
     '/info/safety':{
         title:'安全中心',

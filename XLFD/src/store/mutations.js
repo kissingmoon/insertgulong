@@ -48,6 +48,9 @@ const mutations = {
   },
   [types.SET_HAS_PHONE](state, param) {
     state.has_phone = param;
+  },
+  [types.SET_SHOW_SEARCH](state, param) {
+    state.show_search = param;
   }
 }
 

@@ -7,6 +7,7 @@ const state = {
     is_debugger:false,
     show_time:false,
     show_picker:false,
+    show_search:false,
     tip:'',
     api_base:'/api',
     message_count:0,

@@ -19,7 +19,8 @@ export const setHeader = ({commit, state},param) => {
         rechargeTip:false,
         time:false,
         moneyType:false,
-        followExplain:false
+        followExplain:false,
+        search:false
     }
     const header=Object.assign({},original,param);
     commit('SET_HEADER',header);

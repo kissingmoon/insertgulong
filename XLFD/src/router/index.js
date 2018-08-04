@@ -32,6 +32,8 @@ import UrlContent from 'components/url-content/url-content';
 import UserPortrait from 'components/portrait/portrait';
 import PayTip from 'components/pay-tip/pay-tip';
 import Lottery from 'components/lottery/lottery';
+import Agency from 'components/agency/agency';
+import Report from 'components/agency/report';
 
 Vue.use(Router)
 
@@ -190,6 +192,16 @@ export default new Router({
             path:'/info',
             component:Info,
             children:[
+                {
+                    path:'agency',
+                    component:Agency,
+                    children:[
+                        {
+                            path:'report',
+                            component:Report
+                        }
+                    ]
+                },
                 {
                     path:'balance',
                     component:Balance

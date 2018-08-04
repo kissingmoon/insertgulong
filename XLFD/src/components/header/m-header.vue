@@ -7,6 +7,9 @@
         <router-link tag="div" :to="{path:'/descover/explain',query:{flag:'gd_helper_url'}}" class="recharge-tip" v-show="header.followExplain">
             <i class="icon-question-circle"></i>
         </router-link>
+        <div class="search" v-show="header.search" @click="searchShow">
+            <i class="icon-search"></i>
+        </div>
         <div @click="goto('/message')" class="message" v-show="header.message">
             <i class="icon-message change-message"><b class="path1"></b><b class="path2"></b>
                 <div v-show="message_count > 0" class="message-count">{{message_count}}</div>
@@ -46,7 +49,8 @@
             ...mapMutations({
                 setShowTime:'SET_SHOW_TIME',
                 setShowPicker:'SET_SHOW_PICKER',
-                setMessageCount:'SET_MESSAGE_COUNT'
+                setMessageCount:'SET_MESSAGE_COUNT',
+                setShowSearch:'SET_SHOW_SEARCH'
             }),
             ...mapActions([
                 'getMessageCount'
@@ -56,6 +60,9 @@
             },
             pickerShow(){
                 this.setShowPicker(true);
+            },
+            searchShow(){
+                this.setShowSearch(true);
             },
             goto(infoUrl){
                 const url = this.user_token ? infoUrl:'/login';
@@ -123,7 +130,7 @@
             font-size: $font-size-large-xx;
         }
     }
-    .recharge-tip{
+    .recharge-tip,.search{
         position:absolute;
         height:1.2rem;
         line-height: 1.35rem;

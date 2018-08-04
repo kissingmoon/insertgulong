@@ -14,3 +14,4 @@ export const SET_HD_ZLCJ = 'SET_HD_ZLCJ';
 export const SET_HD_XRKH = 'SET_HD_XRKH';
 export const SET_HD_FXPYQ = 'SET_HD_FXPYQ';
 export const SET_HAS_PHONE = 'SET_HAS_PHONE';
+export const SET_SHOW_SEARCH = 'SET_SHOW_SEARCH';

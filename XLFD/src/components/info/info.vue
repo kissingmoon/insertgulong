@@ -283,9 +283,5 @@
             }
         }
     }
-    .qiandao-content{
-
-    }
-
 }
 </style>

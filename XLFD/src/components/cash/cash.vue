@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="cash-main">
-                        <li class="item-mode" v-for="item in cashList">
+                        <li class="item-mode" v-for="(item,index) in cashList"  :key='index'>
                             <div class="title-time">
                                 <span class="time">{{item.time_created}}</span>
                                 <span class="title">

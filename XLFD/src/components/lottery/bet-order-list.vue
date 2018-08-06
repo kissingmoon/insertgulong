@@ -13,7 +13,7 @@
             <div class="scroll-content">
                 <div class="order-main">
                     <ul class="order-wrapper">
-                        <li class="order-item" v-for="(item,i) in updataNumberList">
+                        <li class="order-item" v-for="(item,i) in updataNumberList" :key="i">
                             <div class="number-wrapper">
                                 <div class="code">{{item.number_str}}</div>
                                 <div class="delete-code" @click="deleteOrder(i)"><i class="icon-close-circle"></i></div>
@@ -225,7 +225,7 @@
                 }
             }
             .title{
-                display: block;
+                display: inline-block;
                 height:1.2rem;
                 line-height: 1.2rem;
                 vertical-align: top;

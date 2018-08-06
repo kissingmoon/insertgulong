@@ -101,8 +101,6 @@
     bottom: 0rem;
     z-index: 300;
     background: $color-bg;
-    .author-wrapper{
-    }
     .scroll-content{
         height:calc(100% - 2rem);
         overflow: hidden;

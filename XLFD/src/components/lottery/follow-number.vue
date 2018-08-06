@@ -40,7 +40,7 @@
             <!-- <scroll ref="scroll" class="scroll-content" :data="numberList"> -->
             <div class="scroll-content">
                 <ul class="follow-number-wrapper">
-                    <li class="follow-number-item" v-for="(item,i) in numberList">
+                    <li class="follow-number-item" v-for="(item,i) in numberList" :key="i">
                         <div class="qh">{{item.period}}</div>
                         <div class="je">{{betCount}}</div>
                         <div class="bs">
@@ -464,7 +464,7 @@
                 }
             }
             .title{
-                display: block;
+                display: inline-block;
                 height:1.2rem;
                 line-height: 1.2rem;
                 vertical-align: top;

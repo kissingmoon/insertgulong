@@ -8,10 +8,10 @@
             </div>
             <scroll ref="scroll" class="scroll-content" :data="data">
                 <div class="kind-wrapper">
-                    <div class="kind-item" v-for="(item,i) in data">
+                    <div class="kind-item" v-for="(item,i) in data" :key="i">
                         <div class="item-title">{{item.name}}</div>
                         <div class="sub-main">
-                            <div class="sub" v-for="(sub,s) in item.wf" @click="selectWf(i,s)">
+                            <div class="sub" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
                                 {{sub.name}}
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                 }
             }
             .title{
-                display: block;
+                display: inline-block;
                 height:1.2rem;
                 line-height: 1.2rem;
                 vertical-align: top;

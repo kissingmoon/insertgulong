@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="recharge-main">
-                         <li class="item-mode" v-for="item in rechargeList">
+                         <li class="item-mode" v-for="(item,i) in rechargeList" :key="i">
                             <div class="title-time">
                                 <span class="time">{{item.time_created}}</span>
                                 <span class="title">

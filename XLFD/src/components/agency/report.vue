@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="report-main">
-                         <li class="item-mode border-bottom-1px" v-for="item in reportList">
+                         <li class="item-mode border-bottom-1px" v-for="(item,index) in reportList" :key='index'>
                             <div class="title-time">
                                 <span class="title">{{item.pfmUserId}}</span>
                                 <span class="time">{{item.createDate}}</span>

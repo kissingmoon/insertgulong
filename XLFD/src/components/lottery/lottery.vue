@@ -220,7 +220,7 @@
                         <div class="detail-title">奖金提示</div>
                         <div class="wf-detail-main">
                             <ul>
-                                <li class="win-money" v-for="item in currentWf.wf_pl">
+                                <li class="win-money" v-for="item in currentWf.wf_pl" :key="item">
                                     {{item.pl_name}}:{{item.award_money}}
                                 </li>
                             </ul>
@@ -298,7 +298,7 @@
                         </div>
                         <div class="wf-detail-main">
                             <ul>
-                                <li class="gd-content border-bottom-1px" v-for="item in gdContentList" @click="setGdContent(item.label)">{{item.label}}</li>
+                                <li class="gd-content border-bottom-1px" v-for="(item,i) in gdContentList" @click="setGdContent(item.label)" :key="i">{{item.label}}</li>
                             </ul>
                         </div>
                         <div class="wf-detail-close">
@@ -1331,7 +1331,7 @@
                 }
             }
             .title{
-                display: block;
+                display: inline-block;
                 height:1.2rem;
                 line-height: 1.2rem;
                 vertical-align: top;

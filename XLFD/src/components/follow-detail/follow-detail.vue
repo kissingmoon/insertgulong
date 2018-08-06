@@ -58,12 +58,12 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <td class="border-right-1px" v-for="(item,i) in showThead" :class="{'border-right':(i+1) != showThead.length}" :width="item.width">{{item.title}}</td>
+                                    <td class="border-right-1px" v-for="(item,index) in showThead" :class="{'border-right':(i+1) != showThead.length}" :width="item.width" :key="index">{{item.title}}</td>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="(group,g) in showTbody" :class="{'bg-even':g%2 != 0}" v-if="showTbody[0] !== null">
-                                    <td v-for="item in showThead">
+                                <tr v-for="(group,g) in showTbody" :class="{'bg-even':g%2 != 0}" v-if="showTbody[0] !== null" :key="g">
+                                    <td v-for="(item,index) in showThead" :key="index">
                                         <span v-if="item.key != 'kj_result'">{{group[item.key]}}</span>
                                         <span v-if="item.key == 'kj_result'">{{betType[group[item.key]]}}</span>
                                     </td>

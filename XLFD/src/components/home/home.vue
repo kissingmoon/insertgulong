@@ -7,7 +7,7 @@
                     <div class="slider-content">
                         <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">
                             <slider>
-                                <div v-for="item in activitys">
+                                <div v-for="(item,index) in activitys" :key="index">
                                     <router-link tag="a" :to="{path:'/home/activity',query:{title:item.title,url:item.target_url}}">
                                         <img class="needsclick" @load="loadImage" :src="item.image_url" :alt="item.title">
                                     </router-link>
@@ -29,7 +29,7 @@
                     </div>
                     <!-- 彩种列表 -->
                     <div class="lottery-wrapper">
-                        <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}">
+                        <div class="lottery-main border-bottom-1px" v-for="(item,i) in lotteryList" :class="{'sub-wrapper':(i % 4 > 1)}" :key="i">
                             <div class="item" v-if="i % 4 < 2 && item.lottery_type != 6 && item.lottery_type != 10" @click="subtag(i)" :ref="'sub'+i">
                                 <div class="item-main">
                                     <div class="icon">
@@ -104,7 +104,7 @@
         </div>
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
             <slider-y class="betwin-main">
-                <div class="betwin-txt" v-for='item in betWin'>
+                <div class="betwin-txt" v-for='(item,k,i) in betWin' :key="i">
                     {{item.content}}
                 </div>
             </slider-y>

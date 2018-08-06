@@ -10,7 +10,7 @@
                 >
                 <div class="message-list">
                     <ul>
-                        <li class="item-main border-bottom-1px" v-for="(item,i) in messageList" @click="showDetail(item,i)">
+                        <li class="item-main border-bottom-1px" v-for="(item,i) in messageList" @click="showDetail(item,i)" :key="i">
                             <div class="message-icon">
                                 <i v-if="item.is_read != 1" class="icon-envelope red-icon"></i>
                                 <i v-if="item.is_read == 1" class="icon-envelope-open"></i>

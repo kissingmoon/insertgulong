@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="bill-main">
-                        <li class="item-mode" v-for="item in billList" @click="showDetail(item)" >
+                        <li class="item-mode" v-for="(item,index) in billList" @click="showDetail(item)" :key='index'>
                             <div class="title-time">
                                 <span class="title">{{item.coin_change_name}}</span>
                                 <span class="time">{{item.time_created}}</span>

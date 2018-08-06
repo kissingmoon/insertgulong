@@ -74,7 +74,7 @@
                 font-size: $font-size-large-x;
             }
             .title{
-                display: block;
+                display: inline-block;
                 height:1.2rem;
                 line-height: 1.2rem;
                 vertical-align: top;

@@ -22,16 +22,16 @@
                         <p>{{agencyInfo.agentCode}}</p>
                     </div>
                     <div class="btn">
-                        <button class="copy fn-copy-btn" data-clipboard-text="http://www.baidu.com" @click="copy">复制</button>
+                        <button class="copy fn-copy-btn" :data-clipboard-text="agencyInfo.agentCode" @click="copy">复制</button>
                     </div>
                 </div>
                 <div class="generalize">
                     <div class="title">我的推广链接</div>
                     <div class="url">
-                        <p>http://www.baidu.com</p>
+                        {{agencyInfo.domainUrl}}
                     </div>
                     <div class="btn">
-                        <button class="copy fn-copy-btn" data-clipboard-text="http://www.baidu.com" @click="copy">复制</button>
+                        <button class="copy fn-copy-btn" :data-clipboard-text="agencyInfo.domainUrl" @click="copy">复制</button>
                         <button @click="share()">分享</button>
                     </div>
                 </div>
@@ -84,7 +84,6 @@
             DataNone
         },
         created() {
-            this.getBetList();
             this.judgeIsAgent();
         },
         computed: {
@@ -96,34 +95,6 @@
             ...mapMutations({
                 setTip:'SET_TIP',
             }),
-            getBetList(type){
-                if(type == 'up'){
-                    this.loadStatus=true;
-                    ++this.betParam.page_no;
-                }else if(type == 'down'){
-                    this.refreshStatus=true;
-                    this.betParam.page_no=1;
-                }
-                this.$axios.postRequest(httpUrl.info.bet,this.betParam)
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){
-                        if(type == 'up'){
-                            this.loadStatus=false;
-                            this.betList=this.betList.concat(res.data);
-                            this.isAllData =res.data.length < 20 ? true : false;
-                        }else{
-                            this.refreshStatus=false;
-                            this.betList=res.data;
-                            this.isAllData=false;
-                        }
-                    };
-                });
-            },
-            setTimeType(type){
-                this.betParam.data_type=type;
-                this.betParam.page_no=1
-                this.getBetList();
-            },
             goto(){
                 this.$router.push({
                     path:'/info/agency/report'
@@ -143,12 +114,14 @@
             },
             //分享
             share(command){
+                const url = `${this.agencyInfo.domainUrl}/register`
                 var nativeShare = new NativeShare()
                 var shareData = {
                     title: '点击链接',
                     desc: '邀请码：85749632',
                     // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
-                    link: 'http://192.168.195.9:8080/register',
+                    link: `${this.agencyInfo.domainUrl}/register`,
+                    // link: this.agencyInfo.domainUrl+'/register',
                     icon: 'https://www.xlfd.com/img/images/userphoto/3.jpg',
                     // 不要过于依赖以下两个回调，很多浏览器是不支持的
                     success: function() {

@@ -70,10 +70,10 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="item-wrapper border-bottom-1px" v-for="lottery in lotteryList">
+                        <li class="item-wrapper border-bottom-1px" v-for="(lottery,index) in lotteryList"  :key='index'>
                             <div class="lottery-label">{{lottery.lottery_label}}</div>
                             <div class="sub-lottery-wrapper" v-if="lottery.sub_lottery && lottery.sub_lottery.length > 0">
-                                <div class="sub-lottery" v-for="sub in lottery.sub_lottery" @click="changeLottery(sub.lottery_id,sub.lottery_name)">
+                                <div class="sub-lottery" v-for="(sub,index) in lottery.sub_lottery" @click="changeLottery(sub.lottery_id,sub.lottery_name)" :key='index'>
                                     <p class="img"><img :src="sub.lottery_image" alt=""></p>
                                     <p class="title"><span>{{sub.lottery_name}}</span></p>
                                 </div>

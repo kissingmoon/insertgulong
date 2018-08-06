@@ -9,7 +9,7 @@
             <!-- 头像选择功能 -->
             <div class="portrait-wrapper">
                 <ul>
-                    <li v-for="(item,i) in portraitList" :class="{'on': portraitUrl == item.imageUrl}" @click="selectImg(item.imageUrl)">
+                    <li v-for="(item,i) in portraitList" :class="{'on': portraitUrl == item.imageUrl}" @click="selectImg(item.imageUrl)" :key="i">
                         <img :src="item.imageUrl">
                     </li>
                     

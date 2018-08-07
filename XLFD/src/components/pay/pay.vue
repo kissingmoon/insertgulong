@@ -1,6 +1,7 @@
 <template>
     <div class="pay">
-        <m-iframe :url="url"></m-iframe>
+        <!-- <m-iframe :url="url"></m-iframe> -->
+        <div id='payiframe'></div>
         <div v-show="!user_token.length" class="login-tip-wrapper">
             <div class="login-tip">
                 <div class="img">
@@ -49,6 +50,13 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.url=`${res.data[0].url}?user_token=${this.user_token}`
+                        
+                        console.log(this.url)
+                            this.$axios.getRequest(this.url).then((res)=>{
+                                document.getElementById('payiframe').innerHTML(res)
+                            }
+                        )
+                        
                     }
                 });
             }

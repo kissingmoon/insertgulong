@@ -13,7 +13,8 @@ fastclick.attach(document.body);
 Vue.use(VueLazyload,{
     loading:require('common/img/icon-loading-img.png')
 });
-
+Vue.prototype.TencentCaptcha = TencentCaptcha;
+Vue.prototype.returnCitySN = returnCitySN;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

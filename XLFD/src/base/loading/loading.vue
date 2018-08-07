@@ -2,7 +2,7 @@
 <div class="loading-bg">
 
   <div class="loading">
-    <img class="img" width="24" height="24" src="./loading.gif"></br>
+    <img class="img" width="24" height="24" src="./loading.gif"><br/>
     <span class="desc">{{loadingTip}}</span>
   </div>
 </div>

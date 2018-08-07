@@ -1,6 +1,7 @@
 <template>
     <parcel>
-        <div class="login">
+        <div class="login">           
+            <!-- <remote-js src="https://ssl.captcha.qq.com/TCaptcha.js"></remote-js> -->
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
@@ -21,6 +22,7 @@
                     </p>
                 </li> -->
                 <li>
+                    <!-- <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button> -->
                     <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
                 </li>
                 <li>
@@ -35,7 +37,9 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
-    import gt from 'common/js/gt.sense';
+    //import gt from 'common/js/gt.sense';
+    //import 'common/js/tcaptcha.js';
+    import RemoteJs from 'base/remote-js/remote-js'
     import {local,session,randomWord,removeSession,removeLocal} from 'common/js/param';
     export default {
         data() {
@@ -50,7 +54,8 @@
             }
         },
         components:{
-            Parcel
+            Parcel,
+            RemoteJs
         },
         created() {
             this.resetAccount();
@@ -81,8 +86,10 @@
                 this.getloginParam();
                 // this.setCode();
                 // this.getBaseData();
-                this.makeVerify();
+                //this.makeVerify();
+                this.verific();
             },
+            /*
             //极验验证码初始化
             makeVerify(){
                 let _this = this;
@@ -109,7 +116,33 @@
                     })
                 });
             },
-
+            */
+           //腾讯验证码的回调函数
+           verific(){ 
+               console.log(returnCitySN.cip)
+               let _this=this;           
+                // 绑定一个元素并手动传入场景Id和回调
+                new TencentCaptcha(
+                    document.getElementById('login'),
+                    '2071577376',
+                    function(res) {
+                        console.log(res);
+                        _this.loginParam.Ticket=res.ticket
+                        _this.loginParam.Randstr=res.randstr
+                        _this.login()
+                         // res（未通过验证）= {ret: 1, ticket: null}
+                        // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+                        // if(res.ret === 0){
+                        //     _this.$axios.getRequest(verparm)
+                        //     .then((res)=> {
+                        //         console.log(res)
+                        //         })
+                        // }lo
+                    },
+                    { bizState: '自定义透传参数' }
+                );
+                console.log("新建对象完成")
+           },
             // 获取本地储存的账号密码
             getloginParam(){
                 let loginParam = local('loginParam');
@@ -169,8 +202,8 @@
             // 用户登录
             login(data){
                 local('loginParam',this.loginParam);
-                this.loginParam.challenge = data.challenge;
-                this.loginParam.idType = 4;
+                //this.loginParam.challenge = data.challenge;
+                //this.loginParam.idType = 4;
                 this.loginParam.idValue = this.loginParam.user_id;
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {

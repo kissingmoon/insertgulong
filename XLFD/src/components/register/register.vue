@@ -81,39 +81,66 @@
             init(){
                 // this.setCode();
                 // this.getBaseData();
-                this.makeVerify();
+                //this.makeVerify();
+                this.verific();
             },
             // 生成随机id
             setCode(){
                 this.registerParam.code_id = randomWord(false,6,8);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
-            //极验验证码初始化
-            makeVerify(){
-                let _this = this;
-                initSense({
-                    id:'baa56257af49111e99feb1aa1a13cdd3',        
-                    onError:(err) => {
-                        _this.setTip('验证码初始化错误');
-                    }
-                }, (sense) => {
-                    document.getElementById('register').addEventListener('click',() => {
-                        sense.sense()
-                    });
-                    sense.setInfos( () => {
-                        //设置可上传数据。请务必按照字段规范填写，否则会在服务验证时出错，导致程序无法运行或者后续数据分析出现混乱，参数需求参考api文档。
-                        return {
-                            interactive: 1
-                        }
-                    }).onSuccess( (data) => {
-                        this.register(data);
-                    }).onClose(() => {
-                        //关闭回调
-                    }).onError((err) => {
-                        //错误回调
-                    })
-                });
-            },
+            //腾讯验证码的回调函数
+           verific(){ 
+               console.log(returnCitySN.cip)
+               let _this=this;           
+                // 绑定一个元素并手动传入场景Id和回调
+                new TencentCaptcha(
+                    document.getElementById('register'),
+                    '2071577376',
+                    function(res) {
+                        console.log(res);
+                        _this.registerParam.ticket=res.ticket
+                        _this.registerParam.randStr=res.randstr
+                        _this.register()
+                         // res（未通过验证）= {ret: 1, ticket: null}
+                        // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+                        // if(res.ret === 0){
+                        //     _this.$axios.getRequest(verparm)
+                        //     .then((res)=> {
+                        //         console.log(res)
+                        //         })
+                        // }lo
+                    },
+                    { bizState: '自定义透传参数' }
+                );
+                console.log("新建对象完成")
+           },
+            // //极验验证码初始化
+            // makeVerify(){
+            //     let _this = this;
+            //     initSense({
+            //         id:'baa56257af49111e99feb1aa1a13cdd3',        
+            //         onError:(err) => {
+            //             _this.setTip('验证码初始化错误');
+            //         }
+            //     }, (sense) => {
+            //         document.getElementById('register').addEventListener('click',() => {
+            //             sense.sense()
+            //         });
+            //         sense.setInfos( () => {
+            //             //设置可上传数据。请务必按照字段规范填写，否则会在服务验证时出错，导致程序无法运行或者后续数据分析出现混乱，参数需求参考api文档。
+            //             return {
+            //                 interactive: 1
+            //             }
+            //         }).onSuccess( (data) => {
+            //             this.register(data);
+            //         }).onClose(() => {
+            //             //关闭回调
+            //         }).onError((err) => {
+            //             //错误回调
+            //         })
+            //     });
+            // },
             // 初始化验证码
             getBaseData(){
                 var _this = this;
@@ -160,7 +187,7 @@
                 // this.registerParam.geetest_challenge = result.geetest_challenge;
                 // this.registerParam.geetest_validate = result.geetest_validate;
                 // this.registerParam.geetest_seccode = result.geetest_seccode;
-                this.registerParam.challenge = data.challenge;
+                //this.registerParam.challenge = data.challenge;
                 this.registerParam.idType = 4;
                 this.registerParam.idValue = this.registerParam.user_id;
                 this.$axios.postRequest(httpUrl.account.register,this.registerParam)

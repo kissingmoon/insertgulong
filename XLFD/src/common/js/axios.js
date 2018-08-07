@@ -43,7 +43,8 @@ axios.interceptors.response.use(res=> {
   return Promise.resolve(err);
 })
 
-let base = '/api';
+//let base = '/api';
+let base = '/jeeplus';
 
 const $axios = {
     postRequest(url, params){

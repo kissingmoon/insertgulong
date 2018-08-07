@@ -127,8 +127,8 @@
                     '2071577376',
                     function(res) {
                         console.log(res);
-                        _this.loginParam.Ticket=res.ticket
-                        _this.loginParam.Randstr=res.randstr
+                        _this.loginParam.ticket=res.ticket
+                        _this.loginParam.randStr=res.randstr
                         _this.login()
                          // res（未通过验证）= {ret: 1, ticket: null}
                         // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}

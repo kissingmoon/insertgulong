@@ -1,6 +1,7 @@
 <template>
     <div class="pay">
-        <m-iframe :url="url"></m-iframe>
+        <!-- <m-iframe :url="url"></m-iframe> -->
+        <m-object :data="data"></m-object>
         <div id='payiframe'></div>
         <div v-show="!user_token.length" class="login-tip-wrapper">
             <div class="login-tip">
@@ -19,12 +20,13 @@
     import {httpUrl} from 'common/js/map';
     import {mapGetters} from 'vuex';
     import MIframe from 'base/m-iframe/m-iframe';
+    import MObject  from 'base/m-object/m-object';
     import axios from 'axios'
     
     export default {
         data(){
             return{
-                url:''
+                data:''
             }
         },
         created(){
@@ -39,7 +41,8 @@
             // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
         },
         components:{
-            MIframe
+            MIframe,
+            MObject
         },
         computed: {
             ...mapGetters([
@@ -51,15 +54,18 @@
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
-                        this.url=`${res.data[0].url}?user_token=${this.user_token}`
+                        this.data=`${res.data[0].url}?user_token=${this.user_token}`
 
                         
                         //      var scriptElement = document.createElement('script');
                         //     document.getElementById('payiframe').appendChild(scriptElement);
                         //     scriptElement.src = this.url
-                        axios.get('xlfd/youhui/0427/index.html?user_token=57c3699a150d230d54e3074a30ef9dc4').then(function(res){
-                            console.log(res)
-                        })                         
+                        axios({
+                                method: 'get',
+                                url: `/api/youhui/0427/index.html?user_token=${this.user_token}`
+                            }).then(function(res){
+                             console.log(res)
+                         })                         
                     }
                 });
             }

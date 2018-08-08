@@ -2,10 +2,10 @@
     <div>
         <div class="home" ref="home">
             <scroll ref="scroll" class="home-content" :data='lotteryList'>
-                <div>
+                <div>                   
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
-                        <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">
+                        <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">                           
                             <slider>
                                 <div v-for="(item,index) in activitys" :key="index">
                                     <router-link tag="a" :to="{path:'/home/activity',query:{title:item.title,url:item.target_url}}">

@@ -17,6 +17,11 @@
                         <input type="password" placeholder="确认密码" class="input-txt" v-model="registerParam.repeat_password" maxlength="16" autocomplete="off">
                     </p>
                 </li>
+                <li>
+                    <p class="txt-con border-bottom-1px">
+                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off">
+                    </p>
+                </li>
                 <!-- <li>
                     <p class="txt-con border-bottom-1px">
                         <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone" maxlength="16">
@@ -55,7 +60,8 @@
                     user_id:'',
                     password:'',
                     repeat_password:'',
-                    phone:''
+                    phone:'',
+                    agentCode:''
                 },
                 // codeUrl:''
             }
@@ -67,6 +73,10 @@
         },
         mounted(){
             this.init();
+            console.log(this.$route.query)
+            if(this.$route.query.ID){
+                this.registerParam.agentCode=this.$route.query.ID;
+            }
         },
         computed: {
             ...mapGetters([

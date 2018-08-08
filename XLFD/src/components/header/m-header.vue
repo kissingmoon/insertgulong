@@ -20,7 +20,9 @@
             <div class="money" v-show="header.moneyType" @click="pickerShow"><i class="icon-money"></i></div>
             <div class="time" v-show="header.time" @click="timeShow"><i class="icon-clock-02"></i></div>
         </div>
-        <h1 class="title">{{header.title}}</h1>
+        <h1 class="title">{{header.title}}
+            <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
+        </h1>
     </div>
 </template>
 <script>

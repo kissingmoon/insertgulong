@@ -43,8 +43,8 @@ axios.interceptors.response.use(res=> {
   return Promise.resolve(err);
 })
 
-//let base = '/api';
-let base = '/test';
+let base = '/api';
+//let base = '/test';
 
 const $axios = {
     postRequest(url, params){

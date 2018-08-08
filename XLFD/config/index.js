@@ -11,13 +11,20 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-        '/jeeplus': {
+        '/api': {
             //target: 'https://www.xlfdapi.com', 
-            target: 'http://test.weinisi01.com:8090', 
+            target: 'http://test.weinisi01.com', 
             changeOrigin: true, 
-            // pathRewrite: {
-            //   '^/jeeplus': ''
-            // }
+             pathRewrite: {
+              '^/api': ''
+             }
+          },
+          '/jeeplus': {
+            target: 'http://test.weinisi01.com:8088',
+            changeOrigin: true, 
+             pathRewrite: {
+              '^/jeeplus': 'jeeplus'
+             }
           }
     },
 

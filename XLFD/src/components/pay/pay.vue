@@ -1,6 +1,6 @@
 <template>
     <div class="pay">
-        <!-- <m-iframe :url="url"></m-iframe> -->
+        <m-iframe :url="url"></m-iframe>
         <div id='payiframe'></div>
         <div v-show="!user_token.length" class="login-tip-wrapper">
             <div class="login-tip">
@@ -19,6 +19,8 @@
     import {httpUrl} from 'common/js/map';
     import {mapGetters} from 'vuex';
     import MIframe from 'base/m-iframe/m-iframe';
+    import axios from 'axios'
+    
     export default {
         data(){
             return{
@@ -50,13 +52,14 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.url=`${res.data[0].url}?user_token=${this.user_token}`
+
                         
-                        console.log(this.url)
-                            this.$axios.getRequest(this.url).then((res)=>{
-                                document.getElementById('payiframe').innerHTML(res)
-                            }
-                        )
-                        
+                        //      var scriptElement = document.createElement('script');
+                        //     document.getElementById('payiframe').appendChild(scriptElement);
+                        //     scriptElement.src = this.url
+                        axios.get('xlfd/youhui/0427/index.html?user_token=57c3699a150d230d54e3074a30ef9dc4').then(function(res){
+                            console.log(res)
+                        })                         
                     }
                 });
             }

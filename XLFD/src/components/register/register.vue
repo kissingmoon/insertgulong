@@ -73,7 +73,6 @@
         },
         mounted(){
             this.init();
-            console.log(this.$route.query)
             if(this.$route.query.promoteID){
                 this.registerParam.agentCode=this.$route.query.promoteID;
             }

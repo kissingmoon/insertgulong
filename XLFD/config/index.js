@@ -13,6 +13,7 @@ module.exports = {
     proxyTable: {
         '/api': {
             target: 'https://www.xlfdapi.com', 
+            //target: 'http://www.xlfd.com', 
             secure: true,
             changeOrigin: true, 
              pathRewrite: {

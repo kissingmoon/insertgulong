@@ -28,10 +28,10 @@
                 <div class="generalize">
                     <div class="title">我的推广链接</div>
                     <div class="url">
-                        {{agencyInfo.domainUrl}}
+                        {{agencyInfo.domainUrl+"/register?promoteID="+agencyInfo.agentCode}}
                     </div>
                     <div class="btn">
-                        <button class="copy fn-copy-btn" :data-clipboard-text="agencyInfo.domainUrl" @click="copy">复制</button>
+                        <button class="copy fn-copy-btn" :data-clipboard-text="agencyInfo.domainUrl+'/register?promoteID='+agencyInfo.agentCode" @click="copy">复制</button>
                         <button @click="share()">分享</button>
                     </div>
                 </div>

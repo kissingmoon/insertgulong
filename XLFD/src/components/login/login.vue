@@ -119,7 +119,6 @@
             */
            //腾讯验证码的回调函数
            verific(){ 
-               console.log(returnCitySN.cip)
                let _this=this;           
                 // 绑定一个元素并手动传入场景Id和回调
                 new TencentCaptcha(

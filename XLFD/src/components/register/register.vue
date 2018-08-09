@@ -74,8 +74,8 @@
         mounted(){
             this.init();
             console.log(this.$route.query)
-            if(this.$route.query.ID){
-                this.registerParam.agentCode=this.$route.query.ID;
+            if(this.$route.query.promoteID){
+                this.registerParam.agentCode=this.$route.query.promoteID;
             }
         },
         computed: {
@@ -101,7 +101,6 @@
             },
             //腾讯验证码的回调函数
            verific(){ 
-               console.log(returnCitySN.cip)
                let _this=this;           
                 // 绑定一个元素并手动传入场景Id和回调
                 new TencentCaptcha(

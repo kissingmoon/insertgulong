@@ -3,6 +3,7 @@
         <m-iframe :url="url"></m-iframe>
         <!-- <m-object :data="url"></m-object> -->
         <!-- <div id='payiframe'></div> -->
+        <!-- <m-embed :data="url"  class="iframe"></m-embed> -->
         <div v-show="!user_token.length" class="login-tip-wrapper">
             <div class="login-tip">
                 <div class="img">
@@ -21,6 +22,7 @@
     import {mapGetters} from 'vuex';
     import MIframe from 'base/m-iframe/m-iframe';
     import MObject  from 'base/m-object/m-object';
+    import MEmbed  from 'base/m-embed/m-embed';
     
     export default {
         data(){
@@ -41,7 +43,8 @@
         },
         components:{
             MIframe,
-            MObject
+            MObject,
+            MEmbed
         },
         computed: {
             ...mapGetters([
@@ -54,11 +57,14 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.url=`${res.data[0].url}?user_token=${this.user_token}`
-                        console.log(this.url)
-                                // this.$axios.getRequest(`/youhui/0427/index.html?user_token=${this.user_token}`).then((res)=>{
-                                //     document.getElementById('payiframe').innerHTML=res.data
-                                //     console.log(res.data)
-                                // })
+                        // console.log(this.url)
+                        //         this.$axios.testget(`/payment/youhui/0427/index.html?user_token=${this.user_token}`).then((res)=>{
+                        //             document.getElementById('payiframe').innerHTML=res.data
+                        //             console.log(res.data)
+                        //         })
+                        // if(this.user_token){
+                        //     window.open(this.url); 
+                        // }
                     }
                 });
             }

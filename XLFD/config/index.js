@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
         '/api': {
             target: 'https://www.xlfdapi.com', 
-            //target: 'http://www.xlfd.com', 
+            //target: 'https://www.xlfd.com', 
             secure: true,
             changeOrigin: true, 
              pathRewrite: {
@@ -27,6 +27,14 @@ module.exports = {
              pathRewrite: {
               '^/test': 'api'
               //'^/test': ''
+             }
+          },
+          '/payment':{
+            target: 'https://www.xlfd.com', 
+            secure: true,
+            changeOrigin: true, 
+             pathRewrite: {
+              '^/payment': ''
              }
           }
     },

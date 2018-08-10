@@ -29,12 +29,12 @@ module.exports = {
               //'^/test': ''
              }
           },
-          '/payment':{
-            target: 'https://www.xlfd.com', 
+          '/jason':{
+            target: 'http://192.168.196.236:8080', 
             secure: true,
             changeOrigin: true, 
              pathRewrite: {
-              '^/payment': ''
+              '^/jason': ''
              }
           }
     },

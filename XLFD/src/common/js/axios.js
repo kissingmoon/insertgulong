@@ -45,6 +45,7 @@ axios.interceptors.response.use(res=> {
 
 let base = '/api';
 //let base = '/test';
+//let base = '/jason';
 
 const $axios = {
     postRequest(url, params){

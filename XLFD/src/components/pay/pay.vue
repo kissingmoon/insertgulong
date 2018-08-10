@@ -53,10 +53,13 @@
         },
         methods:{
             getPayUrl(){
-                this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
+                // this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
+                this.$axios.postRequest(httpUrl.pay.chargeUrl)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
-                        this.url=`${res.data[0].url}?user_token=${this.user_token}`
+                        //this.url=`${res.data[0].url}?user_token=${this.user_token}`
+
+                        this.url=`${res.data.url}?user_token=${this.user_token}`
                         // console.log(this.url)
                         //         this.$axios.testget(`/payment/youhui/0427/index.html?user_token=${this.user_token}`).then((res)=>{
                         //             document.getElementById('payiframe').innerHTML=res.data

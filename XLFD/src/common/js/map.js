@@ -81,6 +81,9 @@ export const httpUrl = {
         xrkhIsOK:'/v2/yhhd/open-gold-isok',
         geetestCode:'/config/geetest-code',
         sendCode:'/user/sendCode'
+    },
+    pay:{
+        chargeUrl:'/v2/app-charge-url/get-charge-url'
     }
 };
 

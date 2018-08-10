@@ -217,17 +217,17 @@
                 <div class="background" @click="hide('winMoneyShow')"></div>
                 <div class="detail">
                     <div class="wf-detail-wrapper clearfix">
-                        <div class="detail-title">奖金提示</div>
+                        <div class="detail-title">奖金提示<span style="position:absolute;right:.2rem;top:0" @click="hide('winMoneyShow')">X</span></div>
                         <div class="wf-detail-main">
                             <ul>
-                                <li class="win-money" v-for="item in currentWf.wf_pl" :key="item">
-                                    {{item.pl_name}}:{{item.award_money}}
+                                <li class="win-money" v-for="(item,val,indx) in currentWf.wf_pl" :key="indx">
+                                    {{item.pl_name}} 奖金:{{item.award_money}}
                                 </li>
                             </ul>
                         </div>
-                        <div class="wf-detail-close">
+                        <!-- <div class="wf-detail-close">
                             <button @click="hide('winMoneyShow')"><i class="icon-right"></i></button>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>

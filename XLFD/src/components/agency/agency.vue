@@ -118,9 +118,9 @@
                 var nativeShare = new NativeShare()
                 var shareData = {
                     title: '点击链接',
-                    desc: '邀请码：85749632',
+                    desc: this.agencyInfo.agentCode,
                     // 如果是微信该link的域名必须要在微信后台配置的安全域名之内的。
-                    link: `${this.agencyInfo.domainUrl}/register`,
+                    link: `${this.agencyInfo.domainUrl}`,
                     // link: this.agencyInfo.domainUrl+'/register',
                     icon: 'https://www.xlfd.com/img/images/userphoto/3.jpg',
                     // 不要过于依赖以下两个回调，很多浏览器是不支持的

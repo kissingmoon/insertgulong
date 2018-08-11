@@ -217,7 +217,7 @@
                 <div class="background" @click="hide('winMoneyShow')"></div>
                 <div class="detail">
                     <div class="wf-detail-wrapper clearfix">
-                        <div class="detail-title">奖金提示<span style="position:absolute;right:.2rem;top:0" @click="hide('winMoneyShow')">X</span></div>
+                        <div class="detail-title">奖金提示<span style="position:absolute;right:0.2rem;top:0" @click="hide('winMoneyShow')">X</span></div>
                         <div class="wf-detail-main">
                             <ul>
                                 <li class="win-money" v-for="(item,val,indx) in currentWf.wf_pl" :key="indx">

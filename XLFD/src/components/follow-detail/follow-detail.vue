@@ -58,7 +58,7 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <td class="border-right-1px" v-for="(item,index) in showThead" :class="{'border-right':(i+1) != showThead.length}" :width="item.width" :key="index">{{item.title}}</td>
+                                    <td class="border-right-1px" v-for="(item,index) in showThead" :class="{'border-right':(1) != showThead.length}" :width="item.width" :key="index">{{item.title}}</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,7 +154,8 @@
                     }
                 ],
                 showThead:[],
-                showTbody:[]
+                showTbody:[],
+                setFansFlag:true
             }
         },
         components:{
@@ -209,14 +210,18 @@
                 this.$refs.scroll.refresh();
             },
             setFans(index,status){
-                let user_flag=this.author[index].user_flag;
-                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){
-                        this.author[index].has_gz=!this.author[index].has_gz;
-                        this.author[index].count_fans=status == 1? this.author[index].count_fans += 1 : this.author[index].count_fans -= 1;
-                    };
-                });
+                if(this.setFansFlag==true){
+                    let user_flag=this.author[index].user_flag;
+                    this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                    .then((res)=> {
+                        if(res.data && !res.data.errorCode){
+                            this.author[index].has_gz=!this.author[index].has_gz;
+                            this.author[index].count_fans=status == 1? this.author[index].count_fans += 1 : this.author[index].count_fans -= 1;                            
+                            this.setFansFlag=true;
+                        };
+                    });
+                }
+                this.setFansFlag=false;
             },
             betFollow(){
                 if(!this.user_token){

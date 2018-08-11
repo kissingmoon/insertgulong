@@ -20,7 +20,8 @@
             return{
                 attention:[],
                 url:'/attention/detail',
-                isLink:true
+                isLink:true,
+                setFansFlag:true
             }
         },
         components:{
@@ -42,14 +43,18 @@
                 });
             },
             setFans(index,status){
-                let user_flag=this.attention[index].user_flag;
-                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){
-                        this.attention[index].has_gz=!this.attention[index].has_gz;
-                        this.attention[index].count_fans=status == 1?this.attention[index].count_fans+=1 : this.attention[index].count_fans-=1;
-                    };
-                });
+                if(this.setFansFlag==true){
+                    let user_flag=this.attention[index].user_flag;
+                    this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                    .then((res)=> {
+                        if(res.data && !res.data.errorCode){
+                            this.attention[index].has_gz=!this.attention[index].has_gz;
+                            this.attention[index].count_fans=status == 1?this.attention[index].count_fans+=1 : this.attention[index].count_fans-=1;
+                            this.setFansFlag=true;
+                        };
+                    });
+                }
+                this.setFansFlag=false;
             }
         }
     }

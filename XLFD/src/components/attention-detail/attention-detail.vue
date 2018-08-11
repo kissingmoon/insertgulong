@@ -38,7 +38,8 @@
                     page_no:1,
                     page_size:20,
                     user_flag:''
-                }
+                },
+                setFansFlag:true
             }
         },
         components:{
@@ -79,14 +80,18 @@
                 });
             },
             setFans(index,status){
-                let user_flag=this.author[index].user_flag;
-                this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){
-                        this.author[index].has_gz=!this.author[index].has_gz;
-                        this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
-                    };
-                });
+                if(this.setFansFlag==true){
+                    let user_flag=this.author[index].user_flag;
+                    this.$axios.postRequest(httpUrl.info.setAttention,{user_flag,status})
+                    .then((res)=> {
+                        if(res.data && !res.data.errorCode){
+                            this.author[index].has_gz=!this.author[index].has_gz;
+                            this.author[index].count_fans=status == 1?this.author[index].count_fans+=1 : this.author[index].count_fans-=1;
+                            this.setFansFlag=true;
+                        };
+                    });
+                }
+                this.setFansFlag=false;
             }
         }
     }

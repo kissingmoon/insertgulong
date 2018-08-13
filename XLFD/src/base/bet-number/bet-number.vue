@@ -1,6 +1,6 @@
 <template>
     <div class="lottery-number-content">
-        <div class="lottery-option-main" v-for="(posi,p) in numList">
+        <div class="lottery-option-main" v-for="(posi,p) in numList" :key="p">
             <div class="position-main" v-if="posi.isCanTopFastPick">
                 <div class="position-item" @click="selectPosi(0)">
                     <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(0) != -1}"><i class="icon-right"></i></p>
@@ -28,13 +28,13 @@
                     <p>{{posi.title}}</p>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
-                    <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                    <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">{{item.str}}</p>
                         <p class="txt" v-if="posi.isShowOdds">{{item.pl}}</p>
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 2">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
                             <div class="zodiac-title" v-html="item.number_str"></div>
                             <div class="zodiac-num" v-html="item.str"></div>
@@ -43,7 +43,7 @@
                     </div>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 3">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}" v-html="item.str">
                         </div>
                         <div class="txt" v-if="posi.isShowOdds">{{item.pl}}</div>

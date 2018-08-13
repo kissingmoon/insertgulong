@@ -149,6 +149,10 @@
                     <div class="clear-all" @click="allClear">
                         <p>清空</p>
                     </div>
+                    <!-- 标记 添加的随机按钮 -->
+                    <div class="lhc-bet-count" @click="selectRandom">
+                        <p>随机</p>
+                    </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
@@ -347,6 +351,7 @@
                             </ul>
                             <div class="btn-wrapper">
                                 <button class="cancel"  @click="closeBetAffirm">取消</button>
+                                <!-- 这里标记发送下注号码 -->
                                 <button v-show="!earnCommission" class="affirm" @click="betOrder">确认</button>
                                 <button v-show="earnCommission" class="affirm" @click="betGdOrder">确认</button>
                             </div>
@@ -810,6 +815,37 @@
             changeLotteryModes(mode){
                 this.lotteryModes = mode;
             },
+            //随机生成选择号码标记
+            selectRandom(){
+                console.log(this.currentWf.wf_flag)
+                var _this=this;
+                this.allClear()
+                if(this.currentWf.wf_flag==='ssc_5xdwd'){
+                   // this.selectNum(0,0,5)
+                   this.selectNumList=[[0],[],[],[],[]]
+                   setTimeout(function(){
+                       _this.selectNumList=[[1],[],[],[],[]]
+                   },800)
+                   setTimeout(function(){
+                       _this.selectNumList=[[2],[],[],[],[]]
+                   },1800)
+                }
+                if(this.currentWf.wf_flag==='ssc_5xzhix_fs'){
+                   // this.selectNum(0,0,5)                   
+                   this.selectNumList=[[0],[1],[2],[3],[4]]
+                   setTimeout(function(){
+                       _this.selectNumList=[[0,1],[2],[3],[4],[5]]
+                   },800)
+                   setTimeout(function(){
+                       _this.selectNumList=[[0,1,2],[3],[4],[5],[6]]
+                   },1800)
+                }
+                if(this.currentWf.wf_flag==="ssc_r4zux_12"){                    
+                    this.selectPosition=[0,1,2,3,]
+                    //一定要记住selectNumList的长度应该与当前玩法总共有几位的位数保持一致
+                    this.selectNumList=[[0],[1,2]]
+                }
+            },
             //清除所有选择的号码
             allClear(){
                 this.selectNumList=[];
@@ -1058,6 +1094,13 @@
                         this.betCount=0;
                     }
                 }
+                // 做下标记
+                console.log("触发了重新计算")
+                console.log(this.betNumber)
+                console.log("selectNumList的值为：")
+                console.log(this.selectNumList)
+                console.log("selectPosition的值为：")
+                console.log(this.selectPosition)
             },
             //六和28投注号码生成
             makeBetOrder(){

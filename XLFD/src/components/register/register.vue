@@ -103,27 +103,37 @@
             //腾讯验证码的回调函数
            verific(){ 
                let _this=this;           
-                // 绑定一个元素并手动传入场景Id和回调
-                new TencentCaptcha(
-                    document.getElementById('register'),
-                    '2071577376',
-                    function(res) {
-                        console.log(res);
-                        _this.registerParam.ticket=res.ticket
-                        _this.registerParam.randStr=res.randstr
-                        _this.register()
-                         // res（未通过验证）= {ret: 1, ticket: null}
-                        // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
-                        // if(res.ret === 0){
-                        //     _this.$axios.getRequest(verparm)
-                        //     .then((res)=> {
-                        //         console.log(res)
-                        //         })
-                        // }lo
-                    },
-                    { bizState: '自定义透传参数' }
-                );
-                console.log("新建对象完成")
+               document.getElementById('register').addEventListener('click',() => {
+                    if(!_this.registerParam.password || !_this.registerParam.repeat_password){
+                        _this.setTip("请输入密码和确认密码");
+                        return;
+                    }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
+                        _this.setTip("确认密码不同");
+                        return;
+                    }else{                                
+                        // 绑定一个元素并手动传入场景Id和回调
+                        new TencentCaptcha(
+                            document.getElementById('register'),
+                            '2071577376',
+                            function(res) {
+                                console.log(res);
+                                _this.registerParam.ticket=res.ticket
+                                _this.registerParam.randStr=res.randstr
+                                _this.register()
+                                // res（未通过验证）= {ret: 1, ticket: null}
+                                // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+                                // if(res.ret === 0){
+                                //     _this.$axios.getRequest(verparm)
+                                //     .then((res)=> {
+                                //         console.log(res)
+                                //         })
+                                // }lo
+                            },
+                            { bizState: '自定义透传参数' }
+                        );
+                        console.log("新建对象完成")
+                    }
+                });
            },
             // //极验验证码初始化
             // makeVerify(){

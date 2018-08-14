@@ -150,9 +150,9 @@
                         <p>清空</p>
                     </div>
                     <!-- 标记 添加的随机按钮 -->
-                    <div class="lhc-bet-count" @click="selectRandom">
+                    <!-- <div class="lhc-bet-count" @click="selectRandom">
                         <p>随机</p>
-                    </div>
+                    </div> -->
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
@@ -821,7 +821,6 @@
                 var _this=this;
                 this.allClear()
                 if(this.currentWf.wf_flag==='ssc_5xdwd'){
-                   // this.selectNum(0,0,5)
                    this.selectNumList=[[0],[],[],[],[]]
                    setTimeout(function(){
                        _this.selectNumList=[[1],[],[],[],[]]
@@ -830,8 +829,7 @@
                        _this.selectNumList=[[2],[],[],[],[]]
                    },1800)
                 }
-                if(this.currentWf.wf_flag==='ssc_5xzhix_fs'){
-                   // this.selectNum(0,0,5)                   
+                if(this.currentWf.wf_flag==='ssc_5xzhix_fs'){            
                    this.selectNumList=[[0],[1],[2],[3],[4]]
                    setTimeout(function(){
                        _this.selectNumList=[[0,1],[2],[3],[4],[5]]

@@ -63,6 +63,8 @@
                         @selectKind="selectKind"
                         >
                     </bet-number>
+                    <!-- 标记 -->
+                    <!-- <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos"></random-bet> -->
                 </scroll>
                 <!-- 倍投模式 -->
                 <!-- <div v-if="!is28OrLhc" class="lottery-set">
@@ -147,8 +149,11 @@
                 <!-- 底部 -->
                 <div class="lottery-bottom">
                     <div class="clear-all" @click="allClear">
-                        <p>清空</p>
+                        <p>清空</p>                         
                     </div>
+                    <!-- <div class="lhc-bet-count">
+                        <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos"></random-bet>
+                    </div> -->
                     <!-- 标记 添加的随机按钮 -->
                     <!-- <div class="lhc-bet-count" @click="selectRandom">
                         <p>随机</p>
@@ -494,6 +499,7 @@
     import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
     import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
     import {slicer,countTime} from 'common/js/param.js';
+    import randomBet from 'components/random-bet/random-bet'
     export default {
         data() {
             return{
@@ -549,7 +555,7 @@
                 betNumber:'',
                 betTimes:2,
                 lotteryModes:0,
-                totalOdds:'',
+                totalOdds:'',//赔率
                 totalPlFlag:'',
                 commissionCopy:1,
                 backRateCopy:1,
@@ -575,7 +581,8 @@
             BetOrderList,
             RulePare,
             Loading,
-            numberKeyboard
+            numberKeyboard,
+            randomBet
         },
         created() {
             this.init();
@@ -815,7 +822,7 @@
             changeLotteryModes(mode){
                 this.lotteryModes = mode;
             },
-            //随机生成选择号码标记
+            //随机生成选择号码 随机按钮(如果存在的话)的绑定事件标记
             selectRandom(){
                 console.log(this.currentWf.wf_flag)
                 var _this=this;
@@ -843,6 +850,15 @@
                     //一定要记住selectNumList的长度应该与当前玩法总共有几位的位数保持一致
                     this.selectNumList=[[0],[1,2]]
                 }
+            },
+            selectRandNum(num){
+                this.$refs.betnumberlist.clearKind()
+                this.selectNumList=num
+            },
+            selectRandPos(pos,num){
+                this.$refs.betnumberlist.clearKind()
+                this.selectPosition=pos
+                this.selectNumList=num
             },
             //清除所有选择的号码
             allClear(){
@@ -1111,7 +1127,7 @@
                 const keyLength=Object.keys(this.selectObj).length;
                 const plLength=this.currentWf.wf_pl.length;
                 let isTrueNumber=true;
-                if(this.updataNumberList.length < 1){
+                if(this.updataNumberList.length>=0){
                     // 号码判断
                     if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                         if (keyLength < 2) {
@@ -1178,6 +1194,7 @@
                     }
                 }
                 if(isTrueNumber){
+                    this.setTotal()
                     switch(this.wfFlag){
                         case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
                         case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":

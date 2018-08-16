@@ -177,8 +177,8 @@
         height:1.2rem;
         line-height: 1.2rem;
         vertical-align: top;
-        padding: 0 2.4rem;
-        font-size: $font-size-large-m;
+        padding: 0 0.8rem;
+        font-size: $font-size-large;
         @include no-wrap();
     }
 }

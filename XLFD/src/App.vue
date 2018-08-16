@@ -1,5 +1,6 @@
 <template>
     <div id="app" class="app">
+        <remote-js :src='cnzzurl'></remote-js>
         <m-header></m-header> 
         <m-nav></m-nav>
         <tip></tip>
@@ -19,15 +20,23 @@ import Parcel from 'base/parcel/parcel';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
 import {headerConfig} from 'common/js/map';
+import remoteJs from 'base/remote-js/remote-js';
+
 export default {
     name: 'App',
+    data(){
+        return {
+            cnzzurl: "https://s19.cnzz.com/z_stat.php?id=1274469020&web_id=1274469020"
+        }
+    },
     components:{
         Parcel,
         MHeader,
         MNav,
         Tip,
         ActivityQiandao,
-        ActivityXrkh
+        ActivityXrkh,
+        remoteJs
     },
     created() {
         this.init();

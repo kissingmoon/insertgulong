@@ -14,13 +14,13 @@
                         <li>
                             <p class="title">新密码</p>
                             <p class="txt-con">
-                                <input type="password" placeholder="请输入您的新密码" autocomplete="off" class="input-txt" v-model="param.new_passwd" maxlength="20">
+                                <input type="password" placeholder="请输入您的新密码" autocomplete="off" class="input-txt" v-model="param.new_passwd" maxlength="16">
                             </p>
                         </li>
                         <li>
                             <p class="title">确认新密码</p>
                             <p class="txt-con">
-                                <input type="password" placeholder="请再次输入您的新密码" class="input-txt" v-model="affirm_password" maxlength="20">
+                                <input type="password" placeholder="请再次输入您的新密码" class="input-txt" v-model="affirm_password" maxlength="16">
                             </p>
                         </li>
                     </ul>
@@ -64,6 +64,10 @@
                 }
                 if(this.param.password === this.param.new_passwd){
                     this.setTip('新密码不能与旧密码相同');
+                    return;
+                }
+                if(this.param.new_passwd.length<6){
+                    this.setTip('密码长度不能小于6位');
                     return;
                 }
                 this.$axios.postRequest(httpUrl.info[this.api],this.param)

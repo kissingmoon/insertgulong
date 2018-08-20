@@ -151,7 +151,7 @@
                     </div>
                     <!-- 标记 添加的随机按钮 -->
                     <div class="lhc-bet-count">
-                        <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos"></random-bet>
+                        <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
                     </div>                    
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
@@ -793,6 +793,8 @@
                     this.selectNumList[p].push(num);
                     if(this.is28OrLhc){
                         this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
+                        console.log("看这里")
+                        console.log(this.numberList[0].buyNumberBeanList[i])
                     }
                 }
                 this.changeTotal();
@@ -857,6 +859,13 @@
                 this.$refs.betnumberlist.clearKind()
                 this.selectPosition=pos
                 this.selectNumList=num
+            },
+            selectRandObj(num,obj){
+                this.$refs.betnumberlist.clearKind()
+                this.selectNumList=num;
+                this.selectObj={};
+                let objkey=num[0][0];
+                this.selectObj[objkey]=obj;
             },
             //清除所有选择的号码
             allClear(){

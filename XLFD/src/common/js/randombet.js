@@ -212,7 +212,7 @@ export default {
                     newList.push(tempList)
             });
         }
-        else if(wf_flag=="xglhc"){
+        else if(wf_flag=="xglhc"||wf_flag=="xglhc_tema_xuma"){
             list.map(function(v,k){ 
                 let tempList=[];
                     v.map(function(v){
@@ -255,15 +255,128 @@ export default {
                         switch(v){
                             case 1:{tempList.push('大');break;}
                             case 2:{tempList.push('小');break;}
-                            case 3:{tempList.push('大');break;}
-                            case 4:{tempList.push('小');break;}
-                            case 5:{tempList.push('大');break;}
-                            case 6:{tempList.push('小');break;}
-                            case 7:{tempList.push('大');break;}
-                            case 8:{tempList.push('小');break;}
-                            case 9:{tempList.push('大');break;}
-                            case 10:{tempList.push('小');break;}
+                            case 3:{tempList.push('单');break;}
+                            case 4:{tempList.push('双');break;}
+                            case 5:{tempList.push('大单');break;}
+                            case 6:{tempList.push('小单');break;}
+                            case 7:{tempList.push('大双');break;}
+                            case 8:{tempList.push('小双');break;}
+                            case 9:{tempList.push('极大');break;}
+                            case 10:{tempList.push('极小');break;}
                         }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        else if(wf_flag=="xy28_qtbs_bs"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 0:{tempList.push('红波');break;}
+                            case 1:{tempList.push('绿波');break;}
+                            case 2:{tempList.push('蓝波');break;}
+                        }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        return newList
+    },
+    changeToPinYin:function(list,wf_flag){
+        var newList=[]
+        if(wf_flag=="xy28_qthh_hh"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 1:{tempList.push('da');break;}
+                            case 2:{tempList.push('xiao');break;}
+                            case 3:{tempList.push('dan');break;}
+                            case 4:{tempList.push('shuang');break;}
+                            case 5:{tempList.push('dadan');break;}
+                            case 6:{tempList.push('xiaodan');break;}
+                            case 7:{tempList.push('dashaung');break;}
+                            case 8:{tempList.push('xiaoshuang');break;}
+                            case 9:{tempList.push('jida');break;}
+                            case 10:{tempList.push('jixiao');break;}
+                        }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        if(wf_flag=="xy28_qtbs_bs"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 0:{tempList.push('hongbo');break;}
+                            case 1:{tempList.push('lvbo');break;}
+                            case 2:{tempList.push('lanbo');break;}
+                        }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        return newList
+    },
+    computedStr:function(list,wf_flag){
+        var newList=[]
+        if(wf_flag=="xy28_qtbs_bs"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 0:{tempList.push("01&nbsp;&nbsp;02&nbsp;&nbsp;07&nbsp;&nbsp;08<br>12&nbsp;&nbsp;13&nbsp;&nbsp;18&nbsp;&nbsp;19<br>23&nbsp;&nbsp;24&nbsp;&nbsp;29&nbsp;&nbsp;30<br>34&nbsp;&nbsp;35&nbsp;&nbsp;30&nbsp;&nbsp;45&nbsp;&nbsp;46");break;}
+                            case 1:{tempList.push("05&nbsp;&nbsp;06&nbsp;&nbsp;11&nbsp;&nbsp;16<br>17&nbsp;&nbsp;21&nbsp;&nbsp;22&nbsp;&nbsp;27<br>28&nbsp;&nbsp;32&nbsp;&nbsp;33&nbsp;&nbsp;38<br>39&nbsp;&nbsp;43&nbsp;&nbsp;44&nbsp;&nbsp;49");break;}
+                            case 2:{tempList.push("03&nbsp;&nbsp;04&nbsp;&nbsp;09&nbsp;&nbsp;10<br>14&nbsp;&nbsp;15&nbsp;&nbsp;20&nbsp;&nbsp;25<br>26&nbsp;&nbsp;31&nbsp;&nbsp;36&nbsp;&nbsp;37<br>41&nbsp;&nbsp;42&nbsp;&nbsp;47&nbsp;&nbsp;48");break;}
+                        }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        return newList
+    },
+    computedPl:function(list,wf_flag){
+        var newList=[]
+        if(wf_flag=="xy28_qthh_hh"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 1:{tempList.push(1.971);break;}
+                            case 2:{tempList.push(1.971);break;}
+                            case 3:{tempList.push(1.971);break;}
+                            case 4:{tempList.push(1.971);break;}
+                            case 5:{tempList.push(3.551);break;}
+                            case 6:{tempList.push(3.551);break;}
+                            case 7:{tempList.push(3.551);break;}
+                            case 8:{tempList.push(3.551);break;}
+                            case 9:{tempList.push(10);break;}
+                            case 10:{tempList.push(10);break;}
+                        }                     
+                    })
+                    newList.push(tempList)
+            });
+        }
+        if(wf_flag=="xy28_qtbs_bs"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        tempList.push(2.95);                   
+                    })
+                    newList.push(tempList)
+            });
+        }
+        if(wf_flag=="xglhc_sebo_sebo"){
+            list.map(function(v,k){ 
+                let tempList=[];
+                    v.map(function(v){
+                        switch(v){
+                            case 0:{tempList.push(2.8);break;}
+                            case 1:{tempList.push(2.92);break;}
+                            case 2:{tempList.push(2.92);break;}
+                        }                    
                     })
                     newList.push(tempList)
             });

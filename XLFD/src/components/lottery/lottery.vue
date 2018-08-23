@@ -152,7 +152,7 @@
                     <!-- 标记 添加的随机按钮 -->
                     <div class="lhc-bet-count">
                         <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
-                    </div>                    
+                    </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
@@ -861,11 +861,21 @@
                 this.selectNumList=num
             },
             selectRandObj(num,obj){
+                var _this=this;
                 this.$refs.betnumberlist.clearKind()
                 this.selectNumList=num;
                 this.selectObj={};
-                let objkey=num[0][0];
-                this.selectObj[objkey]=obj;
+                if(Array.isArray(obj)){
+                    obj[0].map(function(v,k){
+                        _this.selectObj[v.number]=v
+                    })
+                }
+                else{
+                    let objkey=num[0][0];
+                    this.selectObj[objkey]=obj;
+                }
+                
+                
             },
             //清除所有选择的号码
             allClear(){

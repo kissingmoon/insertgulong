@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {mapActions,mapGetters} from 'vuex';
+import {mapActions,mapGetters,mapMutations} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
 import ActivityQiandao from 'components/activity/activity-qiandao.vue';
@@ -45,7 +45,8 @@ export default {
         ...mapGetters([
             'user_token',
             'hd_qiandao',
-            'hd_xrkh'
+            'hd_xrkh',
+             'href_type'
         ])
     },
     methods:{
@@ -60,6 +61,11 @@ export default {
             });
             this.setHeader(headerConfig[path]);
             this.getUserData();
+            this.getUrl();
+        },
+        getUrl(){
+                console.log(this.$route.query.type)
+                this.sethreftype(this.$route.query.type)
         },
         getUserData(){
             if(this.dataTimes){
@@ -78,7 +84,10 @@ export default {
             'resetUser',
             'getUser',
             'getMessageCount'
-        ])
+        ]),
+        ...mapMutations({
+            sethreftype:'SET_HREF_TYPE'
+        })
     },
     watch:{
         $route(to) {

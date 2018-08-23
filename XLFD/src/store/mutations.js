@@ -51,6 +51,9 @@ const mutations = {
   },
   [types.SET_SHOW_SEARCH](state, param) {
     state.show_search = param;
+  },
+  [types.SET_HREF_TYPE](state, param) {
+    state.href_type = param;
   }
 }
 

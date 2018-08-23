@@ -189,6 +189,7 @@
                 'user_token',
                 'hd_qiandao'
             ])
+            
         },
         methods: {
             init(){

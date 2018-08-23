@@ -15,6 +15,7 @@
             </div>
         </div>
         <router-view></router-view>
+        <bottom-tip v-if="showbtip" @closebtip='closebtip'></bottom-tip>
     </div>
 </template>
 <script>
@@ -23,14 +24,17 @@
     import MIframe from 'base/m-iframe/m-iframe';
     import MObject  from 'base/m-object/m-object';
     import MEmbed  from 'base/m-embed/m-embed';
+    import bottomTip  from 'base/bottom-tip/bottom-tip';
     
     export default {
         data(){
             return{
-                url:''
+                url:'',
+                showbtip:false
             }
         },
         created(){
+            
             this.getPayUrl();
             document.body.addEventListener('touchmove', function (e) {
                 e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
@@ -40,26 +44,33 @@
             // document.body.addEventListener('touchmove', function (e) {
             //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
             // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+            
         },
         components:{
             MIframe,
             MObject,
-            MEmbed
+            MEmbed,
+            bottomTip
         },
         computed: {
             ...mapGetters([
-                'user_token'
+                'user_token',
+                'href_type'
             ])
         },
         methods:{
             getPayUrl(){
                 // this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
+                if(this.user_token){
+                    this.judgeType();
+                }            
                 this.$axios.postRequest(httpUrl.pay.chargeUrl)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
-                        //this.url=`${res.data[0].url}?user_token=${this.user_token}`
-
-                        this.url=`${res.data.url}?user_token=${this.user_token}`
+                        //this.url=`${res.data[0].url}?user_token=${this.user_token}`   
+                        var str=this.href_type?("&type="+this.href_type):""  
+                        console.log("这里是"+str);          
+                        this.url=`${res.data.url}?user_token=${this.user_token}${str}`
                         // console.log(this.url)
                         //         this.$axios.testget(`/payment/youhui/0427/index.html?user_token=${this.user_token}`).then((res)=>{
                         //             document.getElementById('payiframe').innerHTML=res.data
@@ -70,6 +81,18 @@
                         // }
                     }
                 });
+            },
+            judgeType(){
+                console.log(this.href_type)                
+                if(this.href_type){
+                    var userAgent = navigator.userAgent;                                   
+                    if (userAgent.indexOf("Safari") == -1) {//如果不是safari浏览器
+                        this.showbtip=true; 
+                    } 
+                }
+            },
+            closebtip(){
+                this.showbtip=false;
             }
         }
     }

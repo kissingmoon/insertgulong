@@ -117,10 +117,10 @@
                                     <p>注数:<span class="yellow">{{betCount}}</span>注</p>
                                     <p>投注总额:<span class="yellow">{{calculateBetMoney}}</span>元</p>
                                 </div>
-                                <div class="brokerage" @click="betExamine('gdSetShow')">
-                                    <!-- <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p> -->
+                                <!-- <div class="brokerage" @click="betExamine('gdSetShow')">
+                                     <p class="check-box"><i class="icon-right" v-show="earnCommission"></i></p> 
                                     <p>赚佣金</p>
-                                </div>
+                                </div> -->
                                 <div class="follow-num" @click="betExamine('followNumberShow')">
                                     <p>追号</p>
                                 </div>
@@ -1125,13 +1125,6 @@
                         this.betCount=0;
                     }
                 }
-                // 做下标记
-                console.log("触发了重新计算")
-                console.log(this.betNumber)
-                console.log("selectNumList的值为：")
-                console.log(this.selectNumList)
-                console.log("selectPosition的值为：")
-                console.log(this.selectPosition)
             },
             //六和28投注号码生成
             makeBetOrder(){

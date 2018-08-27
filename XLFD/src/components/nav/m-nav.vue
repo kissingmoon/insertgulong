@@ -8,7 +8,7 @@
             <p class="icon-con icon-pay"></p>
             <p class="txt">充值</p>
         </router-link>
-        <router-link tag="div" class="nav-item" to="/descover">
+        <router-link tag="div" class="nav-item" to="/draw">
             <p class="icon-con icon-descover"></p>
             <p class="txt">发现</p>
         </router-link>

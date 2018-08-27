@@ -472,7 +472,7 @@
             height: 1.56rem;
             border-top:0.1rem solid $color-bg-gray;
             border-bottom:0.1rem solid $color-bg-gray;
-            padding:0.23rem 0 0 0.4rem;
+            padding:0.23rem 0.3rem 0 0.5rem;
             .rank-img{
                 float: left;
                 height:1.33rem;
@@ -486,7 +486,8 @@
             .rank{
                 float: left;
                 height:1.33rem;
-                width:2.1rem;
+                // width:2.1rem;
+                width:2.8rem;
                 text-align: center;
                 color:#9F7B02;
                 .title{

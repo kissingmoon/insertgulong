@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from 'components/home/home';
-import Pay from 'components/pay/newpay';
+import Pay from 'components/pay/pay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
 import Activity from 'components/activity-con/activity-con';
@@ -113,6 +113,7 @@ export default new Router({
         {
             path:'/descover',
             component:Descover,
+            // component:Draw,
             children:[
                 {
                     path:'detail',

@@ -65,18 +65,18 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li @click="goto('/follow')" class="item-mode border-bottom-1px">
+                        <!-- <li @click="goto('/follow')" class="item-mode border-bottom-1px">
                             <p class="title icon-order">我的跟单</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
-                        <li @click="goto('/attention')" class="item-mode border-bottom-1px margin-bottom">
+                        </li> -->
+                        <!-- <li @click="goto('/attention')" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-attention">我的关注</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
+                        </li> -->
                         <li @click="goto('/info/safety')" class="item-mode border-bottom-1px">
                             <p class="title icon-safety">安全中心</p>
                             <p class="remarks">

@@ -12,7 +12,7 @@
     props: {
       loadingTip: {
         type: String,
-        default: '正在提交...'
+        default: '拼命加载中...'
       }
     }
   }

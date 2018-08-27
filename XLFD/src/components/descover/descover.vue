@@ -13,15 +13,17 @@
                         <p class="icon-con icon-draw"></p>
                         <p class="txt">开奖信息</p>
                     </router-link>
-                    <router-link tag="div" :to="{path:'/crunchies'}" class="kind-item">
+                    <!-- <router-link tag="div" :to="{path:'/crunchies'}" class="kind-item">
                         <p class="icon-con icon-crunchies"></p>
                         <p class="txt">大神榜</p>
-                    </router-link>
-                    <div @click="goto('/follow')" class="kind-item">
+                    </router-link> -->
+                    <!-- <div @click="goto('/follow')" class="kind-item">
                         <p class="icon-con icon-flag"></p>
                         <p class="txt">我的跟单</p>
-                    </div>
+                    </div> -->
                 </div>
+
+                <!-- 原有注释 -->
                 <!-- 大神榜 -->
                 <!-- <div class="crunchies-wrapper">
                     <div class="title-wrapper border-bottom-1px cup-con">
@@ -42,7 +44,9 @@
                         </router-link>
                     </div>
                 </div> -->
-                <div class="order-wrapper">
+
+                
+                <div class="order-wrapper">                   
                     <div class="title-wrapper border-bottom-1px hot-con">
                         <div class="title">全部跟单</div>
                         <div class="sort">
@@ -54,6 +58,8 @@
                         <all-order-list :data="orderList" :url="allOrderuUrl"></all-order-list>
                     </div>
                 </div>
+                
+                
             </div>
         </scroll>
         <div v-show="lotteryShow" class="background" @click="closeLottery">
@@ -95,6 +101,7 @@
     import Scroll from 'base/scroll/scroll';
     import Loading from 'base/loading/loading';
     import AllOrderList from 'base/all-order-list/all-order-list';
+    import Draw from 'components/draw/draw'
     export default {
         data(){
             return{
@@ -122,7 +129,8 @@
         components:{
             Scroll,
             Loading,
-            AllOrderList
+            AllOrderList,
+            Draw
         },
         created(){
             this.getRank();
@@ -369,6 +377,10 @@
             overflow: hidden;
         }
     }
+    // .draw{
+    //     position: fixed;
+    //     top:2.4rem;
+    // }
     .background {
         position:fixed;
         top: 0;

@@ -3,9 +3,9 @@
         <div class="draw">
             <div class="win-money">
                 <p class="money">
-                    <span v-for="(num,index) in winMoney.num1" :key="index">{{num}}</span>
+                    <span v-for="num in winMoney.num1">{{num}}</span>
                     <b>亿</b>
-                    <span v-for="(num,index)  in winMoney.num2" :key="index">{{num}}</span>
+                    <span v-for="num  in winMoney.num2">{{num}}</span>
                     <b>万</b>
                 </p>
                 <p class="title">小李飞刀累计中奖...</p>
@@ -76,7 +76,8 @@
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 0rem;
+    // bottom: 0rem;
+    bottom: 1.44rem;
     z-index: 103;
     background: $color-bg;
     .win-money{

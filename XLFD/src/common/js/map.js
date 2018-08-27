@@ -83,7 +83,13 @@ export const httpUrl = {
         sendCode:'/user/sendCode'
     },
     pay:{
-        chargeUrl:'/v2/app-charge-url/get-charge-url'
+        chargeUrl:'/v2/app-charge-url/get-charge-url',
+        getPayMethod:'/v2/yhhd/user-charge/get-com-pay-method',
+        getGateFlag:'/v2/yhhd/user-charge/get-gate-flag',
+        getCompayList:'/v2/yhhd/user-charge/get-com-pay-list',
+        toChargeNew:'/v2/yhhd/user-charge/to-charge-new',
+        compaySubmit:'/v2/yhhd/user-charge/com-pay-submit',
+        getpayTotal:'/v2/yhhd/user-charge/get-pay-type'
     }
 };
 
@@ -171,6 +177,11 @@ export const waveColor ={
     '红波':['01','02','07','08','12','13','18','19','23','24','29','30','34','35','30','45','46'],
     '绿波':['05','06','11','16','17','21','22','27','28','32','33','38','39','43','44','49'],
     '蓝波':['03','04','09','10','14','15','20','25','26','31','36','37','41','42','47','48']
+};
+export const waveColor28 ={
+    '红波':['01','04','07','10','16','19','22','25'],
+    '绿波':['02','05','08','11','17','20','23','26'],
+    '蓝波':['03','06','09','12','15','18','21','24']
 };
 
 export const fiveElement ={

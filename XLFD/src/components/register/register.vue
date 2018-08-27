@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" :readonly="readonly">
+                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" readonly="readonly">
                     </p>
                 </li>
                 <!-- <li>
@@ -36,7 +36,8 @@
                     </p>
                 </li> -->
                 <li>
-                    <button id="register" class="login-btn" :disabled="btnDisabledType">注册</button>
+                    <button id="register" @click="checkregister" class="login-btn" :disabled="btnDisabledType">注册</button>
+                    <button id="register1" style="display:none">注册</button>
                 </li>
                 <li>
                     <p class="forget">注册即表示同意<router-link :to="{path:'/protocol',query:{flag:'register_protocol'}}">《使用协议》</router-link></p>
@@ -62,7 +63,8 @@
                     repeat_password:'',
                     phone:'',
                     agentCode:'',
-                    readonly:""
+                    readonly:"",
+                    captcha1:""
                 },
                 // codeUrl:''
             }
@@ -102,21 +104,12 @@
             },
             //腾讯验证码的回调函数
            verific(){ 
-               let _this=this;           
-               document.getElementById('register').addEventListener('click',() => {
-                    if(!_this.registerParam.password || !_this.registerParam.repeat_password){
-                        _this.setTip("请输入密码和确认密码");
-                        return;
-                    }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
-                        _this.setTip("确认密码不同");
-                        return;
-                    }else{                                
+                      var _this=this;                        
                         // 绑定一个元素并手动传入场景Id和回调
-                        new TencentCaptcha(
-                            document.getElementById('register'),
+                       this.captcha1=new TencentCaptcha(
+                            document.getElementById('register1'),
                             '2071577376',
                             function(res) {
-                                console.log(res);
                                 _this.registerParam.ticket=res.ticket
                                 _this.registerParam.randStr=res.randstr
                                 _this.register()
@@ -132,8 +125,7 @@
                             { bizState: '自定义透传参数' }
                         );
                         console.log("新建对象完成")
-                    }
-                });
+                   
            },
             // //极验验证码初始化
             // makeVerify(){
@@ -203,35 +195,48 @@
                     }
                 });
             },
+            checkregister(){
+                let _this=this;         
+                    if(!_this.registerParam.password || !_this.registerParam.repeat_password){
+                        _this.setTip("请输入密码和确认密码");
+                        return;
+                    }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
+                        _this.setTip("确认密码不同");
+                        return;
+                    }else{ this.captcha1.show();}
+            },
             register(data){
                 // this.registerParam.geetest_challenge = result.geetest_challenge;
                 // this.registerParam.geetest_validate = result.geetest_validate;
                 // this.registerParam.geetest_seccode = result.geetest_seccode;
-                //this.registerParam.challenge = data.challenge;
-                this.registerParam.idType = 4;
-                this.registerParam.idValue = this.registerParam.user_id;
-                this.$axios.postRequest(httpUrl.account.register,this.registerParam)
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){
-                        session('user_token',res.data.user_token);
-                        session('md5_salt',res.data.md5_salt);
-                        this.resetUser({
-                            account:res.data,
-                            token:res.data.user_token,
-                            md5:res.data.md5_salt
-                        })
-                        this.setTip("注册成功");
-                        this.getXrkhType('hd_xrkh');
-                        setTimeout(() => {
-                            this.getIsReceived('hd_qiandao');
-                        },1000)
-                        this.$router.push({
-                            path:'/'
+                //this.registerParam.challenge = data.challenge;                
+                        console.log("begin>>>in")
+                        this.registerParam.idType = 4;
+                        this.registerParam.idValue = this.registerParam.user_id;
+                        this.registerParam.agent_domain= window.document.domain;
+                        this.$axios.postRequest(httpUrl.account.register,this.registerParam)
+                        .then((res)=> {
+                            if(res.data && !res.data.errorCode){
+                                session('user_token',res.data.user_token);
+                                session('md5_salt',res.data.md5_salt);
+                                this.resetUser({
+                                    account:res.data,
+                                    token:res.data.user_token,
+                                    md5:res.data.md5_salt
+                                })
+                                this.setTip("注册成功");
+                                this.getXrkhType('hd_xrkh');
+                                setTimeout(() => {
+                                    this.getIsReceived('hd_qiandao');
+                                },1000)
+                                this.$router.push({
+                                    path:'/'
+                                });
+                            }else{
+                                // this.init();
+                            }
                         });
-                    }else{
-                        // this.init();
-                    }
-                });
+                    
             },
             ...mapMutations({
                 setTip:'SET_TIP',

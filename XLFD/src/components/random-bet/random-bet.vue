@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p  v-if="showbtn" @click="interval">随机</p>
+        <!-- <p  v-if="showbtn" @click="interval">随机</p> -->
         <div v-if="showmodel" class="lockmodel" v-slience></div>
     </div>
 </template>

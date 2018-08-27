@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from 'components/home/home';
-import Pay from 'components/pay/pay';
+import Pay from 'components/pay/newpay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
 import Activity from 'components/activity-con/activity-con';
@@ -35,6 +35,40 @@ import Lottery from 'components/lottery/lottery';
 import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
 
+// const Descover = () => import('components/descover/descover')
+// const Home = () => import('components/home/home')
+// const Pay = () => import('components/pay/newpay')
+// const Discount  = () => import( 'components/discount/discount');
+// const Activity  = () => import( 'components/activity-con/activity-con');
+// const Info  = () => import( 'components/info/info');
+// const Login  = () => import( 'components/login/login');
+// const Register  = () => import( 'components/register/register');
+// const Balance  = () => import( 'components/balance/balance');
+// const Bill  = () => import( 'components/bill/bill');
+// const Bet  = () => import( 'components/bet/bet');
+// const BetDetail  = () => import( 'components/bet-detail/bet-detail');
+// const Recharge  = () => import( 'components/recharge/recharge');
+// const Cash  = () => import( 'components/cash/cash');
+// const Follow  = () => import( 'components/follow/follow');
+// const FollowDetail  = () => import( 'components/follow-detail/follow-detail');
+// const Attention  = () => import( 'components/attention/attention');
+// const AttentionDetail  = () => import( 'components/attention-detail/attention-detail');
+// const Crunchies  = () => import( 'components/crunchies/crunchies');
+// const Safety  = () => import( 'components/safety/safety');
+// const EditPassword  = () => import( 'components/edit-password/edit-password');
+// const SetPassword  = () => import( 'components/set-password/set-password');
+// const Bank  = () => import( 'components/bank/bank');
+// const Information  = () => import( 'components/information/information');
+// const Nick  = () => import( 'components/nick/nick');
+// const Draw  = () => import( 'components/draw/draw');
+// const DrawNumber  = () => import( 'components/draw-number/draw-number');
+// const Message  = () => import( 'components/message/message');
+// const UrlContent  = () => import( 'components/url-content/url-content');
+// const UserPortrait  = () => import( 'components/portrait/portrait');
+// const PayTip  = () => import( 'components/pay-tip/pay-tip');
+// const Lottery  = () => import( 'components/lottery/lottery');
+// const Agency  = () => import( 'components/agency/agency');
+// const Report  = () => import( 'components/agency/report');
 Vue.use(Router)
 
 export default new Router({

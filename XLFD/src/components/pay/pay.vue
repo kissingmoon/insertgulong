@@ -61,15 +61,15 @@
         methods:{
             getPayUrl(){
                 // this.$axios.postRequest(httpUrl.config.urlList,{flag:'recharge_url'})
-                if(this.user_token){
-                    this.judgeType();
-                }            
+                //注释掉苹果浏览器显示底部温馨提示的代码
+                // if(this.user_token){
+                //     this.judgeType();
+                // }            
                 this.$axios.postRequest(httpUrl.pay.chargeUrl)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         //this.url=`${res.data[0].url}?user_token=${this.user_token}`   
-                        var str=this.href_type?("&type="+this.href_type):""  
-                        console.log("这里是"+str);          
+                        var str=this.href_type?("&type="+this.href_type):""    
                         this.url=`${res.data.url}?user_token=${this.user_token}${str}`
                         // console.log(this.url)
                         //         this.$axios.testget(`/payment/youhui/0427/index.html?user_token=${this.user_token}`).then((res)=>{
@@ -82,8 +82,7 @@
                     }
                 });
             },
-            judgeType(){
-                console.log(this.href_type)                
+            judgeType(){            
                 if(this.href_type){
                     var userAgent = navigator.userAgent;                                   
                     if (userAgent.indexOf("Safari") == -1) {//如果不是safari浏览器

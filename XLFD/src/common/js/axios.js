@@ -15,6 +15,7 @@ axios.interceptors.response.use(res=> {
             case '20012':case '20038':
                 removeSession('user_token');
                 removeSession('md5_salt');
+                removeSession('uID');
                 store.commit('SET_USER_TOKEN','');
                 store.commit('SET_MD5_SALT','');
                 store.commit('SET_ACCOUNT','');
@@ -34,11 +35,11 @@ axios.interceptors.response.use(res=> {
     return res;
 }, err=> {
   if (err.response.status == 504||err.response.status == 404) {
-    store.commit('SET_TIP','系统维护中，请稍等！');
+    store.commit('SET_TIP','网络加载中，请稍等！');
   } else if (err.response.status == 403) {
     store.commit('SET_TIP','权限不足,请联系管理员!');
   }else {
-    store.commit('SET_TIP','系统维护中，请稍等！');
+    store.commit('SET_TIP','网络加载中，请稍等！');
   }
   return Promise.resolve(err);
 })
@@ -97,6 +98,40 @@ const $axios = {
         method: 'get',
         url: `${base}${url}`
       });
+    },
+    axiosRequestAll(arr) {
+      //用法
+      // var postArray=[];
+    //   this.incomeList.map(function(v,k){
+    //     var pram={type:k+1}
+    //     var postObj={}
+    //     postObj.method='POST'
+    //     postObj.url=httpUrl.pay.getPayMethod
+    //     postObj.params=pram
+    //     postArray.push(postObj)
+    // })
+      var aRequest = []
+      for (var i of arr) {
+        aRequest.push(axios({
+          method: i.method,
+          url: `${base}${i.url}`,
+          data: i.params,
+          transformRequest: [function (data) {
+              let ret = reData(data);
+              return ret
+          }],
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+        }))
+      }
+      return axios.all(aRequest).then(axios.spread(function () {
+        var aReturn = []
+        for (var i of arguments) {
+          aReturn.push(i)
+        }
+        return aReturn
+      }))
     }
 }
 

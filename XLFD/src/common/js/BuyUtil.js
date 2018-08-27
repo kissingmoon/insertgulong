@@ -1,4 +1,4 @@
-import {waveColor,fiveElement} from 'common/js/map';
+import {waveColor,waveColor28,fiveElement} from 'common/js/map';
 
 export function initDataNum(start, end) {
     var list = [];
@@ -101,15 +101,29 @@ export function initDataBy(type, wfPlBeanList,wf_flag,wf_name) {
         wfPlBeanList.forEach((item,i) => {
             buyNumberBean = {};
             str="";
-            waveColor[item.pl_name].forEach((num,n) => {
-                if(n%4 == 0 && n != 0 && n < 16){
-                    str += '<br>'+ num
-                }else if(n != 0){
-                    str += '&nbsp;&nbsp;' + num 
-                }else{
-                    str += num
-                }
-            });
+            if(wf_flag=="xy28_qtbs_bs"){
+                waveColor28[item.pl_name].forEach((num,n) => {
+                    if(n%4 == 0 && n != 0 && n < 16){
+                        str += '<br>'+ num
+                    }else if(n != 0){
+                        str += '&nbsp;&nbsp;' + num 
+                    }else{
+                        str += num
+                    }
+                });
+            }
+            else{
+                waveColor[item.pl_name].forEach((num,n) => {
+                    if(n%4 == 0 && n != 0 && n < 16){
+                        str += '<br>'+ num
+                    }else if(n != 0){
+                        str += '&nbsp;&nbsp;' + num 
+                    }else{
+                        str += num
+                    }
+                });
+            }
+            
             buyNumberBean.str = str;
             buyNumberBean.number_str = item.pl_name;
             buyNumberBean.index = i;

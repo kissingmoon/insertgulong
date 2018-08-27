@@ -54,6 +54,9 @@ const mutations = {
   },
   [types.SET_HREF_TYPE](state, param) {
     state.href_type = param;
+  },
+  [types.SET_USER_ID](state, param) {
+    state.user_id = param;
   }
 }
 

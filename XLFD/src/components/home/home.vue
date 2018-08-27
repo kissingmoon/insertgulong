@@ -88,10 +88,10 @@
                             <p class="title">今日盈亏</p>
                             <p class="num">{{rank.today_profit_loss}}</p>
                         </div>
-                        <div class="rank">
+                        <!-- <div class="rank">
                             <p class="title">您的排名</p>
                             <p class="num">{{rank.user_ranking}}</p>
-                        </div>
+                        </div> -->
                         <div class="rank-receive-money">
                             <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
                                 <p class="icon"></p>

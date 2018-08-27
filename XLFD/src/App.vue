@@ -4,7 +4,9 @@
         <m-header></m-header> 
         <m-nav></m-nav>
         <tip></tip>
-        <router-view></router-view>
+        
+            <router-view></router-view>
+      
         <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>
@@ -41,12 +43,16 @@ export default {
     created() {
         this.init();
     },
+    mounted(){
+        this.getUrl();
+    },
     computed: {
         ...mapGetters([
             'user_token',
             'hd_qiandao',
             'hd_xrkh',
-             'href_type'
+            'href_type',
+            'account'
         ])
     },
     methods:{
@@ -61,11 +67,10 @@ export default {
             });
             this.setHeader(headerConfig[path]);
             this.getUserData();
-            this.getUrl();
+           
         },
         getUrl(){
-                console.log(this.$route.query.type)
-                this.sethreftype(this.$route.query.type)
+            this.sethreftype(this.$route.query.type)
         },
         getUserData(){
             if(this.dataTimes){

@@ -150,9 +150,9 @@
                         <p>清空</p>                         
                     </div>
                     <!-- 标记 添加的随机按钮 -->
-                    <div class="lhc-bet-count">
+                    <!-- <div class="lhc-bet-count">
                         <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
-                    </div>
+                    </div> -->
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>

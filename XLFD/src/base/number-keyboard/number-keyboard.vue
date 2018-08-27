@@ -85,11 +85,11 @@
             },
         },
         created(){
-            this.newVal = this.oldVal + '';
+            //this.newVal = this.oldVal + '';
         },
         methods:{
             close(){
-                this.newVal = this.oldVal + '';
+                //this.newVal = this.oldVal + '';
                 this.$emit('close','keyboardShow');
             },
             confirmNumber(){
@@ -127,7 +127,7 @@
         },
         watch:{
             oldVal(val){
-                this.newVal = this.oldVal + '';
+                //this.newVal = this.oldVal + '';
             }
         }
     }

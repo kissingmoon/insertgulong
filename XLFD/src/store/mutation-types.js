@@ -16,3 +16,4 @@ export const SET_HD_FXPYQ = 'SET_HD_FXPYQ';
 export const SET_HAS_PHONE = 'SET_HAS_PHONE';
 export const SET_SHOW_SEARCH = 'SET_SHOW_SEARCH';
 export const SET_HREF_TYPE = 'SET_HREF_TYPE';
+export const SET_USER_ID = 'SET_USER_ID';

@@ -80,7 +80,7 @@ export default new Router({
         },
         {
             path:'/home',
-            component:Home,
+            component:Home,    
             children:[
                 {
                     path:'lottery',
@@ -94,7 +94,7 @@ export default new Router({
         },
         {
             path:'/register',
-            component:Register
+            component:Register    
         },
         {
             path:'/login',
@@ -180,7 +180,10 @@ export default new Router({
         },
         {
             path:'/discount',
-            component:Discount,
+            component:Discount,          
+            meta: {
+                keepAlive: true // 需要缓存
+              },
             children:[
                 {
                     path:'activity',

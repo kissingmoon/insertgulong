@@ -14,7 +14,7 @@
             </div>
         <div v-if='mainshow&&uId' class="paywapper flex flex-v ">
             <div class="topbutton flex">
-                <div class="orderbutton flex flex-center flex-1" v-for="(value,index) in incomeList" :key="index" v-on:click="disablebyn&&chooseType(index,value,'incomType')" :class="{active:index==incomType}">{{value.type_name}}<i :style="backImg[index]"></i></div>
+                <div class="orderbutton flex flex-center flex-1" v-for="(value,index) in incomeList" :key="index" v-on:click="disablechooseType&&chooseType(index,value,'incomType')" :class="{active:index==incomType}">{{value.type_name}}<i :style="backImg[index]"></i></div>
             </div>
             <div class="paytype flex">
                 <div class="paytypebtn flex flex-center" v-for="(value,index) in payTypeList" :key="index" v-on:click="choosePay(index,value,'payType')" :class="{active:index==payType}">{{value.type_name}}</div>
@@ -137,7 +137,9 @@ import {session} from 'common/js/param';
 export default {
     data(){
         return {
-            disablebyn:false,
+            disablechooseType:false,
+            disableonlineSubmit:true,
+            disablecompySubmit:true,
             totalpayTypeList:[],
             mainshow:true,
             companypay:false,
@@ -246,7 +248,7 @@ export default {
             }
             else if(n==0){                
                  this.defaultChoose()
-                 this.disablebyn=true;
+                 this.disablechooseType=true;
             }            
         },
         setSubmitParms(parmvalue){
@@ -309,13 +311,15 @@ export default {
             }
         },
         onlineSubmit(){
-                var parms=this.submitParms
-                if(this.checkOnlinePay()){
+                var parms=this.submitParms;
+                if(this.checkOnlinePay()&&this.disableonlineSubmit){
+                    this.disableonlineSubmit=false;
                     this.$axios.postRequest(httpUrl.pay.toChargeNew,parms)
                     .then((res)=> {
-                        if(res.data && res.data.code==0){         
+                        if(res.data && res.data.code==0){                                  
                             this.mainshow=false;
                             this.url=res.data.info;
+                            this.disableonlineSubmit=true;   
                         }
                         else{
                             this.setTip(res.data.info)
@@ -374,12 +378,17 @@ export default {
             parm.payUser=this.chargeObj.chargename;
             parm.payRemark=this.chargeObj.chargeinfo;
             parm.userId=this.uId;
-            this.$axios.postRequest(httpUrl.pay.compaySubmit,parm)
-            .then((res)=> {
-                if(res.data && res.data.code==0){         
-                    this.setTip("提交成功")
-                }
-            })
+            if(this.disablecompySubmit){
+                this.disablecompySubmit=false;
+                this.$axios.postRequest(httpUrl.pay.compaySubmit11,parm)
+                .then((res)=> {
+                    if(res.data && res.data.code==0){         
+                        this.setTip("提交成功")
+                        this.disablecompySubmit=true;
+                    }
+                })
+            }
+            
         }
     }
 }

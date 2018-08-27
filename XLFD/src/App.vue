@@ -1,12 +1,14 @@
 <template>
-    <div id="app" class="app">
+    <div id="app" class="app" >
         <remote-js :src='cnzzurl'></remote-js>
         <m-header></m-header> 
         <m-nav></m-nav>
-        <tip></tip>
-        
-            <router-view></router-view>
-      
+        <tip></tip>        
+        <!-- <router-view></router-view> -->
+            <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>
         <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>

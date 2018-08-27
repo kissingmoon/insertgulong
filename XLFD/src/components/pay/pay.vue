@@ -2,6 +2,11 @@
 <div class="newpay"> 
     <!-- <scroll class="scroll-content"> -->
         <router-view></router-view>
+        <!-- 数字键盘 -->
+        <!-- <number-keyboard
+                :keyboardShow="keyboardShow"
+        >
+        </number-keyboard> -->
         <div class="div-content">
             <loading v-if="loading&&uId"></loading>
             <div v-show="!uId" class="login-tip-wrapper">
@@ -136,10 +141,12 @@ import MIframe from 'base/m-iframe/m-iframe';
 import scroll from 'base/scroll/scroll';
 import loading from 'base/loading/loading';
 import {session} from 'common/js/param';
+import numberKeyboard from 'base/number-keyboard/number-keyboard';
 
 export default {
     data(){
         return {
+            keyboardShow:false,
             disablechooseType:false,
             disableonlineSubmit:true,
             disablecompySubmit:true,
@@ -199,7 +206,8 @@ export default {
     components:{
             MIframe,
             scroll,
-            loading
+            loading,
+            numberKeyboard
         },
     created(){
         
@@ -216,6 +224,9 @@ export default {
             ])
     },
     methods: {
+        showKeyboard(){
+            this.keyboardShow=true;
+        },
         activeClass:function(index,value,type){
                 switch(type){
                     case 'payType':   this.payType=index;break;
@@ -641,6 +652,7 @@ i{
         width: 100%;
         background-color: #ffffff;
         padding: 10px;
+        box-sizing: border-box;
         .paytypebtn{
             width: 20%;
             border: 1px solid #ddd;

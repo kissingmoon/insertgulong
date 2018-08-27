@@ -14,7 +14,7 @@
             </div>
         <div v-if='mainshow&&uId' class="paywapper flex flex-v ">
             <div class="topbutton flex">
-                <div class="orderbutton flex flex-center flex-1" v-for="(value,index) in incomeList" :key="index" v-on:click="chooseType(index,value,'incomType')" :class="{active:index==incomType}">{{value.type_name}}<i :style="backImg[index]"></i></div>
+                <div class="orderbutton flex flex-center flex-1" v-for="(value,index) in incomeList" :key="index" v-on:click="disablebyn&&chooseType(index,value,'incomType')" :class="{active:index==incomType}">{{value.type_name}}<i :style="backImg[index]"></i></div>
             </div>
             <div class="paytype flex">
                 <div class="paytypebtn flex flex-center" v-for="(value,index) in payTypeList" :key="index" v-on:click="choosePay(index,value,'payType')" :class="{active:index==payType}">{{value.type_name}}</div>
@@ -23,13 +23,13 @@
                 <div class="paymoneydiv flex">
                     <div class="flex flex-center flex-1">充值金额</div>
                     <div class="flex flex-3 flex-align-start">
-                        <input type="text" class="flex flex-5" :placeholder="fanwei" v-model="onlineMoney"><div class="flex flex-1 zero flex-align-center">.00</div>
+                        <input type="text" class="flex flex-5" :placeholder="fanwei" v-model="onlineMoney"><div class="flex flex-1 zero flex-center">.00</div>
                     </div>
                 </div>
                 <div class="paymoneydiv flex">
                     <div class="flex flex-center flex-1"></div>
                     <div class="flex flex-align-start flex-3 flex-v">
-                        <div style="color:#ffae5e">为了更快速到账，存款时，自动生成.00元</div>
+                        <div style="color:#ffae5e;font-size:0.4rem;">为了更快速到账，存款时，自动生成.00元</div>
                     </div>
                 </div>
             </div>
@@ -53,10 +53,10 @@
                     </div>
                 </div>
                 <div class="chargeList flex  flex flex-v">
-                    <div class="chargeList1 flex">
+                    <div class="chargeList1 flex" @click="chooseType(1,payTypeList[1],'incomType')">
                         <div class="flex flex-1 flex-center"><img src="./images/other.png" alt=""></div>
                         <div class="flex flex-4 flex-align-center">其他方式大额转账</div>
-                        <div class="flex flex-1 flex-center"><i class="yo-icon icon-arrows-rightt" @click="chooseType(1,payTypeList[1],'incomType')"></i></div>
+                        <div class="flex flex-1 flex-center"><i class="yo-icon icon-arrows-rightt" ></i></div>
                     </div>
                 </div>
             </div>
@@ -137,8 +137,7 @@ import {session} from 'common/js/param';
 export default {
     data(){
         return {
-            pullup: true,
-            pulldown:true,
+            disablebyn:false,
             totalpayTypeList:[],
             mainshow:true,
             companypay:false,
@@ -247,6 +246,7 @@ export default {
             }
             else if(n==0){                
                  this.defaultChoose()
+                 this.disablebyn=true;
             }            
         },
         setSubmitParms(parmvalue){
@@ -261,7 +261,7 @@ export default {
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
                 // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
                 // this.submitParms.tradeAccountId=this.onlineTypeList.typeDetail[0].id
-                this.fanwei=this.onlineTypeList.minMoney+'-'+this.onlineTypeList.maxMoney;
+                this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;
         },
         chooseType(index,value,type){
             this.activeClass(index,value,type); 
@@ -269,17 +269,21 @@ export default {
                 this.choosenIncome=index;
                 this.payType=0
                 console.log(this.payTypeList)
-                this.fanwei=this.payTypeList[0].minMoney+'-'+this.payTypeList[0].maxMoney;
+                
                 if(index==0){
                     this.showYes=0;
                     this.onlineTypeList=this.payTypeList[0]
                     this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                    this.fanwei=this.payTypeList[0].typeDetail[0].min_money+'-'+this.payTypeList[0].typeDetail[0].max_money;
+                }
+                if(index==1){
+                    this.fanwei=this.payTypeList[0].minMoney+'-'+this.payTypeList[0].maxMoney;
                 }
         },
         choosePay(index,value,type){
                 this.activeClass(index,value,type); 
-                this.showYes=0;
-                this.fanwei=value.minMoney+'-'+value.maxMoney;
+                this.showYes=0;                
+                this.fanwei=value.typeDetail[0].min_money+'-'+value.typeDetail[0].max_money;
                 this.onlineTypeList=value;
                 this.setSubmitParms(this.onlineTypeList.typeDetail[0])
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
@@ -288,6 +292,7 @@ export default {
         },
         chooseonline(value,key){
             this.setSubmitParms(value)
+            this.fanwei=value.min_money+'-'+value.max_money;
             // this.submitParms.payType=value.gate_type
             // this.submitParms.gateFlag=value.gate_flag
             // this.submitParms.tradeAccountId=value.id
@@ -319,10 +324,12 @@ export default {
                 }
         },
         checkStep(currentStep){
+            console.log(this.chargeObj.chargeNum)
             switch(currentStep){
                case 1:{
-                   if(this.chargeObj.chargeNum==null||this.chargeObj.chargename==null){
+                   if(!this.chargeObj.chargeNum||!this.chargeObj.chargename){
                        this.setTip('充值金额和汇款姓名不能为空!')
+            
                        return false;                       
                    }
                    else{
@@ -499,7 +506,7 @@ i{
         }
     // }
     .login-tip-wrapper{
-          position: fixed;
+        position: fixed;
         top: 1.2rem;
         bottom: 1.44rem;
         width: 100%;
@@ -542,7 +549,7 @@ i{
     
     input{
         border: 1px solid #ececec;
-        height: 80%;
+        height: 0.8rem;
     }
     .topbutton{
         width: 100%;
@@ -608,7 +615,10 @@ i{
             height: 1rem;
         }
         .zero{
-            height: 1rem;
+            height: 0.8rem;
+            border:1px solid #ececec;
+            margin-left: -1px;
+            background: #ddd;
         }
     }
     .typetitle{

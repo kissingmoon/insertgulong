@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" readonly="readonly">
+                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" :readonly="rdonly">
                     </p>
                 </li>
                 <!-- <li>
@@ -63,9 +63,9 @@
                     repeat_password:'',
                     phone:'',
                     agentCode:'',
-                    readonly:"",
                     captcha1:""
                 },
+                rdonly:false
                 // codeUrl:''
             }
         },
@@ -78,7 +78,10 @@
             this.init();
             if(this.$route.query.agentCode){
                 this.registerParam.agentCode=this.$route.query.agentCode;
-                this.readonly="readonly"
+                this.rdonly="readonly"
+            }
+            else{
+                this.rdonly=false
             }
         },
         computed: {

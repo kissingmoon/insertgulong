@@ -373,8 +373,7 @@ export default {
                     var min= str.substr(0,index);
                     var currentnum=parseInt(this.chargeObj.chargeNum);
                    if(!this.chargeObj.chargeNum||!this.chargeObj.chargename){
-                       this.setTip('充值金额和汇款姓名不能为空!')
-            
+                       this.setTip('充值金额和汇款姓名不能为空!')           
                        return false;                       
                    }
                    else if(currentnum<min||currentnum>max){
@@ -434,6 +433,7 @@ export default {
                         this.compstep=1; 
                         this.chargeObj.chargeNum=null;
                         this.chargeObj.chargename=null;
+                        this.chargeObj.chargeinfo=null;
                     }
                     else{
                         this.setTip(res.data.info)
@@ -441,6 +441,7 @@ export default {
                         this.compstep=1; 
                         this.chargeObj.chargeNum=null;
                         this.chargeObj.chargename=null;
+                        this.chargeObj.chargeinfo=null;
                     }
                 })
             }

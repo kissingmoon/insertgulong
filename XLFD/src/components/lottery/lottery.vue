@@ -643,6 +643,7 @@
                 this.getLockTime();
                 this.getDrawHis();
                 this.getGdContent();
+                this.initLotteryModes();
             },
             watchInit(){
                 const _this=this;
@@ -673,7 +674,18 @@
                     this.gdParam.back_rate = this.backRateCopy;
                 });
             },
-            
+            //根据用户余额判断投注默认的元 角 分
+            initLotteryModes(){
+                if(this.account.balance>=10){
+                    this.lotteryModes=0;
+                }
+                else if(this.account.balance>=5&&this.account.balance<10){
+                    this.lotteryModes=1;
+                }
+                else if(this.account.balance<5){
+                    this.lotteryModes=2;
+                }
+            },
             //获取玩法
             getBetWF(){
                 const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;

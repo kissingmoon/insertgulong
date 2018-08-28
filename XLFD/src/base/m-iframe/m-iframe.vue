@@ -1,8 +1,9 @@
 <template>
+<div class="iframe-content">
         <iframe :src="url" frameborder="0" class="iframe">
 
         </iframe>
-    
+    </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -26,10 +27,10 @@
         -webkit-overflow-scrolling:touch;
         overflow:auto;
         
-    }
-    .iframe{
+        .iframe{
             width:100%;
             height:100%;
             overflow-y:auto;
         }
+    }
 </style>

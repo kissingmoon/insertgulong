@@ -92,6 +92,9 @@
             },
             closebtip(){
                 this.showbtip=false;
+
+
+                
             }
         }
     }

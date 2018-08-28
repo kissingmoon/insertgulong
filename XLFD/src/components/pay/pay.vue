@@ -3,10 +3,16 @@
     <!-- <scroll class="scroll-content"> -->
         <router-view></router-view>
         <!-- 数字键盘 -->
-        <!-- <number-keyboard
+        <number-keyboard
                 :keyboardShow="keyboardShow"
+                 :keyboardType=1
+                 :lotteryModes=0
+                 @close="showKeyboard(false)"
+                 @changeKeyNumber="changeKeyNumber"
+                 :oldVal="keyInitVal"
+                 :varName="keyName"
         >
-        </number-keyboard> -->
+        </number-keyboard>
         <div class="div-content">
             <loading v-if="loading&&uId"></loading>
             <div v-show="!uId" class="login-tip-wrapper">
@@ -30,7 +36,7 @@
                 <div class="paymoneydiv flex">
                     <div class="flex flex-center flex-1">充值金额</div>
                     <div class="flex flex-3 flex-align-start">
-                        <input class="flex flex-5" oninput="this.value=this.value.replace(/[^0-9.]+/,'')" :placeholder="fanwei" v-model="onlineMoney"><div class="flex flex-1 zero flex-center">.00</div>
+                        <input class="flex flex-5" oninput="this.value=this.value.replace(/[^0-9.]+/,'')" :placeholder="fanwei" v-model="onlineMoney" @click="showKeyboard(true,'onlineMoney')"><div class="flex flex-1 zero flex-center">.00</div>
                     </div>
                 </div>
                 <div class="paymoneydiv flex">
@@ -78,7 +84,7 @@
                 <div v-if="choosenIncome==1&&compstep==1" class="flex flex-v flex-align-center">
                     <div class="comppaydiv flex">
                         <div class="flex flex-2 flex-center"><i style="color:red;font-size:0.5rem;width:15px;height:15px;">*</i>充值金额</div>
-                        <div class="flex flex-5 flex-align-center"><input oninput="this.value=this.value.replace(/[^0-9.]+/,'')" :placeholder="fanwei" v-model="chargeObj.chargeNum" type="text"></div>           
+                        <div class="flex flex-5 flex-align-center"><input oninput="this.value=this.value.replace(/[^0-9.]+/,'')" :placeholder="fanwei" v-model="chargeObj.chargeNum" type="text"  @click="showKeyboard(true,'chargeNum')" ></div>           
                     </div>
                     <div class="comppaydiv flex">
                         <div class="flex flex-2 flex-center"><i style="color:red;font-size:0.5rem;width:15px;height:15px;">*</i>汇款姓名</div>
@@ -147,6 +153,8 @@ export default {
     data(){
         return {
             keyboardShow:false,
+            keyInitVal:'',
+            keyName:'online',
             disablechooseType:false,
             disableonlineSubmit:true,
             disablecompySubmit:true,
@@ -224,9 +232,22 @@ export default {
             ])
     },
     methods: {
-        showKeyboard(){
-            this.keyboardShow=true;
+        showKeyboard(flag,type){
+            document.activeElement.blur() 
+            if(flag){
+                this.keyName=type;
+            }
+            this.keyboardShow=flag;  
+           
+            
         },
+        changeKeyNumber(key,val){
+                this[key] = val;
+                if(key=='chargeNum'){
+                    this.chargeObj.chargeNum=val
+                }
+                this.showKeyboard(false);
+            },
         activeClass:function(index,value,type){
                 switch(type){
                     case 'payType':   this.payType=index;break;
@@ -288,6 +309,9 @@ export default {
                 this.choosenIncome=index;
                 this.payType=0
                 this.onlineMoney=null;
+                this.chargeObj.chargeNum=null,
+                this.chargeObj.chargename=null,
+                this.chargeObj.chargeinfo=null;
                 if(index==0){
                     this.showYes=0;
                     this.onlineTypeList=this.payTypeList[0]

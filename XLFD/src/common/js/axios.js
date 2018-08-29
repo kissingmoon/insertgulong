@@ -27,6 +27,7 @@ axios.interceptors.response.use(res=> {
                     });
                 }
                 break;
+                case '20029': break;
             default:
                 store.commit('SET_TIP',res.data.errorMsg);
                 return res;

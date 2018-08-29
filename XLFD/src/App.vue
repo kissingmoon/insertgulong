@@ -4,11 +4,11 @@
         <m-header></m-header> 
         <m-nav></m-nav>
         <tip></tip>        
-        <!-- <router-view></router-view> -->
-            <keep-alive>
+        <router-view></router-view>
+            <!-- <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
             </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>
+            <router-view v-if="!$route.meta.keepAlive"></router-view> -->
             
         <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
@@ -45,6 +45,7 @@ export default {
     },
     created() {
         this.init();
+        
     },
     mounted(){
         this.getUrl();

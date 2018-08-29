@@ -332,7 +332,7 @@ export default {
                     this.fanwei=value.minMoney+'-'+value.maxMoney;
                 }                        
                 this.onlineTypeList=value;
-                this.onlineMoney=null;
+                //this.onlineMoney=null;
                 this.setSubmitParms(this.onlineTypeList.typeDetail[0])
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
                 // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
@@ -341,7 +341,7 @@ export default {
         chooseonline(value,key){
             this.setSubmitParms(value)
             this.fanwei=value.min_money+'-'+value.max_money;
-            this.onlineMoney=null;
+            //this.onlineMoney=null;
             // this.submitParms.payType=value.gate_type
             // this.submitParms.gateFlag=value.gate_flag
             // this.submitParms.tradeAccountId=value.id

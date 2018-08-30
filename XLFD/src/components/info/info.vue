@@ -2,12 +2,12 @@
     <div class="info">
         <scroll ref="scroll" class="info-content">
             <div>
-                <div class="datum-wrapper" @click="skipLink">
+                <div class="datum-wrapper" >
                     
                     <div class="datum-img">
                         <img v-lazy="account.image_url">
                     </div>
-                    <div class="datum-txt">
+                    <div class="datum-txt" @click="skipLink">
                         <p class="datum-login" v-show="!user_token">
                             登陆/注册
                         </p>
@@ -19,6 +19,11 @@
                         <p class="datum-arrows">
                             <i class="icon-arrows-right"></i>
                         </p>
+                    </div>
+                    <div class="chongzhi-txt">
+                        <span @click="goto('/pay')"><i class="chong"></i>充值</span>
+                        <i class="v-line"></i>
+                        <span @click="goto('/info/balance')"><i class="tixian"></i>提现</span>
                     </div>
                 </div>
                 <div class="func-wrapper">
@@ -162,7 +167,7 @@
         height: 100%;
         overflow: hidden;
         .datum-wrapper{
-            height:1.78rem;
+            height:3.5rem;
             background:$color-red;
             padding: 0.43rem 0.35rem;
             font-size: $font-size-large;
@@ -203,6 +208,37 @@
                 .datum-arrows{
                     float: right;
                     height:1.76rem;
+                }
+            }
+            .chongzhi-txt{
+                height: 1rem;
+                padding-top: 1rem;
+                .v-line{
+                    display: inline-block;
+                        height: 0.8rem;
+                        border-left: 1px solid #ffffff;
+                        vertical-align: middle;
+                }      
+                span{
+                    display: inline-block;
+                    width: 4.3rem;
+                    text-align: center;
+                    i{
+                        display: inline-block;
+                        height: 0.7rem;
+                        width: 0.7rem;
+                        margin-right: 0.5rem;
+                        background-position: left center;
+                        background-size: 0.7rem;
+                        background-repeat: no-repeat;
+                        vertical-align: middle;
+                    }
+                    .chong{
+                       @include bg-image('icon-chongzhi');                       
+                    }
+                    .tixian{
+                        @include bg-image('icon-tixian');
+                    }
                 }
             }
             

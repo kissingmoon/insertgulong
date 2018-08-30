@@ -213,6 +213,7 @@
                     this.$refs.scroll.refresh()
                 }
             },
+            //获取首页轮播图的活动
             getActivitys() {
                 this.$axios.postRequest(httpUrl.home.sliderImg)
                 .then((res)=> {
@@ -221,6 +222,7 @@
                     }
                 });
             },
+            //获取轮播图下方的跑马灯消息
             getNotice(){
                 this.$axios.postRequest(httpUrl.home.notice)
                 .then((res)=> {
@@ -229,6 +231,7 @@
                     }
                 });
             },
+            //获取补助金领取的url地址
             getBzjlq(){
                 this.$axios.postRequest(httpUrl.config.urlList,{flag:'sy_bzjlq_url'})
                 .then((res)=> {
@@ -237,6 +240,7 @@
                     }
                 });
             },
+            //轮播图下面的广告
             getGift(){
                 this.$axios.postRequest(httpUrl.home.gift,{'type':'01'})
                 .then((res)=> {
@@ -245,6 +249,7 @@
                     }
                 });
             },
+            //获取所有彩种以及子彩种
             getLottery(){
                 this.$axios.postRequest(httpUrl.home.lottery)
                 .then((res)=> {
@@ -255,6 +260,7 @@
                     }
                 });
             },
+            //遍历彩种并调用获取子彩种开奖时间
             forEachLottery(lottery){
                 this.oldLotteryList.forEach((item,i) => {
                     item.sub_lottery.forEach((sub,s) => {
@@ -295,6 +301,7 @@
                     },1000);
                 }
             },
+            //获取排名
             getRank(){
                 this.$axios.postRequest(httpUrl.home.rank)
                 .then((res)=> {
@@ -303,6 +310,7 @@
                     }
                 });
             },
+            //获取下方滚动的派奖信息
             getBetWin(){
                 this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
@@ -311,6 +319,7 @@
                     }
                 });
             },
+           // 点击彩种后展开子彩种
             subtag(i){
                 this.showSub = this.showSub == (i+2) ? '': (i+2);
                 setTimeout(() => {

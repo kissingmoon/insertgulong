@@ -41,8 +41,9 @@
                              <!-- <p class="history" @click="getDrawHis">历史开奖记录<i class="icon-triangle-below"></i></p> -->
                              <p class="history">{{newDraw.lottery_qh}}期开奖<i class="icon-triangle-below"></i></p>
                         </div>
-                        <div class="lottery-wf">
-                           {{newDraw.kj_code}}
+                        <div  class="lottery-wf">
+                           <!-- {{newDraw.kj_code}} -->
+                           <span :class=v.clas v-for="(v,k) in newDraw.resultList" :key="k" :style="v.bg">{{v.val}}</span>
                         </div>
                     </div>
                 </div>
@@ -495,6 +496,8 @@
     import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
     import {slicer,countTime} from 'common/js/param.js';
     import randomBet from 'components/random-bet/random-bet'
+    import showKjCodeByType from 'common/js/showKjCodeByType.js'
+
     export default {
         data() {
             return{
@@ -967,6 +970,8 @@
                     if(res.data && !res.data.errorCode){
                         this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
+                        //根据最近一期的开奖号码显示不同的颜色
+                        this.newDraw.resultList=showKjCodeByType(res.data[0],this.lotteryId)
                     };
                 });
             },
@@ -1503,6 +1508,22 @@
                     line-height: 0.7rem;
                     color:$color-yellow;
                     @include no-wrap();
+                    .last-draw-k3{
+                        display: inline-block;
+                        width: 0.7rem;
+                        height: 0.7rem;
+                        margin: 0 0.1rem;
+                    }
+                    .last-draw-11x5{
+                        display: inline-block;
+                        width: 0.6rem;
+                        height: 0.6rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        border: 1px solid #7B6503;
+                        line-height: 0.6rem;
+                        text-align: center;
+                    }
                 }
                 .draw-history{
                     height:0.7rem;

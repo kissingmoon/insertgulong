@@ -362,7 +362,8 @@ export default {
                 return false;
             }
             else if(currentnum<min||currentnum>max){
-                this.setTip("请输入范围内的金额")
+                let temptip="请输入"+str+"的金额"
+                this.setTip(temptip)
                 return false;
             }
             else{   
@@ -401,7 +402,8 @@ export default {
                        return false;                       
                    }
                    else if(currentnum<min||currentnum>max){
-                        this.setTip("请输入范围内的金额")
+                       let temptip="请输入"+str+"的金额"
+                        this.setTip(temptip)
                         return false;
                    }
                    else{

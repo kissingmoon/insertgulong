@@ -10,7 +10,7 @@
                 <scroll class="  flex-3 scroll-warpper" >
                     <ul class=" rightcontainer">
                         <li v-for="(v,k) in trueCurrentSubList" :key="k">
-                            <p class="timeCountText" :ref="v.lottery_id"></p>{{v.kjNewData.lotteryId}}{{v.kjNewData.kjCode}}{{v.locktime}}{{v.kjNewData.realKjTime}}
+                            {{v.locktime}}-{{v.lottery_qh}}
                         </li>
                     </ul>
                 </scroll>   
@@ -51,18 +51,33 @@ export default {
             this.$axios.postRequest(httpUrl.home.lottery)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    this.lotteryList=res.data;
-                    console.log("总彩种加载完毕")                   
+                    this.lotteryList=res.data;                 
                     this.lotteryList.map((v,k)=>{
-                        v.trueSubList=""
+                        v.trueSubList="",
+                        v.intervlList=[]
                     })
                     this.truetotalList=this.lotteryList.concat()
-                    console.log(this.truetotalList)
-                    this.truetotalList=this.lotteryList.concat();
                     this.currentList=this.lotteryList[0].sub_lottery
                     this.getSubLockTime(this.currentList,0)
                 }
             });
+        },
+        getSingleLockTime(num,subnum){
+            var id=this.truetotalList[num].trueSubList[subnum].lottery_id
+            console.log(id)
+            console.log(num,subnum)
+            this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'2'})
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){  
+                    //this.truetotalList[num].trueSubList[subnum]=res.data 
+                    var locktime=countTime(res.data.lock_time.replace(/-/g,'/')); 
+                    res.data.locktime=locktime
+                    this.trueCurrentSubList[subnum]=res.data   
+                    this.intervlRunCount(this.trueCurrentSubList,num,subnum)             
+                    //this.trueCurrentSubList[subnum].locktime=locktime
+                    // console.log(this.trueCurrentSubList)
+                    }
+                })
         },
         getSubLockTime(ctList,num){
             let parmList=[]
@@ -78,7 +93,7 @@ export default {
                     if(res.data && !res.data.errorCode){    
                        tempList[n-1]=res.data   
                         n--;                        
-                        this.intervlPost(url,n,parmList,this.currentSubList,callback,num)                       
+                        this.intervlPost(url,n,parmList,tempList,callback,num)                       
                     }
                 }) 
             }
@@ -86,34 +101,46 @@ export default {
                 callback(num)        
             }            
         },
-        creatTrueSub(){
+        creatTrueSub(num){
             console.log("子彩种倒计时加载完毕")                                                 
             this.currentSubList.map((v,k)=>{
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
             })
             this.trueCurrentSubList=this.currentSubList.concat() 
-            this.createTruetotalList(0,this.trueCurrentSubList)
+            this.createTruetotalList(num,this.trueCurrentSubList)
             console.log(this.trueCurrentSubList)
             this.trueCurrentSubList.map((v,k)=>{
-                this.intervlRunCount(v)
+                this.intervlRunCount(v,num,k)
             }) 
+            console.log(this.truetotalList[num].intervlList)   
         },
         createTruetotalList(k,v){
-            if(this.truetotalList[k].trueSubList==""){
-                this.truetotalList[k].trueSubList=v
-            }           
-            console.log("新的总数组")  
-            console.log(k)  
-            console.log(this.truetotalList)
+            this.truetotalList[k].trueSubList=v      
         },
-        intervlRunCount(sub){        
-            this.setTimeCount= setInterval(() => {                
+        intervlRunCount(sub,num,subnum){   
+            console.log("看看总共有几个定时器")     
+            this.truetotalList[num].intervlList[subnum]= setInterval(() => {                
                 sub.locktime=countTime(sub.lock_time.replace(/-/g,'/'));
+                if(sub.locktime=="00:00:00"){
+                    clearInterval(this.truetotalList[num].intervlList[subnum])
+                    setTimeout(() => {                                               
+                        console.log("该定时器已经清除")
+                        this.getSingleLockTime(num,subnum)
+                    },5000);
+                }
             },1000);
+
         },
         chooseSubLottery(k){
             this.currentSubList=this.lotteryList[k].sub_lottery
-            this.getSubLockTime(this.currentSubList)
+            if(this.truetotalList[k].trueSubList==""){
+                this.getSubLockTime(this.currentSubList,k)
+            }
+            else{
+                this.trueCurrentSubList=this.truetotalList[k].trueSubList
+                console.log("已经有了")
+                console.log(this.truetotalList[k].trueSubList)
+            }
         }
     }
 }

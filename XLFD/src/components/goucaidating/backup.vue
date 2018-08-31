@@ -52,38 +52,33 @@ export default {
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.lotteryList=res.data;
-                    console.log("总彩种加载完毕")                   
-                    this.lotteryList.map((v,k)=>{
-                        v.trueSubList=""
-                    })
-                    this.truetotalList=this.lotteryList.concat()
-                    console.log(this.truetotalList)
-                    this.truetotalList=this.lotteryList.concat();
+                    console.log("总彩种加载完毕")
+                    console.log(this.lotteryList)
                     this.currentList=this.lotteryList[0].sub_lottery
-                    this.getSubLockTime(this.currentList,0)
+                    this.getSubLockTime(this.currentList)
                 }
             });
         },
-        getSubLockTime(ctList,num){
+        getSubLockTime(ctList){
             let parmList=[]
             ctList.map((v,k)=>{
                 parmList.push({'lottery_id':v.lottery_id,'type':'2'})
             })
-            this.intervlPost(httpUrl.bet.cpLocktime,ctList.length,parmList,this.currentSubList,this.creatTrueSub,num)
+            this.intervlPost(httpUrl.bet.cpLocktime,ctList.length,parmList,this.currentSubList,this.creatTrueSub)
         },
-        intervlPost(url,n,parmList,tempList,callback,num){  
+        intervlPost(url,n,parmList,tempList,callback){  
             if(n!=0){
                 this.$axios.postRequest(url,parmList[n-1])
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){    
                        tempList[n-1]=res.data   
                         n--;                        
-                        this.intervlPost(url,n,parmList,this.currentSubList,callback,num)                       
+                        this.intervlPost(url,n,parmList,this.currentSubList,callback)                       
                     }
                 }) 
             }
             else if(n==0){                       
-                callback(num)        
+                callback()        
             }            
         },
         creatTrueSub(){
@@ -92,19 +87,10 @@ export default {
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
             })
             this.trueCurrentSubList=this.currentSubList.concat() 
-            this.createTruetotalList(0,this.trueCurrentSubList)
             console.log(this.trueCurrentSubList)
             this.trueCurrentSubList.map((v,k)=>{
                 this.intervlRunCount(v)
             }) 
-        },
-        createTruetotalList(k,v){
-            if(this.truetotalList[k].trueSubList==""){
-                this.truetotalList[k].trueSubList=v
-            }           
-            console.log("新的总数组")  
-            console.log(k)  
-            console.log(this.truetotalList)
         },
         intervlRunCount(sub){        
             this.setTimeCount= setInterval(() => {                

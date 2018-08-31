@@ -177,6 +177,7 @@
             // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
         },
         beforeDestroy(){
+            //清除定时器
             this.oldLotteryList.forEach((item,i) => {
                 item.sub_lottery.forEach((sub,s) => {
                     const id=sub.lottery_id;

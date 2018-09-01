@@ -10,7 +10,7 @@
                 <scroll class="  flex-3 scroll-warpper" >
                     <ul class=" rightcontainer">
                         <li v-for="(v,k) in trueCurrentSubList" :key="k">
-                            {{v.lotteryname}}-{{v.locktime}}-{{v.kjNewData.kjCode}}-{{v.kjNewData.lotteryQh}}-{{v.kjNewData.realKjTime}}
+                            {{v.lotteryname}}-{{v.locktime}}
                         </li> 
                     </ul>
                 </scroll>   
@@ -45,13 +45,6 @@ export default {
     mounted(){
     },
     watch:{
-        // truetotalList: {
-        //     handler (cval, oval) {
-        //         console.log('--------')
-        //         console.log(cval, oval)
-        //     },
-        //     deep: true
-        // }
     },
     methods:{
         makeNewList(oldList,objList){
@@ -146,12 +139,9 @@ export default {
                    obj.locktime=countTime(res.data.lock_time.replace(/-/g,'/'));
                    obj.index=num;
                    obj.lotteryname=this.truetotalList[num]['sub_lottery'][subnum]['lottery_name']
-                   //这里更新检测不到
-                   //this.truetotalList[num].trueSubList[subnum]=obj;
-                   //this.set(this.truetotalList[num].trueSubList, subnum, obj)
-                   this.truetotalList[num].trueSubList.splice(subnum, 1, obj)
+                   console.log(obj)
+                   this.truetotalList[num].trueSubList[subnum]=obj;
                    console.log("总数组更新了")
-                   console.log(this.truetotalList[num])
                    this.intervlRunCount(this.truetotalList[num].trueSubList[subnum],num,subnum)
                 }
             })

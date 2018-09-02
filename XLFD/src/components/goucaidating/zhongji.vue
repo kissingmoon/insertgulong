@@ -15,12 +15,11 @@
                                     <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
                                     <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
                                 </p>
-                                <p v-if="v.lottery_id.indexOf('ssc')!=-1||v.lottery_id.indexOf('11x5')!=-1||v.lottery_id.indexOf('28')!=-1" class="flex kjhaoma flex-align-center">                                  
+                                <p v-if="v.lottery_id.indexOf('ssc')!=-1" class="flex kjhaoma flex-align-center">                                  
                                     <span class="kjball" v-for="(v1,k1) in v.kjNewData.kjCodeList" :key="k1">{{v1}}</span>
                                 </p>
                                 <p v-if="v.lottery_id.indexOf('k3')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">
-                                    </span>
+                                    <span class="kjball" v-for="(v1,k1) in v.kjNewData.kjCodeList" :key="k1">{{v1}}</span>
                                 </p>
                                 <p class="flex lockcount">
                                     <span class="llockcount">距{{v.kjNewData.lotteryQh}}期截至{{v.locktime}}</span>
@@ -35,7 +34,6 @@
 import Scroll from 'base/scroll/scroll';
 import {httpUrl} from 'common/js/map';
 import {regroupLotteryData,countTime} from 'common/js/param';
-import showKjCodeByType from 'common/js/showKjCodeByType.js'
 
 export default {
     data(){
@@ -108,13 +106,9 @@ export default {
                 v.plantime=countTime(v.plan_kj_time.replace(/-/g,'/'));
                 v.planrunning=true;
                 v.kjNewData.kjCodeList=v.kjNewData.kjCode.split(",");
-                v.kjNewData.kjinfo={}
-                v.kjNewData.kjinfo.kj_code=v.kjNewData.kjCode
-                v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjinfo,v.lottery_id)
-            })            
+            })
             this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]
-            console.log(this.truetotalList)
             this.interval=this.startIntervl()
         },
         startIntervl(){
@@ -227,12 +221,6 @@ export default {
                             text-align: center;
                             margin-left: 0.3rem;
                             color: #F2F2F2;
-                        }
-                        .last-draw-k3{
-                            display: inline-block;
-                            width: 0.7rem;
-                            height: 0.7rem;
-                            margin: 0 0.1rem;
                         }
                     }
                     .lockcount{

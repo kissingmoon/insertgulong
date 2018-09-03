@@ -16,4 +16,5 @@ export const hd_fxpyq = state => state.hd_fxpyq;
 export const has_phone = state => state.has_phone;
 export const show_search = state => state.show_search;
 export const href_type = state => state.href_type;
+export const xglhc_color = state => state.xglhc_color;
 

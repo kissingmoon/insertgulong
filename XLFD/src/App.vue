@@ -71,7 +71,7 @@ export default {
             });
             this.setHeader(headerConfig[path]);
             this.getUserData();
-           
+           this.getXglhcColor();
         },
         getUrl(){
             this.sethreftype(this.$route.query.type)
@@ -92,7 +92,8 @@ export default {
             'setHeader',
             'resetUser',
             'getUser',
-            'getMessageCount'
+            'getMessageCount',
+            'getXglhcColor'
         ]),
         ...mapMutations({
             sethreftype:'SET_HREF_TYPE'

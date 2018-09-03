@@ -68,3 +68,12 @@ export const getXrkhType = ({commit, state}) => {
         };
     });
 }
+//香港六合彩的颜色
+export const getXglhcColor = ({commit, state}) => {
+    $axios.postRequest(httpUrl.info.getColor,{type:"xglhc_color"})
+    .then((res)=> {
+        if(res.data && !res.data.errorCode){
+            commit('SET_XGLHC_COLOR',res.data.list);
+        };
+    });
+}

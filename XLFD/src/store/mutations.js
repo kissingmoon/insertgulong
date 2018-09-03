@@ -57,6 +57,9 @@ const mutations = {
   },
   [types.SET_USER_ID](state, param) {
     state.user_id = param;
+  },
+  [types.SET_XGLHC_COLOR](state, param) {
+    state.xglhc_color = param;
   }
 }
 

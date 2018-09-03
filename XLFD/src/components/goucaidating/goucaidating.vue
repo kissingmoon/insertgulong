@@ -16,15 +16,24 @@
                                     <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
                                 </p>
                                 <p v-if="v.lottery_id.indexOf('ssc')!=-1||v.lottery_id.indexOf('11x5')!=-1||v.lottery_id.indexOf('28')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span class="kjball" v-for="(v1,k1) in v.kjNewData.kjCodeList" :key="k1">{{v1}}</span>
+                                    <span class="kjball" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg">{{v1.val}}</span>
                                 </p>
                                 <p v-if="v.lottery_id.indexOf('k3')!=-1" class="flex kjhaoma flex-align-center">                                  
                                     <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">
                                     </span>
                                 </p>
+                                <p v-if="v.lottery_id.indexOf('pk10')!=-1" class="flex kjhaoma flex-align-center">                                  
+                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
+                                    </span>
+                                </p>
+                                <p v-if="v.lottery_id.indexOf('lhc')!=-1" class="flex kjhaoma flex-align-center">                                  
+                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
+                                    </span>
+                                </p>
                                 <p class="flex lockcount">
-                                    <span class="llockcount">距{{v.kjNewData.lotteryQh}}期截至{{v.locktime}}</span>
-                                    <span class="rlockcount">立即投注</span>
+                                    <span class="llockcount">距{{v.lottery_qh}}期截至{{v.locktime}}</span>
+                                    <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
+                                    <router-link class="rlockcount" tag="span" :to="{path:'/home/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                                 </p>
                         </li> 
                     </ul>
@@ -36,7 +45,7 @@ import Scroll from 'base/scroll/scroll';
 import {httpUrl} from 'common/js/map';
 import {regroupLotteryData,countTime} from 'common/js/param';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
-
+import {mapActions,mapGetters,mapMutations} from 'vuex';
 export default {
     data(){
         return {
@@ -48,12 +57,17 @@ export default {
         }
     },
     computed:{
+        ...mapGetters([
+            'xglhc_color'
+        ])
     },
     components:{
         Scroll
     },
     created() {       
         this.getLottery()
+        console.log("收到香港六合彩颜色")
+        console.log(this.xglhc_color)
     },
     beforeDestroy(){
         clearInterval(this.interval)
@@ -103,14 +117,13 @@ export default {
         makeTrueSub(obj){//obj:{totalIndex,subList}
             this.returnSubList.map((v,k)=>{
                 v.subLotteryObj=obj.subList[k]
+                v.lotteryType=this.lotteryList[obj.totalIndex].lottery_type
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
                 v.running=true;
                 v.plantime=countTime(v.plan_kj_time.replace(/-/g,'/'));
                 v.planrunning=true;
-                v.kjNewData.kjCodeList=v.kjNewData.kjCode.split(",");
-                v.kjNewData.kjinfo={}
-                v.kjNewData.kjinfo.kj_code=v.kjNewData.kjCode
-                v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjinfo,v.lottery_id)
+                //v.kjNewData.kjCodeList=v.kjNewData.kjCode.split(",");
+                v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjCode,v.lottery_id,this.xglhc_color)
             })            
             this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]
@@ -156,7 +169,8 @@ export default {
                     // }
                     var obj = Object.assign(sub,res.data);
                     obj.running=true;
-                    obj.kjNewData.kjCodeList=obj.kjNewData.kjCode.split(",");
+                    //obj.kjNewData.kjCodeList=obj.kjNewData.kjCode.split(",");
+                    obj.kjNewData.truekjCode=showKjCodeByType(obj.kjNewData.kjCode,obj.lottery_id)
                     //obj.planrunning=true;   
                     this.$set(this.truetotalList[num],subnum,obj) 
                 }
@@ -175,6 +189,11 @@ export default {
             else{
                 this.trueCurrentSubList=this.truetotalList[k]
             }
+        },
+        enterBet(v,k){
+            console.log(v.lottery_id)
+            console.log(this.lotteryList[k].lottery_type)
+            //lottery?id=ah11x5&type=3
         }
     }
 }
@@ -233,6 +252,27 @@ export default {
                             width: 0.7rem;
                             height: 0.7rem;
                             margin: 0 0.1rem;
+                        }
+                        .last-draw-11x5{
+                            display: inline-block;
+                            width: 0.6rem;
+                            height: 0.6rem;
+                            border-radius: 50%;
+                            background: #DA1C36;
+                            line-height: 0.6rem;
+                            text-align: center;
+                            margin-left: 0.1rem;
+                            color: #F2F2F2;
+                        }
+                        .last-draw-lhc{
+                            display: inline-block;
+                            width: 0.8rem;
+                            height: 0.8rem;
+                            border-radius: 50%;
+                            line-height: 0.8rem;
+                            text-align: center;
+                            margin-left: 0.1rem;
+                            color: #F2F2F2;
                         }
                     }
                     .lockcount{

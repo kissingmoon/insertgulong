@@ -971,7 +971,7 @@
                         this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                         //根据最近一期的开奖号码显示不同的颜色
-                        this.newDraw.resultList=showKjCodeByType(res.data[0],this.lotteryId)
+                        this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryId)
                     };
                 });
             },

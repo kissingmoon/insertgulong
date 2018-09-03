@@ -43,6 +43,7 @@ export const httpUrl = {
         applyAgent :'/userAgentInfo/applyAgent',
         orderByAgent:'/userAgentInfo/findListOrderByAgent',
         agentDetail:'/userAgentInfo/userAgentDetail',
+        getColor:'/v5/gc/getColorConfig'
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -191,7 +192,18 @@ export const fiveElement ={
     '火':['01','02','09','10','23','24','31','32','39','40'],
     '土':['11','12','19','20','27','28','41','42','49']
 };
-
+export const pk10Clolr ={
+    '01':"#E6E300",
+    '02':"#0A87ED",
+    '03':"#4C4C4C",
+    '04':"#FF7300",
+    '05':"#1AE1E2",
+    '06':"#5435F4",
+    '07':"#C1C2C4",
+    '08':"#FE2703",
+    '09':"#83120E",
+    '10':"#09C105"
+}
 
 export const headerConfig = {
     '/home':{

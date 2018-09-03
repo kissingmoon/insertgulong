@@ -18,7 +18,8 @@ const state = {
     hd_fxpyq:1, //分享朋友圈
     has_phone:1, //绑定手机号
     href_type:'',
-    user_id:''
+    user_id:'',
+    xglhc_color:[]
 }
 
 export default state

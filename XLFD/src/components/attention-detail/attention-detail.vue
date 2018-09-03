@@ -1,4 +1,4 @@
-<template>
+postRequest<template>
     <parcel>
         <div class="attention-detail" :class="{'bottom-2rem': !order.finish_status }">
             <div class="author-wrapper">

@@ -5,15 +5,11 @@
                 <div>                   
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
-                        <div v-if="activitys.length" class="slider-wrapper" ref="sliderWrapper">                           
-                            <slider>
-                                <div v-for="(item,index) in activitys" :key="index">
-                                    <router-link tag="a" :to="{path:'/home/activity',query:{title:item.title,url:item.target_url}}">
-                                        <img class="needsclick" @load="loadImage" :src="item.image_url" :alt="item.title">
-                                    </router-link>
-                                </div>
-                            </slider>
-                        </div>
+                    <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
+                        <swiper-slide v-for="(item,index) in activitys" :key="index">
+                            <img  :data-src="item.image_url" class="swiper-lazy" :alt="item.title">
+                        </swiper-slide>
+                    </swiper>
                     </div>
                     <!-- 跑马灯 -->
                     <div class="marquee-wrapper" @click="showNotice">
@@ -75,7 +71,6 @@
                                 </div>
                             </router-link>
                         </div>
-                        
                     </div>
                     <!-- 排名 -->
                     <div class="rank-wrapper" v-if="user_token">
@@ -103,11 +98,15 @@
             </scroll>
         </div>
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
-            <slider-y class="betwin-main">
-                <div class="betwin-txt" v-for='(item,k,i) in betWin' :key="i">
-                    {{item.content}}
-                </div>
-            </slider-y>
+            <div class="topShadow shadowBox" @click='goNoticePage'></div>
+            <div class="botShadow shadowBox" @click='goNoticePage'></div>
+            <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
+                <swiper-slide v-for='(item,k,i) in betWin' :key="i">
+                    <div class="betwin-txt" @click='goNoticePage'>
+                        {{item.content}}
+                    </div>
+                </swiper-slide>
+            </swiper>
         </div>
         <!-- 跑马灯详情 -->
         <div v-show="noticeShow">
@@ -135,14 +134,14 @@
     </div>
 </template>
 <script>
-    import Slider from 'base/slider/slider';
-    import SliderY from 'base/slider-y/slider-y';
     import Loading from 'base/loading/loading';
     import Scroll from 'base/scroll/scroll';
     import {httpUrl} from 'common/js/map';
     import {regroupLotteryData,countTime} from 'common/js/param';
     import {mapMutations,mapActions,mapGetters} from 'vuex';
-
+    import 'swiper/dist/css/swiper.css'
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    let vm = null;
     export default {
         data() {
             return {
@@ -158,17 +157,59 @@
                     today_profit_loss:0,
                     user_ranking:0
                 },
-                betWin:{},
-                bzjlq_url:''
+                betWin:[],
+                bzjlq_url:'',
+                //  轮播图配置
+                swiperOption:{
+                    lazy: {
+                        loadPrevNext: true,
+                        watchSlidesVisibility:true,
+                    },
+                    direction:'horizontal',
+                    slidesPerView:1,
+                    observer:true,                  //  修改swiper自己或子元素时，自动初始化swiper 
+                    observeParents:true,            //  修改swiper的父元素时，自动初始化swiper 
+                    loop:true,
+                    loopAdditionalSlides : 1,       //  复制第一个img到最后
+                    touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
+                    slideToClickedSlide: true,
+                    autoplay:{
+                        delay:3000,
+                        disableOnInteraction:false
+                    },
+                    longSwipesRatio : 0.6,          //   滑动超过40%才能触发滚动
+                    spaceBetween: 24,               //   bannar图片之间的距离
+                    autoplayStopOnLast:false,
+                    effect:"scroll",                //  轮播效果类型  
+                    on:{
+                        click:function(){
+                            vm.bannarClick(this.realIndex)
+                        }
+                    }
+                },
+                //  底部tips配置
+                betWinOption:{                 //  页面底部swiper配置
+                    loop:true,
+                    direction:'vertical',
+                    slidesPerGroup : 1,    //  定义slides的数量多少为一组  每次滚动滚动多少条数据
+                    slidesPerView : 3,     //  控制内容区域显示的数据数量
+                    loopAdditionalSlides : 1, 
+                    autoplay:{
+                        delay:1000,
+                        disableOnInteraction:false
+                    },
+                },
             }
         },
         components: {
-            Slider,
+            // Slider,
             Loading,
             Scroll,
-            SliderY
+            swiper,
+            swiperSlide
         },
         created() {
+            vm = this;
             this.init();
         },
         mounted(){
@@ -188,7 +229,7 @@
             ...mapGetters([
                 'user_token',
                 'hd_qiandao'
-            ])
+            ]),
         },
         methods: {
             init(){
@@ -200,19 +241,16 @@
                 this.getBetWin();
                 this.getBzjlq();
             },
+            bannarClick(i){
+                this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
+            },
             showNotice(){
                 this.noticeShow = true;
             },
             hideNotice(){
                 this.noticeShow = false;
             },
-            loadImage() {
-                if (!this.checkloaded) {
-                    this.checkloaded = true
-                    this.$refs.scroll.refresh()
-                }
-            },
-            getActivitys() {
+            getActivitys() { 
                 this.$axios.postRequest(httpUrl.home.sliderImg)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
@@ -294,6 +332,9 @@
                     },1000);
                 }
             },
+            goNoticePage(){
+                this.$router.push({path:'/home/betwin'})
+            },
             getRank(){
                 this.$axios.postRequest(httpUrl.home.rank)
                 .then((res)=> {
@@ -317,11 +358,8 @@
                     this.$refs.scroll.scrollToElement(this.$refs['sub'+i][0]);
                 },100);
             },
-            
-
         }
     }
-    
 </script>
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
@@ -337,11 +375,11 @@
         overflow: hidden;
         .slider-content{
             padding:0 0.2rem;
-            height:3.9rem;
+            height:3.6rem;
             overflow: hidden;
-            @include bg-image('slider-bg');
-            background-size: 100% 100%;
-            
+            // @include bg-image('slider-bg');
+            // background-size: 100% 100%;
+            background-color: #eee;
             .slider-wrapper{
                 position: relative;
                 width: 100%;
@@ -366,13 +404,34 @@
                     }
                 }
             }
+            .swiper-container {
+                margin-top: .2rem;
+                width: 7.4rem;
+                height: 3.2rem;
+                margin-bottom: .54rem;
+                overflow: visible!important;
+            }
+            .swiper-container .swiper-wrapper .swiper-slide{ width: 7.4rem!important; border-radius: .2rem;}
+            .swiper-container .swiper-wrapper .swiper-slide img{width: 100%; height: 3.2rem; border-radius: .2rem;}
+            .swiper-container .swiper-wrapper .swiper-slide-prev{ margin-top: .2rem; height: 2.8rem!important;}
+            .swiper-container .swiper-wrapper .swiper-slide-prev img{ height: 2.8rem!important;}
+            .swiper-container .swiper-wrapper .swiper-slide-next{ margin-top: .2rem; height: 2.8rem!important;}
+            .swiper-container .swiper-wrapper .swiper-slide-next img{ height: 2.8rem!important;}
+            // .swiper-container .swiper-wrapper .swiper-slide-active{ width: 6.4rem;}
+
+            .swiper-pagination{
+                bottom: -0.3rem!important;
+            }
+            .swiper-pagination .swiper-pagination-bullet{width: .12rem; height: .12rem; background: #ff1e1e;}
+            .swiper-pagination .swiper-pagination-bullet-active{width: .2rem; height: .12rem; background: #e75230; border-radius: .06rem;}
         }
         .marquee-wrapper{
             padding:0.15rem;
+            padding-left: 0;
             height:0.58rem;
             line-height: 0.64rem;
             .txt{
-                border-left:0.08rem solid #FED931;
+                border-left:1vw solid #FED931;
                 font-size: $font-size-small-x;
             }
         }
@@ -463,9 +522,7 @@
                     z-index: 100;
                 }
                 
-            }
-            
-            
+            }            
         }
         .rank-wrapper{
             height: 1.56rem;
@@ -539,26 +596,54 @@
 
 .betwin-wrapper{
     position: fixed;
-    height:0.9rem;
+    height:2rem;
     line-height: 0.9rem;
     width:100%;
     bottom: 1.44rem;
     //border-top:0.01rem solid $color-border;
+    box-shadow: 0 -2px 8px #e6e6e6;
     overflow: hidden;
+    .shadowBox{
+        position: absolute;
+        left: 0;
+        z-index: 9;
+        height: .7rem;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .topShadow{
+        top: 0;
+        border-top:.1rem solid #fff;
+        box-shadow: 0 .2rem .2rem #fff inset;
+    }
+    .botShadow{
+        bottom: 0;
+        border-bottom:.1rem solid #fff;
+        box-shadow: 0 -.2rem .2rem #fff inset;
+    }
+    marquee{
+        height: 2rem!important;
+    }
     .betwin-main{
         height: 100%;
         overflow: hidden;
+        margin-top: 0;
+        background-color: #fff;
+        // box-shadow: 0 6px 8px #fff inset;
         .betwin-txt{
-            height:0.9rem;
+            height:0.7rem;
+            color: #949494;
             padding-left: 1.2rem;
             padding-right: 0.4rem;
+            line-height: .7rem;
             @include no-wrap();
             @include bg-image('betwin-icon');
             background-repeat: no-repeat;
             background-position: 0.4rem center;
-            background-size: 0.69rem;
+            background-size: 0.59rem;
             font-size: $font-size-small-x;
         }
+        // .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
     }
     
 }

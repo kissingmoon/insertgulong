@@ -23,7 +23,7 @@
       },
       autoPlay: {
         type: Boolean,
-        default: true
+        default: false
       },
       interval: {
         type: Number,
@@ -70,13 +70,13 @@
       _setSliderWidth(isResize) {
         this.children = this.$refs.sliderGroup.children
 
-        let width = 0
-        let sliderWidth = this.$refs.slider.clientWidth
+        let width = 0;
+        let sliderWidth = this.$refs.slider.clientWidth;
         for (let i = 0; i < this.children.length; i++) {
           let child = this.children[i]
           addClass(child, 'slider-item')
 
-          child.style.width = sliderWidth + 'px'
+          child.style.width = (sliderWidth-100)+ 'px'
           width += sliderWidth
         }
         if (this.loop && !isResize) {
@@ -93,6 +93,10 @@
           snapLoop: this.loop,
           snapThreshold: 0.3,
           snapSpeed: 400
+        })
+
+        this.slider.on('scrollStart', (val) => {
+          console.log(val)
         })
 
         this.slider.on('scrollEnd', () => {
@@ -117,7 +121,8 @@
         this.dots = new Array(this.children.length)
       },
       _play() {
-        let pageIndex = this.currentPageIndex + 1
+        let pageIndex = this.currentPageIndex + 1;
+        console.log(this.currentPageIndex+1)
         if (this.loop) {
           pageIndex += 1
         }

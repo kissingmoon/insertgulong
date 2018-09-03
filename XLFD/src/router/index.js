@@ -34,6 +34,7 @@ import PayTip from 'components/pay-tip/pay-tip';
 import Lottery from 'components/lottery/lottery';
 import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
+import betWin from 'components/betWin/betWin'
 
 Vue.use(Router)
 
@@ -55,7 +56,11 @@ export default new Router({
                 {
                     path:'activity',
                     component:Activity
-                }
+                },
+                {
+                    path:'betwin',
+                    component:betWin
+                },
             ]
         },
         {

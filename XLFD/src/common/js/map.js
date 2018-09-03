@@ -72,6 +72,7 @@ export const httpUrl = {
         cpLocktime:'/gc/cp-lock-time',
         undoOrder:'/v2/bet/undo-order',
         gdContent:'/v2/gd-dsb/findGdExplainTypeList',
+        notice:'/v2/gc/betwin-notice',
     },
     config:{
         urlList:'/config/url-list',
@@ -80,7 +81,8 @@ export const httpUrl = {
         isReceived:'/v2/activity/today-is-received',
         xrkhIsOK:'/v2/yhhd/open-gold-isok',
         geetestCode:'/config/geetest-code',
-        sendCode:'/user/sendCode'
+        sendCode:'/user/sendCode',
+        getRecomemendCpType:'/v5/gc/getRecommendCpType'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url'
@@ -360,6 +362,10 @@ export const headerConfig = {
     },
     '/info/information/portrait':{
         title:'设置头像',
+        back:true
+    },
+    '/home/betwin':{
+        title:'中奖公告',
         back:true
     },
 

@@ -6,13 +6,15 @@ import VueLazyload from 'vue-lazyload'
 import store from 'store'
 import Axios from 'common/js/axios'
 
-
+import VueAwesomeSwiper from 'vue-awesome-swiper'
+import 'swiper/dist/css/swiper.css'
+// Vue.use(VueAwesomeSwiper)
 Vue.config.productionTip = false;
 Vue.prototype.$axios = Axios;
 fastclick.attach(document.body);
 Vue.use(VueLazyload,{
     loading:require('common/img/icon-loading-img.png')
-});
+},VueAwesomeSwiper);
 Vue.prototype.TencentCaptcha = TencentCaptcha;
 /* eslint-disable no-new */
 new Vue({

@@ -39,7 +39,7 @@
                                 <p class="flex lockcount">
                                     <span class="llockcount">距{{v.lottery_qh}}期截至{{v.locktime}}</span>
                                     <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
-                                    <router-link class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
+                                    <router-link v-if="touzhu" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                                 </p>
                         </router-link> 
                     </ul>
@@ -63,7 +63,8 @@ export default {
              interval:'',
              loading:false,
              returnObj:{},
-             chooseMain:true
+             chooseMain:false,
+             touzhu:false
         }
     },
     computed:{
@@ -88,6 +89,7 @@ export default {
             this.$axios.postRequest(httpUrl.home.lottery)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
+                    this.chooseMain=true;
                     this.lotteryList=res.data; 
                     var tempList = new Array(); //先声明一维 
                     this.lotteryList.map((v,k)=>{
@@ -100,7 +102,6 @@ export default {
                             tempList[k][k1].subLotteryObj=v1
                         })
                     })   
-                    console.log(tempList)   
                     this.truetotalList=tempList.concat()
                     this.trueCurrentSubList=this.truetotalList[0]  
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
@@ -121,16 +122,15 @@ export default {
            this.mapPost(httpUrl.bet.cpLocktime,subList.length,parmList,callbackArguments)
         },
         mapPost(url,n,parmList,obj){
-            var nList=[]
             for(let i=0;i<n;i++){
                 this.$axios.postRequest(url,parmList[i])
                 .then((res)=> {
                    if(res.data && !res.data.errorCode){  
                        this.computedTotalList(i,obj,res.data)
+                       
                    }
                 })
-            }
-            
+            }           
         },
         computedTotalList(subk,obj,resData){
             //subk是子彩种下标，obj.totalIndex是子彩种在父彩种的下标  obj.subList是子彩种信息数组
@@ -144,25 +144,13 @@ export default {
             this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
+            if(this.trueCurrentSubList[subk].lock_time){
+                this.touzhu=true;
+            }
              if(!this.interval)      {
                 this.startIntervl()
             }  
         },
-        // intervlPost(url,n,parmList,tempList,callback,callbackArguments){  
-        //     if(n!=0){
-        //         this.$axios.postRequest(url,parmList[n-1])
-        //         .then((res)=> {
-        //             if(res.data && !res.data.errorCode){    
-        //                tempList[n-1]=res.data   
-        //                 n--;                        
-        //                 this.intervlPost(url,n,parmList,tempList,callback,callbackArguments)                       
-        //             }
-        //         }) 
-        //     }
-        //     else if(n==0){                       
-        //        callback(callbackArguments)       
-        //     }            
-        // },
         makeTrueSub(obj){//obj:{totalIndex,subList}
             this.returnSubList.map((v,k)=>{
                 v.subLotteryObj=obj.subList[k]
@@ -240,10 +228,6 @@ export default {
             if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }
-            // else{
-            //     this.trueCurrentSubList=this.truetotalList[k]
-            // }
-            
         }
     }
 }

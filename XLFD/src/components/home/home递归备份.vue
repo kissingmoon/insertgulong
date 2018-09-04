@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="home" ref="home">
-            <scroll ref="scroll" class="home-content" :data='trueRecomandList'>
+            <scroll ref="scroll" class="home-content" :data='lotteryList'>
                 <div>                   
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
@@ -73,6 +73,7 @@
                         </div>
                     </div> -->
                    
+                    <scroll class="recomandscroll" :data='trueRecomandList'>
                         <loading v-if="loading"></loading> 
                         <div class="recomandWapper">
                             <div class="recomandTitle flex flex-align-center flex-pack-justify">
@@ -90,7 +91,7 @@
                                 </div>
                                 <div class="recomandEnter flex flex-center flex-v">
                                     <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
-                                    <div v-if="enterLottery" class="reEnter-enter">点击进入</div>
+                                    <div class="reEnter-enter">点击进入</div>
                                 </div>
                             </router-link>
                         </div>
@@ -117,6 +118,7 @@
                                 </router-link>
                             </div>
                         </div>
+                    </scroll>
                     
                 </div>
             </scroll>
@@ -230,8 +232,7 @@
                 returnSubList:[],
                 recomandList:[],
                 interval:"",
-                loading:false,
-                enterLottery:false
+                loading:false
             }
         },
         components: {
@@ -291,53 +292,56 @@
                         this.recomandList.map((v,k)=>{
                             parmList.push({'lottery_id':v.flag,'type':'1'})
                         }) 
-                        //新添加   
-                        var tempList = new Array();                                             
-                        this.recomandList.map((v,k)=>{
-                            tempList[k]={}
-                            tempList[k].recomandObj=this.recomandList[k]
-                            tempList[k].running=true;
-                            tempList[k].locktime="";
-                        })              
-                        this.trueRecomandList=tempList.concat()         
-                        this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
-                        //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
+                        //新添加                        
+                        this.trueRecomandList=this.recomandList.concat()
+                        this.trueRecomandList.map((v,k)=>{
+                            v.recomandObj=this.recomandList[k]
+                            v.running=true;
+                            v.locktime="";
+                        })
+                        
+                        this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                     }
                 });
             },
-            mapPost(url,n,parmList){
-                for(let i=0;i<n;i++){
-                    this.$axios.postRequest(url,parmList[i])
+            intervlPost(url,n,parmList,tempList,callback,callbackArguments){  
+                if(n!=0){
+                    this.$axios.postRequest(url,parmList[n-1])
                     .then((res)=> {
-                        if(res.data && !res.data.errorCode){  
-                            this.makeTrueList(i,res.data)
+                        if(res.data && !res.data.errorCode){    
+                        tempList[n-1]=res.data   
+                            n--;                        
+                            this.intervlPost(url,n,parmList,tempList,callback,callbackArguments)                       
                         }
-                    })
-                }           
+                    }) 
+                }
+                else if(n==0){                       
+                    callback(callbackArguments)       
+                }            
             },
-            makeTrueList(k,resData){ 
-                var tempObj=resData;
-                this.trueRecomandList[k] = Object.assign(this.trueRecomandList[k],tempObj);
-                this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/'));   
-                this.enterLottery=true;      
+            makeTrueList(){                
+                this.returnSubList.map((v,k)=>{
+                    v.recomandObj=this.recomandList[k]
+                    v.running=true;
+                    v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
+                })
+                this.trueRecomandList=this.returnSubList.concat()
                 if(!this.interval){
                     this.startIntervl()
                 }                
             },
             startIntervl(){
                 this.interval=setInterval(() => {
-                    this.trueRecomandList.map((v,k)=>{ 
-                        if(v.locktime){
-                            v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                          
-                            if(v.running==true){
-                                if(v.locktime=="00:00:00"){
-                                    v.running=false;
-                                    setTimeout(()=>{
-                                        this.getSingleLockTime(v,k)
-                                    },5000)
-                                }
-                            }  
-                         }         
+                    this.trueRecomandList.map((v,k)=>{  
+                        v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                          
+                        if(v.running==true){
+                            if(v.locktime=="00:00:00"){
+                                v.running=false;
+                                setTimeout(()=>{
+                                    this.getSingleLockTime(v,k)
+                                },5000)
+                            }
+                        }           
                     })
                 },1000);
             },
@@ -483,7 +487,7 @@
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 3.4rem;
+    bottom: 2.34rem;
     .home-content{
         height: 100%;
         overflow: hidden;

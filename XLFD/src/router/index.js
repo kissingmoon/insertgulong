@@ -124,9 +124,13 @@ export default new Router({
             path:'/goucaidating',
             component:Goucaidating,
             children:[
+                // {
+                //     path:'number',
+                //     component:DrawNumber
+                // }
                 {
-                    path:'number',
-                    component:DrawNumber
+                    path:'lottery',
+                    component:Lottery
                 }
             ]  
         },

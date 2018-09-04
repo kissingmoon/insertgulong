@@ -3,7 +3,7 @@
           <loading v-if="loading"></loading>
                  <scroll class="  flex-1  scroll-warpper" :data='lotteryList'>
                     <ul class="leftcontainer">
-                        <li v-for="(v,k) in lotteryList" :key="k" @click="chooseSubLottery(k)">
+                        <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
                             <img v-lazy="v.currentImage" alt="">
                         </li>
                     </ul>
@@ -61,7 +61,9 @@ export default {
              truetotalList:[],//返回数据之后所有彩种总数据
              trueCurrentSubList:[],//当前要渲染的数组
              interval:'',
-             loading:true
+             loading:false,
+             returnObj:{},
+             chooseMain:true
         }
     },
     computed:{
@@ -86,27 +88,24 @@ export default {
             this.$axios.postRequest(httpUrl.home.lottery)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    this.lotteryList=res.data;   
+                    this.lotteryList=res.data; 
+                    var tempList = new Array(); //先声明一维 
                     this.lotteryList.map((v,k)=>{
                         v.currentImage=v.lottery_image_blue
                         this.$set(this.lotteryList,k,v) 
-                    })                        
-                    var myarr = new Array(); //先声明一维 
-                    for ( var i = 0; i < this.lotteryList.length; i++) { //一维长度为2
-                        myarr[i] = new Array(); //再声明二维 
-                        for ( var j = 0; j < this.lotteryList[i].sub_lottery.length; j++) { //二维长度为3
-                        myarr[i][j]={}
-                            myarr[i][j].subLotteryObj = this.lotteryList[i].sub_lottery[j]
-                            myarr[i][j].kjNewData={kjCode:"",   lotteryQh:""}
-                            myarr[i][j].lock_time=""
-                        }
-                    }
-                    this.loading=false;
-                    this.truetotalList=myarr.concat()
+                        tempList[k] = new Array()
+                        v.sub_lottery.map((v1,k1)=>{
+                            tempList[k][k1]={}
+                            tempList[k][k1].kjNewData={kjCode:"",lotteryQh:""}
+                            tempList[k][k1].subLotteryObj=v1
+                        })
+                    })   
+                    console.log(tempList)   
+                    this.truetotalList=tempList.concat()
                     this.trueCurrentSubList=this.truetotalList[0]  
-
-                    this.getSubLockTime(this.lotteryList,0)
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
+                    this.getSubLockTime(this.lotteryList,0)
+                    
                 }
             });
         },
@@ -118,23 +117,52 @@ export default {
             subList.map((v,k)=>{
                 parmList.push({'lottery_id':v.lottery_id,'type':'2'})
             })
-            this.intervlPost(httpUrl.bet.cpLocktime,subList.length,parmList,this.returnSubList,this.makeTrueSub,callbackArguments)
+           // this.intervlPost(httpUrl.bet.cpLocktime,subList.length,parmList,this.returnSubList,this.makeTrueSub,callbackArguments)
+           this.mapPost(httpUrl.bet.cpLocktime,subList.length,parmList,callbackArguments)
         },
-        intervlPost(url,n,parmList,tempList,callback,callbackArguments){  
-            if(n!=0){
-                this.$axios.postRequest(url,parmList[n-1])
+        mapPost(url,n,parmList,obj){
+            var nList=[]
+            for(let i=0;i<n;i++){
+                this.$axios.postRequest(url,parmList[i])
                 .then((res)=> {
-                    if(res.data && !res.data.errorCode){    
-                       tempList[n-1]=res.data   
-                        n--;                        
-                        this.intervlPost(url,n,parmList,tempList,callback,callbackArguments)                       
-                    }
-                }) 
+                   if(res.data && !res.data.errorCode){  
+                       this.computedTotalList(i,obj,res.data)
+                   }
+                })
             }
-            else if(n==0){                       
-               callback(callbackArguments)       
-            }            
+            
         },
+        computedTotalList(subk,obj,resData){
+            //subk是子彩种下标，obj.totalIndex是子彩种在父彩种的下标  obj.subList是子彩种信息数组
+            this.returnObj=resData;         
+            this.returnObj.subLotteryObj=obj.subList[subk]
+            this.returnObj.lotteryType=this.lotteryList[obj.totalIndex].lottery_type
+            this.returnObj.locktime=countTime(resData.lock_time.replace(/-/g,'/'));
+            this.returnObj.running=true;
+            this.returnObj.plantime=countTime(resData.plan_kj_time.replace(/-/g,'/'));
+            this.returnObj.planrunning=true;
+            this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
+            this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
+            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
+             if(!this.interval)      {
+                this.startIntervl()
+            }  
+        },
+        // intervlPost(url,n,parmList,tempList,callback,callbackArguments){  
+        //     if(n!=0){
+        //         this.$axios.postRequest(url,parmList[n-1])
+        //         .then((res)=> {
+        //             if(res.data && !res.data.errorCode){    
+        //                tempList[n-1]=res.data   
+        //                 n--;                        
+        //                 this.intervlPost(url,n,parmList,tempList,callback,callbackArguments)                       
+        //             }
+        //         }) 
+        //     }
+        //     else if(n==0){                       
+        //        callback(callbackArguments)       
+        //     }            
+        // },
         makeTrueSub(obj){//obj:{totalIndex,subList}
             this.returnSubList.map((v,k)=>{
                 v.subLotteryObj=obj.subList[k]
@@ -148,36 +176,36 @@ export default {
             })            
             
             this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
-            this.trueCurrentSubList=this.truetotalList[obj.totalIndex] 
-                console.log(this.truetotalList)
-            if(!this.interval)      {
+            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]               
+            if(!this.interval){
                 this.startIntervl()
-            }                
-            
+            }                            
         },
         startIntervl(){
-            this.interval=setInterval(() => {
+            this.interval=setInterval(() => {                
                 this.truetotalList.map((v,k)=>{
                     v.map((v1,k1)=>{
-                        v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));
-                        //v1.plantime=countTime(v1.plan_kj_time.replace(/-/g,'/'));
-                        if(v1.running==true&&v1.planrunning==true){
-                            if(v1.locktime=="00:00:00"){
-                                v1.running=false;
-                                setTimeout(()=>{
-                                    this.getSingleLockTime(v1,k,k1)
-                                },5000)
-                            }
-                            // else if(v1.plantime=="00:00:00"){
-                            //     console.log("开奖时间到了")
-                            //     v1.planrunning=false;
-                            //     setTimeout(()=>{
-                            //         this.getSingleLockTime(v1,k,k1)
-                            //     },20000)
-                            // }
-                            else{
-                                this.$set(v,k1,v1)
-                            }
+                        if(v1.locktime){
+                            v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));                       
+                            //v1.plantime=countTime(v1.plan_kj_time.replace(/-/g,'/'));
+                            if(v1.running==true&&v1.planrunning==true){                                
+                                if(v1.locktime=="00:00:00"){
+                                    v1.running=false;
+                                    setTimeout(()=>{
+                                        this.getSingleLockTime(v1,k,k1)
+                                    },5000)
+                                }
+                                // else if(v1.plantime=="00:00:00"){
+                                //     console.log("开奖时间到了")
+                                //     v1.planrunning=false;
+                                //     setTimeout(()=>{
+                                //         this.getSingleLockTime(v1,k,k1)
+                                //     },20000)
+                                // }
+                                else{                                    
+                                    this.$set(v,k1,v1)
+                                }
+                            }                            
                         }
                         
                     })
@@ -207,13 +235,15 @@ export default {
                 if(key==k){
                     this.lotteryList[k].currentImage=this.lotteryList[k].lottery_image
                 }
-            })            
-            if(!this.truetotalList[k].lotteryType){       
+            })   
+            this.trueCurrentSubList=this.truetotalList[k]
+            if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }
-            else{
-                this.trueCurrentSubList=this.truetotalList[k]
-            }
+            // else{
+            //     this.trueCurrentSubList=this.truetotalList[k]
+            // }
+            
         }
     }
 }

@@ -5,7 +5,7 @@
         <div class="detail">
             <div class="wf-detail-wrapper clearfix">
                 <div class="detail-title">
-                    <i @click="closeHd" class="icon-close-circle close-circle"></i>
+                    <!-- <i @click="closeHd" class="icon-close-circle close-circle"></i> -->
                 </div>
                 <div class="wf-detail-main">
                 </div>

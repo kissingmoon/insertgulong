@@ -43,7 +43,9 @@
                         </div>
                         <div  class="lottery-wf">
                            <!-- {{newDraw.kj_code}} -->
-                           <span :class=v.clas v-for="(v,k) in newDraw.resultList" :key="k" :style="v.bg">{{v.val}}</span>
+                           <span :class=v.clas v-for="(v,k) in newDraw.resultList" :key="k" :style="v.bg">
+                               {{v.val}}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -626,7 +628,8 @@
             ...mapGetters([
                 'account',
                 'user_token',
-                'api_base'
+                'api_base',
+                'xglhc_color'
             ])
         },
         methods: {
@@ -728,7 +731,8 @@
                 if(this.drawCountTime == "00:03:00"){
                     this.getDrawHis();
                 }
-                if (this.drawCountTime == "00:00:00" && urlHash == "/home/lottery") {
+                // if (this.drawCountTime == "00:00:00" && urlHash == "/home/lottery") {
+                    if (this.drawCountTime == "00:00:00" && urlHash == "/lottery") {
                     this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
@@ -738,7 +742,9 @@
                     this.getLockTimes = setTimeout(() => {
                         this.getLockTime();
                     },2000);
-                }else if(urlHash == "/home/lottery"){
+                }
+                // else if(urlHash == "/home/lottery"){
+                    else if(urlHash == "/lottery"){
                     clearTimeout(this.lockTimes);
                     this.lockTimes=setTimeout(() => {
                         this.setCountTime(dateStr);
@@ -971,7 +977,7 @@
                         this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                         //根据最近一期的开奖号码显示不同的颜色
-                        this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryId)
+                        this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryId,this.xglhc_color)
                     };
                 });
             },
@@ -1508,6 +1514,17 @@
                     line-height: 0.7rem;
                     color:$color-yellow;
                     @include no-wrap();
+                    .last-draw-ssc{
+                        display: inline-block;
+                        width: 0.6rem;
+                        height: 0.6rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        color: #ffffff;
+                        line-height: 0.6rem;
+                        text-align: center;
+                        background: #65A689;
+                    }
                     .last-draw-k3{
                         display: inline-block;
                         width: 0.7rem;
@@ -1520,9 +1537,41 @@
                         height: 0.6rem;
                         margin: 0 0.1rem;
                         border-radius: 50%;
-                        border: 1px solid #7B6503;
+                        color: #ffffff;
                         line-height: 0.6rem;
+                         background: #65A689;
                         text-align: center;
+                    }
+                    .last-draw-xy28{
+                        display: inline-block;
+                        width: 0.6rem;
+                        height: 0.6rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        color: #ffffff;
+                        line-height: 0.6rem;
+                         background: #65A689;
+                        text-align: center;
+                    }
+                    .last-draw-lhc{
+                        display: inline-block;
+                            width: 0.6rem;
+                            height: 0.6rem;
+                            border-radius: 50%;
+                            line-height: 0.6rem;
+                            text-align: center;
+                            margin-left: 0.05rem;
+                            color: #F2F2F2;
+                    }
+                    .last-draw-pk10{
+                        display: inline-block;
+                            width: 0.5rem;
+                            height: 0.5rem;
+                            border-radius: 50%;
+                            line-height: 0.5rem;
+                            text-align: center;
+                            color: #F2F2F2;
+                            font-size: 0.1rem
                     }
                 }
                 .draw-history{

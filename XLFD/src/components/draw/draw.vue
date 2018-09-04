@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="draw">
-            <div class="win-money">
+            <!-- <div class="win-money">
                 <p class="money">
                     <span v-for="num in winMoney.num1">{{num}}</span>
                     <b>亿</b>
@@ -9,7 +9,7 @@
                     <b>万</b>
                 </p>
                 <p class="title">小李飞刀累计中奖...</p>
-            </div>
+            </div> -->
             <scroll ref="scroll" class="scroll-content" :data="draw" >
                 <draw-list :data="draw" :url="url" :isLink="isLink"></draw-list>
             </scroll>

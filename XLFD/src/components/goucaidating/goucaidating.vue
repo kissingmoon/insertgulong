@@ -1,21 +1,23 @@
 <template>
-    <div class="flex mainwapper ">      
-                 <scroll class="  flex-1  scroll-warpper" >
-                    <ul class=" leftcontainer">
+    <div class="flex mainwapper ">  
+          <loading v-if="loading"></loading>
+                 <scroll class="  flex-1  scroll-warpper" :data='lotteryList'>
+                    <ul class="leftcontainer">
                         <li v-for="(v,k) in lotteryList" :key="k" @click="chooseSubLottery(k)">
                             <img v-lazy="v.currentImage" alt="">
                         </li>
                     </ul>
                 </scroll>
-                <scroll class="flex-3 scroll-warpper">
+                <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>
+                     
                     <ul class="rightcontainer">
-                        <li v-for="(v,k) in trueCurrentSubList" :key="k">
+                        <router-link v-for="(v,k) in trueCurrentSubList" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">
                             <!-- {{v.subLotteryObj.lottery_name}}-{{v.locktime}}-{{v.kjNewData.kjCode}}-{{v.kjNewData.lotteryQh}}-{{v.kjNewData.realKjTime}}-{{v.plantime}} -->
                                 <p class="flex nameText">
                                     <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
                                     <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
                                 </p>
-                                <p v-if="v.lottery_id.indexOf('ssc')!=-1||v.lottery_id.indexOf('11x5')!=-1||v.lottery_id.indexOf('28')!=-1" class="flex kjhaoma flex-align-center">                                  
+                                <!-- <p v-if="v.lottery_id.indexOf('ssc')!=-1||v.lottery_id.indexOf('11x5')!=-1||v.lottery_id.indexOf('28')!=-1" class="flex kjhaoma flex-align-center">                                  
                                     <span class="kjball" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg">{{v1.val}}</span>
                                 </p>
                                 <p v-if="v.lottery_id.indexOf('k3')!=-1" class="flex kjhaoma flex-align-center">                                  
@@ -29,13 +31,17 @@
                                 <p v-if="v.lottery_id.indexOf('lhc')!=-1" class="flex kjhaoma flex-align-center">                                  
                                     <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
                                     </span>
+                                </p> -->
+                                <p class="flex kjhaoma flex-align-center">                                  
+                                    <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
+                                    </span>
                                 </p>
                                 <p class="flex lockcount">
                                     <span class="llockcount">距{{v.lottery_qh}}期截至{{v.locktime}}</span>
                                     <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
-                                    <router-link class="rlockcount" tag="span" :to="{path:'/home/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
+                                    <router-link class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                                 </p>
-                        </li> 
+                        </router-link> 
                     </ul>
                 </scroll>   
     </div>
@@ -46,6 +52,7 @@ import {httpUrl} from 'common/js/map';
 import {regroupLotteryData,countTime} from 'common/js/param';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import {mapActions,mapGetters,mapMutations} from 'vuex';
+import loading from 'base/loading/loading';
 export default {
     data(){
         return {
@@ -53,7 +60,8 @@ export default {
              returnSubList:[],//用来存放返回的子彩种数组
              truetotalList:[],//返回数据之后所有彩种总数据
              trueCurrentSubList:[],//当前要渲染的数组
-             interval:''
+             interval:'',
+             loading:true
         }
     },
     computed:{
@@ -62,12 +70,11 @@ export default {
         ])
     },
     components:{
-        Scroll
+        Scroll,
+        loading
     },
     created() {       
         this.getLottery()
-        console.log("收到香港六合彩颜色")
-        console.log(this.xglhc_color)
     },
     beforeDestroy(){
         clearInterval(this.interval)
@@ -83,9 +90,23 @@ export default {
                     this.lotteryList.map((v,k)=>{
                         v.currentImage=v.lottery_image_blue
                         this.$set(this.lotteryList,k,v) 
-                    })    
-                    console.log(this.lotteryList)
+                    })                        
+                    var myarr = new Array(); //先声明一维 
+                    for ( var i = 0; i < this.lotteryList.length; i++) { //一维长度为2
+                        myarr[i] = new Array(); //再声明二维 
+                        for ( var j = 0; j < this.lotteryList[i].sub_lottery.length; j++) { //二维长度为3
+                        myarr[i][j]={}
+                            myarr[i][j].subLotteryObj = this.lotteryList[i].sub_lottery[j]
+                            myarr[i][j].kjNewData={kjCode:"",   lotteryQh:""}
+                            myarr[i][j].lock_time=""
+                        }
+                    }
+                    this.loading=false;
+                    this.truetotalList=myarr.concat()
+                    this.trueCurrentSubList=this.truetotalList[0]  
+
                     this.getSubLockTime(this.lotteryList,0)
+                    this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
                 }
             });
         },
@@ -125,13 +146,17 @@ export default {
                 //v.kjNewData.kjCodeList=v.kjNewData.kjCode.split(",");
                 v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjCode,v.lottery_id,this.xglhc_color)
             })            
+            
             this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
-            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]
-            console.log(this.truetotalList)
-            this.interval=this.startIntervl()
+            this.trueCurrentSubList=this.truetotalList[obj.totalIndex] 
+                console.log(this.truetotalList)
+            if(!this.interval)      {
+                this.startIntervl()
+            }                
+            
         },
         startIntervl(){
-            setInterval(() => {
+            this.interval=setInterval(() => {
                 this.truetotalList.map((v,k)=>{
                     v.map((v1,k1)=>{
                         v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));
@@ -183,17 +208,12 @@ export default {
                     this.lotteryList[k].currentImage=this.lotteryList[k].lottery_image
                 }
             })            
-            if(!this.truetotalList[k]){       
+            if(!this.truetotalList[k].lotteryType){       
                 this.getSubLockTime(this.lotteryList,k)
             }
             else{
                 this.trueCurrentSubList=this.truetotalList[k]
             }
-        },
-        enterBet(v,k){
-            console.log(v.lottery_id)
-            console.log(this.lotteryList[k].lottery_type)
-            //lottery?id=ah11x5&type=3
         }
     }
 }
@@ -230,13 +250,13 @@ export default {
                            font-size: 0.4rem;
                        }
                        .rnameText{
-                           font-size: 0.1rem;
+                           font-size: 0.3rem;
                            color: #949494 ;
                        }
                     }
                     .kjhaoma{
                         height: 1.5rem;
-                        .kjball{
+                        .last-draw-ssc{
                             display: inline-block;
                             width: 0.8rem;
                             height: 0.8rem;
@@ -255,13 +275,13 @@ export default {
                         }
                         .last-draw-11x5{
                             display: inline-block;
-                            width: 0.6rem;
-                            height: 0.6rem;
+                            width: 0.8rem;
+                            height: 0.8rem;
                             border-radius: 50%;
                             background: #DA1C36;
-                            line-height: 0.6rem;
+                            line-height: 0.8rem;
                             text-align: center;
-                            margin-left: 0.1rem;
+                            margin-left: 0.3rem;
                             color: #F2F2F2;
                         }
                         .last-draw-lhc{
@@ -274,12 +294,33 @@ export default {
                             margin-left: 0.1rem;
                             color: #F2F2F2;
                         }
+                        .last-draw-pk10{
+                            display: inline-block;
+                            width: 0.6rem;
+                            height: 0.6rem;
+                            border-radius: 50%;
+                            line-height: 0.6rem;
+                            text-align: center;
+                            margin-left: 0.1rem;
+                            color: #F2F2F2;
+                        }
+                        .last-draw-xy28{
+                            display: inline-block;
+                            width: 0.8rem;
+                            height: 0.8rem;
+                            border-radius: 50%;
+                            background: #DA1C36;
+                            line-height: 0.8rem;
+                            text-align: center;
+                            margin-left: 0.3rem;
+                            color: #F2F2F2;
+                        }
                     }
                     .lockcount{
                         height: 0.7rem;
                         justify-content:space-between;
                         .llockcount{
-                           font-size: 0.1rem;
+                           font-size: 0.3rem;
                            color: #949494 ;
                            line-height: 0.7rem;
                         }
@@ -291,7 +332,7 @@ export default {
                             line-height: 0.6rem;
                             width: 2rem;
                             text-align: center;
-                            font-size: 0.1rem;
+                            font-size: 0.3rem;
                             border-radius: 0.1rem;
                         }
                     }

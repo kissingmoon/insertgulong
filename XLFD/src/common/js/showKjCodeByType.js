@@ -17,7 +17,7 @@ export default function (kj_code,type,extraPrams){
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}
-            tempObj.val=v
+            tempObj.val=""
             tempObj.bg={background:'url(' + require('./../img/'+v+'.png') + ') no-repeat',backgroundSize:"100% 100%"}
             tempObj.clas="last-draw-k3"
             result.push(tempObj)
@@ -41,7 +41,7 @@ export default function (kj_code,type,extraPrams){
         tempList.map(function(v,k){
             let tempObj={}
             tempObj.val=v
-            tempObj.clas="last-draw-11x5"
+            tempObj.clas="last-draw-pk10"
             tempObj.bg={background:pk10Clolr[v]}
             result.push(tempObj)
         })

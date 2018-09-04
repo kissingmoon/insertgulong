@@ -35,7 +35,7 @@ import Lottery from 'components/lottery/lottery';
 import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
 import Goucaidating from 'components/goucaidating/goucaidating';
-
+import betWin from 'components/betWin/betWin';
 
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
@@ -84,15 +84,23 @@ export default new Router({
             path:'/home',
             component:Home,    
             children:[
-                {
-                    path:'lottery',
-                    component:Lottery
-                },
+                // {
+                //     path:'lottery',
+                //     component:Lottery
+                // },
                 {
                     path:'activity',
                     component:Activity
-                }
+                },
+                {
+                    path:'betwin',
+                    component:betWin
+                },
             ]
+        },
+        {
+            path:'/lottery',
+            component:Lottery
         },
         {
             path:'/register',
@@ -114,7 +122,13 @@ export default new Router({
         },
         {
             path:'/goucaidating',
-            component:Goucaidating    
+            component:Goucaidating,
+            children:[
+                {
+                    path:'number',
+                    component:DrawNumber
+                }
+            ]  
         },
         {
             path:'/descover',

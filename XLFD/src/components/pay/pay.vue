@@ -18,7 +18,6 @@
             <div v-show="!uId" class="login-tip-wrapper">
                 <div class="login-tip">
                     <div class="img">
-
                     </div>
                     <router-link tag="div" to="/login" class="btn">
                         请登录后进行充值
@@ -148,6 +147,7 @@ import scroll from 'base/scroll/scroll';
 import loading from 'base/loading/loading';
 import {session} from 'common/js/param';
 import numberKeyboard from 'base/number-keyboard/number-keyboard';
+import store from 'store';
 
 export default {
     data(){
@@ -208,7 +208,8 @@ export default {
                 payRemark: '',
                 payId: '',
            },
-           uId:""
+           uId:"",
+           jumpConfig:""
         }
     },
     components:{
@@ -269,7 +270,24 @@ export default {
                     if(res.data && !res.data.errorCode){                      
                         this.compayList=res.data
                     }
-                }) 
+                })
+                this.$axios.postRequest(httpUrl.config.getJumpConfig,{domain:document.domain})
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){                      
+                        this.jumpConfig=res.data.jumpConfig  
+                        if(this.jumpConfig.flag=='1'){
+                            console.log("外部跳转")
+                            let url=this.jumpConfig.chargeUrl;
+                            let user_token=store.getters.user_token||session('user_token');
+                            let goBack=this.jumpConfig.chargeParams;
+                            let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`;                           
+                            this.$router.push({
+                                path:'/'
+                            });
+                            context(str);
+                        }                       
+                    }
+                })  
             }
         },
         intervlPost(url,n,parmList){            
@@ -374,19 +392,33 @@ export default {
         },
         onlineSubmit(){
                 var parms=this.submitParms;
-                if(this.checkOnlinePay()&&this.disableonlineSubmit){
-                    this.disableonlineSubmit=false;
-                    this.$axios.postRequest(httpUrl.pay.toChargeNew,parms)
-                    .then((res)=> {
-                        if(res.data && res.data.code==0){                                  
-                            this.mainshow=false;
-                            this.url=res.data.info;
-                            this.disableonlineSubmit=true;   
+                if(this.jumpConfig){
+                    if(this.jumpConfig.flag=='0'){
+                        console.log("内部跳转")
+                        if(this.checkOnlinePay()&&this.disableonlineSubmit){
+                            this.disableonlineSubmit=false;
+                            this.$axios.postRequest(httpUrl.pay.toChargeNew,parms)
+                            .then((res)=> {
+                                if(res.data && res.data.code==0){ 
+                                    this.disableonlineSubmit=true;  
+                                    //iframe打开
+                                    if(this.jumpConfig.isLabel=='0'){                             
+                                        this.mainshow=false;
+                                        this.url=res.data.info;
+                                    }  
+                                    //标签页打开
+                                    else if(this.jumpConfig.isLabel=='1'){
+                                        let payurl=res.data.info;
+                                        window.open(payurl);  
+                                    }
+                                }
+                                else{
+                                    this.setTip(res.data.info)
+                                }
+                            })
                         }
-                        else{
-                            this.setTip(res.data.info)
-                        }
-                    })
+                    }      
+                    
                 }
         },
         checkStep(currentStep){
@@ -453,25 +485,25 @@ export default {
                 this.setTip("提交中，请等待。。。")
                 this.$axios.postRequest(httpUrl.pay.compaySubmit,parm)
                 .then((res)=> {
-                    if(res.data && res.data.code==0){         
+                    
+                    if(res.data && res.data.code==0){        
                         this.setTip("提交成功")
                         this.disablecompySubmit=true;
-                        this.compstep=1; 
-                        this.chargeObj.chargeNum=null;
-                        this.chargeObj.chargename=null;
-                        this.chargeObj.chargeinfo=null;
+                        this.clearchargeObj();
                     }
                     else{
                         this.setTip(res.data.info)
                         this.disablecompySubmit=true;
-                        this.compstep=1; 
-                        this.chargeObj.chargeNum=null;
-                        this.chargeObj.chargename=null;
-                        this.chargeObj.chargeinfo=null;
+                        this.clearchargeObj();
                     }
                 })
-            }
-            
+            }            
+        },
+        clearchargeObj(){
+            this.compstep=1; 
+            this.chargeObj.chargeNum=null;
+            this.chargeObj.chargename=null;
+            this.chargeObj.chargeinfo=null;
         }
     }
 }

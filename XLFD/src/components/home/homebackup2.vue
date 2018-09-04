@@ -72,54 +72,31 @@
                             </router-link>
                         </div>
                     </div> -->
-                   
-                    <scroll class="recomandscroll" :data='trueRecomandList'>
-                        <loading v-if="loading"></loading> 
-                        <div class="recomandWapper">
-                            <div class="recomandTitle flex flex-align-center flex-pack-justify">
-                                <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
-                                <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
-                            </div>
-                            <router-link tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
-                                <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
-                                <div class="recomandImg flex flex-center">
-                                    <img v-lazy="v.recomandObj.lotteryImage" alt="">
-                                </div>
-                                <div class="recomandName flex flex-pack-center flex-v">
-                                    <div  class="reName-title">{{v.recomandObj.lotteryName}}</div>
-                                    <div class="reName-time">距截至:{{v.locktime}}</div>
-                                </div>
-                                <div class="recomandEnter flex flex-center flex-v">
-                                    <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
-                                    <div class="reEnter-enter">点击进入</div>
-                                </div>
+                    <div class="recomandType" v-for="(v,k) in trueRecomandList" :key="k">
+                        {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}}
+                    </div>
+                    <!-- 排名 -->
+                    <div class="rank-wrapper" v-if="user_token">
+                        <div class="rank-img"></div>
+                        <div class="rank-flow-money">
+                            <p class="title">您的今日流水</p>
+                            <p class="num">{{rank.today_flow_money}}</p>
+                        </div>
+                        <div class="rank-profit-loss">
+                            <p class="title">今日盈亏</p>
+                            <p class="num">{{rank.today_profit_loss}}</p>
+                        </div>
+                        <div class="rank">
+                            <p class="title">您的排名</p>
+                            <p class="num">{{rank.user_ranking}}</p>
+                        </div>
+                        <div class="rank-receive-money">
+                            <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
+                                <p class="icon"></p>
+                                <p class="title">补助金领取</p>
                             </router-link>
                         </div>
-                        
-                        <!-- 排名 -->
-                        <div class="rank-wrapper" v-if="user_token">
-                            <div class="rank-img"></div>
-                            <div class="rank-flow-money">
-                                <p class="title">您的今日流水</p>
-                                <p class="num">{{rank.today_flow_money}}</p>
-                            </div>
-                            <div class="rank-profit-loss">
-                                <p class="title">今日盈亏</p>
-                                <p class="num">{{rank.today_profit_loss}}</p>
-                            </div>
-                            <!-- <div class="rank">
-                                <p class="title">您的排名</p>
-                                <p class="num">{{rank.user_ranking}}</p>
-                            </div> -->
-                            <div class="rank-receive-money">
-                                <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
-                                    <p class="icon"></p>
-                                    <p class="title">补助金领取</p>
-                                </router-link>
-                            </div>
-                        </div>
-                    </scroll>
-                    
+                    </div>
                 </div>
             </scroll>
         </div>
@@ -129,7 +106,7 @@
             <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
                 <swiper-slide v-for='(item,k,i) in betWin' :key="i">
                     <div class="betwin-txt" @click='goNoticePage'>
-                        <span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
+                        {{item.content}}
                     </div>
                 </swiper-slide>
             </swiper>
@@ -167,7 +144,6 @@
     import {mapMutations,mapActions,mapGetters} from 'vuex';
     import 'swiper/dist/css/swiper.css'
     import { swiper, swiperSlide } from 'vue-awesome-swiper'
-    import loading from 'base/loading/loading';
     let vm = null;
     export default {
         data() {
@@ -200,13 +176,12 @@
                     loopAdditionalSlides : 1,       //  复制第一个img到最后
                     touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
                     slideToClickedSlide: true,
-                    autoplay:
-                    {
+                    autoplay:{
                         delay:3000,
                         disableOnInteraction:false
                     },
                     longSwipesRatio : 0.6,          //   滑动超过40%才能触发滚动
-                    spaceBetween: 15,               //   bannar图片之间的距离
+                    spaceBetween: 24,               //   bannar图片之间的距离
                     autoplayStopOnLast:false,
                     effect:"scroll",                //  轮播效果类型  
                     on:{
@@ -231,8 +206,7 @@
                trueRecomandList:[],
                 returnSubList:[],
                 recomandList:[],
-                interval:"",
-                loading:false
+                interval:""
             }
         },
         components: {
@@ -240,15 +214,11 @@
             Loading,
             Scroll,
             swiper,
-            swiperSlide,
-            loading
+            swiperSlide
         },
         created() {
             vm = this;
             this.init();
-        },
-         beforeDestroy(){
-            clearInterval(this.interval)
         },
         mounted(){
             // document.body.addEventListener('touchmove', function (e) {
@@ -274,7 +244,7 @@
                 this.getActivitys();
                 this.getNotice();
                 this.getGift();
-                //this.getLottery();
+                this.getLottery();
                 this.getRank();
                 this.getBetWin();
                 this.getBzjlq();
@@ -292,14 +262,6 @@
                         this.recomandList.map((v,k)=>{
                             parmList.push({'lottery_id':v.flag,'type':'1'})
                         }) 
-                        //新添加                        
-                        this.trueRecomandList=this.recomandList.concat()
-                        this.trueRecomandList.map((v,k)=>{
-                            v.recomandObj=this.recomandList[k]
-                            v.running=true;
-                            v.locktime="";
-                        })
-                        
                         this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                     }
                 });
@@ -326,16 +288,17 @@
                     v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
                 })
                 this.trueRecomandList=this.returnSubList.concat()
-                if(!this.interval){
-                    this.startIntervl()
-                }                
+                console.log(this.trueRecomandList)
+                this.startIntervl()
             },
             startIntervl(){
                 this.interval=setInterval(() => {
                     this.trueRecomandList.map((v,k)=>{  
-                        v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                          
+                        v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                        
                         if(v.running==true){
                             if(v.locktime=="00:00:00"){
+                                console.log("倒计时结束")
+                                console.log(v)
                                 v.running=false;
                                 setTimeout(()=>{
                                     this.getSingleLockTime(v,k)
@@ -349,7 +312,7 @@
                 var id=sub.lottery_id
                 this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'1'})
                 .then((res)=> {
-                    if(res.data && !res.data.errorCode){                               
+                    if(res.data && !res.data.errorCode){                         
                         var obj = Object.assign(sub,res.data);
                         obj.running=true;
                     }
@@ -461,11 +424,7 @@
                 this.$axios.postRequest(httpUrl.home.betWin)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
-                        let arr = res.data;
-                        for(let i = 0; i < arr.length; i ++){
-                            arr[i].content = arr[i].content.split(' ');
-                        }
-                        this.betWin = arr;
+                        this.betWin=res.data;
                     }
                 });
             },
@@ -493,8 +452,10 @@
         overflow: hidden;
         .slider-content{
             padding:0 0.2rem;
-            height:4.4rem;
+            height:3.6rem;
             overflow: hidden;
+            // @include bg-image('slider-bg');
+            // background-size: 100% 100%;
             background-color: #eee;
             .slider-wrapper{
                 position: relative;
@@ -521,17 +482,23 @@
                 }
             }
             .swiper-container {
-                width: 8.7rem!important;
+                margin-top: .2rem;
+                width: 8.6rem;
                 height: 4rem;
+                margin-bottom: .54rem;
                 overflow: visible!important;
             }
-            .swiper-container .swiper-wrapper .swiper-slide-active{ text-align: center;width: 8.7rem!important}
-            .swiper-container .swiper-wrapper .swiper-slide-active img{ width: 8.7rem!important;margin: 0 auto;}
-            .swiper-container .swiper-wrapper .swiper-slide img{width: 100%; height: 4rem; border-radius: .2rem;margin-top: .2rem}
+            .swiper-container .swiper-wrapper .swiper-slide{ width: 8.6rem!important; border-radius: .2rem;}
+            .swiper-container .swiper-wrapper .swiper-slide img{width: 100%; height: 4rem; border-radius: .2rem;}
             .swiper-container .swiper-wrapper .swiper-slide-prev{ margin-top: .2rem; height: 3.6rem!important;}
             .swiper-container .swiper-wrapper .swiper-slide-prev img{ height: 3.6rem!important;}
             .swiper-container .swiper-wrapper .swiper-slide-next{ margin-top: .2rem; height: 3.6rem!important;}
             .swiper-container .swiper-wrapper .swiper-slide-next img{ height: 3.6rem!important;}
+            .swiper-pagination{
+                bottom: -0.3rem!important;
+            }
+            .swiper-pagination .swiper-pagination-bullet{width: .12rem; height: .12rem; background: #ff1e1e;}
+            .swiper-pagination .swiper-pagination-bullet-active{width: .2rem; height: .12rem; background: #e75230; border-radius: .06rem;}
         }
         .marquee-wrapper{
             padding:0.15rem;
@@ -554,60 +521,6 @@
                     display: block;
                     width: 100%;
                 }
-            }
-        }
-        .recomandscroll{
-            height: 5.5rem;
-            overflow: hidden;
-        }
-        .recomandWapper{
-            height:auto;
-            overflow: auto;
-            .recomandTitle{
-                height: 0.7rem;
-                border-bottom:1px solid #F2F2F2;
-                .reTitle-more{
-                    color:#949494;
-                    padding-right:0.3rem;
-                    font-size: 0.3rem;
-                }
-            }
-            .recomandType{
-                height: 1.8rem;
-                border-bottom:1px solid #F2F2F2;
-                .recomandImg{
-                    width: 2rem;
-                    img{
-                        width: 1.5rem;
-                        height: 1.5rem;
-                    }
-                }
-                .recomandName{
-                    width: 5rem;
-                    .reName-title{
-                        font-size:0.5rem
-                    }
-                    .reName-time{
-                        margin-top:0.15rem;
-                        color:#949494
-                    }
-                }
-                .recomandEnter{
-                    width: 3rem;
-                    .reEnter-onlinenum{
-                        color:red;
-                        font-size:0.3rem
-                    }
-                    .reEnter-enter{
-                        margin-top:0.15rem;
-                        color: #17CA97;
-                        padding: 0.08rem 0.15rem;
-                        border:1px solid #17CA97;
-                        border-radius: 0.1rem;
-                    }
-                    
-                }
-                
             }
         }
         .lottery-wrapper{
@@ -799,13 +712,6 @@
             background-position: 0.4rem center;
             background-size: 0.59rem;
             font-size: $font-size-small-x;
-            display: flex;
-            span{
-                flex: 1;
-                &:last-child{
-                    text-align: right;
-                }
-            }
         }
     }
 }

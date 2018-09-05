@@ -24,13 +24,14 @@
                             <p class="follow" @click="gotoPage('/descover')">大神跟单<i class="icon-triangle-below"></i></p>
                         </div> -->
                         <div class="count-down">
-                            距{{lotteryInfo.show_qh}}期截止:{{drawCountTime}}
+                            距{{lotteryInfo.show_qh}}期截止:
                         </div>
                         <div class="drow-tip">
-                            <p>等</p>
+                            <!-- <p>等</p>
                             <p>待</p>
                             <p>开</p>
-                            <p>奖</p>
+                            <p>奖</p> -->
+                            {{drawCountTime}}
                         </div>
                     </div>
                     <div class="nav-right" @click="showDrawHistory">
@@ -1461,7 +1462,7 @@
             .nav-left{
                 float: left;
                 height:1.63rem;
-                width:5rem;
+                width:3.5rem;
                 @include border-right-1px(solid,#053105);
                 // padding-top: 0.1rem;
                 overflow: hidden;
@@ -1485,10 +1486,13 @@
                     padding-left:0.15rem;
                     text-align: center;
                     @include no-wrap();
+                    font-size: 0.3rem;
                 }
                 .drow-tip{
                     height:0.7rem;
                     text-align: center;
+                    font-size: 0.5rem;
+                     line-height: 0.7rem;
                     p{
                         display: inline-block;
                         width:0.7rem;
@@ -1505,23 +1509,24 @@
             }
             .nav-right{
                 height:1.63rem;
-                width:5rem;
+                width:6.5rem;
                 float: left;
                 text-align: center;
                 .lottery-wf{
-                    height:0.7rem;
+                    height:0.9rem;
                     font-size: $font-size-medium;
-                    line-height: 0.7rem;
+                    line-height: 0.9rem;
                     color:$color-yellow;
                     @include no-wrap();
                     .last-draw-ssc{
                         display: inline-block;
-                        width: 0.6rem;
-                        height: 0.6rem;
-                        margin: 0 0.1rem;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        margin: 0 0.2rem;
                         border-radius: 50%;
+                        font-size: 0.45rem;
                         color: #ffffff;
-                        line-height: 0.6rem;
+                        line-height: 0.8rem;
                         text-align: center;
                         background: #65A689;
                     }
@@ -1533,56 +1538,61 @@
                     }
                     .last-draw-11x5{
                         display: inline-block;
-                        width: 0.6rem;
-                        height: 0.6rem;
-                        margin: 0 0.1rem;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        margin: 0 0.2rem;
+                        font-size: 0.45rem;
                         border-radius: 50%;
                         color: #ffffff;
-                        line-height: 0.6rem;
+                        line-height: 0.8rem;
                          background: #65A689;
                         text-align: center;
                     }
                     .last-draw-xy28{
                         display: inline-block;
-                        width: 0.6rem;
-                        height: 0.6rem;
-                        margin: 0 0.1rem;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        margin: 0 0.2rem;
+                        line-height: 0.8rem;
+                        margin-left: 0.2rem;
+                        font-size: 0.45rem;
                         border-radius: 50%;
                         color: #ffffff;
-                        line-height: 0.6rem;
                          background: #65A689;
                         text-align: center;
                     }
                     .last-draw-lhc{
                         display: inline-block;
-                            width: 0.6rem;
-                            height: 0.6rem;
+                            width: 0.7rem;
+                            height: 0.7rem;
+                            margin: 0 0.1rem;
                             border-radius: 50%;
-                            line-height: 0.6rem;
+                            line-height: 0.7rem;
                             text-align: center;
                             margin-left: 0.05rem;
                             color: #F2F2F2;
                     }
                     .last-draw-pk10{
                         display: inline-block;
-                            width: 0.5rem;
-                            height: 0.5rem;
+                            width: 0.6rem;
+                            height: 0.6rem;
                             border-radius: 50%;
-                            line-height: 0.5rem;
+                            line-height: 0.6rem;
                             text-align: center;
                             color: #F2F2F2;
-                            font-size: 0.1rem
+                            font-size: 0.38rem;
+                            margin-left: 0.05rem;
                     }
                 }
                 .draw-history{
-                    height:0.7rem;
+                    height:0.6rem;
                     // padding-top: 0.1rem;
                     .history{
                         display: inline-block;
                         // border:1px solid #24754b;
                         // width:3rem;
-                        height:0.7rem;
-                        line-height: 0.7rem;
+                        height:0.6rem;
+                        line-height: 0.6rem;
                         border-radius: 0.1rem;
                         margin-left: 0.15rem;
                         vertical-align:text-bottom;

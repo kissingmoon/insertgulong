@@ -2,7 +2,7 @@ import {pk10Clolr} from 'common/js/map.js'
 
 export default function (kj_code,type,extraPrams){
     if(type.indexOf('11x5')!=-1){
-        let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}
@@ -13,7 +13,8 @@ export default function (kj_code,type,extraPrams){
         return result;
     }
     else if(type.indexOf('k3')!=-1){
-        let tempList=kj_code.split(',')
+        //let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}
@@ -25,7 +26,8 @@ export default function (kj_code,type,extraPrams){
         return result;
     }
     else if(type.indexOf('ssc')!=-1){
-        let tempList=kj_code.split(',')
+        //let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}
@@ -36,7 +38,8 @@ export default function (kj_code,type,extraPrams){
         return result;
     }
     else if(type.indexOf('pk10')!=-1){
-        let tempList=kj_code.split(',')
+        //let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}
@@ -48,7 +51,8 @@ export default function (kj_code,type,extraPrams){
         return result;
     }
     else if(type.indexOf('lhc')!=-1){
-        let tempList=kj_code.split(',')
+        //let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         tempList.splice(6, 0, "+"); 
         let result=[]
         tempList.map(function(v,k){
@@ -73,12 +77,12 @@ export default function (kj_code,type,extraPrams){
                 })
             }
             result.push(tempObj)
-            console.log(tempObj)
         })
         return result;
     }
     else if(type.indexOf('28')!=-1){
-        let tempList=kj_code.split(',')
+        //let tempList=kj_code.split(',')
+        let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
             let tempObj={}

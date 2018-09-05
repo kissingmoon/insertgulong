@@ -246,9 +246,6 @@
             vm = this;
             this.init();
         },
-         beforeDestroy(){
-            clearInterval(this.interval)
-        },
         mounted(){
             // document.body.addEventListener('touchmove', function (e) {
             //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
@@ -261,6 +258,7 @@
                     clearTimeout(this[id]);
                 });
             });
+            clearInterval(this.interval)
         },
         computed: {
             ...mapGetters([
@@ -319,15 +317,45 @@
                 var tempObj=resData;
                 this.trueRecomandList[k] = Object.assign(this.trueRecomandList[k],tempObj);
                 this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/'));   
+                var lockInt=parseInt(this.trueRecomandList[k].locktime.split(':')[1])
+                if(lockInt<=15){
+                    console.log(lockInt)
+                    this.trueRecomandList[k].reserved=500; 
+                }
+                else{
+                    console.log("封盘时间")
+                    this.trueRecomandList[k].reserved=50;
+                }
+                //this.trueRecomandList[k].reserved=this.randomNum(300,500); 
+                
                 this.enterLottery=true;      
                 if(!this.interval){
                     this.startIntervl()
                 }                
             },
             startIntervl(){
-                this.interval=setInterval(() => {//reserved
-                console.log(this.trueRecomandList)
+                var count=0;
+                this.interval=setInterval(() => {//reserved 
+                      
+                    if(count==30){
+                        count=0;
+                    }   
+                             
                     this.trueRecomandList.map((v,k)=>{ 
+                        if(count%5==0){
+                            if(v.reserved>300&&v.reserved<1000){
+                                var flag=this.randomNum(0,2);
+                                if(flag==0){
+                                    v.reserved-=this.randomNum(1,5);
+                                }
+                                else{
+                                    v.reserved+=this.randomNum(1,5);
+                                }
+                            }
+                            else{
+                                v.reserved=this.randomNum(300,500); 
+                            } 
+                        }                      
                         if(v.locktime){
                             v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                          
                             if(v.running==true){
@@ -340,17 +368,41 @@
                             }  
                          }         
                     })
+
+                    count++; 
                 },1000);
             },
             getSingleLockTime(sub,num){
                 var id=sub.lottery_id
                 this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'1'})
                 .then((res)=> {
-                    if(res.data && !res.data.errorCode){                               
+                    if(res.data && !res.data.errorCode){ 
+                        let locktime =countTime(res.data.lock_time.replace(/-/g,'/'));   
+                        let lockInt=parseInt(locktime.split(':')[1])
+                        if(lockInt<=15){
+                            console.log(lockInt)
+                            res.data.reserved=sub.reserved; 
+                        } 
+                        
+                                                    
                         var obj = Object.assign(sub,res.data);
                         obj.running=true;
+                        
                     }
                 })
+            },
+            randomNum(minNum,maxNum){ 
+                switch(arguments.length){ 
+                    case 1: 
+                        return parseInt(Math.random()*minNum+1,10); 
+                    break; 
+                    case 2: 
+                        return parseInt(Math.random()*(maxNum-minNum+1)+minNum,10); 
+                    break; 
+                        default: 
+                            return 0; 
+                        break; 
+                } 
             },
             bannarClick(i){
                 this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})

@@ -409,7 +409,9 @@ export default {
                                     //标签页打开
                                     else if(this.jumpConfig.isLabel=='1'){
                                         let payurl=res.data.info;
-                                        window.open(payurl);  
+                                        //window.open(payurl);  
+                                        var new_window = window.open();
+                                        new_window.location=payurl;
                                     }
                                 }
                                 else{
@@ -459,7 +461,6 @@ export default {
                 }
                 case 2:{
                      if(!this.choosenCompay.id){
-                        console.log("meiyou")
                         this.showCYes=0;                       
                         this.choosenCompay=this.compayList[0]
                         break;

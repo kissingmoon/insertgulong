@@ -82,7 +82,7 @@ export default new Router({
         },
         {
             path:'/home',
-            component:Home,    
+            component:Home,   
             children:[
                 // {
                 //     path:'lottery',
@@ -123,6 +123,9 @@ export default new Router({
         {
             path:'/goucaidating',
             component:Goucaidating,
+            meta: {
+                keepAlive: true // 需要缓存
+            },
             children:[
                 // {
                 //     path:'number',
@@ -206,9 +209,9 @@ export default new Router({
         {
             path:'/discount',
             component:Discount,          
-            meta: {
-                keepAlive: true // 需要缓存
-              },
+            // meta: {
+            //     keepAlive: true // 需要缓存
+            //   },
             children:[
                 {
                     path:'activity',

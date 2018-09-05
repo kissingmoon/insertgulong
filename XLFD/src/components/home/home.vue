@@ -325,7 +325,8 @@
                 }                
             },
             startIntervl(){
-                this.interval=setInterval(() => {
+                this.interval=setInterval(() => {//reserved
+                console.log(this.trueRecomandList)
                     this.trueRecomandList.map((v,k)=>{ 
                         if(v.locktime){
                             v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                          
@@ -483,7 +484,7 @@
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 3.4rem;
+    bottom: 2.77rem;
     .home-content{
         height: 100%;
         overflow: hidden;
@@ -581,7 +582,7 @@
                 .recomandName{
                     width: 5rem;
                     .reName-title{
-                        font-size:0.5rem
+                        font-size:0.45rem
                     }
                     .reName-time{
                         margin-top:0.15rem;
@@ -754,8 +755,8 @@
 
 .betwin-wrapper{
     position: fixed;
-    height:2rem;
-    line-height: 0.9rem;
+    height:1.3rem;
+    line-height: 0.8rem;
     width:100%;
     bottom: 1.44rem;
     box-shadow: 0 -2px 8px #e6e6e6;

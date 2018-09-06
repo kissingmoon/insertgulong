@@ -224,10 +224,10 @@
                         delay:0,
                         disableOnInteraction:false
                     },
-                    speed:1000,    //根据自己所需速度调整
+                    speed:500,    //根据自己所需速度调整
                     freeMode:true,
                 },
-               trueRecomandList:[],
+                trueRecomandList:[],
                 returnSubList:[],
                 recomandList:[],
                 interval:"",

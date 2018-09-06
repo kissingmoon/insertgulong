@@ -119,13 +119,12 @@
                         </div>
                 <div class="zhongjianggonggao flex flex-center">中奖快迅</div>
                 <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
-                    
                     <div class="topShadow shadowBox" @click='goNoticePage'></div>
                     <div class="botShadow shadowBox" @click='goNoticePage'></div>
                     <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
                         <swiper-slide v-for='(item,k,i) in betWin' :key="i">
                             <div class="betwin-txt" @click='goNoticePage'>
-                                <span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
+                                <em class="ico"></em><span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -673,7 +672,6 @@
                     width:100%;
                     background: #F6F4E6;
                     overflow: hidden;
-                    //@include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
             .item{

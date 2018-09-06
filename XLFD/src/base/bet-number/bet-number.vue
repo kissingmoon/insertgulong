@@ -189,11 +189,11 @@
                         text-align: center;
                         overflow: hidden;
                         margin: 0 auto;
-                        border:1px solid $color-border-num;
+                        border:1px solid #979797;
                         border-radius: 50%;
                         &.on{
-                            border-color:$color-yellow;
-                            color:$color-yellow;
+                            border-color:#b35758;
+                            color:#b35758;
                         }
                     }
                     .txt{

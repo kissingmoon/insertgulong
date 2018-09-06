@@ -146,7 +146,6 @@ export default {
             this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
-            console.log(this.truetotalList)  
             if(this.trueCurrentSubList[subk].lock_time){
                 this.touzhu=true;
             }

@@ -815,8 +815,6 @@
                     this.selectNumList[p].push(num);
                     if(this.is28OrLhc){
                         this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
-                        console.log("看这里")
-                        console.log(this.numberList[0].buyNumberBeanList[i])
                     }
                 }
                 this.changeTotal();
@@ -1522,7 +1520,7 @@
                         color: #ffffff;
                         line-height: 0.8rem;
                         text-align: center;
-                        background: #65A689;
+                        background: #B35758;
                     }
                     .last-draw-k3{
                         display: inline-block;
@@ -1539,7 +1537,7 @@
                         border-radius: 50%;
                         color: #ffffff;
                         line-height: 0.8rem;
-                         background: #65A689;
+                        background: #B35758;
                         text-align: center;
                     }
                     .last-draw-xy28{
@@ -1552,7 +1550,7 @@
                         font-size: 0.45rem;
                         border-radius: 50%;
                         color: #ffffff;
-                         background: #65A689;
+                         background: #B35758;
                         text-align: center;
                     }
                     .last-draw-lhc{

@@ -246,8 +246,11 @@
                     padding-left: 0.2rem;
                     border-radius: 0.08rem;
                     background: #E0CBC2;
-                    color:#fff;
+                    color: #BC5454;
                     font-size: $font-size-medium-x;
+                    &::placeholder{
+                        color: #BC5454;
+                    }
                 }
             }
         }

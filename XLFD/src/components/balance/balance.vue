@@ -54,18 +54,21 @@
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
-                                <li class="item-wrapper">
+                                <!-- 修改标识 -->
+                                <!-- <li class="item-wrapper">
                                     <input type="tel" class="phone-txt" :value="phoneNum" placeholder="请输入手机号"  autocomplete="off" maxlength="11" readonly="readonly" ><button @click="getCode" class="phone-btn" :disabled="getCodeType" >{{codeBtnTxt}}</button>
                                 </li>
                                 <li class="item-wrapper">
                                     <input type="tel" class="password-txt" v-model="cashCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" maxlength="6" >
-                                </li>
+                                </li> -->
                                 <li class="item-wrapper">
                                     <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off"  maxlength="16" >
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
-                                    <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button>
+                                    <!-- 修改标记 -->
+                                    <!-- <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button> -->
+                                    <button @click="withdrawCash" :disabled="bank_passwd.length < 1 ">确认</button>
                                 </li>
                             </ul>
                         </div>
@@ -230,7 +233,9 @@
             // 提现
             withdrawCash(){
                 this.hide('passwordShow');
-                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
+                //修改提现标记
+                //this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
+                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
                 .then((res)=> {
                     this.bank_passwd=''
                     this.recSetCode();
@@ -272,7 +277,9 @@
                 if(this.account && this.account.phone && this.account.phone.length > 0){
                     this.passwordShow = true;
                 }else{
-                    this.phoneShow = true;
+                    //修改提现标记
+                    //this.phoneShow = true;
+                    this.show('passwordShow');
                 }
             },
             ...mapActions([

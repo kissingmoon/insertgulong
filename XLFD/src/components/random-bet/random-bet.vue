@@ -1,21 +1,42 @@
 <template>
     <div>
-        <p @click="shakefun">随机</p>
+        <!-- <p  v-if="showbtn" @click="interval">随机</p> -->
+        <div v-if="showmodel" class="lockmodel" v-slience></div>
     </div>
 </template>
 
 <script>
+import {mapMutations,mapActions,mapGetters} from 'vuex';
 import randomBet from 'common/js/randombet.js'
 import 'common/js/shake.js'
 export default {
     data (){
         return {
             myShakeEvent:'',
-            randomList:''
+            randomList:false,
+            selectObjList:false,
+            randomPos:false,
+            selectObj:false,
+            showbtn:true,
+            showmodel:false
         }
     },
     props: ['wf_flag'],
+    directives: {
+        slience: {
+            // 指令的定义
+            inserted: function (el) {               
+                    el.addEventListener("click",function(oEvent){
+                    oEvent.cancelBubble = true;
+                    oEvent.stopPropagation();
+                })
+            }
+        }
+    },
     methods: {
+        ...mapMutations({
+                setTip:'SET_TIP',
+        }),
         vibrate(){
             navigator.vibrate = navigator.vibrate
                         || navigator.webkitVibrate
@@ -128,7 +149,7 @@ export default {
                     //this.$emit('selectRandNum',this.randomList)
                     break;
                 }
-                case "ssc_q3zux_q3zu6fs":case "ssc_q3zux_z3zu6fs":case "ssc_q3zux_h3zu6fs":{
+                case "ssc_q3zux_q3zu6fs":case "ssc_z3zux_z3zu6fs":case "ssc_h3zux_h3zu6fs":{
                     this.randomList=randomBet.randomList(2,0,9,true,1,3)
                     //this.$emit('selectRandNum',this.randomList)
                     break;
@@ -252,6 +273,12 @@ export default {
                     //this.$emit('selectRandNum',this.randomList)
                     break;
                 }
+                case "ssc_lhd":{
+                    let randomList1=randomBet.changeToChar(randomBet.randomList(1,0,9,true,1),"ssc_lhd_n1")
+                    let randomList2=randomBet.changeToChar(randomBet.randomList(1,0,2,true,1),"ssc_lhd_n2")
+                    this.randomList=[randomList1,randomList2];
+                    break;
+                }
                 //11选5
                 case "11x5_1m_q1zhix":case "11x5_bdw_q3bdw":{
                     this.randomList=randomBet.randomList(2,1,11,true,1,1)
@@ -320,12 +347,6 @@ export default {
                 }
                 case "11x5_qwx_dds":{
                     this.randomList=randomBet.changeToChar(randomBet.randomList(2,0,5,false,1,1),'11x5')
-                    //this.$emit('selectRandNum',this.randomList)
-                    break;
-                }
-                //六合彩
-                case "xglhc_tema_xuma":{
-                    this.randomList=randomBet.changeToChar(randomBet.randomList(2,1,49,true,1,1),'xglhc')
                     //this.$emit('selectRandNum',this.randomList)
                     break;
                 }
@@ -413,45 +434,192 @@ export default {
                 }
                 //幸运28
                 case "xy28_qthh_hh":{
-                    this.randomList=randomBet.changeToChar(randomBet.randomList(2,1,10,true,1,1),'xy28_qthh_hh')
-                    //this.$emit('selectRandNum',this.randomList)
+                    let rNum=randomBet.randomList(2,1,10,true,1,1);
+                    this.randomList=randomBet.changeToChar(rNum,'xy28_qthh_hh')
+                    let pinyin=randomBet.changeToPinYin(rNum,'xy28_qthh_hh')
+                    let slelctstr=this.randomList[0][0]
+                    let betPl=randomBet.computedPl(rNum,'xy28_qthh_hh')
+                    this.selectObj={
+                                bet_money:"",
+                                index:rNum[0][0],
+                                number_str:slelctstr,
+                                pl:betPl[0][0],
+                                pl_flag:pinyin[0][0],
+                                str:slelctstr,
+                                wf_flag:"xy28_qthh_hh",
+                                wf_name:"混合"
+                    }
+                    break;
+                }
+                case "xy28_qtbs_bs":case "xglhc_sebo_sebo":{
+                    var wfFlag=this.wf_flag;
+                    let rNum=randomBet.randomList(2,0,2,true,1,1);
+                    this.randomList=randomBet.changeToChar(rNum,'xy28_qtbs_bs')
+                    let pinyin=randomBet.changeToPinYin(rNum,'xy28_qtbs_bs')
+                    let slelctstr=this.randomList[0][0]
+                    let str=randomBet.computedStr(rNum,'xy28_qtbs_bs') 
+                    let  betPl=[];
+                    if ( wfFlag =="xy28_qtbs_bs") {
+                        betPl=randomBet.computedPl(rNum,'xy28_qtbs_bs')
+                    }                                                                
+                    else{
+                        betPl=randomBet.computedPl(rNum,'xglhc_sebo_sebo')
+                    }                  
+                    this.selectObj={
+                                bet_money:"",
+                                index:rNum[0][0],
+                                number_str:slelctstr,
+                                pl:betPl[0][0],
+                                pl_flag:pinyin[0][0],
+                                str:str[0][0],
+                                wf_flag:wfFlag,
+                                wf_name:"波色"
+                    }
+                    break;
+                }
+                case "xy28_qtbz_bz":{
+                    this.randomList=[["豹子"]]
+                    this.selectObj={
+                                bet_money:"",
+                                index:1,
+                                number_str:"豹子",
+                                pl:90,
+                                pl_flag:"baozi",
+                                str:"豹子",
+                                wf_flag:"xy28_qtbz_bz",
+                                wf_name:"豹子"
+                    }
+                    break;
+                }
+                //六合彩
+                case "xglhc_tema_xuma":{
+                    let rNum=randomBet.randomList(2,1,49,true,1,1);
+                    this.randomList=randomBet.changeToChar(rNum,'xglhc_tema_xuma')
+                    let slelctstr=this.randomList[0][0]
+                    let pinyin=randomBet.changeToPinYin(rNum,'xy28_qtbs_bs')
+                    let betPl=47.6
+                    this.selectObj={
+                                bet_money:"",
+                                index:rNum[0][0],
+                                number_str:slelctstr,
+                                pl:betPl,
+                                pl_flag:slelctstr,
+                                str:slelctstr,
+                                wf_flag:"xglhc_tema_xuma",
+                                wf_name:"特码"
+                    }
+                    break;
+                }
+                case "xglhc_texiao_tx":{
+                    let rNum=randomBet.randomList(2,0,11,true,1,1);
+                    this.randomList=randomBet.changeToChar(rNum,'xglhc_texiao_tx')
+                    let slelctstr=this.randomList[0][0]
+                    let betPl=randomBet.computedPl(rNum,'xglhc_texiao_tx')
+                    let str=randomBet.computedStr(rNum,'xglhc_texiao_tx') 
+                    let pinyin=randomBet.changeToPinYin(rNum,'xglhc_texiao_tx')
+                    this.selectObj={
+                                bet_money:"",
+                                index:rNum[0][0],
+                                number_str:slelctstr,
+                                pl:betPl[0][0],
+                                pl_flag:pinyin[0][0],
+                                str:str[0][0],
+                                wf_flag:"xglhc_texiao_tx",
+                                wf_name:"特肖"
+                    }
+                    break;
+                }
+                //幸运28
+                case "xy28_tmb3_b3":{
+                    var _this=this;
+                    _this.selectObjList=[];
+                    let rNum=randomBet.randomList(2,1,28,true,1,3);
+                    this.randomList=randomBet.changeToChar(rNum,'xy28_tmb3_b3')
+                    let slelctstr=this.randomList
+                    let numb=randomBet.changeToNum(rNum,'xy28_tmb3_b3')
+                    slelctstr.map(function(v,k){
+                        var selectObj={};
+                        let tempList=[]
+                        v.map(function(v1,k1){                            
+                            selectObj={
+                                index:rNum[k][k1],
+                                number:numb[k][k1],
+                                number_str:slelctstr[k][k1],
+                                pl:3.5,
+                                pl_flag:"tmb3",
+                                str:slelctstr[k][k1]
+                            }
+                            tempList.push(selectObj)
+                        })                            
+                        _this.selectObjList.push(tempList)
+                    })                                        
+                    break;
+                }
+                case "xy28_tmtm_tm":{
+                    let rNum=randomBet.randomList(2,1,28,true,1,1);
+                    this.randomList=randomBet.changeToChar(rNum,'xy28_tmtm_tm')
+                    let slelctstr=this.randomList[0][0]
+                    let betPl=randomBet.computedPl(rNum,'xy28_tmtm_tm')
+                    this.selectObj={
+                                bet_money:"",
+                                index:rNum[0][0],
+                                number_str:slelctstr,
+                                pl:betPl[0][0],
+                                pl_flag:slelctstr,
+                                str:slelctstr,
+                                wf_flag:"xy28_tmtm_tm",
+                                wf_name:"特码"
+                    }
                     break;
                 }
             }
             if(this.randomPos){
                 this.$emit('selectRandPos',this.randomPos,this.randomList)
+                this.randomPos=false
+                this.randomList=false
+            }
+            else if(this.selectObj){
+                this.$emit('selectRandObj',this.randomList,this.selectObj)
+                this.selectObj=false
+                this.randomList=false
+            }
+            else if(this.selectObjList){
+                this.$emit('selectRandObj',this.randomList,this.selectObjList)
+                this.selectObjList=false
+                this.randomList=false
             }
             else{
                 this.$emit('selectRandNum',this.randomList)
+                this.randomList=false
             }          
         },
-        interval(){
+        interval(e,flag){
             var _this=this;
-            var repeat=33;  // 限制执行次数为5次
-            var speed=100;
+            var repeat=21;  
+            var speed=50;
+            _this.showmodel=true;
+            window.removeEventListener('shake', _this.interval);
             var timer = setInterval(intervalfun, speed);
             function intervalfun(){
                 clearInterval(timer);
                 timer = setInterval(intervalfun, speed)
                 if (repeat == 0) {
                     clearInterval(timer);
-                    alert("已为你选出号码");
+                    _this.setTip('已选出号码！');
+                    _this.showmodel=false;
                     window.addEventListener('shake', _this.interval);  
                     return;
                 }
-                else if(repeat > 7&&repeat <33){
-                    speed += 10;
+                else if(repeat > 7&&repeat <20){
+                    speed += 5;
                 }
-                else if(repeat <= 7){
-                    speed += 100;
-                }
-                else if(repeat == 33){
-                    window.removeEventListener('shake', _this.interval);
-                }                                
+                else if(repeat <= 5){
+                    speed += 20;
+                }                                                             
                 repeat--;
-                _this.shakefun()
+                _this.shakefun();                
             }
-            this.vibrate()
+            this.vibrate();
         },
         addShakeEvent(){
             var _this=this;
@@ -476,3 +644,16 @@ export default {
     }
 }
 </script>
+<style scoped>
+    .lockmodel{
+        filter:alpha(Opacity=10);
+        opacity:0.1;
+        z-index:9998;
+        width: 100vw;
+        height: 100vh;
+        background: green;
+        position: fixed;  
+        bottom: 0;  
+        left: 0; 
+    }
+</style>

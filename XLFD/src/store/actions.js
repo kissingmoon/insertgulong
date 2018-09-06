@@ -64,6 +64,16 @@ export const getXrkhType = ({commit, state}) => {
             let type =res.data.is_received == 1 ? 0:1;
             commit('SET_HD_XRKH',type);
             commit('SET_HAS_PHONE',res.data.has_phone);
+            
+        };
+    });
+}
+//香港六合彩的颜色
+export const getXglhcColor = ({commit, state}) => {
+    $axios.postRequest(httpUrl.info.getColor,{type:"xglhc_color"})
+    .then((res)=> {
+        if(res.data && !res.data.errorCode){
+            commit('SET_XGLHC_COLOR',res.data.list);
         };
     });
 }

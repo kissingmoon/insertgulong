@@ -15,7 +15,11 @@
                     <ul class="report-main">
                          <li class="item-mode border-bottom-1px" v-for="(item,index) in noticeList" :key='index'>
                              <span class="ico"></span>
-                             <span class="txt">{{item.content}}</span>
+                             <div class="txt">
+                                 <span>{{item.content[0]}}</span>
+                                 <span>{{item.content[1]}}</span>
+                                 <span>{{item.content[2]}}</span>
+                             </div>
                         </li>
                     </ul>
                 </div>
@@ -80,11 +84,11 @@
                 if(res.data && !res.data.errorCode){
                     if(type == 'up'){
                         this.loadStatus=false;
-                        this.noticeList=this.noticeList.concat(res.data.list);
+                        this.noticeList=this.noticeList.concat(this.splitData(res.data.list));
                         this.isAllData =res.data.list.length < 20 ? true : false;
                     }else{
                         this.refreshStatus=false;
-                        this.noticeList=res.data.list;
+                        this.noticeList= this.splitData(res.data.list);
                         this.isAllData=false;
                         if( res.data.list.length < 1 ){
                             this.isNoData = true
@@ -93,6 +97,13 @@
                 };
             });
         },
+        splitData(data){
+            let arr = data;
+            for(let i = 0; i < arr.length; i ++){
+                arr[i].content = arr[i].content.split(' ');
+            }
+            return arr;
+        }
     },
 
     components: {Scroll,DataNone},
@@ -130,13 +141,14 @@
                         vertical-align: middle;
                     }
                     .ico{
-                        width: .8rem;
-                        height: .8rem;
+                        width: .5rem;
+                        height: .5rem;
                         margin-right: .1rem;
+                        margin-top: .18rem;
                         @include bg-image('betwin-icon');
                         background-repeat: no-repeat;
                         background-position: center center;
-                        background-size: 0.59rem;
+                        background-size: cover;
                     }
                     .txt{
                         flex: 1;
@@ -144,8 +156,17 @@
                         line-height: .79rem;
                         font-size: $font-size-small;
                         box-sizing: border-box;
+                        padding-right: .4rem;
                         @include no-wrap();
-                        border-bottom: .01rem solid #D8D8D8;
+                        // border-bottom: 1px solid #D8D8D8;
+                        border-bottom: 1px solid #F2F2F2;
+                        display: flex;
+                        span{
+                            flex: 1;
+                            &:last-child{
+                                text-align: right;
+                            }
+                        }
                     }
                 }
             }

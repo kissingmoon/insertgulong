@@ -16,7 +16,7 @@
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name)" :key="i">
                         <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
-                            <span v-for="num in item.kj_code" :key="num">{{num}}</span>
+                            <span v-for="(num,k) in item.kj_code" :key="k">{{num}}</span>
                         </div>
                     </li>
                 </ul>

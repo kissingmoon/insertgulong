@@ -133,7 +133,7 @@ export default {
                 "param": {
                     "titles": [
                         "三重号",
-                        "单号"
+                        "二重号"
                     ],
                     "begin": 0,
                     "end": 9,

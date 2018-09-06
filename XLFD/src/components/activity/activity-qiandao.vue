@@ -5,7 +5,7 @@
         <div class="detail">
             <div class="wf-detail-wrapper clearfix">
                 <div class="detail-title">
-                    <i @click="closeHd" class="icon-close-circle close-circle"></i>
+                    <!-- <i @click="closeHd" class="icon-close-circle close-circle"></i> -->
                 </div>
                 <div class="wf-detail-main">
                 </div>
@@ -29,6 +29,19 @@
             </div>
         </div>
     </div>
+    <div v-show="failShow">
+        <div class="background" ></div>
+        <div class="qiandao-sb">
+            <div class="wf-detail-wrapper clearfix">
+                <!-- <div class="detail-title">签到失败!</div> -->
+                <div class="wf-detail-main">
+                </div>
+                <div class="wf-detail-close">
+                    <button @click="closeHdSuc"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 <script type="text/ecmascript-6">
@@ -43,7 +56,8 @@
                 qiandaoShow:false,
                 successShow:false,
                 btnType:true,
-                receive_money:0
+                receive_money:0,
+                failShow:false
             }
         },
         components:{
@@ -51,6 +65,8 @@
             Scroll
         },
         created() {
+            //this.failShow=false;
+            this.btnType=true;
         },
         computed: {
             ...mapGetters([
@@ -62,7 +78,7 @@
                 this.setHdQiandao('1')
             },
             setQiandao(){
-                this.btnType = false;
+                //this.btnType = false;
                 this.$axios.postRequest(httpUrl.home.qiandao)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
@@ -71,10 +87,13 @@
                         this.getUser();
                         this.successShow = true;
                         this.receive_money=res.data.receive_money;
+                    }else if(res.data.errorCode){
+                        this.failShow=true;
+                        this.qiandaoShow=false;
                     }
                 })
                 .catch((err) => {
-                    this.btnType=true;
+                     this.btnType=true;
                 });
             },
             ...mapMutations({
@@ -85,6 +104,7 @@
             ]),
             closeHdSuc(){
                 this.successShow=false;
+                this.failShow=false;
                 this.setHdQiandao('1');
             }
         },
@@ -249,5 +269,70 @@
                 }
             }
         }
+        
+        
+    }
+    .qiandao-sb{
+        position:fixed;
+        top:calc((100% - 9rem) / 2);
+        left:1.2rem;
+        z-index:410;
+        width:7.6rem;
+        height:9rem;
+        overflow: hidden;
+        .detail-title{
+            height:1.2rem;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: center bottom;
+            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
+            color:#fff;
+            line-height: 1.2rem;
+            text-align: center;
+            font-size: $font-size-large-xx;
+        }
+        .wf-detail-wrapper{
+            min-height:100%;
+            .wf-detail-main{
+                padding:0rem 0.4rem 0.2rem;
+                overflow:auto;
+                height:5rem;
+                color:#fff;
+                text-align: center;
+                font-size: $font-size-large;                
+                @include bg-image('bg-qiandao-sb');
+                background-size: 100%;
+                background-position: center bottom;
+                background-repeat: no-repeat;
+                .yellow{
+                    color:$color-yellow;
+                }
+            }
+            .wf-detail-close{
+                position: absolute;;
+                height:1rem;
+                width:100%;
+                padding-top:0.1rem;
+                text-align: center;
+                top:4.5rem;
+                button{
+                    height:0.96rem;
+                    width:4rem;
+                    border:0;
+                    text-align: center;
+                    background:none;
+                    color: $color-yellow;
+                    font-size: $font-size-large-x;
+                    padding:0;
+                    margin: 0;
+                    @include bg-image('btn-qiandao-suc');
+                    background-size: 100%;
+                    background-position: center bottom;
+                }
+            }
+        }
+        
+        
     }
 </style>

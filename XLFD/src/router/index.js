@@ -34,8 +34,43 @@ import PayTip from 'components/pay-tip/pay-tip';
 import Lottery from 'components/lottery/lottery';
 import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
-import betWin from 'components/betWin/betWin'
+import Goucaidating from 'components/goucaidating/goucaidating';
+import betWin from 'components/betWin/betWin';
 
+// const Descover = () => import('components/descover/descover')
+// const Home = () => import('components/home/home')
+// const Pay = () => import('components/pay/newpay')
+// const Discount  = () => import( 'components/discount/discount');
+// const Activity  = () => import( 'components/activity-con/activity-con');
+// const Info  = () => import( 'components/info/info');
+// const Login  = () => import( 'components/login/login');
+// const Register  = () => import( 'components/register/register');
+// const Balance  = () => import( 'components/balance/balance');
+// const Bill  = () => import( 'components/bill/bill');
+// const Bet  = () => import( 'components/bet/bet');
+// const BetDetail  = () => import( 'components/bet-detail/bet-detail');
+// const Recharge  = () => import( 'components/recharge/recharge');
+// const Cash  = () => import( 'components/cash/cash');
+// const Follow  = () => import( 'components/follow/follow');
+// const FollowDetail  = () => import( 'components/follow-detail/follow-detail');
+// const Attention  = () => import( 'components/attention/attention');
+// const AttentionDetail  = () => import( 'components/attention-detail/attention-detail');
+// const Crunchies  = () => import( 'components/crunchies/crunchies');
+// const Safety  = () => import( 'components/safety/safety');
+// const EditPassword  = () => import( 'components/edit-password/edit-password');
+// const SetPassword  = () => import( 'components/set-password/set-password');
+// const Bank  = () => import( 'components/bank/bank');
+// const Information  = () => import( 'components/information/information');
+// const Nick  = () => import( 'components/nick/nick');
+// const Draw  = () => import( 'components/draw/draw');
+// const DrawNumber  = () => import( 'components/draw-number/draw-number');
+// const Message  = () => import( 'components/message/message');
+// const UrlContent  = () => import( 'components/url-content/url-content');
+// const UserPortrait  = () => import( 'components/portrait/portrait');
+// const PayTip  = () => import( 'components/pay-tip/pay-tip');
+// const Lottery  = () => import( 'components/lottery/lottery');
+// const Agency  = () => import( 'components/agency/agency');
+// const Report  = () => import( 'components/agency/report');
 Vue.use(Router)
 
 export default new Router({
@@ -47,12 +82,12 @@ export default new Router({
         },
         {
             path:'/home',
-            component:Home,
+            component:Home,   
             children:[
-                {
-                    path:'lottery',
-                    component:Lottery
-                },
+                // {
+                //     path:'lottery',
+                //     component:Lottery
+                // },
                 {
                     path:'activity',
                     component:Activity
@@ -64,8 +99,12 @@ export default new Router({
             ]
         },
         {
+            path:'/lottery',
+            component:Lottery
+        },
+        {
             path:'/register',
-            component:Register
+            component:Register    
         },
         {
             path:'/login',
@@ -82,8 +121,26 @@ export default new Router({
             ]
         },
         {
+            path:'/goucaidating',
+            component:Goucaidating,
+            meta: {
+                keepAlive: true // 需要缓存
+            },
+            children:[
+                // {
+                //     path:'number',
+                //     component:DrawNumber
+                // }
+                {
+                    path:'lottery',
+                    component:Lottery
+                }
+            ]  
+        },
+        {
             path:'/descover',
             component:Descover,
+            // component:Draw,
             children:[
                 {
                     path:'detail',
@@ -151,7 +208,10 @@ export default new Router({
         },
         {
             path:'/discount',
-            component:Discount,
+            component:Discount,          
+            // meta: {
+            //     keepAlive: true // 需要缓存
+            //   },
             children:[
                 {
                     path:'activity',

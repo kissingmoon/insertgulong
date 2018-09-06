@@ -17,12 +17,13 @@
     </parcel>
 </template>
 <script type="text/ecmascript-6">
-    import {mapMutations} from 'vuex';
     import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import DrawList from 'base/draw-list/draw-list';
     import {httpUrl} from 'common/js/map';
     import {slicer} from 'common/js/param';
+    import showKjCodeByType from 'common/js/showKjCodeByType.js'
+    import {mapMutations,mapActions,mapGetters} from 'vuex';
     export default {
         data() {
             return{
@@ -53,6 +54,11 @@
             this.getDrawNubmer();
             this.setHeader(this.header);
         },
+        computed:{
+            ...mapGetters([
+                'xglhc_color'
+            ])
+        },
         methods: {
             init(){
                 this.param.lottery_id =this.$route.query.id;
@@ -71,14 +77,35 @@
                     if(res.data && !res.data.errorCode){
                         if(type == 'up'){
                             this.loadStatus=false;
-                            this.drawNumber=this.drawNumber.concat(slicer(res.data,'kj_code',','));
+                            //this.drawNumber=this.drawNumber.concat(slicer(res.data,'kj_code',','));
+                            
+                            var tempList=[]
+                            res.data.map((v,k)=>{
+                                tempList[k]=v;
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,v.lottery_id,this.xglhc_color)
+                            })
+                            //this.drawNumber=tempList
+                            this.drawNumber=this.drawNumber.concat(tempList);
+                            console.log(this.drawNumber)
                             this.isAllData =res.data.length < 20 ? true : false;
                         }else if(type == 'down'){
                             this.refreshStatus=false;
                             this.drawNumber=slicer(res.data,'kj_code',',');
+                            var tempList=[]
+                            this.drawNumber.map((v,k)=>{
+                                tempList[k]=v;
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,v.lottery_id,this.xglhc_color)
+                            })
+                            this.drawNumber=tempList
                             this.isAllData=false;
-                        }else{
+                        }else{                           
                             this.drawNumber=slicer(res.data,'kj_code',',');
+                            var tempList=[]
+                            this.drawNumber.map((v,k)=>{
+                                tempList[k]=v;
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,v.lottery_id,this.xglhc_color)
+                            })
+                            this.drawNumber=tempList
                             this.isAllData =res.data.length < 20 ? true : false;
                         }
                     };
@@ -103,6 +130,7 @@
     .scroll-content{
         height:100%;
         overflow: hidden;
+        
     }
 }
 </style>

@@ -1,17 +1,22 @@
 <template>
-    <div id="app" class="app">
+    <div id="app" class="app" >
         <remote-js :src='cnzzurl'></remote-js>
         <m-header></m-header> 
         <m-nav></m-nav>
-        <tip></tip>
-        <router-view></router-view>
+        <tip></tip>        
+        <!-- <router-view></router-view> -->
+             <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+            </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>      
+               
         <activity-xrkh v-show="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-show="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>
 </template>
 
 <script>
-import {mapActions,mapGetters} from 'vuex';
+import {mapActions,mapGetters,mapMutations} from 'vuex';
 import MHeader from 'components/header/m-header.vue';
 import MNav from 'components/nav/m-nav.vue';
 import ActivityQiandao from 'components/activity/activity-qiandao.vue';
@@ -40,12 +45,18 @@ export default {
     },
     created() {
         this.init();
+        
+    },
+    mounted(){
+        this.getUrl();
     },
     computed: {
         ...mapGetters([
             'user_token',
             'hd_qiandao',
-            'hd_xrkh'
+            'hd_xrkh',
+            'href_type',
+            'account'
         ])
     },
     methods:{
@@ -60,6 +71,10 @@ export default {
             });
             this.setHeader(headerConfig[path]);
             this.getUserData();
+           this.getXglhcColor();
+        },
+        getUrl(){
+            this.sethreftype(this.$route.query.type)
         },
         getUserData(){
             if(this.dataTimes){
@@ -77,8 +92,12 @@ export default {
             'setHeader',
             'resetUser',
             'getUser',
-            'getMessageCount'
-        ])
+            'getMessageCount',
+            'getXglhcColor'
+        ]),
+        ...mapMutations({
+            sethreftype:'SET_HREF_TYPE'
+        })
     },
     watch:{
         $route(to) {

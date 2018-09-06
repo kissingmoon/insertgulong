@@ -2,19 +2,24 @@
     <div class="nav">
         <router-link tag="div" class="nav-item" to="/home">
             <p class="icon-con icon-home"></p>
+            <p class="txt">首页</p>
+        </router-link>
+        <router-link tag="div" class="nav-item" to="/goucaidating">
+            <p class="icon-con icon-dating"></p>
             <p class="txt">大厅</p>
+        </router-link>
+        
+        <!-- <router-link tag="div" class="nav-item" to="/draw">
+            <p class="icon-con icon-descover"></p>
+            <p class="txt">发现</p>
+        </router-link> -->
+        <router-link tag="div" class="nav-item" to="/discount">
+            <p class="icon-con icon-discount"></p>
+            <p class="txt">活动</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/pay">
             <p class="icon-con icon-pay"></p>
             <p class="txt">充值</p>
-        </router-link>
-        <router-link tag="div" class="nav-item" to="/descover">
-            <p class="icon-con icon-descover"></p>
-            <p class="txt">发现</p>
-        </router-link>
-        <router-link tag="div" class="nav-item" to="/discount">
-            <p class="icon-con icon-discount"></p>
-            <p class="txt">活动</p>
         </router-link>
         <router-link tag="div" class="nav-item" to="/info">
             <p class="icon-con icon-info"></p>
@@ -65,6 +70,9 @@
         .icon-info{
             @include bg-image('info');
         }
+        .icon-dating{
+            @include bg-image('dating');
+        }
         .txt{
             height:0.5rem;
             width:0.72rem;
@@ -87,6 +95,9 @@
             }
             .icon-info{
                 @include bg-image('info-on');
+            }
+            .icon-dating{
+                @include bg-image('dating-on');
             }
         }
 

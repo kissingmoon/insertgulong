@@ -43,6 +43,7 @@ export const httpUrl = {
         applyAgent :'/userAgentInfo/applyAgent',
         orderByAgent:'/userAgentInfo/findListOrderByAgent',
         agentDetail:'/userAgentInfo/userAgentDetail',
+        getColor:'/v5/gc/getColorConfig'
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -72,7 +73,7 @@ export const httpUrl = {
         cpLocktime:'/gc/cp-lock-time',
         undoOrder:'/v2/bet/undo-order',
         gdContent:'/v2/gd-dsb/findGdExplainTypeList',
-        notice:'/v2/gc/betwin-notice',
+        notice:'/v2/gc/betwin-notice'
     },
     config:{
         urlList:'/config/url-list',
@@ -82,10 +83,17 @@ export const httpUrl = {
         xrkhIsOK:'/v2/yhhd/open-gold-isok',
         geetestCode:'/config/geetest-code',
         sendCode:'/user/sendCode',
-        getRecomemendCpType:'/v5/gc/getRecommendCpType'
+        getRecomemendCpType:'/v5/gc/getRecommendCpType',
+        getJumpConfig:'/v5/jumpConfig/getJumpConfig'
     },
     pay:{
-        chargeUrl:'/v2/app-charge-url/get-charge-url'
+        chargeUrl:'/v2/app-charge-url/get-charge-url',
+        getPayMethod:'/v2/yhhd/user-charge/get-com-pay-method',
+        getGateFlag:'/v2/yhhd/user-charge/get-gate-flag',
+        getCompayList:'/v2/yhhd/user-charge/get-com-pay-list',
+        toChargeNew:'/v2/yhhd/user-charge/to-charge-new',
+        compaySubmit:'/v2/yhhd/user-charge/com-pay-submit',
+        getpayTotal:'/v2/yhhd/user-charge/get-pay-type'
     }
 };
 
@@ -174,6 +182,11 @@ export const waveColor ={
     '绿波':['05','06','11','16','17','21','22','27','28','32','33','38','39','43','44','49'],
     '蓝波':['03','04','09','10','14','15','20','25','26','31','36','37','41','42','47','48']
 };
+export const waveColor28 ={
+    '红波':['01','04','07','10','16','19','22','25'],
+    '绿波':['02','05','08','11','17','20','23','26'],
+    '蓝波':['03','06','09','12','15','18','21','24']
+};
 
 export const fiveElement ={
     '金':['03','04','17','18','25','26','33','34','47','48'],
@@ -182,7 +195,18 @@ export const fiveElement ={
     '火':['01','02','09','10','23','24','31','32','39','40'],
     '土':['11','12','19','20','27','28','41','42','49']
 };
-
+export const pk10Clolr ={
+    '01':"#E6E300",
+    '02':"#0A87ED",
+    '03':"#4C4C4C",
+    '04':"#FF7300",
+    '05':"#1AE1E2",
+    '06':"#5435F4",
+    '07':"#C1C2C4",
+    '08':"#FE2703",
+    '09':"#83120E",
+    '10':"#09C105"
+}
 
 export const headerConfig = {
     '/home':{
@@ -365,8 +389,12 @@ export const headerConfig = {
         back:true
     },
     '/home/betwin':{
-        title:'中奖公告',
+        title:'今日中奖公告',
         back:true
     },
-
+    '/goucaidating':{
+        title:'购彩大厅',
+        service:true,
+        message:true
+    }
 };

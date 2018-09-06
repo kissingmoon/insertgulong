@@ -80,10 +80,10 @@
                 <div class="bet-btn" @click="bet">
                     <p>投注</p>
                 </div>
-                <div class="brokerage" @click="earnMoney">
+                <!-- <div class="brokerage" @click="earnMoney">
                     <p class="check-box" ><i class="icon-right" v-show="earnCommission"></i></p>
                     <p>赚佣金</p>
-                </div>
+                </div> -->
             </div>
             <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
             <!-- 数字键盘 -->

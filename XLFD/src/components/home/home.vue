@@ -72,63 +72,66 @@
                         </div>
                     </div> -->
                    
-                        <loading v-if="loading"></loading> 
-                        <div class="recomandWapper">
-                            <div class="recomandTitle flex flex-align-center flex-pack-justify">
-                                <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
-                                <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
+                    <loading v-if="loading"></loading> 
+                    <div class="recomandWapper">
+                        <div class="recomandTitle flex flex-align-center flex-pack-justify">
+                            <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
+                            <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
+                        </div>
+                        <router-link  tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" v-if="v.click" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
+                            <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
+                            
+                            <div class="recomandImg flex flex-center">
+                                <img v-lazy="v.recomandObj.lotteryImage" alt="">
                             </div>
-                            <router-link  tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" v-if="v.click" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
-                                <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
-                                
-                                <div class="recomandImg flex flex-center">
-                                    <img v-lazy="v.recomandObj.lotteryImage" alt="">
-                                </div>
-                                <div class="recomandName flex flex-pack-center flex-v">
-                                    <div  class="reName-title">{{v.recomandObj.lotteryName}}</div>
-                                    <div class="reName-time">距截止:{{v.locktime}}</div>
-                                </div>
-                                <div class="recomandEnter flex flex-center flex-v">
-                                    <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
-                                    <div class="reEnter-enter">点击进入</div>
-                                </div>
+                            <div class="recomandName flex flex-pack-center flex-v">
+                                <div  class="reName-title">{{v.recomandObj.lotteryName}}</div>
+                                <div class="reName-time">距截止:{{v.locktime}}</div>
+                            </div>
+                            <div class="recomandEnter flex flex-center flex-v">
+                                <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
+                                <div class="reEnter-enter">点击进入</div>
+                            </div>
+                        </router-link>
+                    </div>
+                    
+                    <!-- 排名 -->
+                    <div class="rank-wrapper" v-if="user_token">
+                        <div class="rank-img"></div>
+                        <div class="rank-flow-money">
+                            <p class="title">您的今日流水</p>
+                            <p class="num">{{rank.today_flow_money}}</p>
+                        </div>
+                        <div class="rank-profit-loss">
+                            <p class="title">今日盈亏</p>
+                            <p class="num">{{rank.today_profit_loss}}</p>
+                        </div>
+                        <!-- <div class="rank">
+                            <p class="title">您的排名</p>
+                            <p class="num">{{rank.user_ranking}}</p>
+                        </div> -->
+                        <div class="rank-receive-money">
+                            <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
+                                <p class="icon"></p>
+                                <p class="title">补助金领取</p>
                             </router-link>
                         </div>
-                        
-                        <!-- 排名 -->
-                        <div class="rank-wrapper" v-if="user_token">
-                            <div class="rank-img"></div>
-                            <div class="rank-flow-money">
-                                <p class="title">您的今日流水</p>
-                                <p class="num">{{rank.today_flow_money}}</p>
-                            </div>
-                            <div class="rank-profit-loss">
-                                <p class="title">今日盈亏</p>
-                                <p class="num">{{rank.today_profit_loss}}</p>
-                            </div>
-                            <!-- <div class="rank">
-                                <p class="title">您的排名</p>
-                                <p class="num">{{rank.user_ranking}}</p>
-                            </div> -->
-                            <div class="rank-receive-money">
-                                <router-link tag="a" :to="{path:'/home/activity',query:{title:'补助金领取',url:bzjlq_url}}">
-                                    <p class="icon"></p>
-                                    <p class="title">补助金领取</p>
-                                </router-link>
-                            </div>
-                        </div>
-                <div class="zhongjianggonggao flex flex-center">中奖快迅</div>
-                <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
-                    <div class="topShadow shadowBox" @click='goNoticePage'></div>
-                    <div class="botShadow shadowBox" @click='goNoticePage'></div>
-                    <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
-                        <swiper-slide v-for='(item,k,i) in betWin' :key="i">
-                            <div class="betwin-txt" @click='goNoticePage'>
-                                <em class="ico"></em><span  class="flex-1">{{item.content[0]}}</span><span class="flex-3">{{item.content[1]}}</span><span class="flex-2">{{item.content[2]}}</span>
-                            </div>
-                        </swiper-slide>
-                    </swiper>
-                </div>
+                    </div>
+                    <div class="notices">
+                        <p class="title">中奖快讯</p>
+                    </div>
+                    <!-- <div class="zhongjianggonggao flex flex-center">中奖快迅</div>
+                    <div class=" betwin-wrapper" v-if="betWin.length">
+                        <div class="topShadow shadowBox" @click='goNoticePage'></div>
+                        <div class="botShadow shadowBox" @click='goNoticePage'></div>
+                        <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
+                            <swiper-slide v-for='(item,k,i) in betWin' :key="i">
+                                <div class="betwin-txt" @click='goNoticePage'>
+                                    <em class="ico"></em><span  class="flex-1">{{item.content[0]}}</span><span class="flex-3">{{item.content[1]}}</span><span class="flex-2">{{item.content[2]}}</span>
+                                </div>
+                            </swiper-slide>
+                        </swiper>
+                    </div> -->
             </scroll>
         </div>
         
@@ -216,7 +219,7 @@
                 //  底部tips配置
                 betWinOption:{                 //  页面底部swiper配置
                     direction:'vertical',
-                    slidesPerView: 3,    //显示几个slide
+                    slidesPerView: 7,    //显示几个slide
                     spaceBetween: 9,    //slide间距
                     loop: true,    //连续播放
                     autoplay:
@@ -811,13 +814,13 @@
         font-size: 0.38rem;
     }
 .betwin-wrapper{
-    height:5rem;
+    // height:5rem;
     line-height: 0.8rem;
     width:100%;
     bottom: 1.44rem;
     box-shadow: 0 -2px 8px #e6e6e6;
     overflow: hidden;
-    
+    position:relative;
     .shadowBox{
         position: absolute;
         left: 0;

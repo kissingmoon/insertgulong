@@ -1,8 +1,7 @@
 <template>
     <div>
         <div class="home" ref="home">
-            <scroll ref="scroll" class="home-content" :data='trueRecomandList'>
-                <div>                   
+            <scroll ref="scroll" class="home-content" :data='trueRecomandList'>               
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
                     <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
@@ -118,10 +117,9 @@
                                 </router-link>
                             </div>
                         </div>
-                    
-                </div>
+                <div class="zhongjianggonggao flex flex-center">中奖快迅</div>
                 <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
-                    <div class="zhongjianggonggao"></div>
+                    
                     <div class="topShadow shadowBox" @click='goNoticePage'></div>
                     <div class="botShadow shadowBox" @click='goNoticePage'></div>
                     <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
@@ -134,21 +132,7 @@
                 </div>
             </scroll>
         </div>
-<<<<<<< HEAD
-        <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
-            <div class="topShadow shadowBox" @click='goNoticePage'></div>
-            <div class="botShadow shadowBox" @click='goNoticePage'></div>
-            <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
-                <swiper-slide v-for='(item,k,i) in betWin' :key="i">
-                    <div class="betwin-txt" @click='goNoticePage'>
-                        <em class="ico"></em><span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
-                    </div>
-                </swiper-slide>
-            </swiper>
-        </div>
-=======
         
->>>>>>> bb20c5a9f4148bb6ddf036a4db329b93850c3dd3
         <!-- 跑马灯详情 -->
         <div v-show="noticeShow">
             <div class="background" @click="hideNotice">
@@ -236,10 +220,11 @@
                     slidesPerView: 3,    //显示几个slide
                     spaceBetween: 9,    //slide间距
                     loop: true,    //连续播放
-                    autoplay:{
-                        delay:0,
-                        disableOnInteraction:false
-                    },
+                    autoplay:false,
+                    // {
+                    //     delay:0,
+                    //     disableOnInteraction:false
+                    // },
                     speed:1000,    //根据自己所需速度调整
                     freeMode:true,
                 },
@@ -821,24 +806,25 @@
         }
     }
 }
-
+.zhongjianggonggao{
+        height: 1rem;
+        background: #fd3c57;
+        color: #ffffff;
+        font-size: 0.38rem;
+    }
 .betwin-wrapper{
-    //position: fixed;
-    height:1.3rem;
+    height:5rem;
     line-height: 0.8rem;
     width:100%;
     bottom: 1.44rem;
     box-shadow: 0 -2px 8px #e6e6e6;
     overflow: hidden;
-    .zhongjianggonggao{
-        height: 2rem;
-        background: #17CA97;
-    }
+    
     .shadowBox{
         position: absolute;
         left: 0;
         z-index: 9;
-        height: .3rem;
+        height: .5rem;
         width: 100%;
         box-sizing: border-box;
     }
@@ -858,19 +844,24 @@
         margin-top: 0;
         background-color: #fff;
         .betwin-txt{
-            height:0.7rem;
-            color: #949494;
+            height:0.5rem;
+            color: #CA9450;
             padding-left: .4rem;
             padding-right: 0.4rem;
-            line-height: .7rem;
+            line-height: .5rem;
             @include no-wrap();
             
-            font-size: $font-size-small-x;
+            
             display: flex;
             span{
                 flex: 1;
                 &:last-child{
                     text-align: right;
+                    font-size: $font-size-medium-x;
+                }
+                &:nth-child(2){
+                    color: #E5CBA9;
+                    font-size: $font-size-medium-x;
                 }
             }
             .ico{
@@ -884,7 +875,7 @@
                 background-size: cover;
             }
         }
-        // .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
+        .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
     }
 }
     .background {

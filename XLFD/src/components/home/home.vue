@@ -134,7 +134,6 @@
                 </div>
             </scroll>
         </div>
-<<<<<<< HEAD
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
             <div class="topShadow shadowBox" @click='goNoticePage'></div>
             <div class="botShadow shadowBox" @click='goNoticePage'></div>
@@ -146,9 +145,6 @@
                 </swiper-slide>
             </swiper>
         </div>
-=======
-        
->>>>>>> bb20c5a9f4148bb6ddf036a4db329b93850c3dd3
         <!-- 跑马灯详情 -->
         <div v-show="noticeShow">
             <div class="background" @click="hideNotice">
@@ -688,7 +684,6 @@
                     width:100%;
                     background: #F6F4E6;
                     overflow: hidden;
-                    //@include border-bottom-1px(solid,$color-bg-white-a0);
                 }
             }
             .item{
@@ -823,7 +818,7 @@
 }
 
 .betwin-wrapper{
-    //position: fixed;
+    position: fixed;
     height:1.3rem;
     line-height: 0.8rem;
     width:100%;
@@ -884,7 +879,7 @@
                 background-size: cover;
             }
         }
-        // .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
+        .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
     }
 }
     .background {

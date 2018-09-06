@@ -20,10 +20,10 @@
                             <i class="icon-arrows-right"></i>
                         </p>
                     </div>
-                    <div class="chongzhi-txt">
-                        <span @click="goto('/pay')"><i class="chong"></i>充值</span>
+                    <div class="chongzhi-txt flex flex-center">
+                        <span @click="goto('/pay')" class="flex flex-center"  style="margin-right: 0.7rem;"><i class="chong"></i>充值</span>
                         <i class="v-line"></i>
-                        <span @click="goto('/info/balance')"><i class="tixian"></i>提现</span>
+                        <span @click="goto('/info/balance')" class="flex flex-center"  style="margin-left: 0.7rem;"><i class="tixian"></i>提现</span>
                     </div>
                 </div>
                 <div class="func-wrapper">
@@ -220,14 +220,18 @@
                         vertical-align: middle;
                 }      
                 span{
-                    display: inline-block;
-                    width: 4.3rem;
+                   // display: inline-block;
+                    width: 3.7rem;
+                    border-radius: 0.1rem;
                     text-align: center;
+                    background: #ffffff;
+                    color: black;
+                    height: 0.95rem;
                     i{
                         display: inline-block;
                         height: 0.7rem;
                         width: 0.7rem;
-                        margin-right: 0.5rem;
+                        margin-right: 0.3rem;
                         background-position: left center;
                         background-size: 0.7rem;
                         background-repeat: no-repeat;

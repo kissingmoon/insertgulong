@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="home" ref="home">
-            <scroll ref="scroll" class="home-content" :data='trueRecomandList.concat(betWin)'>               
+            <scroll ref="scroll" class="home-content" :data='trueRecomandList'>               
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
                     <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
@@ -227,7 +227,7 @@
                     speed:500,    //根据自己所需速度调整
                     freeMode:true,
                 },
-                trueRecomandList:[],
+               trueRecomandList:[],
                 returnSubList:[],
                 recomandList:[],
                 interval:"",
@@ -266,12 +266,6 @@
                 'user_token',
                 'hd_qiandao'
             ]),
-            // scrollData(){
-            //     var tempList=[];
-            //     tempList=this.trueRecomandList.concat();
-            //     tempList=tempList.concat(this.betWin)
-            //     return tempList;
-            // }
         },
         methods: {
             init(){
@@ -333,6 +327,7 @@
                 else{
                     this.trueRecomandList[k].reserved=this.randomNum(400,600);
                 }
+                console.log(this.trueRecomandList)   
                 if(!this.interval){
                     this.startIntervl()
                 }                

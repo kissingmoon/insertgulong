@@ -79,18 +79,19 @@
                                 <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
                                 <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
                             </div>
-                            <router-link tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
+                            <router-link  tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" v-if="v.click" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
                                 <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
+                                
                                 <div class="recomandImg flex flex-center">
                                     <img v-lazy="v.recomandObj.lotteryImage" alt="">
                                 </div>
                                 <div class="recomandName flex flex-pack-center flex-v">
                                     <div  class="reName-title">{{v.recomandObj.lotteryName}}</div>
-                                    <div class="reName-time">距截至:{{v.locktime}}</div>
+                                    <div class="reName-time">距截止:{{v.locktime}}</div>
                                 </div>
                                 <div class="recomandEnter flex flex-center flex-v">
                                     <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
-                                    <div v-if="enterLottery" class="reEnter-enter">点击进入</div>
+                                    <div class="reEnter-enter">点击进入</div>
                                 </div>
                             </router-link>
                         </div>
@@ -119,8 +120,21 @@
                         </div>
                     
                 </div>
+                <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
+                    <div class="zhongjianggonggao"></div>
+                    <div class="topShadow shadowBox" @click='goNoticePage'></div>
+                    <div class="botShadow shadowBox" @click='goNoticePage'></div>
+                    <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
+                        <swiper-slide v-for='(item,k,i) in betWin' :key="i">
+                            <div class="betwin-txt" @click='goNoticePage'>
+                                <span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
+                            </div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
             </scroll>
         </div>
+<<<<<<< HEAD
         <div class="border-bottom-1px betwin-wrapper" v-if="betWin.length">
             <div class="topShadow shadowBox" @click='goNoticePage'></div>
             <div class="botShadow shadowBox" @click='goNoticePage'></div>
@@ -132,6 +146,9 @@
                 </swiper-slide>
             </swiper>
         </div>
+=======
+        
+>>>>>>> bb20c5a9f4148bb6ddf036a4db329b93850c3dd3
         <!-- 跑马灯详情 -->
         <div v-show="noticeShow">
             <div class="background" @click="hideNotice">
@@ -200,7 +217,7 @@
                     slideToClickedSlide: true,
                     autoplay:
                     {
-                        delay:3000,
+                        delay:5000,
                         disableOnInteraction:false
                     },
                     longSwipesRatio : 0.6,          //   滑动超过40%才能触发滚动
@@ -296,6 +313,7 @@
                             tempList[k].recomandObj=this.recomandList[k]
                             tempList[k].running=true;
                             tempList[k].locktime="";
+                            tempList[k].click=true;
                         })              
                         this.trueRecomandList=tempList.concat()         
                         this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
@@ -316,19 +334,16 @@
             makeTrueList(k,resData){ 
                 var tempObj=resData;
                 this.trueRecomandList[k] = Object.assign(this.trueRecomandList[k],tempObj);
-                this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/'));   
+                this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/')); 
+                this.trueRecomandList[k].click=true;   
                 var lockInt=parseInt(this.trueRecomandList[k].locktime.split(':')[1])
                 if(lockInt<=15){
-                    console.log(lockInt)
-                    this.trueRecomandList[k].reserved=500; 
+                    this.trueRecomandList[k].reserved=this.randomNum(300,600); 
                 }
                 else{
-                    console.log("封盘时间")
-                    this.trueRecomandList[k].reserved=50;
+                    this.trueRecomandList[k].reserved=this.randomNum(400,600);
                 }
-                //this.trueRecomandList[k].reserved=this.randomNum(300,500); 
-                
-                this.enterLottery=true;      
+                console.log(this.trueRecomandList)   
                 if(!this.interval){
                     this.startIntervl()
                 }                
@@ -339,11 +354,10 @@
                       
                     if(count==30){
                         count=0;
-                    }   
-                             
+                    }                                
                     this.trueRecomandList.map((v,k)=>{ 
-                        if(count%5==0){
-                            if(v.reserved>300&&v.reserved<1000){
+                        if(count%10==0){
+                            if(v.reserved>300&&v.reserved<600){
                                 var flag=this.randomNum(0,2);
                                 if(flag==0){
                                     v.reserved-=this.randomNum(1,5);
@@ -379,6 +393,7 @@
                     if(res.data && !res.data.errorCode){ 
                         let locktime =countTime(res.data.lock_time.replace(/-/g,'/'));   
                         let lockInt=parseInt(locktime.split(':')[1])
+                        
                         if(lockInt<=15){
                             console.log(lockInt)
                             res.data.reserved=sub.reserved; 
@@ -387,7 +402,6 @@
                                                     
                         var obj = Object.assign(sub,res.data);
                         obj.running=true;
-                        
                     }
                 })
             },
@@ -539,7 +553,7 @@
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 2.77rem;
+    bottom: 1.44rem;
     .home-content{
         height: 100%;
         overflow: hidden;
@@ -621,7 +635,7 @@
                 .reTitle-more{
                     color:#949494;
                     padding-right:0.3rem;
-                    font-size: 0.3rem;
+                    font-size: 0.35rem;
                 }
             }
             .recomandType{
@@ -637,7 +651,7 @@
                 .recomandName{
                     width: 5rem;
                     .reName-title{
-                        font-size:0.45rem
+                        font-size:0.4rem
                     }
                     .reName-time{
                         margin-top:0.15rem;
@@ -809,13 +823,17 @@
 }
 
 .betwin-wrapper{
-    position: fixed;
+    //position: fixed;
     height:1.3rem;
     line-height: 0.8rem;
     width:100%;
     bottom: 1.44rem;
     box-shadow: 0 -2px 8px #e6e6e6;
     overflow: hidden;
+    .zhongjianggonggao{
+        height: 2rem;
+        background: #17CA97;
+    }
     .shadowBox{
         position: absolute;
         left: 0;

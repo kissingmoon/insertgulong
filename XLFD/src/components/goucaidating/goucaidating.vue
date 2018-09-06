@@ -11,7 +11,7 @@
                 <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>
                      
                     <ul class="rightcontainer">
-                        <router-link v-for="(v,k) in trueCurrentSubList" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">
+                        <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">
                             <!-- {{v.subLotteryObj.lottery_name}}-{{v.locktime}}-{{v.kjNewData.kjCode}}-{{v.kjNewData.lotteryQh}}-{{v.kjNewData.realKjTime}}-{{v.plantime}} -->
                                 <p class="flex nameText">
                                     <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
@@ -39,7 +39,7 @@
                                 <p class="flex lockcount">
                                     <span class="llockcount">距{{v.lottery_qh}}期截至{{v.locktime}}</span>
                                     <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
-                                    <router-link v-if="touzhu" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
+                                    <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                                 </p>
                         </router-link> 
                     </ul>
@@ -100,6 +100,7 @@ export default {
                             tempList[k][k1]={}
                             tempList[k][k1].kjNewData={kjCode:"",lotteryQh:""}
                             tempList[k][k1].subLotteryObj=v1
+                            tempList[k][k1].click=false
                         })
                     })   
                     this.truetotalList=tempList.concat()
@@ -141,9 +142,11 @@ export default {
             this.returnObj.running=true;
             this.returnObj.plantime=countTime(resData.plan_kj_time.replace(/-/g,'/'));
             this.returnObj.planrunning=true;
+            this.returnObj.click=true;
             this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
+            console.log(this.truetotalList)  
             if(this.trueCurrentSubList[subk].lock_time){
                 this.touzhu=true;
             }
@@ -164,7 +167,8 @@ export default {
             })            
             
             this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
-            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]               
+            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]   
+                      
             if(!this.interval){
                 this.startIntervl()
             }                            

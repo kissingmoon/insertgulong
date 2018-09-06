@@ -62,9 +62,6 @@ export default function (kj_code,type,extraPrams){
             if(k==tempList.length-2){
                 tempObj.bg={color:'black',fontSize:'0.6rem',width:'0.4rem'}
             }
-            if(k==tempList.length-1){
-                tempObj.bg={background:'grey'}
-            }
             else{
                 extraPrams.map((v1,k1)=>{
                     if(v1.value.indexOf(v)!=-1){

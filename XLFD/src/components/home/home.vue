@@ -117,21 +117,18 @@
                             </router-link>
                         </div>
                     </div>
-                    <div class="notices">
-                        <p class="title">中奖快讯</p>
-                    </div>
-                    <!-- <div class="zhongjianggonggao flex flex-center">中奖快迅</div>
-                    <div class=" betwin-wrapper" v-if="betWin.length">
+                    <div class="betwin-wrapper" v-if="betWin.length">
+                        <p class="tit">中奖快讯</p>
                         <div class="topShadow shadowBox" @click='goNoticePage'></div>
                         <div class="botShadow shadowBox" @click='goNoticePage'></div>
-                        <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
+                        <swiper :options="betWinOption" ref="mySwiper" class="betwin-main swiper-no-swiping">
                             <swiper-slide v-for='(item,k,i) in betWin' :key="i">
                                 <div class="betwin-txt" @click='goNoticePage'>
-                                    <em class="ico"></em><span  class="flex-1">{{item.content[0]}}</span><span class="flex-3">{{item.content[1]}}</span><span class="flex-2">{{item.content[2]}}</span>
+                                    <em class="ico"></em><span>{{item.content[0]}}</span><span class="yellow">{{item.content[1]}}</span><span>{{item.content[2]}}</span>
                                 </div>
                             </swiper-slide>
                         </swiper>
-                    </div> -->
+                    </div>
             </scroll>
         </div>
         
@@ -219,7 +216,7 @@
                 //  底部tips配置
                 betWinOption:{                 //  页面底部swiper配置
                     direction:'vertical',
-                    slidesPerView: 7,    //显示几个slide
+                    slidesPerView: 9,    //显示几个slide
                     spaceBetween: 9,    //slide间距
                     loop: true,    //连续播放
                     autoplay:
@@ -814,13 +811,17 @@
         font-size: 0.38rem;
     }
 .betwin-wrapper{
-    // height:5rem;
+    height:7rem;
     line-height: 0.8rem;
     width:100%;
-    bottom: 1.44rem;
     box-shadow: 0 -2px 8px #e6e6e6;
     overflow: hidden;
-    position:relative;
+    position: relative;
+    .tit{
+        text-align: center;
+        color: #fff;
+        background-color: #FD3C57;
+    }
     .shadowBox{
         position: absolute;
         left: 0;
@@ -830,7 +831,7 @@
         box-sizing: border-box;
     }
     .topShadow{
-        top: 0;
+        top: .8rem;
         border-top:.1rem solid #fff;
         box-shadow: 0 .2rem .2rem #fff inset;
     }
@@ -845,38 +846,36 @@
         margin-top: 0;
         background-color: #fff;
         .betwin-txt{
-            height:0.5rem;
-            color: #CA9450;
+            height:.8rem;
+            color: #949494;
             padding-left: .4rem;
             padding-right: 0.4rem;
-            line-height: .5rem;
+            line-height: .8rem;
             @include no-wrap();
-            
-            
+            font-size: $font-size-small-x;
             display: flex;
             span{
+                flex: 1;
+                color: #CA9450;
                 &:last-child{
                     text-align: right;
-                    font-size: $font-size-medium;
                 }
-                &:nth-child(3){
-                    color: #E5CBA9;
-                    text-align: center;
-                    font-size: $font-size-medium;
-                }
+            }
+            .yellow{
+                color: #E5CBA9;
             }
             .ico{
                 display: inline-block;
-                width: .4rem;
-                height: .4rem;
-                margin-top: .05rem;
+                width: .5rem;
+                height: .5rem;
+                margin-top: .2rem;
                 margin-right: .2rem;
                 @include bg-image('betwin-icon');
                 background-repeat: no-repeat;
                 background-size: cover;
             }
         }
-        .swiper-slide{ height: 0.66rem!important; border-radius: .2rem;}
+        .swiper-slide{ height: .8rem!important; margin-bottom: 0!important; border-radius: .2rem;border-bottom: 1px solid #eeeeee}
     }
 }
     .background {

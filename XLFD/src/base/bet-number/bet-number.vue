@@ -287,11 +287,9 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid $color-border-num;
+                            border:1px solid #B35758;
                             border-radius: 0.2rem;
                             padding:0.3rem 0;
-                            @include bg-image('bg-num-shallow');
-                            background-size:  1rem;
                             .zodiac-title{
                                 padding-bottom:0.15rem;
                                 color:#FFD200;

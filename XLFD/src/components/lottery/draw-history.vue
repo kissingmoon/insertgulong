@@ -88,8 +88,8 @@
             text-align: center;
             line-height: 1.2rem;
             padding-left:0.3rem;
-            background: #d8d8d8;
-            @include border-bottom-1px(solid,rgb(24, 83, 53));
+            background: #eeecec;
+            @include border-bottom-1px(solid,#f2f2f2);
             .title{
                 float: left;
                 display: flex;
@@ -119,7 +119,7 @@
                 line-height: 0.4rem;
                 overflow: hidden;
                 padding: 0.2rem 0.3rem;
-                @include border-bottom-1px(solid,rgb(24, 83, 53));
+                @include border-bottom-1px(solid,#f2f2f2);
                 font-size: $font-size-small-x;
                 color:#403F3D;
                 .period-num{

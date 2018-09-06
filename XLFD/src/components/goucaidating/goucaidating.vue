@@ -191,7 +191,7 @@ export default {
                                 //     v1.planrunning=false;
                                 //     setTimeout(()=>{
                                 //         this.getSingleLockTime(v1,k,k1)
-                                //     },20000)
+                                //     },35000)
                                 // }
                                 else{                                    
                                     this.$set(v,k1,v1)

@@ -2,8 +2,11 @@
 node_modules/
 /dist/
 /build/
+<<<<<<< HEAD
 /config/
 /node_modules/
+=======
+>>>>>>> a1bf2d2c03f522ea7c274cf7757d4835e5716002
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

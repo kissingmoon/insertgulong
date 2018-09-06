@@ -124,7 +124,7 @@
                     <swiper :options="betWinOption" ref="mySwiper" class="betwin-main">
                         <swiper-slide v-for='(item,k,i) in betWin' :key="i">
                             <div class="betwin-txt" @click='goNoticePage'>
-                                <em class="ico"></em><span>{{item.content[0]}}</span><span>{{item.content[1]}}</span><span>{{item.content[2]}}</span>
+                                <em class="ico"></em><span  class="flex-1">{{item.content[0]}}</span><span class="flex-3">{{item.content[1]}}</span><span class="flex-2">{{item.content[2]}}</span>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -219,11 +219,11 @@
                     slidesPerView: 3,    //显示几个slide
                     spaceBetween: 9,    //slide间距
                     loop: true,    //连续播放
-                    autoplay:false,
-                    // {
-                    //     delay:0,
-                    //     disableOnInteraction:false
-                    // },
+                    autoplay:
+                    {
+                        delay:0,
+                        disableOnInteraction:false
+                    },
                     speed:1000,    //根据自己所需速度调整
                     freeMode:true,
                 },
@@ -852,28 +852,28 @@
             
             display: flex;
             span{
-                flex: 1;
                 &:last-child{
                     text-align: right;
-                    font-size: $font-size-medium-x;
+                    font-size: $font-size-medium;
                 }
-                &:nth-child(2){
+                &:nth-child(3){
                     color: #E5CBA9;
-                    font-size: $font-size-medium-x;
+                    text-align: center;
+                    font-size: $font-size-medium;
                 }
             }
             .ico{
                 display: inline-block;
                 width: .4rem;
                 height: .4rem;
-                margin-top: .18rem;
+                margin-top: .05rem;
                 margin-right: .2rem;
                 @include bg-image('betwin-icon');
                 background-repeat: no-repeat;
                 background-size: cover;
             }
         }
-        .swiper-slide{ height: 0.64rem!important; border-radius: .2rem;}
+        .swiper-slide{ height: 0.66rem!important; border-radius: .2rem;}
     }
 }
     .background {

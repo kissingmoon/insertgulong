@@ -299,8 +299,12 @@
                                 line-height: 0.5rem;
                             }
                             &.on{
-                                border-color:$color-yellow;
-                                @include bg-image('bg-num-deep');
+                                background-color: #B35758;
+                                // border-color:$color-yellow;
+                                // @include bg-image('bg-num-deep');
+                                .zodiac-num{
+                                    color: #fff;
+                                }
                             }
                         }
                         .txt{

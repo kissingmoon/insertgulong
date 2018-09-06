@@ -78,7 +78,7 @@
                             <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
                             <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
                         </div>
-                        <router-link  tag="div" class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k" v-if="v.click" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.recomandObj.lotteryType}}">
+                        <div class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k"  @click="v.click&&enterLottery(v)">
                             <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
                             
                             <div class="recomandImg flex flex-center">
@@ -92,7 +92,7 @@
                                 <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
                                 <div class="reEnter-enter">点击进入</div>
                             </div>
-                        </router-link>
+                        </div>
                     </div>
                     
                     <!-- 排名 -->
@@ -231,8 +231,7 @@
                 returnSubList:[],
                 recomandList:[],
                 interval:"",
-                loading:false,
-                enterLottery:false
+                loading:false
             }
         },
         components: {
@@ -297,7 +296,7 @@
                             tempList[k].recomandObj=this.recomandList[k]
                             tempList[k].running=true;
                             tempList[k].locktime="";
-                            tempList[k].click=true;
+                            tempList[k].click=false;
                         })              
                         this.trueRecomandList=tempList.concat()         
                         this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
@@ -388,6 +387,12 @@
                         obj.running=true;
                     }
                 })
+            },
+            enterLottery(v){
+                this.$router.push({
+                    path: '/lottery',
+                    query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
+                });
             },
             randomNum(minNum,maxNum){ 
                 switch(arguments.length){ 

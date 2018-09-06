@@ -2,10 +2,10 @@
 <div>
     <div v-show="qiandaoShow">
         <div class="background" ></div>
-        <div class="detail">
+        <!-- <div class="detail">
             <div class="wf-detail-wrapper clearfix">
                 <div class="detail-title">
-                    <!-- <i @click="closeHd" class="icon-close-circle close-circle"></i> -->
+                     <i @click="closeHd" class="icon-close-circle close-circle"></i> 
                 </div>
                 <div class="wf-detail-main">
                 </div>
@@ -13,7 +13,7 @@
                     <button @click="setQiandao" v-show="btnType"></button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
     <div v-show="successShow">
         <div class="background" ></div>
@@ -67,6 +67,10 @@
         created() {
             //this.failShow=false;
             this.btnType=true;
+            
+        },
+        mounted(){
+           this.setQiandao()
         },
         computed: {
             ...mapGetters([
@@ -125,7 +129,7 @@
         width: 100%;
         height: 100%;
         z-index: 400;
-        background:$color-bg-shade-a8;
+        background:$color-bg-shade-a5;
     }
     .detail{
         position:fixed;

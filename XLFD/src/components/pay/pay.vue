@@ -133,7 +133,7 @@
                 
             </div>
         </div> 
-        <m-iframe class="paywapper" v-if='!mainshow&&uId' :url="url"></m-iframe>
+        <m-iframe class="paywapper" v-if='!mainshow&&uId' :loadingshow="loadingshow" :loadingTip="loadingTip" :url="url"></m-iframe>
         </div>
     <!-- </scroll> -->
 </div>
@@ -209,7 +209,9 @@ export default {
                 payId: '',
            },
            uId:"",
-           jumpConfig:""
+           jumpConfig:"",
+           loadingshow:true,
+           loadingTip:"前往充值页面中,请不要离开。。。"
         }
     },
     components:{

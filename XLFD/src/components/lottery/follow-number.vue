@@ -429,19 +429,14 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 203;
-        @include bg-image('bg-lottery-shallow');
-        background-size: 1rem;
+        background: #F4EBE6;
         .title-content{
             position:relative;
             height:1.2rem;
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            @include bg-image('bg-lottery-title');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
-            
+            background: #474643;            
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -477,16 +472,13 @@
             height:0.6rem;
             line-height: 0.6rem;
             font-size: $font-size-small-x;
-            color:#fff;
+            color: #3A3634;
             text-align: center;
-            @include bg-image('bg-follow-num-03');
-            background-size: 0.6rem;
+            background-color: #E1CCC3;
         }
         .set-base-content{
             height:1rem;
-            @include bg-image('bg-lottery-shallow');
-            background-size: 1rem;
-            color:#fff;
+            color: #3A3634;
             .set-item{
                 height:0.7rem;
                 float: left;
@@ -501,7 +493,7 @@
                         width:0.8rem;
                         height:0.56rem;
                         border-radius: 0.1rem;
-                        background:#FFF;
+                        background: #B35758;
                         input{
                             width:100%;
                             height:0.56rem;
@@ -509,6 +501,7 @@
                             border:0;
                             padding:0;
                             margin: 0;
+                            color: #fff;
                             line-height: 0.56rem;
                             text-align: center;
                         }
@@ -521,14 +514,12 @@
         }
         .list-title{
             height:0.7rem;
-            @include bg-image('bg-follow-num-02');
-            background-size: 0.7rem;
             div{
                 float: left;
-                @include border-right-1px(solid,rgb(76, 134, 108));
+                @include border-right-1px(solid,#E1CCC3 );
                 line-height: 0.7rem;
                 text-align: center;
-                color:#fff;
+                color: #3A3634;
                 &.qh{
                     width:2.2rem;
                 }
@@ -553,16 +544,12 @@
                 .follow-number-item{
                     height:auto;
                     overflow: hidden;
-                    color: #fff;
+                    color: #3A3634;
                     line-height: 0.6rem;
-                    &:nth-child(odd){
-                        @include bg-image('bg-follow-num-01');
-                        background-size: 1rem;
-                    }
                     div{
                         padding:0.1rem;
                         float: left;
-                        @include border-right-1px(solid,rgb(76, 134, 108));
+                        @include border-right-1px(solid,#E1CCC3 );
                         text-align: center;
                         &.qh{
                             width:2rem;
@@ -608,7 +595,7 @@
                                     font-size: $font-size-medium-x;
                                     height: 0.6rem;
                                     line-height: 0.6rem;
-                                    color:#fff;
+                                    color: #3A3634;
                                 }
                             }
                         }
@@ -632,7 +619,7 @@
             width:100%;
             bottom:1.45rem;
             line-height: 0.8rem;
-            background:rgb(69, 138, 102);
+            background: #E0CBC2;
             
             .number{
                 float: left;
@@ -652,12 +639,13 @@
                 padding:0.18rem 0;
                 p{
                     float: left;
+                    color: #3A3634;
                     line-height: 0.45rem;
                     &.check-box{
                         width:0.4rem;
                         height:0.4rem;
-                        background: #fff;
-                        color:$color-text;
+                        background: #B35758;
+                        color:#fff;
                         border-radius: 0.07rem;
                         line-height: 0.45rem;
                     }
@@ -671,10 +659,7 @@
             width:100%;
             bottom:0;
             line-height: 1.15rem;
-            @include bg-image('bg-lottery-bottom');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center top;
+            background: #474643;
             color:rgb(230, 230, 230);
             .clear-all{
                 height:1.15rem;
@@ -686,7 +671,7 @@
                     height:0.9rem;
                     line-height: 0.9rem;
                     text-align: center;
-                    background:$color-bg-deep-gray;
+                    background: #5E5D5B;
                     border-radius: 0.1rem;
                 }
             }

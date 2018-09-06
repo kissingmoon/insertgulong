@@ -25,7 +25,7 @@
             </div>
             <div class="option-wrapper">
                 <div class="option-title" v-if="posi.isShowSign">
-                    <p>{{posi.title}}</p>
+                    <p>{{posi.title}}<span class="angle"></span></p>
                 </div>
                 <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
                     <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
@@ -224,9 +224,22 @@
                         text-align: center;
                         font-size: $font-size-small-x;
                         color:#fff;
-                        @include bg-image('bg-option-title');
-                        background-size: 100% 100%;
-                        background-repeat: no-repeat;
+                        background-color: #B35758;
+                        position: relative;
+                        // @include bg-image('bg-option-title');
+                        // background-size: 100% 100%;
+                        // background-repeat: no-repeat;
+                        .angle{
+                            display:block;
+                            width:0;
+                            height:0;
+                            border-width: .3rem .2rem .3rem .2rem;
+                            border-style:solid;
+                            border-color:transparent transparent transparent #B35758;/*透明 透明 透明 黄*/
+                            position:absolute;
+                            top:0px;
+                            right:-.4rem;
+                        }
                     }
                 }
                 .option-item-wrapper{
@@ -234,7 +247,7 @@
                     .option-item{
                         float: left;
                         text-align: center;
-                        color: #fff;
+                        color: #B35758;
                         margin:0.2rem 0.3rem 0.2rem 0;
                         &.mr37{
                             margin-right: 0.37rem;
@@ -246,13 +259,12 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid $color-border-num;
+                            border:1px solid #E0CBC2;
                             border-radius: 50%;
-                            @include bg-image('bg-num-shallow');
-                            background-size: 1rem;
+                            
                             &.on{
-                                border-color:$color-yellow;
-                                @include bg-image('bg-num-deep');
+                                color: #fff;
+                                background-color: #B35758;
                             }
                         }
                         .oval-con{
@@ -262,13 +274,11 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid $color-border-num;
+                            border: 1px solid #E0CBC2;
                             border-radius: 0.8rem;
-                            @include bg-image('bg-num-shallow');
-                            background-size:  1rem;
                             &.on{
-                                border-color:$color-yellow;
-                                @include bg-image('bg-num-deep');
+                                color: #fff;
+                                background-color: #B35758;
                             }
                         }
                         .zodiac-con{
@@ -309,26 +319,25 @@
             .optino-kind{
                 height:0.8rem;
                 display: flex;
-                @include border-top-1px(dashed,$color-border-num);
-                @include border-bottom-1px(dashed,$color-border-num);
+                @include border-top-1px(solid,#E0CBC2);
+                @include border-bottom-1px(solid,#E0CBC2);
                 .kind-item{
                     flex: 1;
                     height:0.8rem;
-                    @include border-left-1px(dashed,$color-border-num);
+                    @include border-left-1px(solid,#E0CBC2);
                     text-align: center;
                     line-height: 0.8rem;
-                    color:#fff;
+                    color:#B35859;
                     font-size: $font-size-medium-x;
                     &.on{
-                        @include bg-image('bg-num-deep');
-                        background-size:  1rem;
-                        border:1px solid $color-yellow;
-                        height:0.72rem;
-                        line-height: 0.72rem;
+                        background-color:  #B35758;
+                        color: #fff;
+                        height:0.8rem;
+                        line-height: 0.8rem;
                     }
                 }
                 div:first-child{
-                    @include border-left-1px(dashed,$color-bg-white-a0);
+                    @include border-left-1px(dashed,#F3EAE5);
                 }
             }
         }

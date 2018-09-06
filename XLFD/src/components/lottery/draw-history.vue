@@ -81,19 +81,20 @@
         height:60%;
         overflow: hidden;
         bottom:0;
-        background:#13432A;
+        background:#fff;
         .his-title-wrapper{
             position:relative;
             height:1.2rem;
             text-align: center;
             line-height: 1.2rem;
             padding-left:0.3rem;
+            background: #d8d8d8;
             @include border-bottom-1px(solid,rgb(24, 83, 53));
             .title{
                 float: left;
                 display: flex;
                 font-size: $font-size-large;
-                color:$color-yellow;
+                color:#B35859;
                 .clock-01{
                     line-height: 1.15rem;
                     padding-right: 0.1rem;
@@ -103,7 +104,7 @@
             .close{
                 float: right;
                 padding:0 0.5rem;
-                color:$color-text-gray;
+                color:#B35859;
                 font-size: $font-size-large-x;
                 height:1.2rem;
                 overflow: hidden;
@@ -120,7 +121,7 @@
                 padding: 0.2rem 0.3rem;
                 @include border-bottom-1px(solid,rgb(24, 83, 53));
                 font-size: $font-size-small-x;
-                color:#fff;
+                color:#403F3D;
                 .period-num{
                     flex:2;
                     padding-right: 0.4rem;

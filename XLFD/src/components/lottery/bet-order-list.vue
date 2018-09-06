@@ -190,19 +190,14 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 203;
-        @include bg-image('bg-lottery-deep');
-        background-size: 1rem;
+        background: #ECDEDA;
         .title-content{
             position:relative;
             height:1.2rem;
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            @include bg-image('bg-lottery-title');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
-            
+            background: #474643;
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -240,9 +235,8 @@
             font-size: $font-size-large;
             padding:0 0.2rem;
             margin-bottom:0.2rem;
-            color:#fff;
-            @include bg-image('bg-lottery-shallow');
-            background-size: 0.8rem;
+            color: #3A3634;
+            background: #F3EAE8;
             p{
                 display: inline-block;
                 input{
@@ -251,7 +245,7 @@
                     line-height: 0.7rem;
                     padding-left: 0.2rem;
                     border-radius: 0.08rem;
-                    background: #13442E;
+                    background: #E0CBC2;
                     color:#fff;
                     font-size: $font-size-medium-x;
                 }
@@ -269,15 +263,14 @@
                     .order-item{
                         height:auto;
                         overflow: hidden;
-                        color: #fff;
+                        color: #3A3634;
                         padding:0.3rem 0.4rem;
-                        @include bg-image('bg-lottery-shallow');
-                        background-size: 0.8rem;
-                        margin-bottom:0.2rem;
+                        margin-bottom: .2rem;
+                        background: #F3EAE8;
                         .number-wrapper{
                             height: 0.7rem;
                             line-height: 0.7rem;
-                            color:$color-yellow;
+                            color: #B35758;
                             .code{
                                 float: left;
                                 font-size: $font-size-large;
@@ -314,9 +307,12 @@
                                         line-height: 0.7rem;
                                         padding:0 0.1rem;
                                         border-radius: 0.069rem;
-                                        background: #13442E ;
-                                        color:#fff;
+                                        background: #E0CBC2;
+                                        color: #BC5454;
                                         text-align: center;
+                                        &::placeholder{
+                                            color: #BC5454;
+                                        }
                                     }
                                 }
                             }
@@ -330,12 +326,11 @@
                     .add-order-btn{
                         height:1.2rem;
                         line-height: 1.2rem;
-                        @include bg-image('bg-lottery-shallow');
-                        background-size: 0.8rem;
                         border-radius: 0.6rem;
                         text-align: center;
                         font-size: $font-size-large;
-                        color:$color-yellow;
+                        background: #F3EAE8;
+                        color: #B35758;
                         .txt{
                             width:3rem;
                             margin: 0 auto;
@@ -357,10 +352,7 @@
             bottom:0;
             line-height: 1.45rem;
             text-align: center;
-            @include bg-image('bg-lottery-bottom');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center top;
+            background: #474643;
             color:rgb(230, 230, 230);
             .clear-all{
                 height:1.15rem;
@@ -397,7 +389,7 @@
                 display: inline-block;
                 padding:0.2rem 0.3rem;
                 color:#fff;
-                background: rgb(13, 85, 48);
+                border: 1px solid #fff;
                 border-radius: 0.1rem;
                 line-height: 0.4rem;
             }

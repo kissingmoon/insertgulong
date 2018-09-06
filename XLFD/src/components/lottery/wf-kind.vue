@@ -72,19 +72,14 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 503;
-        @include bg-image('bg-lottery-deep');
-        background-size: 1rem;
+        background-color: #F3EAE5;
         .kind-title-content{
             position:relative;
             height:1.2rem;
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            @include bg-image('bg-lottery-title');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
-            
+            background-color: #474643;            
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -125,32 +120,28 @@
                 .kind-item{
                     height:auto;
                     overflow: hidden;
-                    color: #fff;
+                    color: #403F3D;
                     .item-title{
                         height:0.8rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        @include bg-image('bg-lottery-deep');
-                        background-size: 0.8rem;
+                        background: #E0CBC2;
                     }
                     .sub-main{
                         height:auto;
                         overflow: hidden;
                         padding-left:0.3rem;
-                        @include bg-image('bg-lottery-shallow');
-                        background-size: 1rem;
                         .sub{
                             float: left;
                             margin:0.3rem 0.3rem 0.3rem 0;
                             height:0.9rem;
                             width:2.87rem;
+                            color: #B35758;
                             line-height: 0.9rem;
                             text-align: center;
                             overflow: hidden;
-                            border:1px solid $color-border-num;
+                            border:1px solid #E0CBC2;
                             border-radius: 0.8rem;
-                            @include bg-image('bg-num-shallow');
-                            background-size: 2rem;
                         }
                     }
                 }

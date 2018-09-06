@@ -1361,8 +1361,7 @@
     top: 0rem;
     bottom: 0rem;
     z-index: 103;
-    @include bg-image('bg-lottery-shallow');
-    background-size: 0.6rem;
+    background-color: #F3EAE5;
     .lottery-content{
         position: relative;
         width: 100%;
@@ -1374,11 +1373,7 @@
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            @include bg-image('bg-lottery-title');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
-            
+            background: #474643;            
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -1456,8 +1451,7 @@
         .lottery-nav{
             height:1.63rem;
             background-size: 0.6rem;
-            @include bg-image('bg-lottery-deep');
-            @include border-bottom-1px(solid,#053105);
+            background-color: #DFCBC2;
             color:#fff;
             .nav-left{
                 float: left;
@@ -1690,11 +1684,11 @@
             height:6rem;
             width:100%;
             bottom:0;
-            background:#13432A;
+            background:#E8DDD7;
             z-index: 320;
             color:#fff;
             .yellow{
-                color:$color-yellow;
+                color:#FFBE00;
             }
             .bet-money-warpper{
                 height:0.8rem;
@@ -1707,6 +1701,7 @@
                     &.tit{
                         margin-right: 0.1rem;
                         width:1.5rem;
+                        color: #403F3D;
                         overflow: hidden;
                     }
                     &.bet-money{
@@ -1716,20 +1711,20 @@
                             border: 0;
                             border-radius: 0.1rem;
                             text-align: center;
-                            background: #64A387;
+                            background: #B89D94;
                             width:100%;
-                            color:#fff;
+                            color:#FFBE00;
                         }
                     }
                     &.unit{
                         height:0.8rem;
                         width:1.2rem;
                         text-align: center;
-                        background: #64A387;
+                        background: #B89D94;
                         border-radius: 0.1rem;
                     }
                     &.on{
-                        background: #F0CA30;
+                        color: #F0CA30;
                     }
                     &:last-child{
                         margin-right: 0rem;
@@ -1741,6 +1736,7 @@
                 padding: 0.5rem 0.4rem 0;
                 .count-money{
                     float: left;
+                    color: #403F3D;
                     p:first-child{
                         height:0.3rem;
                         line-height: 0.3rem;
@@ -1783,7 +1779,7 @@
                         height:0.8rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:#64A387;
+                        background:#B89D94;
                         border-radius: 0.1rem;
                     }
                 }
@@ -1796,10 +1792,14 @@
                 .balance{
                     float: left;
                     height:0.8rem;
+                    color: #403F3D;
                 }
                 .bonus{
                     float: right;
                     height:0.8rem;
+                    p{
+                        color: #403F3D;
+                    }
                 }
             }
             .btn-wrapper{
@@ -1811,7 +1811,7 @@
                     height:1rem;
                     line-height: 1rem;
                     text-align: center;
-                    background: #38bb80;
+                    background: #5E5D5B;
                     font-size: $font-size-large;
                     border-radius: 0.14rem;
                     &.affirm{
@@ -1829,7 +1829,7 @@
             bottom:0;
             line-height: 1.45rem;
             text-align: center;
-            @include bg-image('bg-lottery-bottom');
+            background: #474643;
             background-repeat: no-repeat;
             background-size: 100%;
             background-position: center top;
@@ -1844,7 +1844,7 @@
                     height:1rem;
                     line-height: 1rem;
                     text-align: center;
-                    background:$color-bg-deep-gray;
+                    background:#5E5D5B;
                     border-radius: 0.1rem;
                 }
             }
@@ -1918,8 +1918,8 @@
                 display: inline-block;
                 padding:0.2rem 0.3rem;
                 color:#fff;
-                background: rgb(13, 85, 48);
                 border-radius: 0.1rem;
+                border: 1px solid #fff;
                 line-height: 0.4rem;
             }
         }
@@ -1954,16 +1954,12 @@
         width:7.6rem;
         height:9rem;
         overflow: hidden;
-        @include bg-image('bg-lottery-shallow');
-        background-size: 0.6rem;
+        background: #F4EBE6;
         border-radius: 0.2rem;
         border:1px solid #7B6503;
         .detail-title{
             height:1.2rem;
-            @include bg-image('bg-lottery-title');
-            background-repeat: no-repeat;
-            background-size: 100%;
-            background-position: center bottom;
+            background: #474643;
             border-top-left-radius: 0.2rem;
             border-top-right-radius: 0.2rem;
             color:#fff;
@@ -2001,7 +1997,7 @@
                 height:6.2rem;
                 .win-money{
                     line-height: 0.5rem;
-                    color:#fff;
+                    color: #403F3D;
                     padding-top:0.2rem;
                 }
                 .item-wrapper{
@@ -2014,13 +2010,12 @@
                         overflow: hidden;
                         line-height: 0.5rem;
                         &.title{
-                            color:$color-yellow;
+                            color:#B35758;
                         }
                         &.txt{
-                            color:#fff;
+                            color: #403F3D;
                         }
                     }
-
                 }
                 .gd-content{
                     height:auto;
@@ -2045,10 +2040,10 @@
                     width:0.96rem;
                     line-height: 1rem;
                     border-radius: 50%;
-                    border:1px solid $color-border-num;
+                    border:1px solid #b35758;
                     text-align: center;
                     background:none;
-                    color: $color-yellow;
+                    color: #b35758;
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;
@@ -2144,11 +2139,8 @@
                             font-size: $font-size-small;
                             color: #86BFA5;
                             padding-right:0.2rem;
-                        }
-                        
+                        }                        
                     }
-                    
-
                 }
                 .btn-wrapper{
                     height: 0.8rem;
@@ -2214,11 +2206,11 @@
                             line-height: 0.5rem;
 
                             &.title{
-                                color:#fff;
+                                color: #3A3634;
                                 padding:0 0.5rem;
                                 word-wrap: break-word; 
                                 .txt{
-                                    color:$color-yellow;
+                                    color: #B35758;
                                 }
                             }
                             &.set-num{
@@ -2257,9 +2249,7 @@
                                 font-size: $font-size-small;
                                 color: #86BFA5;
                                 padding-right:0.2rem;
-                            }
-                            
-                            
+                            }                                                      
                         }
                     }
                 }
@@ -2297,7 +2287,7 @@
                 }
                 .gd-tip{
                     width:100%;
-                    color: #fff;
+                    color: #A1A1A1;
                     font-size: $font-size-small-x;
                     line-height: 0.4rem;
                     padding-top:0.5rem;
@@ -2313,13 +2303,13 @@
         width:7.6rem;
         height:5.6rem;
         overflow: hidden;
-        @include bg-image('bg-lottery-shallow');
+        background: #F4EBE6;
         background-size: 0.6rem;
         border-radius: 0.2rem;
         border:1px solid #7B6503;
         .detail-title{
             height:1.2rem;
-            @include bg-image('bg-lottery-title');
+            background: #474643;
             background-repeat: no-repeat;
             background-size: 100%;
             background-position: center bottom;
@@ -2340,9 +2330,8 @@
                     line-height: 2.6rem;
                     text-align: center;
                     font-size: $font-size-medium-x;
-                    color: #fff;
-                }
-                
+                    color: #403F3D;
+                }                
                 .btn-wrapper{
                     height: 0.8rem;
                     padding-top: 0.2rem;

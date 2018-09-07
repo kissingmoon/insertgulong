@@ -1,34 +1,37 @@
 <!-- 中奖公告页面 -->
 <template>
-    <div class="betWinWrap">
-        <scroll ref="scroll" class="scroll-content"
-                :data="noticeList" 
-                :isAllData="isAllData"
-                :pulldown="pulldown"
-                :pullup="pullup"
-                :refreshStatus="refreshStatus"
-                :loadStatus="loadStatus"
-                @pulldown="getReport('down')"
-                @pullup="getReport('up')"
-                >
-                <div>
-                    <ul class="report-main">
-                         <li class="item-mode border-bottom-1px" v-for="(item,index) in noticeList" :key='index'>
-                             <span class="ico"></span>
-                             <div class="txt">
-                                 <span>{{item.content[0]}}</span>
-                                 <span>{{item.content[1]}}</span>
-                                 <span>{{item.content[2]}}</span>
-                             </div>
-                        </li>
-                    </ul>
-                </div>
-                <data-none v-if="isNoData"></data-none>
-        </scroll>
-    </div>
+    <parcel>
+        <div class="betWinWrap">
+            <scroll ref="scroll" class="scroll-content"
+                    :data="noticeList" 
+                    :isAllData="isAllData"
+                    :pulldown="pulldown"
+                    :pullup="pullup"
+                    :refreshStatus="refreshStatus"
+                    :loadStatus="loadStatus"
+                    @pulldown="getReport('down')"
+                    @pullup="getReport('up')"
+                    >
+                    <div>
+                        <ul class="report-main">
+                            <li class="item-mode border-bottom-1px" v-for="(item,index) in noticeList" :key='index'>
+                                <span class="ico"></span>
+                                <div class="txt">
+                                    <span>{{item.content[0]}}</span>
+                                    <span>{{item.content[1]}}</span>
+                                    <span>{{item.content[2]}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <data-none v-if="isNoData"></data-none>
+            </scroll>
+        </div>
+    </parcel>
 </template>
 
 <script>
+    import Parcel from 'base/parcel/parcel';
     import Scroll from 'base/scroll/scroll';
     import Calendar from 'base/calendar/calendar';
     import DataNone from 'components/data-none/data-none';
@@ -106,7 +109,7 @@
         }
     },
 
-    components: {Scroll,DataNone},
+    components: {Scroll,DataNone,Parcel},
 }
 </script>
 

@@ -196,14 +196,14 @@
                     observeParents:true,            //  修改swiper的父元素时，自动初始化swiper 
                     loop:true,
                     loopAdditionalSlides : 1,       //  复制第一个img到最后
-                    touchRatio : 0.6,               //  手指滑动的距离与图片移动的距离比例
+                    touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
                     slideToClickedSlide: true,
                     autoplay:
                     {
                         delay:5000,
                         disableOnInteraction:false
                     },
-                    longSwipesRatio : 0.6,          //   滑动超过40%才能触发滚动
+                    longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
                     spaceBetween: 15,               //   bannar图片之间的距离
                     autoplayStopOnLast:false,
                     effect:"scroll",                //  轮播效果类型  

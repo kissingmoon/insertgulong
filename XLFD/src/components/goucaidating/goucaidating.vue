@@ -161,7 +161,6 @@ export default {
                 v.running=true;
                 v.plantime=countTime(v.plan_kj_time.replace(/-/g,'/'));
                 v.planrunning=true;
-                //v.kjNewData.kjCodeList=v.kjNewData.kjCode.split(",");
                 v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjCode,v.lottery_id,this.xglhc_color)
             })            
             
@@ -177,8 +176,10 @@ export default {
                 this.truetotalList.map((v,k)=>{
                     v.map((v1,k1)=>{
                         if(v1.locktime){
-                            v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));                       
-                            //v1.plantime=countTime(v1.plan_kj_time.replace(/-/g,'/'));
+                            v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));   
+                            //this
+                            v1.plantime=countTime(v1.plan_kj_time.replace(/-/g,'/'));
+
                             if(v1.running==true&&v1.planrunning==true){                                
                                 if(v1.locktime=="00:00:00"){
                                     v1.running=false;
@@ -186,13 +187,14 @@ export default {
                                         this.getSingleLockTime(v1,k,k1)
                                     },5000)
                                 }
-                                // else if(v1.plantime=="00:00:00"){
-                                //     console.log("开奖时间到了")
-                                //     v1.planrunning=false;
-                                //     setTimeout(()=>{
-                                //         this.getSingleLockTime(v1,k,k1)
-                                //     },20000)
-                                // }
+                                //this
+                                else if(v1.plantime=="00:00:00"){
+                                    v1.planrunning=false;
+                                    setTimeout(()=>{
+                                        this.getSingleLockTime(v1,k,k1)
+                                    },40000)
+                                }
+                                
                                 else{                                    
                                     this.$set(v,k1,v1)
                                 }
@@ -208,14 +210,17 @@ export default {
             this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'2'})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){ 
-                    // if(sub.plantime!="00:00:00"){
-                    //     res.data.plan_kj_time=sub.plan_kj_time
-                    // }
+                    //this
+                    if(sub.plantime!="00:00:00"){
+                        res.data.plan_kj_time=sub.plan_kj_time
+                    }
+
                     var obj = Object.assign(sub,res.data);
                     obj.running=true;
-                    //obj.kjNewData.kjCodeList=obj.kjNewData.kjCode.split(",");
                     obj.kjNewData.truekjCode=showKjCodeByType(obj.kjNewData.kjCode,obj.lottery_id)
-                    //obj.planrunning=true;   
+                    //this
+                    obj.planrunning=true;   
+
                     this.$set(this.truetotalList[num],subnum,obj) 
                 }
             })

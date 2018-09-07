@@ -34,18 +34,18 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li class="item-mode border-bottom-1px">
+                        <li class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-balance">余额</p>
                             <p class="remarks">
                                 <span>{{account.balance || 0}}元</span>
                             </p>
                         </li>
-                        <li @click="goto('/info/balance')" class="item-mode border-bottom-1px margin-bottom">
+                        <!-- <li @click="goto('/info/balance')" class="item-mode border-bottom-1px ">
                             <p class="title icon-withdraw">提现</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
-                        </li>
+                        </li> -->
                         <li @click="goto('/info/bill')" class="item-mode border-bottom-1px">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
@@ -64,7 +64,7 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li>
-                        <li @click="goto('/info/cash')" class="item-mode border-bottom-1px">
+                        <li @click="goto('/info/cash')" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-deposit">提现记录</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>

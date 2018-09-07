@@ -82,7 +82,7 @@ export default new Router({
         },
         {
             path:'/home',
-            component:Home,   
+            component:Home,  
             children:[
                 // {
                 //     path:'lottery',

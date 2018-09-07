@@ -6,7 +6,7 @@
         </router-link>
         <router-link tag="div" class="nav-item" to="/goucaidating">
             <p class="icon-con icon-dating"></p>
-            <p class="txt">大厅</p>
+            <p class="txt">购彩大厅</p>
         </router-link>
         
         <!-- <router-link tag="div" class="nav-item" to="/draw">
@@ -75,7 +75,7 @@
         }
         .txt{
             height:0.5rem;
-            width:0.72rem;
+            width:1.72rem;
             margin: 0 auto;
             line-height: 0.5rem;
         }

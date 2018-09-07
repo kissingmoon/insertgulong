@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="home" ref="home">
-            <scroll ref="scroll" class="home-content" :data='trueRecomandList'>               
+            <scroll ref="scroll" class="home-content" :data='trueRecomandList.concat(betWin)'>               
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
                     <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
@@ -224,7 +224,7 @@
                         delay:0,
                         disableOnInteraction:false
                     },
-                    speed:500,    //根据自己所需速度调整
+                    speed:1000,    //根据自己所需速度调整
                     freeMode:true,
                 },
                trueRecomandList:[],
@@ -761,6 +761,7 @@
                 width:2.1rem;
                 text-align: center;
                 color:#9F7B02;
+                margin-left: 0.7rem;
                 .title{
                     height:0.73rem;
                     line-height: 0.73rem;

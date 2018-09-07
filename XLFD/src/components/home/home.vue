@@ -326,7 +326,6 @@
                 else{
                     this.trueRecomandList[k].reserved=this.randomNum(400,600);
                 }
-                console.log(this.trueRecomandList)   
                 if(!this.interval){
                     this.startIntervl()
                 }                

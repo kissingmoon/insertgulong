@@ -315,13 +315,13 @@
             }
             .wf-detail-close{
                 position: absolute;;
-                height:1rem;
+                height:1.2rem;
                 width:100%;
                 padding-top:0.1rem;
                 text-align: center;
-                top:4.5rem;
+                top:3.9rem;
                 button{
-                    height:0.96rem;
+                    height:1.1rem;
                     width:4rem;
                     border:0;
                     text-align: center;
@@ -330,7 +330,6 @@
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;
-                    @include bg-image('btn-qiandao-suc');
                     background-size: 100%;
                     background-position: center bottom;
                 }

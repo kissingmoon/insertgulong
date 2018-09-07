@@ -37,7 +37,7 @@
                                     </span>
                                 </p>
                                 <p class="flex lockcount">
-                                    <span class="llockcount">距{{v.lottery_qh}}期截至{{v.locktime}}</span>
+                                    <span class="llockcount">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
                                     <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
                                     <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                                 </p>
@@ -76,7 +76,7 @@ export default {
         Scroll,
         loading
     },
-    created() {       
+    created() {   
         this.getLottery()
     },
     beforeDestroy(){

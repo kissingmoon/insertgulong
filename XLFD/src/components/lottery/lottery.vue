@@ -1951,7 +1951,7 @@
         left:1.2rem;
         z-index:310;
         width:7.6rem;
-        height:9rem;
+        height:7.8rem;
         overflow: hidden;
         background: #F4EBE6;
         border-radius: 0.2rem;
@@ -1972,6 +1972,7 @@
         .gd-title{
             width:4rem;
             margin: 0 auto;
+            display: none;
         }
         .gd-rule{
             font-size: $font-size-small;

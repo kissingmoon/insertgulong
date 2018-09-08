@@ -1,70 +1,47 @@
 <template>
     <div class="flex mainwapper ">  
-          <loading v-if="loading"></loading>
-                 <scroll class="  flex-1  scroll-warpper" :data='lotteryList'>
-                    <ul class="leftcontainer">
-                        <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
-                            <img v-lazy="v.currentImage" alt="">
-                        </li>
-                    </ul>
-                </scroll>
-                <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>
-                     
-                    <ul class="rightcontainer">
-                        <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">
-                            <!-- {{v.subLotteryObj.lottery_name}}-{{v.locktime}}-{{v.kjNewData.kjCode}}-{{v.kjNewData.lotteryQh}}-{{v.kjNewData.realKjTime}}-{{v.plantime}} -->
-                                <p class="flex nameText">
-                                    <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
-                                    <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
-                                </p>
-                                <!-- <p v-if="v.lottery_id.indexOf('ssc')!=-1||v.lottery_id.indexOf('11x5')!=-1||v.lottery_id.indexOf('28')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span class="kjball" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg">{{v1.val}}</span>
-                                </p>
-                                <p v-if="v.lottery_id.indexOf('k3')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">
-                                    </span>
-                                </p>
-                                <p v-if="v.lottery_id.indexOf('pk10')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
-                                    </span>
-                                </p>
-                                <p v-if="v.lottery_id.indexOf('lhc')!=-1" class="flex kjhaoma flex-align-center">                                  
-                                    <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
-                                    </span>
-                                </p> -->
-                                <p class="flex kjhaoma flex-align-center">                                  
-                                    <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
-                                    </span>
-                                </p>
-                                <p class="flex lockcount">
-                                    <span class="llockcount">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
-                                    <!-- <span class="rlockcount" @click="enterBet(v,k)">立即投注</span> -->
-                                    <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
-                                </p>
-                        </router-link> 
-                    </ul>
-                </scroll>   
+        <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
+            <ul class="leftcontainer">
+                <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
+                    <img v-lazy="v.currentImage" alt="">
+                </li>
+            </ul>
+        </scroll>
+        <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>  
+            <ul class="rightcontainer">
+                <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">   
+                    <p class="flex nameText">
+                        <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
+                        <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
+                    </p>
+                    <p class="flex kjhaoma flex-align-center">                                  
+                        <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
+                        </span>
+                    </p>
+                    <p class="flex lockcount">
+                        <span class="llockcount">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
+                        <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
+                    </p>
+                </router-link> 
+            </ul>
+        </scroll>   
     </div>
 </template>
 <script>
 import Scroll from 'base/scroll/scroll';
 import {httpUrl} from 'common/js/map';
-import {regroupLotteryData,countTime} from 'common/js/param';
+import {countTime} from 'common/js/param';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import {mapActions,mapGetters,mapMutations} from 'vuex';
-import loading from 'base/loading/loading';
 export default {
     data(){
         return {
              lotteryList:[],//所有的彩种列表
-             returnSubList:[],//用来存放返回的子彩种数组
              truetotalList:[],//返回数据之后所有彩种总数据
              trueCurrentSubList:[],//当前要渲染的数组
              interval:'',
-             loading:false,
              returnObj:{},
-             chooseMain:false,
-             touzhu:false
+             chooseMain:false
         }
     },
     computed:{
@@ -73,8 +50,7 @@ export default {
         ])
     },
     components:{
-        Scroll,
-        loading
+        Scroll
     },
     created() {   
         this.getLottery()
@@ -115,11 +91,9 @@ export default {
             var subList=totalList[totalIndex].sub_lottery.concat();
             var parmList=[];
             var callbackArguments={totalIndex,subList};
-            this.returnSubList=[];
             subList.map((v,k)=>{
                 parmList.push({'lottery_id':v.lottery_id,'type':'2'})
             })
-           // this.intervlPost(httpUrl.bet.cpLocktime,subList.length,parmList,this.returnSubList,this.makeTrueSub,callbackArguments)
            this.mapPost(httpUrl.bet.cpLocktime,subList.length,parmList,callbackArguments)
         },
         mapPost(url,n,parmList,obj){
@@ -146,30 +120,9 @@ export default {
             this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
-            if(this.trueCurrentSubList[subk].lock_time){
-                this.touzhu=true;
-            }
              if(!this.interval)      {
                 this.startIntervl()
             }  
-        },
-        makeTrueSub(obj){//obj:{totalIndex,subList}
-            this.returnSubList.map((v,k)=>{
-                v.subLotteryObj=obj.subList[k]
-                v.lotteryType=this.lotteryList[obj.totalIndex].lottery_type
-                v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
-                v.running=true;
-                v.plantime=countTime(v.plan_kj_time.replace(/-/g,'/'));
-                v.planrunning=true;
-                v.kjNewData.truekjCode=showKjCodeByType(v.kjNewData.kjCode,v.lottery_id,this.xglhc_color)
-            })            
-            
-            this.$set(this.truetotalList,obj.totalIndex,this.returnSubList) 
-            this.trueCurrentSubList=this.truetotalList[obj.totalIndex]   
-                      
-            if(!this.interval){
-                this.startIntervl()
-            }                            
         },
         startIntervl(){
             this.interval=setInterval(() => {                
@@ -240,9 +193,7 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-    
-        
+<style lang="scss" scoped>       
     .mainwapper{
         position: fixed;
         width: 100%;

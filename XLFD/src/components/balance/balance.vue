@@ -14,6 +14,8 @@
                                 <p class="title">提现金额</p>
                                 <p class="txt border-bottom-1px"><input type="number" v-model="money" maxlength="10" placeholder="请输入提现金额" tocomplete="off" /></p>
                                 <p class="tip">提现金额最低100元</p>
+                                <br>
+                                <p class="tip">当前打码量:{{currentdml}} 出款需要打码量:{{needdml}}</p>
                             </div>
                         </div>
                         <div class="form-btn">
@@ -146,7 +148,9 @@
                 recTime:60,
                 getCodeType:false,
                 bindCode:'',
-                cashCode:''
+                cashCode:'',
+                needdml:'',
+                currentdml:''
             }
         },
         components:{
@@ -157,7 +161,13 @@
             this.init();
         },
         mounted(){
+            
+            this.needdml=this.account.chuk_dml
+            this.currentdml=this.account.current_dml
             this.phone = this.account.phone;
+            
+        },
+        updated(){
         },
         computed: {
             ...mapGetters([
@@ -266,11 +276,15 @@
                 this[type] = true;
             },
             showPassword(){
-                if(this.money < 100){
+                var currentMoney=parseFloat(this.money)
+                var accountMoney=parseFloat(this.account.balance)
+                // if(this.money < 100){
+                if(currentMoney < 100){
                     this.setTip('提现金额最低100元');
                     return;
                 };
-                if(this.money > this.account.balance){
+                // if(this.money > this.account.balance){
+                if(currentMoney > accountMoney){ 
                     this.setTip('余额不足');
                     return;
                 };
@@ -421,7 +435,7 @@
         border-radius: 0.2rem;
         &.phone-con{
             top:calc((100% - 6rem) / 2);
-            height:6rem;
+            //height:6rem;
         }
         .password-wrapper{
             min-height:100%;

@@ -252,12 +252,12 @@
             // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
         },
         beforeDestroy(){
-            this.oldLotteryList.forEach((item,i) => {
-                item.sub_lottery.forEach((sub,s) => {
-                    const id=sub.lottery_id;
-                    clearTimeout(this[id]);
-                });
-            });
+            // this.oldLotteryList.forEach((item,i) => {
+            //     item.sub_lottery.forEach((sub,s) => {
+            //         const id=sub.lottery_id;
+            //         clearTimeout(this[id]);
+            //     });
+            // });
             clearInterval(this.interval)
         },
         computed: {

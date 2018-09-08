@@ -509,7 +509,8 @@
                     '3':'11x5_1m_q1zhix',
                     '6':'xglhc_tema_xuma',
                     '9':'k3_hz_hz',
-                    '10':'pk10_cq1_d1',
+                    //'10':'pk10_cq1_d1',
+                    '10':'pk10_gp_dwd_child',
                     '11':'xy28_qthh_hh'
                 },
                 isReady:false, //加载完成

@@ -13,11 +13,19 @@
             </div>
             <div class="tit"><span>期数</span><em>开奖号码</em></div>
             <scroll class="draw-his-wrapper clearfix" :data="data">
-                <ul>
+                <!-- <ul>
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
                         <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
                             <span v-for="(num,k) in item.kj_code" :key="k">{{num}}</span>
+                        </div>
+                    </li>
+                </ul> -->
+                <ul>
+                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in trueList" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
+                        <div class="period-num">{{item.val.lottery_qh}}期</div>
+                        <div class="draw-num">
+                            <span v-for="(num,k) in item.val.kj_code" :key="k" :class="item.clas">{{num}}</span>
                         </div>
                     </li>
                 </ul>
@@ -30,6 +38,7 @@
 <script type="text/ecmascript-6">
   import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
+  import showKjCodeByType from 'common/js/showKjCodeByType.js'
 
   export default {
     props: {
@@ -47,9 +56,15 @@
     },
     data() {
       return {
+          trueList:[]
       }
     },
     mounted() {
+        if(this.data){
+            
+            this.trueList=showKjCodeByType(this.data,this.lotteryType,this.xglhc_color)
+            console.log(this.trueList)
+        }
     },
     activated() {
     },
@@ -152,6 +167,72 @@
                     flex: 5;
                     span{
                         padding-right: 0.24rem;
+                    }
+                    .last-draw-ssc{
+                        display: inline-block;
+                        width: 0.7rem;
+                        height: 0.7rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        font-size: 0.45rem;
+                        color: #ffffff;
+                        line-height: 0.7rem;
+                        text-align: center;
+                        background: #DA1C36 ;
+                    }
+                    .last-draw-k3{
+                        display: inline-block;
+                        width: 0.7rem;
+                        height: 0.7rem;
+                        margin: 0 0.1rem;
+                    }
+                    .last-draw-11x5{
+                        display: inline-block;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        margin: 0 0.2rem;
+                        font-size: 0.45rem;
+                        border-radius: 50%;
+                        color: #ffffff;
+                        line-height: 0.8rem;
+                        background: #B35758;
+                        text-align: center;
+                    }
+                    .last-draw-xy28{
+                        display: inline-block;
+                        width: 0.8rem;
+                        height: 0.8rem;
+                        margin: 0 0.2rem;
+                        line-height: 0.8rem;
+                        margin-left: 0.2rem;
+                        font-size: 0.45rem;
+                        border-radius: 50%;
+                        color: #ffffff;
+                         background: #B35758;
+                        text-align: center;
+                    }
+                    .last-draw-lhc{
+                        display: inline-block;
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        line-height: 0.5rem;
+                        text-align: center;
+                        margin-left: 0.05rem;
+                        color: #F2F2F2;
+                        font-size: .2rem;
+                    }
+                    .last-draw-pk10{
+                        display: inline-block;
+                        width: 0.54rem;
+                        height: 0.54rem;
+                        border-radius: 50%;
+                        line-height: 0.54rem;
+                        text-align: center;
+                        color: #F2F2F2;
+                        font-size: 0.38rem;
+                        margin-left: 0.05rem;
                     }
                 }
             }

@@ -1970,10 +1970,7 @@
         left:1.2rem;
         z-index:310;
         width:7.6rem;
-<<<<<<< HEAD
-=======
         height:7.7rem;
->>>>>>> 01accaf059ba78aa76f0a443a06846879e50a826
         overflow: hidden;
         background: #fff;
         border-radius: 0.2rem;

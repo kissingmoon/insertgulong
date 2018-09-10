@@ -9,7 +9,7 @@
         </scroll>
         <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>  
             <ul class="rightcontainer">
-                <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">   
+                <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">   
                     <p class="flex nameText">
                         <span class="lnameText">{{v.subLotteryObj.lottery_name}}</span>
                         <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
@@ -117,7 +117,7 @@ export default {
             this.returnObj.plantime=countTime(resData.plan_kj_time.replace(/-/g,'/'));
             this.returnObj.planrunning=true;
             this.returnObj.click=true;
-            this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lottery_id,this.xglhc_color)            
+            this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lotteryType,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
              if(!this.interval)      {
@@ -170,7 +170,7 @@ export default {
 
                     var obj = Object.assign(sub,res.data);
                     obj.running=true;
-                    obj.kjNewData.truekjCode=showKjCodeByType(obj.kjNewData.kjCode,obj.lottery_id)
+                    obj.kjNewData.truekjCode=showKjCodeByType(obj.kjNewData.kjCode,obj.lotteryType,this.xglhc_color)
                     //this
                     obj.planrunning=true;   
 
@@ -205,7 +205,7 @@ export default {
             .leftcontainer{
                 border-right: 1px solid #F2F2F2 ;
                 li{
-                    height: 2.5rem;
+                    height: 2.52rem;
                     padding-top: 0.35rem;
                     box-sizing: border-box;
                 }

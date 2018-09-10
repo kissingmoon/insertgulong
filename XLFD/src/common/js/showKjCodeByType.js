@@ -15,11 +15,14 @@ export default function (kj_code,type,extraPrams){
     else if(type=="9"){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
+        
         let result=[]
         tempList.map(function(v,k){
+            console.log(v)
             let tempObj={}
             tempObj.val=""
             tempObj.bg={background:'url(' + require('./../img/'+v+'.png') + ') no-repeat',backgroundSize:"100% 100%"}
+            
             tempObj.clas="last-draw-k3"
             result.push(tempObj)
         })

@@ -436,7 +436,7 @@
                 </div>
             </div>
             <!-- 历史开奖 -->
-            <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList"></draw-history>
+            <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList" :lotteryType="lotteryType"></draw-history>
             <!-- 玩法 -->
             <wf-kind v-if="wfKindShow" :data="wfList" @close="hide" @selectWf="changeWf"></wf-kind>
             <!-- 跟单 -->
@@ -586,7 +586,8 @@
                     content:'潜心研究了这组跟单，跟我必胜！',
                     kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
                 },
-                greenBG:null
+                greenBG:null,
+                lotteryType:''
             }
         },
         components:{

@@ -992,7 +992,7 @@
                         this.newDraw=res.data[0];
                         this.drawHistoryList=slicer(res.data,"kj_code",",");
                         //根据最近一期的开奖号码显示不同的颜色
-                        this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryId,this.xglhc_color)
+                        this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryType,this.xglhc_color)
                     };
                 });
             },
@@ -1970,6 +1970,10 @@
         left:1.2rem;
         z-index:310;
         width:7.6rem;
+<<<<<<< HEAD
+=======
+        height:7.7rem;
+>>>>>>> 01accaf059ba78aa76f0a443a06846879e50a826
         overflow: hidden;
         background: #fff;
         border-radius: 0.2rem;

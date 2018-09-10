@@ -1,7 +1,7 @@
 import {pk10Clolr} from 'common/js/map.js'
 
 export default function (kj_code,type,extraPrams){
-    if(type.indexOf('11x5')!=-1){
+    if(type=='3'){
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
         tempList.map(function(v,k){
@@ -12,7 +12,7 @@ export default function (kj_code,type,extraPrams){
         })
         return result;
     }
-    else if(type.indexOf('k3')!=-1){
+    else if(type=="9"){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
@@ -25,7 +25,7 @@ export default function (kj_code,type,extraPrams){
         })
         return result;
     }
-    else if(type.indexOf('ssc')!=-1){
+    else if(type=='1'){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
@@ -37,7 +37,7 @@ export default function (kj_code,type,extraPrams){
         })
         return result;
     }
-    else if(type.indexOf('pk10')!=-1){
+    else if(type=='10'){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]
@@ -50,7 +50,7 @@ export default function (kj_code,type,extraPrams){
         })
         return result;
     }
-    else if(type.indexOf('lhc')!=-1){
+    else if(type=='6'){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         tempList.splice(6, 0, "+"); 
@@ -77,7 +77,7 @@ export default function (kj_code,type,extraPrams){
         })
         return result;
     }
-    else if(type.indexOf('28')!=-1){
+    else if(type=='11'){
         //let tempList=kj_code.split(',')
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')
         let result=[]

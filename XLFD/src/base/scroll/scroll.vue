@@ -1,6 +1,6 @@
 <template>
   <div ref="wrapper" class="better-scroll-root">  
-    <div class="better-scroll-container">  
+    <div class="better-scroll-container" :class="{'kuai3BG':isKuai3}">  
         <div v-if="pulldown" class="pulldown-tip">
             <i class="pull-icon icon-arrows-below-wire " :class="[pulldownTip.rotate]"></i>
             <span class="tip-content">{{pulldownTip.text}}</span>
@@ -152,8 +152,8 @@ export default {
             pullupTip: {
                 text: '上拉加载',     // 松开立即加载
                 rotate: ''    // icon-rotate
-            }
-
+            },
+            isKuai3:true,
         };
     },
     mounted() {
@@ -313,6 +313,10 @@ export default {
     .better-scroll-container{
         position: relative;
         min-height: 100%;
+        background-color: #fff;
+        &.kuai3BG{
+            background-color: transparent;
+        }
     }
     .pulldown-tip {
         position: absolute;

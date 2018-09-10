@@ -190,7 +190,7 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 203;
-        background: #ECDEDA;
+        background: #F1F1F1;
         .title-content{
             position:relative;
             height:1.2rem;
@@ -235,8 +235,8 @@
             font-size: $font-size-large;
             padding:0 0.2rem;
             margin-bottom:0.2rem;
-            color: #3A3634;
-            background: #F3EAE8;
+            color: #727272;
+            background-color: #fff;
             p{
                 display: inline-block;
                 input{
@@ -245,11 +245,12 @@
                     line-height: 0.7rem;
                     padding-left: 0.2rem;
                     border-radius: 0.08rem;
-                    background: #E0CBC2;
-                    color: #BC5454;
+                    background-color: #F2F2F2;
+                    color: #DA1C36;
                     font-size: $font-size-medium-x;
                     &::placeholder{
-                        color: #BC5454;
+                        font-size:.2rem;
+                        color: #727272;
                     }
                 }
             }
@@ -269,11 +270,11 @@
                         color: #3A3634;
                         padding:0.3rem 0.4rem;
                         margin-bottom: .2rem;
-                        background: #F3EAE8;
+                        background-color: #fff;
                         .number-wrapper{
                             height: 0.7rem;
                             line-height: 0.7rem;
-                            color: #B35758;
+                            color: #DA1C36;
                             .code{
                                 float: left;
                                 font-size: $font-size-large;
@@ -310,11 +311,12 @@
                                         line-height: 0.7rem;
                                         padding:0 0.1rem;
                                         border-radius: 0.069rem;
-                                        background: #E0CBC2;
-                                        color: #BC5454;
+                                        background-color: #F2F2F2;
+                                        color: #DA1C36;
                                         text-align: center;
                                         &::placeholder{
-                                            color: #BC5454;
+                                            font-size:.2rem;
+                                            color: #727272;
                                         }
                                     }
                                 }
@@ -332,8 +334,8 @@
                         border-radius: 0.6rem;
                         text-align: center;
                         font-size: $font-size-large;
-                        background: #F3EAE8;
-                        color: #B35758;
+                        background: #fff;
+                        color: #DA1C36;
                         .txt{
                             width:3rem;
                             margin: 0 auto;

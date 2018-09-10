@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="lottery">
-            <div class="lottery-content">
+            <div class="lottery-content" :class="{'greenBg':$route.query.type == 9}">
                 <!-- 头部玩法说明 -->
                 <div class="lottery-title-content">
                     <div class="back" @click="judgeBack"><i class="icon-arrows-left"></i></div>
@@ -56,7 +56,21 @@
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
                 <!-- 投注号码 -->
-                <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
+                <div class="kuai3Con" v-if="$route.query.type == 9">
+                    <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
+                        <bet-number 
+                            ref="betnumberlist"
+                            :numList="numberList"
+                            :selectNumList="selectNumList"
+                            :selectPosition="selectPosition"
+                            @selectNum="selectNum"
+                            @selectPosi="selectPosi"
+                            @selectKind="selectKind"
+                            >
+                        </bet-number>
+                    </scroll>
+                </div>
+                <scroll ref="scroll" v-else class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
                     <bet-number 
                         ref="betnumberlist"
                         :numList="numberList"
@@ -570,7 +584,8 @@
                     back_rate:1,
                     content:'潜心研究了这组跟单，跟我必胜！',
                     kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
-                }
+                },
+                greenBG:null
             }
         },
         components:{
@@ -782,6 +797,7 @@
                 this.selectNumList=[];
                 this.selectPosition=[];
                 this.selectObj={};
+                // debugger
                 if(!this.is28OrLhc){
                     this.wfDetail=LotteryWfDetail[lottery].wf_class[this.wfFlag];
                 }
@@ -819,7 +835,6 @@
                     }
                 }
                 this.changeTotal();
-
             },
             //选择位置
             selectPosi(num){
@@ -1338,7 +1353,7 @@
                 this.keyOldVal = val;
                 this[key]=val;
                 this.hide('keyboardShow');
-            }
+            },
 
         },
         watch:{
@@ -1360,7 +1375,7 @@
     top: 0rem;
     bottom: 0rem;
     z-index: 103;
-    background-color: #F3EAE5;
+    background-color: #fff;
     .lottery-content{
         position: relative;
         width: 100%;
@@ -1428,14 +1443,16 @@
                 .txt{
                     position: relative;
                     display: inline-block;
-                    padding:0 0.1rem;
+                    font-size:.4rem;
+                    padding:0 0.8rem;
                     height: 0.66rem;
                     line-height: 0.66rem;
                     border:1px solid #fff;
                     border-radius: 0.1rem;
                     align-items: center;
                     .triangle-below{
-                        color: $color-yellow;
+                        color: #fff;
+                        margin-left: .2rem;
                     }
                     .kind{
                         position: absolute;
@@ -1448,15 +1465,16 @@
             }
         }
         .lottery-nav{
-            height:1.63rem;
+            height:1.23rem;
             background-size: 0.6rem;
-            background-color: #DFCBC2;
-            color:#fff;
+            background-color: #F2F2F2;
+            color: #454545;
+            padding: .1rem 0 .2rem;
             .nav-left{
                 float: left;
-                height:1.63rem;
-                width:3.5rem;
-                @include border-right-1px(solid,#053105);
+                height:1.23rem;
+                width:4rem;
+                @include border-right-1px(solid,#DDDDDD);
                 // padding-top: 0.1rem;
                 overflow: hidden;
                 .rock-follow{
@@ -1474,8 +1492,8 @@
                     }
                 }
                 .count-down{
-                    height:0.7rem;
-                    line-height: 0.7rem;
+                    height:0.6rem;
+                    line-height: 0.6rem;
                     padding-left:0.15rem;
                     text-align: center;
                     @include no-wrap();
@@ -1498,30 +1516,29 @@
                         
                     }
                 }
-
             }
             .nav-right{
-                height:1.63rem;
-                width:6.5rem;
+                height:1.23rem;
+                width:6rem;
                 float: left;
                 text-align: center;
                 .lottery-wf{
-                    height:0.9rem;
+                    height:0.7rem;
                     font-size: $font-size-medium;
-                    line-height: 0.9rem;
+                    line-height: 0.6rem;
                     color:$color-yellow;
                     @include no-wrap();
                     .last-draw-ssc{
                         display: inline-block;
-                        width: 0.8rem;
-                        height: 0.8rem;
-                        margin: 0 0.2rem;
+                        width: 0.7rem;
+                        height: 0.7rem;
+                        margin: 0 0.1rem;
                         border-radius: 50%;
                         font-size: 0.45rem;
                         color: #ffffff;
-                        line-height: 0.8rem;
+                        line-height: 0.7rem;
                         text-align: center;
-                        background: #B35758;
+                        background: #DA1C36 ;
                     }
                     .last-draw-k3{
                         display: inline-block;
@@ -1556,29 +1573,31 @@
                     }
                     .last-draw-lhc{
                         display: inline-block;
-                            width: 0.7rem;
-                            height: 0.7rem;
-                            margin: 0 0.1rem;
-                            border-radius: 50%;
-                            line-height: 0.7rem;
-                            text-align: center;
-                            margin-left: 0.05rem;
-                            color: #F2F2F2;
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        margin: 0 0.1rem;
+                        border-radius: 50%;
+                        line-height: 0.5rem;
+                        text-align: center;
+                        margin-left: 0.05rem;
+                        color: #F2F2F2;
+                        font-size: .2rem;
                     }
                     .last-draw-pk10{
                         display: inline-block;
-                            width: 0.6rem;
-                            height: 0.6rem;
-                            border-radius: 50%;
-                            line-height: 0.6rem;
-                            text-align: center;
-                            color: #F2F2F2;
-                            font-size: 0.38rem;
-                            margin-left: 0.05rem;
+                        width: 0.54rem;
+                        height: 0.54rem;
+                        border-radius: 50%;
+                        line-height: 0.54rem;
+                        text-align: center;
+                        color: #F2F2F2;
+                        font-size: 0.38rem;
+                        margin-left: 0.05rem;
                     }
                 }
                 .draw-history{
-                    height:0.6rem;
+                    height:0.5rem;
+                    line-height: .5rem;
                     // padding-top: 0.1rem;
                     .history{
                         display: inline-block;
@@ -1951,9 +1970,8 @@
         left:1.2rem;
         z-index:310;
         width:7.6rem;
-        height:7.8rem;
         overflow: hidden;
-        background: #F4EBE6;
+        background: #fff;
         border-radius: 0.2rem;
         border:1px solid #7B6503;
         .detail-title{
@@ -2010,10 +2028,10 @@
                         overflow: hidden;
                         line-height: 0.5rem;
                         &.title{
-                            color:#B35758;
+                            color:#DA1C36;
                         }
                         &.txt{
-                            color: #403F3D;
+                            color: #727272;
                         }
                     }
                 }
@@ -2040,10 +2058,10 @@
                     width:0.96rem;
                     line-height: 1rem;
                     border-radius: 50%;
-                    border:1px solid #b35758;
+                    border:1px solid #DA1C36;
                     text-align: center;
                     background:none;
-                    color: #b35758;
+                    color: #DA1C36;
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;
@@ -2403,6 +2421,18 @@
     //         color:$color-text-gray;
     //     }
     // }
+
+    //  快3样式
+    .greenBg{
+        .lottery-nav{
+            color: #fff;
+            @include bg-image('Rectangle');
+        }
+        .kuai3Con{
+            height: 100%;
+            @include bg-image('greenbg');
+        }
+    }
     
 }
 </style>

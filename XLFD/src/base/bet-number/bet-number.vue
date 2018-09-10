@@ -27,26 +27,43 @@
                 <div class="option-title" v-if="posi.isShowSign">
                     <p>{{posi.title}}<span class="angle"></span></p>
                 </div>
-                <div class="option-item-wrapper" v-if="posi.backgroundType == 1">
+                <div class="option-item-wrapper" :class="{'kuai3':$route.query.type == 9}" v-if="posi.backgroundType == 1">
                     <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">{{item.str}}</p>
                         <p class="txt" v-if="posi.isShowOdds">{{item.pl}}</p>
                     </div>
                 </div>
-                <div class="option-item-wrapper" v-if="posi.backgroundType == 2">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                <div class="option-item-wrapper texiao" v-if="posi.backgroundType == 2 && posi.wfBean.name == '特肖'">
+                    <div class="option-item zodiac-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
                             <div class="zodiac-title" v-html="item.number_str"></div>
+                            <div class="txt" v-if="posi.isShowOdds">赔率{{item.pl}}</div>
                             <div class="zodiac-num" v-html="item.str"></div>
                         </div>
-                        <div class="txt" v-if="posi.isShowOdds">{{item.pl}}</div>
                     </div>
                 </div>
-                <div class="option-item-wrapper" v-if="posi.backgroundType == 3">
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
-                        <div class="oval-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}" v-html="item.str">
+                <div class="option-item-wrapper sebo" v-if="posi.backgroundType == 2 && posi.wfBean.name == '色波' ">
+                    <div class="sebo-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                        <div class="txt" :class="{'redColor': item.pl_flag == 'hongbo', 'greenColor': item.pl_flag == 'lvbo', 'blueColor': item.pl_flag == 'lanbo'}">
+                            {{item.number_str}}赔率{{item.pl}}
                         </div>
-                        <div class="txt" v-if="posi.isShowOdds">{{item.pl}}</div>
+                        <div class="zodiac-num"
+                                :class="{'redColor': item.pl_flag == 'hongbo', 'greenColor': item.pl_flag == 'lvbo', 'blueColor': item.pl_flag == 'lanbo',
+                                'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                            <span v-for="(num,index) in item.nums">
+                                {{num}}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-item-wrapper other" v-if="posi.backgroundType == 3">
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                        <div class="wrap" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                            <div class="oval-con" v-html="item.str">
+                            </div>
+                            <div class="txt" v-if="posi.isShowOdds">赔率{{item.pl}}</div>
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -83,8 +100,12 @@
                 default: []
             }
         },
+        created(){
+            console.log(this.numList)
+        },
         mounted(){
             this.init();
+            
         },
         computed: {
         },
@@ -94,6 +115,20 @@
                 //     this.kindTypeList=[];
                 //     this.kindTypeList.push();
                 // }
+            },
+            //  获取色波的数字号码
+            getSeboNums(){
+                if(this.numList[0] && this.numList[0].wfBean.name == '色波'){
+                    let data = this.numList[0].buyNumberBeanList;
+                    let numsArr;
+                    for(let i = 0; i < data.length; i++){
+                        numsArr = data[i].str.replace(/[^0-9]/ig,",").split(',');
+                        let str = data[i].str.replace(/[^0-9]/ig,'')
+                        numsArr = str.replace(/s/g, '').replace(/(.{2})/g, "$1 ").split(' ');
+                        numsArr.pop()
+                        this.numList[0].buyNumberBeanList[i].nums = numsArr
+                    }
+                }
             },
             selectNum(p,i,num){
                 this.$emit('selectNum',p,i,num)
@@ -157,6 +192,7 @@
         watch:{
             numList(){
                 this.kindTypeList=new Array(100);
+                this.getSeboNums();
             }
         }
     }
@@ -179,7 +215,7 @@
                 .position-item{
                     flex: 1;
                     text-align: center;
-                    color: #fff;
+                    color: #A9A9A9;
                     font-size: $font-size-small-x;
                     padding-top:0.15rem;
                     .icon-con{
@@ -192,11 +228,12 @@
                         border:1px solid #979797;
                         border-radius: 50%;
                         &.on{
-                            border-color:#b35758;
-                            color:#b35758;
+                            border-color:#DA1C36;
+                            color:#DA1C36;
                         }
                     }
                     .txt{
+                        color:#A9A9A9;
                         height:0.5rem;
                         width:0.9rem;
                         padding-top:0.1rem;
@@ -210,7 +247,15 @@
                 height: auto;
                 overflow: hidden;
                 display: flex;
-                padding-left:0.3rem;
+                padding: 0 .32rem;
+                .sebo{
+                    padding: 0 .64rem;
+                }
+                .texiao{
+                    div:nth-child(3n){
+                        margin-right:0;
+                    }
+                }
                 .option-title{
                     flex: 1;
                     width:1.35rem;
@@ -224,33 +269,79 @@
                         text-align: center;
                         font-size: $font-size-small-x;
                         color:#fff;
-                        background-color: #B35758;
+                        background-color: #FFBF00;
                         position: relative;
-                        // @include bg-image('bg-option-title');
-                        // background-size: 100% 100%;
-                        // background-repeat: no-repeat;
                         .angle{
                             display:block;
                             width:0;
                             height:0;
                             border-width: .3rem .2rem .3rem .2rem;
                             border-style:solid;
-                            border-color:transparent transparent transparent #B35758;/*透明 透明 透明 黄*/
+                            border-color:transparent transparent transparent #FFBF00;/*透明 透明 透明 黄*/
                             position:absolute;
                             top:0px;
                             right:-.4rem;
                         }
                     }
                 }
+                
                 .option-item-wrapper{
                     flex: 7;
+                    &.kuai3{
+                        .option-item:nth-child(6n){
+                            margin-right: 0;
+                        }
+                    }
                     .option-item{
-                        float: left;
+                        display:inline-block;
                         text-align: center;
-                        color: #B35758;
-                        margin:0.2rem 0.3rem 0.2rem 0;
+                        color: #A9A9A9;
+                        margin:0.2rem 0.27rem 0.2rem 0;
                         &.mr37{
-                            margin-right: 0.37rem;
+                            margin-right: 0.366rem;
+                            &:nth-child(7n){
+                                margin-right:0;
+                            }
+                        }
+                        &.zodiac-item{
+                            .zodiac-con{
+                                border: none;
+                                border-radius: 0;
+                                padding-bottom: 0; 
+                                border-radius: .1rem;
+                                overflow: hidden;
+                                border: 1px solid #d2d2d2;
+                                // @include border-bottom-1px(solid,#d4d4d4);
+                                .zodiac-title{
+                                    color: #DA1C36;
+                                }
+                                .txt{
+                                    width: 100%;
+                                    color: #A9A9A9;
+                                    margin-bottom: .2rem;
+                                }
+                                .zodiac-num{
+                                    line-height: .6rem;
+                                    color: #A9A9A9;
+                                    @include border-top-1px(solid,#d4d4d4);
+                                }
+                            }
+                        }
+                        .wrap{
+                            border: 1px solid #D4D4D4;
+                            border-radius: .1rem;
+                            padding: .2rem 0;
+                            .txt{
+                                width: 100%;
+                                color: #A9A9A9;
+                            }
+                            &.on{
+                                color: #fff;
+                                background-color: #B35758;
+                                .txt{
+                                    color: #fff;
+                                }
+                            }
                         }
                         .num-con{
                             height:0.96rem;
@@ -259,22 +350,23 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid #E0CBC2;
+                            color: #DA1C36;
+                            border:1px solid #D2D2D2;
                             border-radius: 50%;
-                            
                             &.on{
                                 color: #fff;
-                                background-color: #B35758;
+                                border-radius: 50%;
+                                border-color:#DA1C36;
+                                background-color: #DA1C36;
                             }
                         }
                         .oval-con{
-                            height:1rem;
-                            width:2.87rem;
-                            line-height: 1rem;
+                            height:.4rem;
+                            width:2.878rem;
+                            line-height: .4rem;
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border: 1px solid #E0CBC2;
                             border-radius: 0.8rem;
                             &.on{
                                 color: #fff;
@@ -289,7 +381,7 @@
                             margin: 0 auto;
                             border:1px solid #B35758;
                             border-radius: 0.2rem;
-                            padding:0.3rem 0;
+                            padding:0.2rem 0;
                             .zodiac-title{
                                 padding-bottom:0.15rem;
                                 color:#FFD200;
@@ -299,47 +391,154 @@
                                 line-height: 0.5rem;
                             }
                             &.on{
-                                background-color: #B35758;
-                                // border-color:$color-yellow;
-                                // @include bg-image('bg-num-deep');
+                                background: #DA1C36;
+                                border-color: #DA1C36;
                                 .zodiac-num{
+                                    color: #fff;
+                                    @include border-top-1px(solid,#fff);
+                                }
+                                .zodiac-title{
+                                    color: #fff;
+                                }
+                                .txt{
                                     color: #fff;
                                 }
                             }
                         }
                         .txt{
                             width:0.96rem;
-                            padding-top:0.1rem;
+                            font-size:.2rem;
+                            padding-top:0.2rem;
                             margin: 0 auto;
                             line-height: 0.4rem;
                             word-break:break-all;
                         }
+                    }
+                    .sebo-item{
+                        margin-top: .1rem;
+                        .txt{
+                            line-height: 1.3rem;
+                            &.redColor{
+                                color: #DA1C36;
+                            }
+                            &.greenColor{
+                                color: #028002;
+                            }
+                            &.blueColor{
+                                color: #0100FF;
+                            }
+                        }
+                        &:first-child{
+                            span{
+                                &:nth-child(n + 9){
+                                    margin-bottom: .3rem!important;
+                                }
+                                &:nth-child(n+17){
+                                    margin-bottom: 0!important;
+                                }
+                            }
+                        }
+                        .zodiac-num{
+                            padding: .3rem .6rem .3rem;
+                            border: 1px solid #D2D2D2;
+                            border-radius: .1rem;
+                            text-align:left;
+                            span{
+                                display: inline-block;
+                                width: .6rem;
+                                height: .6rem;
+                                color: #fff;
+                                margin-right: .286rem;
+                                margin-bottom: .3rem;
+                                text-align: center;
+                                line-height: .62rem;
+                                border-radius: 50%;
+                                background-color: red;
+                                &:nth-child(8n){
+                                    margin-right: 0;
+                                }
+                                &:nth-child(n + 9){
+                                    margin-bottom: 0;
+                                }
+                            }
+                            &.redColor{
+                                span{
+                                    background-color: #DA1C36;
+                                }
+                                &.on{
+                                    background-color: #DA1C36;
+                                    span{
+                                        color:#DA1C36;
+                                        background-color: #fff;
+                                    }
+                                }
+                            }
+                            &.greenColor{
+                                span{
+                                    background-color: #028002;
+                                }
+                                &.on{
+                                    background-color: #028002;
+                                    span{
+                                        color:#028002;
+                                        background-color: #fff;
+                                    }
+                                }
+                            }
+                            &.blueColor{
+                                span{
+                                    background-color: #0100FF;
+                                }
+                                &.on{
+                                    background-color: #0100FF;
+                                    span{
+                                        color:#0100FF;
+                                        background-color: #fff;
+                                    }
+                                }
+                            }
+                            &:on{
 
+                            }
+                        }
+                        .txt{
+                            text-align: center;
+                        }
+                    }
+                    &.other{
+                        text-align:left;
+                        >div{
+                            
+                        }
+                        >div:nth-child(3n){
+                            margin-right:0;
+                        }
                     }
                 }
             }
             .optino-kind{
                 height:0.8rem;
                 display: flex;
-                @include border-top-1px(solid,#E0CBC2);
-                @include border-bottom-1px(solid,#E0CBC2);
+                @include border-top-1px(dashed,#D2D2D2);
+                @include border-bottom-1px(dashed,#D2D2D2);
                 .kind-item{
                     flex: 1;
                     height:0.8rem;
-                    @include border-left-1px(solid,#E0CBC2);
+                    @include border-left-1px(dashed,#D2D2D2);
                     text-align: center;
                     line-height: 0.8rem;
-                    color:#B35859;
+                    color:#A9A9A9;
                     font-size: $font-size-medium-x;
                     &.on{
-                        background-color:  #B35758;
+                        background-color: #DA1C36;
                         color: #fff;
                         height:0.8rem;
                         line-height: 0.8rem;
+                        @include border-left-1px(dashed,#DA1C36);
                     }
                 }
                 div:first-child{
-                    @include border-left-1px(dashed,#F3EAE5);
+                    @include border-left-1px(dashed,#fff);
                 }
             }
         }

@@ -11,6 +11,7 @@
                     <i class="icon-arrows-below"></i>
                 </div>
             </div>
+            <div class="tit"><span>期数</span><em>开奖号码</em></div>
             <scroll class="draw-his-wrapper clearfix" :data="data">
                 <ul>
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name)" :key="i">
@@ -20,6 +21,7 @@
                         </div>
                     </li>
                 </ul>
+                <div class="more">查看更多</div>
             </scroll>
         </div>
     </div>
@@ -88,13 +90,11 @@
             text-align: center;
             line-height: 1.2rem;
             padding-left:0.3rem;
-            background: #eeecec;
-            @include border-bottom-1px(solid,#f2f2f2);
             .title{
                 float: left;
                 display: flex;
                 font-size: $font-size-large;
-                color:#B35859;
+                color:#DA1C36 ;
                 .clock-01{
                     line-height: 1.15rem;
                     padding-right: 0.1rem;
@@ -104,14 +104,32 @@
             .close{
                 float: right;
                 padding:0 0.5rem;
-                color:#B35859;
+                color:#DA1C36;
                 font-size: $font-size-large-x;
                 height:1.2rem;
                 overflow: hidden;
             }
         }
+        .tit{
+            display: flex;
+            font-size:100%;
+            color: #727272;
+            line-height: .6rem;
+            @include border-bottom-1px(solid,#D8D8D8);
+            @include border-top-1px(solid,#D8D8D8);
+            span{
+                flex: 2;
+                text-align: center;
+                padding-right: .4rem;
+            }
+            em{
+                flex: 5;
+                font-style: normal;
+                text-indent: 1.6rem;
+            }
+        }
         .draw-his-wrapper{
-            height:calc( 100% - 1.2rem);
+            height:calc( 100% - 1.8rem);    
             overflow: hidden;
             .item-wrapper{
                 display: flex;
@@ -132,6 +150,12 @@
                         padding-right: 0.24rem;
                     }
                 }
+            }
+            .more{
+                text-align: center;
+                font-size: 100%;
+                color: #727272;
+                line-height: 1rem;
             }
         }
         

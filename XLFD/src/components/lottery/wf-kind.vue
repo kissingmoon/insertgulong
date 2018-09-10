@@ -72,7 +72,7 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 503;
-        background-color: #F3EAE5;
+        background-color: #fff;
         .kind-title-content{
             position:relative;
             height:1.2rem;
@@ -120,12 +120,12 @@
                 .kind-item{
                     height:auto;
                     overflow: hidden;
-                    color: #403F3D;
+                    color: #454545;
                     .item-title{
                         height:0.8rem;
                         line-height: 0.8rem;
                         text-align: center;
-                        background: #E0CBC2;
+                        background: #F1F1F1;
                     }
                     .sub-main{
                         height:auto;
@@ -136,11 +136,11 @@
                             margin:0.3rem 0.3rem 0.3rem 0;
                             height:0.9rem;
                             width:2.87rem;
-                            color: #B35758;
+                            color: #DA1C36;
                             line-height: 0.9rem;
                             text-align: center;
                             overflow: hidden;
-                            border:1px solid #E0CBC2;
+                            border:1px solid #d2d2d2;
                             border-radius: 0.8rem;
                         }
                     }

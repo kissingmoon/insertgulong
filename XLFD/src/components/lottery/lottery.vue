@@ -1565,7 +1565,7 @@
                         border-radius: 50%;
                         color: #ffffff;
                         line-height: 0.8rem;
-                        background: #B35758;
+                        background: #DA1C36;
                         text-align: center;
                     }
                     .last-draw-xy28{
@@ -1578,7 +1578,7 @@
                         font-size: 0.45rem;
                         border-radius: 50%;
                         color: #ffffff;
-                         background: #B35758;
+                         background: #DA1C36;
                         text-align: center;
                     }
                     .last-draw-lhc{

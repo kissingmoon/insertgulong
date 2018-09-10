@@ -13,7 +13,8 @@
                     <h1 class="title">
                         <p class="txt" @click="show('wfKindShow')">
                             <span class="kind">玩<br>法</span>
-                            {{currentWf.name}}<i class="icon-triangle-below triangle-below"></i>
+                            {{currentWf.name}}
+                            <i class="angle"></i>
                         </p>
                     </h1>
                 </div>
@@ -1444,22 +1445,30 @@
                     position: relative;
                     display: inline-block;
                     font-size:.4rem;
-                    padding:0 0.8rem;
+                    padding:0 0.6rem 0 .2rem;
                     height: 0.66rem;
                     line-height: 0.66rem;
                     border:1px solid #fff;
                     border-radius: 0.1rem;
                     align-items: center;
-                    .triangle-below{
-                        color: #fff;
-                        margin-left: .2rem;
-                    }
                     .kind{
                         position: absolute;
-                        left:-0.4rem;
+                        left:-0.5rem;
                         height:0.66rem;
                         line-height: 0.33rem;
                         font-size: $font-size-small;
+                    }
+                    .angle{
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        border-width: .22rem .22rem .22rem .22rem;
+                        border-style: solid;
+                        border-color: transparent transparent transparent #fff;
+                        position: absolute;
+                        bottom: -.1rem;
+                        right: -.1rem;
+                        transform: rotate(45deg)
                     }
                 }
             }
@@ -1523,9 +1532,9 @@
                 float: left;
                 text-align: center;
                 .lottery-wf{
-                    height:0.7rem;
+                    height:0.8rem;
                     font-size: $font-size-medium;
-                    line-height: 0.6rem;
+                    line-height: 0.8rem;
                     color:$color-yellow;
                     @include no-wrap();
                     .last-draw-ssc{
@@ -1702,11 +1711,11 @@
             height:6rem;
             width:100%;
             bottom:0;
-            background:#E8DDD7;
+            background-color:#fff;
             z-index: 320;
-            color:#fff;
+            color:#454545;
             .yellow{
-                color:#FFBE00;
+                color:#DA1C36;
             }
             .bet-money-warpper{
                 height:0.8rem;
@@ -1729,20 +1738,22 @@
                             border: 0;
                             border-radius: 0.1rem;
                             text-align: center;
-                            background: #B89D94;
+                            background: #fff;
                             width:100%;
-                            color:#FFBE00;
+                            color:#DA1C36;
+                            border: 1px solid #DA1C36;
+                            box-sizing: border-box;
                         }
                     }
                     &.unit{
                         height:0.8rem;
                         width:1.2rem;
                         text-align: center;
-                        background: #B89D94;
+                        background: #F0F0F0;
                         border-radius: 0.1rem;
                     }
                     &.on{
-                        color: #F0CA30;
+                        color: #DA1C36;
                     }
                     &:last-child{
                         margin-right: 0rem;
@@ -1795,9 +1806,10 @@
                     p{
                         width:1.1rem;
                         height:0.8rem;
+                        color: #fff;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:#B89D94;
+                        background:#DA1C36;
                         border-radius: 0.1rem;
                     }
                 }
@@ -1829,13 +1841,14 @@
                     height:1rem;
                     line-height: 1rem;
                     text-align: center;
-                    background: #5E5D5B;
+                    color: #454545;
+                    background: #f0f0f0;
                     font-size: $font-size-large;
                     border-radius: 0.14rem;
                     &.affirm{
                         float: right;
-                        color: $color-text;
-                        background: #F0CA30;
+                        color: #fff;
+                        background: #DA1C36;
                     }
                 }
             }

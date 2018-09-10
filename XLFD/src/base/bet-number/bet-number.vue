@@ -27,13 +27,13 @@
                 <div class="option-title" v-if="posi.isShowSign">
                     <p>{{posi.title}}<span class="angle"></span></p>
                 </div>
-                <div class="option-item-wrapper" :class="{'kuai3':$route.query.type == 9}" v-if="posi.backgroundType == 1">
+                <div class="option-item-wrapper" :class="{'kuai3':isKuai3,'cq':isCQ,'bj':isbj}" v-if="posi.backgroundType == 1">
                     <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <p class="num-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">{{item.str}}</p>
                         <p class="txt" v-if="posi.isShowOdds">{{item.pl}}</p>
                     </div>
                 </div>
-                <div class="option-item-wrapper texiao" v-if="posi.backgroundType == 2 && posi.wfBean.name == '特肖'">
+                <div class="option-item-wrapper texiao" v-if="posi.backgroundType == 2 && texiao">
                     <div class="option-item zodiac-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
                             <div class="zodiac-title" v-html="item.number_str"></div>
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="option-item-wrapper sebo" v-if="posi.backgroundType == 2 && posi.wfBean.name == '色波' ">
+                <div class="option-item-wrapper sebo" v-if="posi.backgroundType == 2 && sebo">
                     <div class="sebo-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="txt" :class="{'redColor': item.pl_flag == 'hongbo', 'greenColor': item.pl_flag == 'lvbo', 'blueColor': item.pl_flag == 'lanbo'}">
                             {{item.number_str}}赔率{{item.pl}}
@@ -56,6 +56,15 @@
                         </div>
                     </div>
                 </div>
+                <!-- <div class="option-item-wrapper texiao" v-else>
+                    <div class="option-item zodiac-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                        <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                            <div class="zodiac-title" v-html="item.number_str"></div>
+                            <div class="txt" v-if="posi.isShowOdds">赔率{{item.pl}}</div>
+                            <div class="zodiac-num" v-html="item.str"></div>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="option-item-wrapper other" v-if="posi.backgroundType == 3">
                     <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="wrap" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
@@ -83,7 +92,15 @@
     export default {
         data(){
             return{
-                kindTypeList:new Array(100)
+                kindTypeList:new Array(100),
+                isKuai3:false,     //  判断是否是快3
+                isCQ:false,        //  判断是否是重庆时时彩
+                isLHC:false,
+                isbj:false,
+                //  六合彩分类
+                tema:false,         //  判断是否是特码
+                sebo:false,         //  色波
+                texiao:false,       //  特肖
             }
         },
         props: {
@@ -101,11 +118,12 @@
             }
         },
         created(){
-            console.log(this.numList)
+            
+            
         },
         mounted(){
             this.init();
-            
+            this.getType(this.$route.query.type)
         },
         computed: {
         },
@@ -115,6 +133,47 @@
                 //     this.kindTypeList=[];
                 //     this.kindTypeList.push();
                 // }
+            },
+            getType(type){
+                switch (type) {
+                    case '1':
+                        this.isCQ = true;
+                        break;
+                    case '6':
+                        this.isLHC = true;
+                        break;
+                    case '9':
+                        this.isKuai3 = true;
+                        break;
+                    case '10':
+                        this.isbj = true;
+                        break;
+                    default:
+                        break;
+                }
+            },
+            //  六合彩玩法分类
+            getLHtype(name){
+                switch (name) {
+                    case 'xglhc_tema_xuma':
+                        this.tema = true;
+                        this.sebo = false;
+                        this.texiao = false;
+                        break;
+                    case 'xglhc_sebo_sebo':
+                        this.sebo = true;
+                        this.tema = false;
+                        this.texiao = false;
+                        break;
+                    case 'xglhc_texiao_tx':
+                        this.texiao = true;
+                        this.sebo = false;
+                        this.tema = false;
+                        break;
+                
+                    default:
+                        break;
+                }
             },
             //  获取色波的数字号码
             getSeboNums(){
@@ -191,8 +250,11 @@
         },
         watch:{
             numList(){
+                console.log(this.numList[0])
+                console.log(this.numList[0].wfBean.name)
                 this.kindTypeList=new Array(100);
                 this.getSeboNums();
+                this.getLHtype(this.numList[0].wfBean.wf_flag)
             }
         }
     }
@@ -256,6 +318,16 @@
                         margin-right:0;
                     }
                 }
+                .cq{
+                    div:nth-child(6n){
+                        margin-right:0;
+                    }
+                }
+                .bj{
+                    div:nth-child(6n){
+                        margin-right:0;
+                    }
+                }
                 .option-title{
                     flex: 1;
                     width:1.35rem;
@@ -292,11 +364,15 @@
                             margin-right: 0;
                         }
                     }
+                    &.bgtype1>div:nth-child(6n){
+                        margin-right:0;
+                    }
                     .option-item{
                         display:inline-block;
                         text-align: center;
                         color: #A9A9A9;
                         margin:0.2rem 0.27rem 0.2rem 0;
+                        
                         &.mr37{
                             margin-right: 0.366rem;
                             &:nth-child(7n){
@@ -336,9 +412,12 @@
                                 color: #A9A9A9;
                             }
                             &.on{
-                                color: #fff;
-                                background-color: #B35758;
+                                background-color: #DA1C36;
+                                border-color: #DA1C36;
                                 .txt{
+                                    color: #fff;
+                                }
+                                .oval-con{
                                     color: #fff;
                                 }
                             }
@@ -368,10 +447,11 @@
                             overflow: hidden;
                             margin: 0 auto;
                             border-radius: 0.8rem;
-                            &.on{
-                                color: #fff;
-                                background-color: #B35758;
-                            }
+                            color: #DA1C36;
+                            // &.on{
+                            //     color: #fff;
+                            //     background-color: #DA1C36;
+                            // }
                         }
                         .zodiac-con{
                             height:auto;
@@ -379,7 +459,7 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid #B35758;
+                            border:1px solid #DA1C36;
                             border-radius: 0.2rem;
                             padding:0.2rem 0;
                             .zodiac-title{

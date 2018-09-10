@@ -173,7 +173,7 @@
                 font-size: $font-size-small-x;
                 color:#403F3D;
                 .period-num{
-                    flex:2;
+                    flex:2.5;
                     padding-right: 0.4rem;
                 }
                 .draw-num{

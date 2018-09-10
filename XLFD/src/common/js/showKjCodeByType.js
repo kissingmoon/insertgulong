@@ -18,7 +18,6 @@ export default function (kj_code,type,extraPrams){
         
         let result=[]
         tempList.map(function(v,k){
-            console.log(v)
             let tempObj={}
             tempObj.val=""
             tempObj.bg={background:'url(' + require('./../img/'+v+'.png') + ') no-repeat',backgroundSize:"100% 100%"}

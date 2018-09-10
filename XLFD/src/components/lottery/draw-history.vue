@@ -23,9 +23,9 @@
                 </ul> -->
                 <ul>
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in trueList" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
-                        <div class="period-num">{{item.val.lottery_qh}}期</div>
+                        <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
-                            <span v-for="(num,k) in item.val.kj_code" :key="k" :class="item.clas">{{num}}</span>
+                            <span v-for="(num,k) in item.kj_code" :key="k" :class="num.clas" :style="num.bg">{{num.val}}</span>
                         </div>
                     </li>
                 </ul>
@@ -36,9 +36,9 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
   import showKjCodeByType from 'common/js/showKjCodeByType.js'
+  import {mapMutations,mapActions,mapGetters} from 'vuex';
 
   export default {
     props: {
@@ -61,10 +61,23 @@
     },
     mounted() {
         if(this.data){
-            
-            this.trueList=showKjCodeByType(this.data,this.lotteryType,this.xglhc_color)
+            console.log(this.data)
+            var tempList=[]
+            this.data.map((v,k)=>{
+                tempList[k]=v;
+                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
+                //tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
+            })
+            this.trueList=tempList.concat();
             console.log(this.trueList)
+            //this.trueList=showKjCodeByType(this.data,this.lotteryType,this.xglhc_color)
+            
         }
+    },
+    computed:{
+        ...mapGetters([
+            'xglhc_color'
+        ])
     },
     activated() {
     },

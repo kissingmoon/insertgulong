@@ -107,7 +107,6 @@
                                 tempList[k]=v;
                                 tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
                             })
-                            console.log(this.drawNumber)
                             this.drawNumber=tempList
                             this.isAllData =res.data.length < 20 ? true : false;
                         }

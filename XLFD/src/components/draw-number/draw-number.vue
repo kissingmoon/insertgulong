@@ -36,9 +36,9 @@
                 param:{
                     lottery_id:'',
                     page_no:1,
-                    page_size:20,
-                    lotteryType:""
+                    page_size:20
                 },
+                lotteryType:"",
                 header:{
                     title:'开奖历史',
                     back:true
@@ -63,7 +63,7 @@
         methods: {
             init(){
                 this.param.lottery_id =this.$route.query.id;
-                this.param.lotteryType=this.$route.query.type;
+                this.lotteryType=this.$route.query.type;
                 this.header.title =this.$route.query.name;
             },
             getDrawNubmer(type){
@@ -84,7 +84,7 @@
                             var tempList=[]
                             res.data.map((v,k)=>{
                                 tempList[k]=v;
-                                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.param.lotteryType,this.xglhc_color)
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
                             })
                             //this.drawNumber=tempList
                             this.drawNumber=this.drawNumber.concat(tempList);
@@ -96,7 +96,7 @@
                             var tempList=[]
                             this.drawNumber.map((v,k)=>{
                                 tempList[k]=v;
-                                tempList[k].kj_code=showKjCodeByType(v.kj_code,v.this.param.lotteryType,this.xglhc_color)
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
                             })
                             this.drawNumber=tempList
                             this.isAllData=false;
@@ -105,7 +105,7 @@
                             var tempList=[]
                             this.drawNumber.map((v,k)=>{
                                 tempList[k]=v;
-                                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.param.lotteryType,this.xglhc_color)
+                                tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
                             })
                             console.log(this.drawNumber)
                             this.drawNumber=tempList

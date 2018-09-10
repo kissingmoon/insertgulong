@@ -14,7 +14,7 @@
             <div class="tit"><span>期数</span><em>开奖号码</em></div>
             <scroll class="draw-his-wrapper clearfix" :data="data">
                 <ul>
-                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name)" :key="i">
+                    <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
                         <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
                             <span v-for="(num,k) in item.kj_code" :key="k">{{num}}</span>
@@ -36,6 +36,10 @@
         data:{
             type: [Array,Object,String],
             default: null
+        },
+        lotteryType:{
+            type:String,
+            default: ""
         }
     },
     components:{
@@ -53,10 +57,10 @@
         close(){
             this.$emit('close','drawHistoryShow');
         },
-        goto(id,name){
+        goto(id,name,lotteryType){
             this.$router.push({
                 path:'/draw/number',
-                query:{id , name}
+                query:{id , name,type:lotteryType}
             })
         }
         

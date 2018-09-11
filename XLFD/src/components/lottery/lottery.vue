@@ -862,7 +862,6 @@
             },
             //随机生成选择号码 随机按钮(如果存在的话)的绑定事件标记
             selectRandom(){
-                console.log(this.currentWf.wf_flag)
                 var _this=this;
                 this.allClear()
                 if(this.currentWf.wf_flag==='ssc_5xdwd'){

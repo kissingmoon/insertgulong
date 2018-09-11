@@ -50,9 +50,17 @@
                         <div class="zodiac-num"
                                 :class="{'redColor': item.pl_flag == 'hongbo', 'greenColor': item.pl_flag == 'lvbo', 'blueColor': item.pl_flag == 'lanbo',
                                 'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
-                            <span v-for="(num,index) in item.nums">
+                            <span v-for="(num,index) in item.nums" :key="index">
                                 {{num}}
                             </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="option-item-wrapper" v-if="posi.backgroundType == 4">
+                    <div>{{posi.wfBean.help}}</div>
+                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                        <div class="" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                            <div class="" v-html="item.number_str"></div>
                         </div>
                     </div>
                 </div>
@@ -250,8 +258,6 @@
         },
         watch:{
             numList(){
-                console.log(this.numList[0])
-                console.log(this.numList[0].wfBean.name)
                 this.kindTypeList=new Array(100);
                 this.getSeboNums();
                 this.getLHtype(this.numList[0].wfBean.wf_flag)

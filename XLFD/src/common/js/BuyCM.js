@@ -4,6 +4,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
     const TYPE_CIRCLE = 1;
     const TYPE_ROUND_RECT = 2;
     const TYPE_WHOLE_ROUND_RECT = 3;
+    const TYPE_NEW_K3 = 4;
     const str0 = ["十个", "百个", "百十", "千个", "千十", "千百", "万个", "万十", "万百", "万千"];
     const str1 = ["龙", "虎", "合"];
     const str8 = ["龙", "虎"];
@@ -71,8 +72,9 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
         case "k3_3th_dx":
             buyNumberBeanList = BuyUtil.initDataStr(str5);
             isCanTopFastPick = false;
-            isShowSign = true;
+            isShowSign = false;
             isCanBottomFastPick = false;
+            backgroundType = TYPE_NEW_K3;
             break;
         case "k3_3th_thtx":
             buyNumberBeanList = BuyUtil.initDataStr(str5);

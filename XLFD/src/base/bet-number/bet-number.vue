@@ -80,7 +80,7 @@
                     </div>
                 </div>
                 <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 4&&!posi.isShowSign">
-                    <div class="newk3-title">{{posi.wfBean.help}}</div>
+                    <div class="newk3-title">{{posi.wfBean.help}}赔率{{posi.wfBean.wf_pl[0].award_money}}</div>
                     <div class="newk3-body flex">
                         <div class="option-item " v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                             <div class="newk3-item flex flex-center" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
@@ -90,6 +90,7 @@
                     </div>                    
                 </div>
                 <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 4&&posi.isShowSign">
+                    
                     <div class="tuodan-body flex">
                         <div class="option-item " v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                             <div class="tuodan flex flex-center" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
@@ -99,9 +100,9 @@
                     </div>                    
                 </div>
                 <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 5">
-                    <div class="newk3-title flex flex-center">{{posi.wfBean.help}}</div>
-                    <div class="tongxuan-body flex flex-center">
-                        <div class="tongxuan-item flex flex-center">
+                    <div class="newk3-title flex flex-center">{{posi.wfBean.help}}赔率{{posi.wfBean.wf_pl[0].award_money}}</div>
+                    <div class="tongxuan-body flex flex-center" >
+                        <div class="tongxuan-item flex flex-center" @click="selectKind(p,6)"  :class="{'on': selectNumList[0].length!=0 }"  >
                             {{posi.wfBean.title}}
                         </div>
                     </div>                    
@@ -112,13 +113,10 @@
                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][1] == 1}" @click="selectKind(p,1)">大</div>
                             <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1}" @click="selectKind(p,2)">小</div>
                             <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1}" @click="selectKind(p,3)">单</div>
-                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>
-                            
-                      
-                        <div class="hezhi-item flex flex-center"  v-for="(item,i) in posi.buyNumberBeanList" :key="i" @click="selectNum(p,i,item.number_str)" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
-                           
-                                {{item.str}}
-                            
+                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>                     
+                        <div class="hezhi-item flex flex-v flex-center"  v-for="(item,i) in posi.buyNumberBeanList" :key="i" @click="selectNum(p,i,item.number_str)" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                           <p class="hezhi-item-num flex flex-center">{{item.str}}</p>
+                           <p class="hezhi-item-pl">赔率{{item.pl}}</p>   
                         </div>
                     </div>                    
                 </div>
@@ -266,6 +264,17 @@
                     case 5:
                         this.kindTypeList.splice(p,1,[0,0,0,0,0,1]);
                         break;
+                    case 6:
+                        if(this.selectNumList[0].length!=0){
+                            this.kindTypeList.splice(p,1,[0,0,0,0,0,1]);
+                        }else{
+                            this.kindTypeList.splice(p,1,[1,0,0,0,0,0]);
+                            numberList.forEach((item,i) => {
+                                arr.push(item.number_str);
+                            });
+                        }
+                        
+                    break;
                 }
                 this.$emit('selectKind',p,arr);
             },
@@ -406,6 +415,7 @@
                         line-height: 0.5rem;
                         color: #fff;
                         text-align: center;
+                        font-size: 0.3rem;
                     }
                     .hezhi-body{
                         flex-wrap: wrap;
@@ -420,7 +430,21 @@
                             margin-top: 0.38rem;
                             &.on{
                                 @include bg-image('hezhi-on');
+                                color:#DEC233;
+                                .hezhi-item-pl{
+                                    color: #fff;;
                                 }
+                            }
+                            color: #fff;
+                            .hezhi-item-num{
+                                font-size: 0.42rem;
+                                height: 70%;
+                            }
+                            .hezhi-item-pl{
+                                padding-bottom: 0.1rem;
+                                font-size: 0.3rem;
+                                color: #0B4426;
+                            }
                         }
                          
                     }

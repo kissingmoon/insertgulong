@@ -106,6 +106,11 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
         //和值
         case "k3_hz_hz":
             buyNumberBeanList = BuyUtil.initDataNum(wfBean.param.begin, wfBean.param.end);
+            buyNumberBeanList.map((v,k)=>{
+                var num=v.number<11?v.number:(21-v.number)
+                console.log(num-3)
+                v=Object.assign(v,{pl:wfBean.wf_pl[num-3].award_money});
+            })
             backgroundType = 6;
             break;
         //暂时没用

@@ -21,7 +21,8 @@ export default function (kj_code,type,extraPrams){
             let tempObj={}
             tempObj.val=""
             tempObj.bg={background:'url(' + require('./../img/'+v+'.png') + ') no-repeat',backgroundSize:"100% 100%"}
-            
+            tempObj.value=parseInt(v)
+            tempObj.daxiao=parseInt(v)
             tempObj.clas="last-draw-k3"
             result.push(tempObj)
         })

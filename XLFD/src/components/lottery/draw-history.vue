@@ -1,17 +1,24 @@
 <template>
     <div class="draw-his-content">
         <div class="draw-his-background" @click="close"></div>
-        <div class="draw-his-main">
-            <div class="his-title-wrapper border-bottom-1px">
-                <div class="title">
-                    <i class="icon-clock-01 clock-01"></i>
-                    <span class="txt">历史开奖</span>
+        <div class="draw-his-main" :style='lotteryType==9&&k3Style'>
+            <div class="his-title-wrapper border-bottom-1px" >
+                <div class="title" >
+                    <i class="icon-clock-01 clock-01" :style='lotteryType==9&&k3Color' ></i>
+                    <span class="txt" :style='lotteryType==9&&k3Color' >历史开奖</span>
                 </div>
                 <div class="close" @click="close">
-                    <i class="icon-arrows-below"></i>
-                </div>
+                    <i class="icon-arrows-below" :style='lotteryType==9&&k3Color' ></i>
+                </div>                
             </div>
-            <div class="tit"><span>期数</span><em>开奖号码</em></div>
+            <div class="tit" v-if="lotteryType!=9"><span>期数</span><em>开奖号码</em></div>
+            <div class="tit-k3 flex" v-if="lotteryType==9" >
+                <span class="flex-2 flex flex-center">期数</span>
+                <span class="flex-2 flex flex-center">开奖号码</span>
+                <span class="flex-1 flex flex-center">和值</span>
+                <span class="flex-1 flex flex-center">大小</span>
+                <span class="flex-1 flex flex-center">单双</span>
+            </div>
             <scroll class="draw-his-wrapper clearfix" :data="data">
                 <!-- <ul>
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in data" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
@@ -21,11 +28,30 @@
                         </div>
                     </li>
                 </ul> -->
-                <ul>
+                <ul v-if="lotteryType!=9">
                     <li class="item-wrapper border-bottom-1px" v-for="(item,i) in trueList" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
                         <div class="period-num">{{item.lottery_qh}}期</div>
                         <div class="draw-num">
                             <span v-for="(num,k) in item.kj_code" :key="k" :class="num.clas" :style="num.bg">{{num.val}}</span>
+                        </div>
+                    </li>
+                </ul>
+                <ul v-if="lotteryType==9">
+                    <li class="item-k3-wrapper flex" v-for="(item,i) in trueList" @click="goto(item.lottery_id,item.lottery_name,lotteryType)" :key="i">
+                        <div class="draw-k3-num flex-2  flex flex-center">{{item.lottery_qh}}期</div>
+                        
+                        <i class="tit-k3-shu"></i>
+                        <div class="draw-k3-num flex-2  flex flex-center">
+                            <span v-for="(num,k) in item.kj_code" :key="k" :class="num.clas" :style="num.bg"></span>
+                        </div>
+                        <div class="draw-k3-num flex-1 flex flex-center">
+                            <span>{{judge(item.kj_code).total}}</span>
+                        </div>
+                        <div class="draw-k3-num flex-1 flex flex-center">
+                            <span>{{judge(item.kj_code).daxiao}}</span>
+                        </div>
+                        <div class="draw-k3-num flex-1 flex flex-center">
+                            <span>{{judge(item.kj_code).danshuang}}</span>
                         </div>
                     </li>
                 </ul>
@@ -56,7 +82,14 @@
     },
     data() {
       return {
-          trueList:[]
+          trueList:[],
+          k3Style:{
+              background:'#257953'
+          },
+          k3Color:{
+              color:'#ffffff'
+          }
+              
       }
     },
     mounted() {
@@ -88,8 +121,25 @@
                 path:'/draw/number',
                 query:{id , name,type:lotteryType}
             })
+        },
+        judge(list){
+            console.log(list)
+            var returnObj={
+                total:0,
+                danshuang:"单",
+                daxiao:"小"
+            }
+            list.map((v,k)=>{
+                returnObj.total+=v.value
+            })
+            if(returnObj.total%2==0){
+                returnObj.danshuang="双"
+            }
+            if(returnObj.total>=11){
+                returnObj.daxiao="大"
+            }
+            return returnObj
         }
-        
     }
   }
 </script>
@@ -147,6 +197,7 @@
             line-height: .6rem;
             @include border-bottom-1px(solid,#D8D8D8);
             @include border-top-1px(solid,#D8D8D8);
+           
             span{
                 flex: 2;
                 text-align: center;
@@ -157,6 +208,13 @@
                 font-style: normal;
                 text-indent: 1.6rem;
             }
+        }
+        .tit-k3{
+            font-size:100%;
+            color: #C0FFE2;
+            line-height: .6rem;
+            @include border-bottom-1px(solid,#106438);
+            @include border-top-1px(solid,#106438);
         }
         .draw-his-wrapper{
             height:calc( 100% - 1.8rem);    
@@ -191,12 +249,7 @@
                         text-align: center;
                         background: $color-red ;
                     }
-                    .last-draw-k3{
-                        display: inline-block;
-                        width: 0.5rem;
-                        height: 0.5rem;
-                        margin: 0 0.1rem;
-                    }
+                    
                     .last-draw-11x5{
                         display: inline-block;
                         width: 0.5rem;
@@ -245,6 +298,29 @@
                         font-size: 0.3rem;
                         margin-left: 0.05rem;
                     }
+                }
+            }
+            .item-k3-wrapper{
+                height:auto;
+                overflow: hidden;
+                font-size: $font-size-small-x;
+                color:#403F3D;
+                .draw-k3-num{
+                    color: #C0FFE2;
+                    height: 0.7rem;
+                    .last-draw-k3{
+                        display: inline-block;
+                        width: 0.5rem;
+                        height: 0.5rem;
+                        margin: 0 0.1rem;
+                    }
+                }
+                .tit-k3-shu{
+                    display: inline-block;
+                    @include bg-image('k3-shu');
+                    background-size: 100% 100%;
+                    height: 0.7rem;
+                    width: 0.15rem;
                 }
             }
             .more{

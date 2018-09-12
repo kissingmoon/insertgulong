@@ -815,6 +815,7 @@
                     this.wfDetail.param.titles.forEach((item,i) => {
                         const detail=BaseVM(this.wfDetail,i);
                         detail.title=item;
+                        detail.title11="item";
                         this.numberList.push(detail);
                         this.selectNumList.push([]);
                     });

@@ -33,7 +33,7 @@
                         <p class="txt" v-if="posi.isShowOdds">{{item.pl}}</p>
                     </div>
                 </div>
-                <div class="option-item-wrapper texiao" v-if="posi.backgroundType == 2 && texiao">
+                <div class="option-item-wrapper texiao" v-if="posi.backgroundType == 2 && !sebo">
                     <div class="option-item zodiac-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
                             <div class="zodiac-title" v-html="item.number_str"></div>
@@ -97,10 +97,7 @@
                 isCQ:false,        //  判断是否是重庆时时彩
                 isLHC:false,
                 isbj:false,
-                //  六合彩分类
-                tema:false,         //  判断是否是特码
                 sebo:false,         //  色波
-                texiao:false,       //  特肖
             }
         },
         props: {
@@ -116,10 +113,6 @@
                 type: Array,
                 default: []
             }
-        },
-        created(){
-            
-            
         },
         mounted(){
             this.init();
@@ -154,25 +147,10 @@
             },
             //  六合彩玩法分类
             getLHtype(name){
-                switch (name) {
-                    case 'xglhc_tema_xuma':
-                        this.tema = true;
-                        this.sebo = false;
-                        this.texiao = false;
-                        break;
-                    case 'xglhc_sebo_sebo':
-                        this.sebo = true;
-                        this.tema = false;
-                        this.texiao = false;
-                        break;
-                    case 'xglhc_texiao_tx':
-                        this.texiao = true;
-                        this.sebo = false;
-                        this.tema = false;
-                        break;
-                
-                    default:
-                        break;
+                if(name == 'xglhc_sebo_sebo'){
+                    this.sebo = true;
+                }else{
+                    this.sebo = false;
                 }
             },
             //  获取色波的数字号码

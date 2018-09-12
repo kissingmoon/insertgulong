@@ -7,13 +7,22 @@
                 <h1 class="title">玩法选择</h1>
             </div>
             <scroll ref="scroll" class="scroll-content" :data="data">
-                <div class="kind-wrapper">
+                <div class="kind-wrapper" v-if="$route.query.type != 9">
                     <div class="kind-item" v-for="(item,i) in data" :key="i">
                         <div class="item-title">{{item.name}}</div>
                         <div class="sub-main">
                             <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
                                 {{sub.name}}
                             </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="kuai3WF" v-else>
+                    <div class="item" v-for="(item,index) in newArr" :key="index">
+                        <p class="name">{{item.name}}</p>
+                        <p class="percent">赔率{{item.wf_pl[0].award_money.toFixed(2) }}倍</p>
+                        <div class="imgBox">
+                            <span v-for="(it,index) in item.param" :key="index" :class="it.clas" :style="{background:it.bg.background,backgroundSize:it.bg.backgroundSize}"></span>
                         </div>
                     </div>
                 </div>
@@ -26,10 +35,12 @@
   import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
   import Parcel from 'base/parcel/parcel';
+  import showCode from 'common/js/showKjCodeByType'
 
   export default {
     data() {
       return {
+          dataArr:[],
       }
     },
     props: {
@@ -46,6 +57,10 @@
         Scroll,
         Parcel
     },
+    created(){
+        console.log(this.data)
+        this.makeData();
+    },
     mounted() {
         setTimeout(() => {
             this.$refs.scroll.refresh();
@@ -54,6 +69,46 @@
     activated() {
     },
     methods: {
+        makeData(){
+            this.newArr = [];
+            let that = this;
+            for (const item of this.data) {
+                if(item.wf.length > 0){
+                    for(const it of item.wf){
+                        this.newArr.push(it)
+                    }
+                }
+            }
+            for(let i = 0; i < this.newArr.length; i++){                
+                if(that.newArr[i].name == '三不同和值'){
+                    that.newArr[i].param = showCode([1,1,1],'9')
+                }else
+                if(that.newArr[i].name == '三不同胆拖'){
+                    that.newArr[i].param = showCode([1,1,1],'9')
+                }else
+                if(that.newArr[i].name == '三不同标准'){
+                    that.newArr[i].param = showCode([2,3,5],'9')
+                }else
+                if(that.newArr[i].name == '三连号通选'){
+                    that.newArr[i].param = showCode([1,2,3],'9')
+                }else
+                if(that.newArr[i].name == '三同号单选'){
+                    that.newArr[i].param = showCode([1,1,1],'9')
+                }else
+                if(that.newArr[i].name == '三同号通选'){
+                    that.newArr[i].param = showCode([1,1,1],'9')
+                }else
+                if(that.newArr[i].name == '二不同标准'){
+                    that.newArr[i].param = showCode([1,1,3],'9')
+                }else
+                if(that.newArr[i].name == '二不同胆拖'){
+                    that.newArr[i].param = showCode([1,4,4],'9')
+                }else
+                if(that.newArr[i].name == '和值'){
+                    that.newArr[i].param = showCode([1,2,3],'9')
+                }
+            }
+        },
         close(){
             this.$emit('close','wfKindShow');
         },
@@ -152,6 +207,57 @@
                             color: #fff;
                             border-color: $color-red;
                             background-color: $color-red;    
+                        }
+                    }
+                }
+            }
+            .kuai3WF{
+                position: absolute;
+                left:0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                padding: .3rem .5rem;
+                font-size: 0;
+                @include bg-image('greenbg');
+                .item{
+                    display: inline-block;
+                    width: 2.6rem;
+                    height: 2.6rem;
+                    border: 1px solid #A6DFC6;
+                    border-radius: .2rem;
+                    box-sizing: border-box;
+                    margin-right: .59rem;
+                    margin-bottom: .3rem;
+                    font-size: .3rem;
+                    padding: .32rem .1rem;
+                    vertical-align: top;
+                    &:nth-child(3n){
+                        margin-right: 0;
+                    }
+                    >p{
+                        text-align: center;
+                    }
+                    .name{
+                        font-size: .4rem;
+                        color: #fff;
+                    }
+                    .percent{
+                        font-size: .3rem;
+                        color: #0B4426;
+                        margin-top: .3rem;
+                    }
+                    .imgBox{
+                        margin-top: .34rem;
+                        text-align: center;
+                        >span{
+                            display: inline-block;
+                            width: .5rem;
+                            height: .5rem;
+                            margin-right: .31rem;
+                            &:last-child{
+                                margin-right: 0;
+                            }
                         }
                     }
                 }

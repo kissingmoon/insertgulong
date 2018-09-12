@@ -1,5 +1,5 @@
 import {pk10Clolr} from 'common/js/map.js'
-
+//[1,2,3]  9   
 export default function (kj_code,type,extraPrams){
     if(type=='3'){
         let tempList=Array.isArray(kj_code)?kj_code:kj_code.split(',')

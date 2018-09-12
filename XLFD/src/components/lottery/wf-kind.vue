@@ -18,7 +18,7 @@
                     </div>
                 </div>
                 <div class="kuai3WF" v-else>
-                    <div class="item" v-for="(item,index) in newArr" :key="index">
+                    <div class="item" v-for="(item,index) in newArr" :key="index" @click="selectWf(item.parantIndex,item.activeIndex)">
                         <p class="name">{{item.name}}</p>
                         <p class="percent">赔率{{item.wf_pl[0].award_money.toFixed(2) }}倍</p>
                         <div class="imgBox">
@@ -72,10 +72,12 @@
         makeData(){
             this.newArr = [];
             let that = this;
-            for (const item of this.data) {
-                if(item.wf.length > 0){
-                    for(const it of item.wf){
-                        this.newArr.push(it)
+            for (const item in this.data) {
+                if(this.data[item].wf.length > 0){
+                    for(const it in this.data[item].wf){
+                        this.data[item].wf[it].parantIndex = item;
+                        this.data[item].wf[it].activeIndex = it;
+                        this.newArr.push(this.data[item].wf[it])
                     }
                 }
             }
@@ -108,11 +110,14 @@
                     that.newArr[i].param = showCode([1,2,3],'9')
                 }
             }
+            console.log(this.newArr)
         },
         close(){
             this.$emit('close','wfKindShow');
         },
         selectWf(i,s){
+            console.log('i='+i)
+            console.log('s='+s)
             this.$emit('selectWf',i,s);
         },
         
@@ -232,6 +237,12 @@
                     font-size: .3rem;
                     padding: .32rem .1rem;
                     vertical-align: top;
+                    &.on{
+                        border-color: #DEC233;
+                        .name{
+                            color: #DEC233;
+                        }
+                    }
                     &:nth-child(3n){
                         margin-right: 0;
                     }

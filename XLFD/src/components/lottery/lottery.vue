@@ -788,7 +788,7 @@
             },
             //修改玩法
             changeWf(i,s){
-                // debugger
+                debugger
                 this.currentWf=this.wfList[i].wf[s];
                 this.wfFlag=this.wfList[i].wf[s].wf_flag;
                 // this.$emit('getWFflag',this.wfFlag)

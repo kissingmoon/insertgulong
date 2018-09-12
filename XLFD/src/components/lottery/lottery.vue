@@ -438,7 +438,7 @@
             <!-- 历史开奖 -->
             <draw-history v-if="drawHistoryShow" @close="hide" :data="drawHistoryList" :lotteryType="lotteryType"></draw-history>
             <!-- 玩法 -->
-            <wf-kind v-if="wfKindShow" :data="wfList" @close="hide" @selectWf="changeWf"></wf-kind>
+            <wf-kind v-if="wfKindShow" :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
             <!-- 跟单 -->
             <follow-number 
                 v-if="followNumberShow" 
@@ -788,8 +788,10 @@
             },
             //修改玩法
             changeWf(i,s){
+                // debugger
                 this.currentWf=this.wfList[i].wf[s];
                 this.wfFlag=this.wfList[i].wf[s].wf_flag;
+                // this.$emit('getWFflag',this.wfFlag)
                 this.makeWfParam();
                 this.hide('wfKindShow');
             },
@@ -862,7 +864,6 @@
             },
             //随机生成选择号码 随机按钮(如果存在的话)的绑定事件标记
             selectRandom(){
-                console.log(this.currentWf.wf_flag)
                 var _this=this;
                 this.allClear()
                 if(this.currentWf.wf_flag==='ssc_5xdwd'){
@@ -1548,7 +1549,7 @@
                         color: #ffffff;
                         line-height: 0.7rem;
                         text-align: center;
-                        background: #DA1C36 ;
+                        background: $color-red;
                     }
                     .last-draw-k3{
                         display: inline-block;
@@ -1565,7 +1566,7 @@
                         border-radius: 50%;
                         color: #ffffff;
                         line-height: 0.8rem;
-                        background: #DA1C36;
+                        background: $color-red;
                         text-align: center;
                     }
                     .last-draw-xy28{
@@ -1578,7 +1579,7 @@
                         font-size: 0.45rem;
                         border-radius: 50%;
                         color: #ffffff;
-                         background: #DA1C36;
+                         background: $color-red;
                         text-align: center;
                     }
                     .last-draw-lhc{
@@ -1716,7 +1717,7 @@
             z-index: 320;
             color:#454545;
             .yellow{
-                color:#DA1C36;
+                color:$color-red;
             }
             .bet-money-warpper{
                 height:0.8rem;
@@ -1741,8 +1742,8 @@
                             text-align: center;
                             background: #fff;
                             width:100%;
-                            color:#DA1C36;
-                            border: 1px solid #DA1C36;
+                            color:$color-red;
+                            border: 1px solid $color-red;
                             box-sizing: border-box;
                         }
                     }
@@ -1754,7 +1755,7 @@
                         border-radius: 0.1rem;
                     }
                     &.on{
-                        color: #DA1C36;
+                        color: $color-red;
                     }
                     &:last-child{
                         margin-right: 0rem;
@@ -1810,7 +1811,7 @@
                         color: #fff;
                         line-height: 0.8rem;
                         text-align: center;
-                        background:#DA1C36;
+                        background:$color-red;
                         border-radius: 0.1rem;
                     }
                 }
@@ -1849,7 +1850,7 @@
                     &.affirm{
                         float: right;
                         color: #fff;
-                        background: #DA1C36;
+                        background: $color-red;
                     }
                 }
             }
@@ -2043,7 +2044,7 @@
                         overflow: hidden;
                         line-height: 0.5rem;
                         &.title{
-                            color:#DA1C36;
+                            color:$color-red;
                         }
                         &.txt{
                             color: #727272;
@@ -2073,10 +2074,10 @@
                     width:0.96rem;
                     line-height: 1rem;
                     border-radius: 50%;
-                    border:1px solid #DA1C36;
+                    border:1px solid $color-red;
                     text-align: center;
                     background:none;
-                    color: #DA1C36;
+                    color: $color-red;
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;

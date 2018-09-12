@@ -250,8 +250,6 @@
         },
         watch:{
             numList(){
-                console.log(this.numList[0])
-                console.log(this.numList[0].wfBean.name)
                 this.kindTypeList=new Array(100);
                 this.getSeboNums();
                 this.getLHtype(this.numList[0].wfBean.wf_flag)
@@ -290,8 +288,8 @@
                         border:1px solid #979797;
                         border-radius: 50%;
                         &.on{
-                            border-color:#DA1C36;
-                            color:#DA1C36;
+                            border-color:$color-red;
+                            color:$color-red;
                         }
                     }
                     .txt{
@@ -389,7 +387,7 @@
                                 border: 1px solid #d2d2d2;
                                 // @include border-bottom-1px(solid,#d4d4d4);
                                 .zodiac-title{
-                                    color: #DA1C36;
+                                    color: $color-red;
                                 }
                                 .txt{
                                     width: 100%;
@@ -412,8 +410,8 @@
                                 color: #A9A9A9;
                             }
                             &.on{
-                                background-color: #DA1C36;
-                                border-color: #DA1C36;
+                                background-color: $color-red;
+                                border-color: $color-red;
                                 .txt{
                                     color: #fff;
                                 }
@@ -429,14 +427,14 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            color: #DA1C36;
+                            color: $color-red;
                             border:1px solid #D2D2D2;
                             border-radius: 50%;
                             &.on{
                                 color: #fff;
                                 border-radius: 50%;
-                                border-color:#DA1C36;
-                                background-color: #DA1C36;
+                                border-color:$color-red;
+                                background-color: $color-red;
                             }
                         }
                         .oval-con{
@@ -447,10 +445,10 @@
                             overflow: hidden;
                             margin: 0 auto;
                             border-radius: 0.8rem;
-                            color: #DA1C36;
+                            color: $color-red;
                             // &.on{
                             //     color: #fff;
-                            //     background-color: #DA1C36;
+                            //     background-color: $color-red;
                             // }
                         }
                         .zodiac-con{
@@ -459,7 +457,7 @@
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
-                            border:1px solid #DA1C36;
+                            border:1px solid $color-red;
                             border-radius: 0.2rem;
                             padding:0.2rem 0;
                             .zodiac-title{
@@ -471,8 +469,8 @@
                                 line-height: 0.5rem;
                             }
                             &.on{
-                                background: #DA1C36;
-                                border-color: #DA1C36;
+                                background: $color-red;
+                                border-color: $color-red;
                                 .zodiac-num{
                                     color: #fff;
                                     @include border-top-1px(solid,#fff);
@@ -499,7 +497,7 @@
                         .txt{
                             line-height: 1.3rem;
                             &.redColor{
-                                color: #DA1C36;
+                                color:$color-red;
                             }
                             &.greenColor{
                                 color: #028002;
@@ -543,12 +541,12 @@
                             }
                             &.redColor{
                                 span{
-                                    background-color: #DA1C36;
+                                    background-color: $color-red;
                                 }
                                 &.on{
-                                    background-color: #DA1C36;
+                                    background-color: $color-red;
                                     span{
-                                        color:#DA1C36;
+                                        color:$color-red;
                                         background-color: #fff;
                                     }
                                 }
@@ -610,11 +608,11 @@
                     color:#A9A9A9;
                     font-size: $font-size-medium-x;
                     &.on{
-                        background-color: #DA1C36;
+                        background-color: $color-red;
                         color: #fff;
                         height:0.8rem;
                         line-height: 0.8rem;
-                        @include border-left-1px(dashed,#DA1C36);
+                        @include border-left-1px(dashed,$color-red);
                     }
                 }
                 div:first-child{

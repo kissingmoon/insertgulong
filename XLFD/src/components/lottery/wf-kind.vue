@@ -11,7 +11,7 @@
                     <div class="kind-item" v-for="(item,i) in data" :key="i">
                         <div class="item-title">{{item.name}}</div>
                         <div class="sub-main">
-                            <div class="sub" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
+                            <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
                                 {{sub.name}}
                             </div>
                         </div>
@@ -36,6 +36,10 @@
         data:{
             type: [Array,Object,String],
             default: null
+        },
+        currentWF:{
+            type: String,
+            default:null
         }
     },
     components:{
@@ -136,12 +140,18 @@
                             margin:0.3rem 0.3rem 0.3rem 0;
                             height:0.9rem;
                             width:2.87rem;
-                            color: #DA1C36;
+                            color: $color-red;
                             line-height: 0.9rem;
                             text-align: center;
                             overflow: hidden;
                             border:1px solid #d2d2d2;
                             border-radius: 0.8rem;
+                            
+                        }
+                        .currentSub{
+                            color: #fff;
+                            border-color: $color-red;
+                            background-color: $color-red;    
                         }
                     }
                 }

@@ -61,7 +61,6 @@
     },
     mounted() {
         if(this.data){
-            console.log(this.data)
             var tempList=[]
             this.data.map((v,k)=>{
                 tempList[k]=v;
@@ -69,7 +68,6 @@
                 //tempList[k].kj_code=showKjCodeByType(v.kj_code,this.lotteryType,this.xglhc_color)
             })
             this.trueList=tempList.concat();
-            console.log(this.trueList)
             //this.trueList=showKjCodeByType(this.data,this.lotteryType,this.xglhc_color)
             
         }
@@ -126,7 +124,7 @@
                 float: left;
                 display: flex;
                 font-size: $font-size-large;
-                color:#DA1C36 ;
+                color:$color-red ;
                 .clock-01{
                     line-height: 1.15rem;
                     padding-right: 0.1rem;
@@ -136,7 +134,7 @@
             .close{
                 float: right;
                 padding:0 0.5rem;
-                color:#DA1C36;
+                color:$color-red;
                 font-size: $font-size-large-x;
                 height:1.2rem;
                 overflow: hidden;
@@ -191,7 +189,7 @@
                         color: #ffffff;
                         line-height: 0.7rem;
                         text-align: center;
-                        background: #DA1C36 ;
+                        background: $color-red ;
                     }
                     .last-draw-k3{
                         display: inline-block;

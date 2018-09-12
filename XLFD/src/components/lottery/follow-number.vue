@@ -10,16 +10,16 @@
             </div>
             <div class="set-base-content">
                  <div class="set-item">
-                    <p>追号</p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" readonly @click="showKeyboard(1)"></p><p>期</p>
+                    <p>追号 </p><p class="number"><input type="tel" v-model.number="zhuihaoCountQs" maxlength="2" readonly @click="showKeyboard(1)"></p><p> 期</p>
                 </div>
                 <div class="set-item">
-                    <p>起始金额</p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="6" readonly @click="showKeyboard(2)"></p><p>{{betUnit[lotteryModes]}}</p>
+                    <p>起始金额 </p><p class="number times"><input type="tel" v-model.number="baseTimes" maxlength="6" readonly @click="showKeyboard(2)"></p><p>{{betUnit[lotteryModes]}}</p>
                 </div>
                 <div class="set-item">
-                    <p>隔</p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" readonly @click="showKeyboard(3)"></p><p>期</p>
+                    <p>隔 </p><p class="number"><input type="tel" v-model.number="apartPeriod" maxlength="2" readonly @click="showKeyboard(3)"></p><p> 期</p>
                 </div>
                 <div class="set-item">
-                    <p>翻</p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" readonly @click="showKeyboard(4)"></p><p>倍</p>
+                    <p>翻 </p><p class="number times"><input type="tel" v-model.number="times" maxlength="4" readonly @click="showKeyboard(4)"></p><p> 倍</p>
                 </div>
             </div>
             <div class="list-title">
@@ -58,14 +58,22 @@
             </div>
             <!-- </scroll> -->
             <div class="lottery-set">
-                <div class="number">
-                    <p>号码:{{betNumber}}</p>
+                <div class="number" @click="showAllNum">
+                    <p>号码: <span>{{numArr[numArr.length - 1]}}</span>
+                    
+                    <em :class="{'rotate':isShow}"><i class="angle"></i></em>
+                </p>
                 </div>
                 <div class="stop" @click="setZhuihaoStop">
                     <p class="check-box" ><i class="icon-right" v-show="zhuihaoStop == 1"></i></p>
                     <p>中奖后停止追号</p>
                 </div>
             </div>
+            <transition name="slide">
+                <div class="numList" v-if="isShow">
+                    <p v-for="(item,index) in numArr">{{numArr.length - index}}: {{item}}</p>
+                </div>
+            </transition>
             <div class="lottery-bottom">
                 <div class="clear-all" @click="changeNumber">
                     <p>修改号码</p>
@@ -130,6 +138,8 @@
         keyboardType:3, // 数字键盘类型 1金额 2倍数 3期数
         keyName:'zhuihaoCountQs', // 数字键盘改变名称
         keyOldVal:'5', // 键盘初始值
+        numArr:[],
+        isShow:false,
       }
     },
     props: {
@@ -193,6 +203,22 @@
             this.baseTimes=this.betTimes;
             this.watchInit();
             this.getLotteryQh();
+            this.getNums();
+        },
+        showAllNum(){
+            this.isShow = !this.isShow;
+        },
+        //  获取追号号码数组
+        getNums(){
+            let arrList = this.betNumber.split(',')
+            let newList = [];
+            for(let i = 0; i < arrList.length;i++){
+                let str = arrList[i].replace(/\d(?=(\d{1})+\.)/g, "$&,").replace(/\d{1}(?![,.]|$)/g, "$&,");
+                if( str.length > 0 ){
+                    newList.push(str)
+                }
+            }
+            this.numArr = newList.reverse();
         },
         // 初始化监听
         watchInit(){
@@ -429,7 +455,7 @@
         top: 0rem;
         bottom: 0rem;
         z-index: 203;
-        background: #F4EBE6;
+        background: #fff;
         .title-content{
             position:relative;
             height:1.2rem;
@@ -474,7 +500,7 @@
             font-size: $font-size-small-x;
             color: #3A3634;
             text-align: center;
-            background-color: #E1CCC3;
+            background-color: #f2f2f2;
         }
         .set-base-content{
             height:1rem;
@@ -492,8 +518,9 @@
                     &.number{
                         width:0.8rem;
                         height:0.56rem;
+                        margin: 0 .02rem;
                         border-radius: 0.1rem;
-                        background: #B35758;
+                        background: $color-red;
                         input{
                             width:100%;
                             height:0.56rem;
@@ -514,9 +541,9 @@
         }
         .list-title{
             height:0.7rem;
+            background-color: #F2F2F2;
             div{
                 float: left;
-                @include border-right-1px(solid,#E1CCC3 );
                 line-height: 0.7rem;
                 text-align: center;
                 color: #3A3634;
@@ -524,14 +551,13 @@
                     width:2.2rem;
                 }
                 &.bs{
-                    width:4rem;
+                    width:4rem;                   
                 }
                 &.je{
                     width:2rem;
                 }
                 &.bj{
                     width:1.8rem;
-                    @include border-right-1px(solid,$color-bg-white-a0);
                 }
             }
         }
@@ -544,12 +570,13 @@
                 .follow-number-item{
                     height:auto;
                     overflow: hidden;
-                    color: #3A3634;
+                    color: $color-gray;
                     line-height: 0.6rem;
+                    @include border-bottom-1px(solid,#F1F1F1);
                     div{
                         padding:0.1rem;
                         float: left;
-                        @include border-right-1px(solid,#E1CCC3 );
+                        @include border-right-1px(solid,#E9E9E9 );
                         text-align: center;
                         &.qh{
                             width:2rem;
@@ -578,7 +605,9 @@
                                          text-align: center;
                                          padding:0;
                                          margin: 0;
+                                         color: $color-red;
                                          border-radius: 0.1rem;
+                                         background-color: #F2F2F2;
                                     }
                                 }
                                 // &.add{
@@ -615,19 +644,51 @@
         }
         .lottery-set{
             position: absolute;
+            z-index: 9;
             height:0.8rem;
             width:100%;
             bottom:1.45rem;
             line-height: 0.8rem;
-            background: #E0CBC2;
-            
+            background: #f2f2f2;
             .number{
                 float: left;
                 width:6.6rem;
                 height:0.8rem;
                 p{
+                    display: inline-block;
                     padding-left: 0.2rem;
+                    padding-right: .6rem;
+                    position: relative;
+                    color: #454545;
+                    min-width: 60%;
                     @include no-wrap();
+                    span{
+                        margin-left: .1rem;
+                        font-size: .48rem;
+                    }
+                    em{
+                        position: absolute;
+                        bottom: .28rem;
+                        right: 0rem;
+                        width: .4rem;
+                        height: .26rem;
+                        // transform: rotate(-90deg);
+                        transition: transform .5s;
+                        &.rotate{
+                            transform: rotate(180deg)
+                        }
+                    }
+                    .angle{
+                        display: block;
+                        width: 0;
+                        height: 0;
+                        border-width: .3rem .2rem .3rem .2rem;
+                        border-style: solid;
+                        border-color: transparent transparent #454545 transparent;
+                        position: absolute;
+                        bottom: 0;
+                        left: 0;
+                    }
                 }
             }
             .stop{
@@ -644,15 +705,40 @@
                     &.check-box{
                         width:0.4rem;
                         height:0.4rem;
-                        background: #B35758;
-                        color:#fff;
+                        background: #fff;
+                        color:#383838;
+                        font-weight: bold;
                         border-radius: 0.07rem;
                         line-height: 0.45rem;
                     }
                 }
             }
-
         }
+        .numList{
+            width: 5rem;
+            background-color: #E0E0E0;
+            position: absolute;
+            bottom: 2.25rem;
+            z-index: 0;
+            padding: .1rem .3rem;
+            border-radius: .2rem .2rem 0 0 ;
+            p{
+                font-size: .46rem;
+                color: #797979;
+                line-height: .68rem;
+                text-indent: .4rem;
+                margin-bottom: .2rem;
+                &:last-child{
+                    margin-bottom: 0;
+                }
+            }
+        }
+        .slide-enter-active, .slide-leave-active{
+            transition: all 0.3s ease-in-out;
+        }
+        .slide-enter,.slide-leave-to{
+            transform: translate3d(0, 100%, 0);
+            }
         .lottery-bottom{
             position: absolute;
             height:1.45rem;
@@ -732,5 +818,4 @@
 
         }
     }
-
 </style>

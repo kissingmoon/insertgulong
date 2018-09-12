@@ -246,7 +246,7 @@
                     padding-left: 0.2rem;
                     border-radius: 0.08rem;
                     background-color: #F2F2F2;
-                    color: #DA1C36;
+                    color: $color-red;
                     font-size: $font-size-medium-x;
                     &::placeholder{
                         font-size:.2rem;
@@ -274,7 +274,7 @@
                         .number-wrapper{
                             height: 0.7rem;
                             line-height: 0.7rem;
-                            color: #DA1C36;
+                            color: $color-red;
                             .code{
                                 float: left;
                                 font-size: $font-size-large;
@@ -312,7 +312,7 @@
                                         padding:0 0.1rem;
                                         border-radius: 0.069rem;
                                         background-color: #F2F2F2;
-                                        color: #DA1C36;
+                                        color: $color-red;
                                         text-align: center;
                                         &::placeholder{
                                             font-size:.2rem;
@@ -322,7 +322,6 @@
                                 }
                             }
                         }
-
                     }
                 }
                 .add-order{
@@ -335,7 +334,7 @@
                         text-align: center;
                         font-size: $font-size-large;
                         background: #fff;
-                        color: #DA1C36;
+                        color: $color-red;
                         .txt{
                             width:3rem;
                             margin: 0 auto;

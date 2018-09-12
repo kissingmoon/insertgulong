@@ -63,12 +63,32 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
             isCanBottomFastPick = false;
             backgroundType = TYPE_WHOLE_ROUND_RECT;
             break;
-        case "k3_2th_fx":
-            buyNumberBeanList = BuyUtil.initDataStr(str4);
+        //这里开始自己写
+        //二不同标准
+        case "k3_2bth_bz":case "k3_3bth_bz":
+            buyNumberBeanList = BuyUtil.initDataNum(wfBean.param.begin, wfBean.param.end);
             isCanTopFastPick = false;
-            isShowSign = true;
             isCanBottomFastPick = false;
+            backgroundType = TYPE_NEW_K3;
             break;
+        //二不同胆拖
+        case "k3_2bth_dt":case "k3_3bth_dt":
+            buyNumberBeanList = BuyUtil.initDataNum(wfBean.param.begin, wfBean.param.end);
+            isCanBottomFastPick = true;
+            isShowSign = true;
+            backgroundType = TYPE_NEW_K3;
+            break;
+        //三同号通选
+        case "k3_3th_thtx":
+            buyNumberBeanList = BuyUtil.initDataStr(str5);
+            backgroundType = 5;
+            break;
+        //三连号通选
+        case "k3_3th_lhtx":
+            buyNumberBeanList = BuyUtil.initDataStr(str6);
+            backgroundType = 5;
+            break;
+        //三同号单选
         case "k3_3th_dx":
             buyNumberBeanList = BuyUtil.initDataStr(str5);
             isCanTopFastPick = false;
@@ -76,24 +96,34 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
             isCanBottomFastPick = false;
             backgroundType = TYPE_NEW_K3;
             break;
-        case "k3_3th_thtx":
-            buyNumberBeanList = BuyUtil.initDataStr(str5);
+            //三不同和值
+        case "k3_3bth_hz":
+            buyNumberBeanList = BuyUtil.initDataNum(wfBean.param.begin, wfBean.param.end);
+            isShowSign = true;
+            isCanBottomFastPick = true;
+            backgroundType = TYPE_NEW_K3;
+            break;
+        //和值
+        case "k3_hz_hz":
+            buyNumberBeanList = BuyUtil.initDataNum(wfBean.param.begin, wfBean.param.end);
+            backgroundType = 6;
+            break;
+        //暂时没用
+        case "k3_2th_fx":
+            buyNumberBeanList = BuyUtil.initDataStr(str4);
             isCanTopFastPick = false;
             isShowSign = true;
             isCanBottomFastPick = false;
             break;
-        case "k3_3th_lhtx":
-            buyNumberBeanList = BuyUtil.initDataStr(str6);
-            isCanTopFastPick = false;
-            isShowSign = true;
-            isCanBottomFastPick = false;
-            break;
+        
+        
         case "k3_2th_bz":
             buyNumberBeanList = BuyUtil.initDataNum(1, 6);
             isCanTopFastPick = false;
             isShowSign = true;
             isCanBottomFastPick = true;
             break;
+        
         case "xglhc_tema_xuma":case "xglhc_zhma_xm":case "xglhc_zhmat_z1t":case "xglhc_zhmat_z2t":
         case "xglhc_zhmat_z3t":case "xglhc_zhmat_z4t":case "xglhc_zhmat_z5t":case "xglhc_zhmat_z6t":case "xy28_tmtm_tm":
             buyNumberBeanList = BuyUtil.initDataLHCPL(wfBean.wf_pl,wfBean.wf_flag,wfBean.name);

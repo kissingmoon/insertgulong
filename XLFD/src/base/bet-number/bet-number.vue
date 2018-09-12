@@ -24,8 +24,11 @@
                 </div>
             </div>
             <div class="option-wrapper">
-                <div class="option-title" v-if="posi.isShowSign">
+                <div class="option-title" v-if="posi.isShowSign&&posi.backgroundType != 4">
                     <p>{{posi.title}}<span class="angle"></span></p>
+                </div>
+                <div class="k3-tuodan-title flex flex-center" v-if="posi.isShowSign&&posi.backgroundType == 4">
+                    <p>{{posi.title}}<span class="k3-tuodan-angle"></span></p>
                 </div>
                 <div class="option-item-wrapper" :class="{'kuai3':isKuai3,'cq':isCQ,'bj':isbj}" v-if="posi.backgroundType == 1">
                     <div class="option-item" :class="{'mr37':posi.is28OrLhc}" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
@@ -56,14 +59,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="option-item-wrapper" v-if="posi.backgroundType == 4">
-                    <div>{{posi.wfBean.help}}</div>
-                    <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
-                        <div class="" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
-                            <div class="" v-html="item.number_str"></div>
-                        </div>
-                    </div>
-                </div>
+                
                 <!-- <div class="option-item-wrapper texiao" v-else>
                     <div class="option-item zodiac-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="zodiac-con" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
@@ -82,6 +78,49 @@
                         </div>
                         
                     </div>
+                </div>
+                <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 4&&!posi.isShowSign">
+                    <div class="newk3-title">{{posi.wfBean.help}}</div>
+                    <div class="newk3-body flex">
+                        <div class="option-item " v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                            <div class="newk3-item flex flex-center" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                                {{item.str}}
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 4&&posi.isShowSign">
+                    <div class="tuodan-body flex">
+                        <div class="option-item " v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
+                            <div class="tuodan flex flex-center" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                                {{item.str}}
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 5">
+                    <div class="newk3-title flex flex-center">{{posi.wfBean.help}}</div>
+                    <div class="tongxuan-body flex flex-center">
+                        <div class="tongxuan-item flex flex-center">
+                            {{posi.wfBean.title}}
+                        </div>
+                    </div>                    
+                </div>
+                <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 6">
+                    <div class="newk3-title flex flex-center">{{posi.wfBean.help}}</div>
+                    <div class="hezhi-body flex flex-center" >
+                           <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][1] == 1}" @click="selectKind(p,1)">大</div>
+                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1}" @click="selectKind(p,2)">小</div>
+                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1}" @click="selectKind(p,3)">单</div>
+                            <div class="hezhi-item flex flex-center" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>
+                            
+                      
+                        <div class="hezhi-item flex flex-center"  v-for="(item,i) in posi.buyNumberBeanList" :key="i" @click="selectNum(p,i,item.number_str)" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
+                           
+                                {{item.str}}
+                            
+                        </div>
+                    </div>                    
                 </div>
             </div>
             <div class="optino-kind border-top-1px  border-bottom-1px" v-if="posi.isCanBottomFastPick">
@@ -334,6 +373,17 @@
                         margin-right:0;
                     }
                 }
+                .k3-tuodan-title{
+                    flex: 1;
+                    width:0.8rem;
+                    height:0.6rem;
+                    margin-top:0.7rem;
+                    padding-right: 0.2rem;
+                    @include bg-image('bg-option-title');
+                    background-repeat: no-repeat;
+                    background-size: 100% 100%;
+                    color: #fff;
+                }
                 .option-title{
                     flex: 1;
                     width:1.35rem;
@@ -373,6 +423,95 @@
                     &.bgtype1>div:nth-child(6n){
                         margin-right:0;
                     }
+                    .newk3-title{
+                        padding:0.4rem 0.2rem 0.2rem 0.2rem;
+                        line-height: 0.5rem;
+                        color: #fff;
+                        text-align: center;
+                    }
+                    .hezhi-body{
+                        flex-wrap: wrap;
+                        justify-content:flex-start;
+                        .hezhi-item{
+                            @include bg-image('hezhi');
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                            width: 2.05rem;
+                            height: 1.2rem;
+                            margin-left: 0.22rem;
+                            margin-top: 0.38rem;
+                            &.on{
+                                @include bg-image('hezhi-on');
+                                }
+                        }
+                         
+                    }
+                    .tongxuan-body{
+                        padding-top: 0.4rem;
+                        .tongxuan-item{
+                            width: 4.5rem;
+                            height: 1.2rem;
+                            background-size: 100% 100%;
+                            @include bg-image('santonghao');
+                            font-size: 0.42rem;
+                            color:#fff;
+                            &.on{
+                                @include bg-image('santonghao-on');
+                            }
+                        }
+                        
+                    }
+                    .tuodan-body{
+                        flex-wrap: wrap;
+                        justify-content:flex-start;
+                        padding: 0.3rem 0;
+                        .option-item{
+                            margin: 0.2rem 0;
+                            .tuodan{
+                                @include bg-image('Rectangle');
+                                background-repeat: no-repeat;
+                                background-size: 100% 100%;
+                                width: 1.1rem;
+                                height: 1rem;
+                                margin-left:0.22rem; 
+                                border-radius: 0.1rem;
+                                color: #fff;
+                                font-size: 0.42rem;
+                                &.on{
+                                    @include bg-image('Rectangle-on');
+                                    border-color: #DEC233;
+                                    color: #DEC233;
+                                }
+                            }
+                        }
+                    }
+                    .newk3-body{
+                        flex-wrap: wrap;
+                         justify-content:flex-start;
+                        .option-item{
+                            margin:0;                            
+                            .newk3-item{
+                                @include bg-image('Rectangle');
+                                background-repeat: no-repeat;
+                                background-size: cover;
+                                width: 1.35rem;
+                                height: 1.2rem;
+                                margin-left:0.18rem; 
+                                margin-top:0.2rem; 
+                                border-radius: 0.1rem;
+                                color: #fff;
+                                font-size: 0.42rem;
+                                &.on{
+                                    @include bg-image('Rectangle-on');
+                                    border-color: #DEC233;
+                                    color: #DEC233;
+                                }
+                            }
+                            
+                        }
+                        
+                    }
+                    
                     .option-item{
                         display:inline-block;
                         text-align: center;
@@ -499,6 +638,7 @@
                             line-height: 0.4rem;
                             word-break:break-all;
                         }
+                        
                     }
                     .sebo-item{
                         margin-top: .1rem;

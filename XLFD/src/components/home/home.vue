@@ -336,8 +336,9 @@
                       
                     if(count==30){
                         count=0;
-                    }                                
+                    }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
                     this.trueRecomandList.map((v,k)=>{ 
+                        console.log(v)
                         if(count%10==0){
                             if(v.reserved>300&&v.reserved<600){
                                 var flag=this.randomNum(0,2);

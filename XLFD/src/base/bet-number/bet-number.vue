@@ -591,7 +591,7 @@
                             color: $color-red;
                             border:1px solid #D2D2D2;
                             border-radius: 50%;
-                            
+                            font-size: $font-size-large;
                             &.on{
                                 color: #fff;
                                 border-radius: 50%;

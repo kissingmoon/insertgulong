@@ -220,6 +220,8 @@
                 padding: .3rem .5rem;
                 font-size: 0;
                 @include bg-image('greenbg');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
                 .item{
                     display: inline-block;
                     width: 2.6rem;

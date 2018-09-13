@@ -436,6 +436,8 @@
                             margin-top: 0.38rem;
                             &.on{
                                 @include bg-image('hezhi-on');
+                                background-repeat: no-repeat;
+                                background-size: 100% 100%;
                                 color:#DEC233;
                                 .hezhi-item-pl{
                                     color: #fff;;
@@ -461,10 +463,14 @@
                             height: 1.2rem;
                             background-size: 100% 100%;
                             @include bg-image('santonghao');
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
                             font-size: 0.42rem;
                             color:#fff;
                             &.on{
                                 @include bg-image('santonghao-on');
+                                background-repeat: no-repeat;
+                                background-size: 100% 100%;
                             }
                         }
                         
@@ -487,6 +493,8 @@
                                 font-size: 0.42rem;
                                 &.on{
                                     @include bg-image('Rectangle-on');
+                                    background-repeat: no-repeat;
+                                    background-size: 100% 100%;
                                     border-color: #DEC233;
                                     color: #DEC233;
                                 }
@@ -511,6 +519,8 @@
                                 font-size: 0.42rem;
                                 &.on{
                                     @include bg-image('Rectangle-on');
+                                    background-repeat: no-repeat;
+                                    background-size: 100% 100%;
                                     border-color: #DEC233;
                                     color: #DEC233;
                                 }
@@ -587,6 +597,7 @@
                             color: $color-red;
                             border:1px solid #D2D2D2;
                             border-radius: 50%;
+                            font-size: .4rem;
                             &.on{
                                 color: #fff;
                                 border-radius: 50%;

@@ -2452,10 +2452,14 @@
         .lottery-nav{
             color: #fff;
             @include bg-image('Rectangle');
+            background-size: cover;
+            background-repeat:no-repeat;
         }
         .kuai3Con{
             height: 100%;
             @include bg-image('greenbg');
+            background-size: cover;
+            background-repeat:no-repeat;
         }
     }
     

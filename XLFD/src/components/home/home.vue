@@ -320,7 +320,7 @@
                 this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/')); 
                 this.trueRecomandList[k].click=true;   
                 var lockInt=parseInt(this.trueRecomandList[k].locktime.split(':')[1])
-                var baseMinNum,baseMaxNum;
+                var baseMinNum=300,baseMaxNum=480;
                 switch(this.trueRecomandList[k].lottery_id){
                             case "cqssc":
                                 baseMinNum=600;baseMaxNum=800;
@@ -353,7 +353,7 @@
                         count=0;
                     }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
                     this.trueRecomandList.map((v,k)=>{ 
-                        var baseMinNum,baseMaxNum;
+                        var baseMinNum=300,baseMaxNum=480;
                         switch(v.lottery_id){
                             case "cqssc":
                                 baseMinNum=600;baseMaxNum=800;

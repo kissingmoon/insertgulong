@@ -35,10 +35,11 @@
             <div class="wf-detail-wrapper clearfix">
                 <!-- <div class="detail-title">签到失败!</div> -->
                 <div class="wf-detail-main">
+                    <div class="wf-detail-close">
+                        <button @click="closeHdSuc"></button>
+                    </div>
                 </div>
-                <div class="wf-detail-close">
-                    <button @click="closeHdSuc"></button>
-                </div>
+                
             </div>
         </div>
     </div>
@@ -206,7 +207,7 @@
                     font-size: $font-size-large-x;
                     padding:0;
                     margin: 0;
-                    @include bg-image('btn-qiandao');
+                    //@include bg-image('btn-qiandao');
                     background-size: 100%;
                     background-position: center bottom;
                 }
@@ -299,7 +300,7 @@
         .wf-detail-wrapper{
             min-height:100%;
             .wf-detail-main{
-                padding:0rem 0.4rem 0.2rem;
+                padding:0.9rem 0.4rem 0.2rem;
                 overflow:auto;
                 height:5rem;
                 color:#fff;
@@ -312,26 +313,28 @@
                 .yellow{
                     color:$color-yellow;
                 }
-            }
-            .wf-detail-close{
-                position: absolute;;
-                height:1.2rem;
-                width:100%;
-                padding-top:0.1rem;
-                text-align: center;
-                top:3.9rem;
-                button{
-                    height:1.1rem;
-                    width:4rem;
-                    border:0;
+                .wf-detail-close{
+                    position: absolute;;
+                    height:1.2rem;
+                    width:90%;
+                    margin: 0 auto;
+                    padding-top:0.1rem;
                     text-align: center;
-                    background:none;
-                    color: $color-yellow;
-                    font-size: $font-size-large-x;
-                    padding:0;
-                    margin: 0;
-                    background-size: 100%;
-                    background-position: center bottom;
+                    top:4.7rem;
+                    //top:3.9rem;
+                    button{
+                        height:1.1rem;
+                        width:4rem;
+                        border:0;
+                        text-align: center;
+                        background:none;
+                        color: $color-yellow;
+                        font-size: $font-size-large-x;
+                        padding:0;
+                        margin: 0;
+                        background-size: 100%;
+                        background-position: center bottom;
+                    }
                 }
             }
         }

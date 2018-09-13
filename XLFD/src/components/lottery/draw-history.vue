@@ -123,7 +123,6 @@
             })
         },
         judge(list){
-            console.log(list)
             var returnObj={
                 total:0,
                 danshuang:"单",

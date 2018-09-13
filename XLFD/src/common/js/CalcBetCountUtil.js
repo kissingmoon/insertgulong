@@ -910,12 +910,12 @@ export function k3_3th_dx(value) {
 
 //三同号通选  bet:111,222,333,444,555,666
 export function k3_3th_thtx(value) {
-    return 1;
+    return value.length==0?0:1;
 }
 
 //三连号通选  bet:123,234,345,456
 export function k3_3th_lhtx(value) {
-    return 1;
+    return value.length==0?0:1;
 }
 
 //和值  bet:6,7,12,15

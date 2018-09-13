@@ -1158,6 +1158,7 @@
             },
             //组合下注号码和计算注数
             recount(){
+                
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
                     this.betCount=this.selectNumList[0].length;

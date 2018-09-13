@@ -35,6 +35,7 @@
             <div class="wf-detail-wrapper clearfix">
                 <!-- <div class="detail-title">签到失败!</div> -->
                 <div class="wf-detail-main">
+                    <div class="chacha" @click="closeHdSuc"></div>
                     <div class="wf-detail-close">
                         <button @click="closeHdSuc"></button>
                     </div>
@@ -310,6 +311,13 @@
                 background-size: 100%;
                 background-position: center bottom;
                 background-repeat: no-repeat;
+                .chacha{
+                    width: 1rem;
+                    height: 1rem;
+                    position:absolute;
+                    right: 0;
+                    top:0.5rem;
+                }
                 .yellow{
                     color:$color-yellow;
                 }

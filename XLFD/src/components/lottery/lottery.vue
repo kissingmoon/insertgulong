@@ -1557,30 +1557,30 @@
                     }
                     .last-draw-k3{
                         display: inline-block;
-                        width: 0.7rem;
-                        height: 0.7rem;
-                        margin: 0 0.1rem;
+                        width: 0.6rem;
+                        height: 0.6rem;
+                        margin: 0.1rem 0.2rem;
                     }
                     .last-draw-11x5{
                         display: inline-block;
-                        width: 0.8rem;
-                        height: 0.8rem;
+                        width: 0.7rem;
+                        height: 0.7rem;
                         margin: 0 0.2rem;
-                        font-size: 0.45rem;
+                        font-size: 0.4rem;
                         border-radius: 50%;
                         color: #ffffff;
-                        line-height: 0.8rem;
+                        line-height: 0.7rem;
                         background: $color-red;
                         text-align: center;
                     }
                     .last-draw-xy28{
                         display: inline-block;
-                        width: 0.8rem;
-                        height: 0.8rem;
+                        width: 0.7rem;
+                        height: 0.7rem;
                         margin: 0 0.2rem;
-                        line-height: 0.8rem;
-                        margin-left: 0.2rem;
-                        font-size: 0.45rem;
+                        line-height: 0.7rem;
+                        margin-left: 0.3rem;
+                        font-size: 0.4rem;
                         border-radius: 50%;
                         color: #ffffff;
                          background: $color-red;
@@ -1588,11 +1588,11 @@
                     }
                     .last-draw-lhc{
                         display: inline-block;
-                        width: 0.5rem;
-                        height: 0.5rem;
+                        width: 0.6rem;
+                        height: 0.6rem;
                         margin: 0 0.1rem;
                         border-radius: 50%;
-                        line-height: 0.5rem;
+                        line-height: 0.6rem;
                         text-align: center;
                         margin-left: 0.05rem;
                         color: #F2F2F2;

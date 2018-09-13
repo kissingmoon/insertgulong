@@ -3,7 +3,7 @@
         <div class="kind-content">
             <div class="kind-title-content">
                 <div class="back" @click="close"><i class="icon-arrows-left"></i></div>
-                <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service"><i class="icon-diamond"></i><span>客服</span></router-link>
+                <!-- <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service"><i class="icon-diamond"></i><span>客服</span></router-link> -->
                 <h1 class="title">玩法选择</h1>
             </div>
             <scroll ref="scroll" class="scroll-content" :data="data">

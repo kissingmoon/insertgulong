@@ -332,6 +332,7 @@
                         padding-top:0.1rem;
                         margin: 0 auto;
                         line-height: 0.5rem;
+                        font-size: $font-size-medium;
                     }
 
                 }
@@ -560,6 +561,7 @@
                                     width: 100%;
                                     color: #A9A9A9;
                                     margin-bottom: .2rem;
+                                    font-size: $font-size-medium;
                                 }
                                 .zodiac-num{
                                     line-height: .6rem;
@@ -575,12 +577,14 @@
                             .txt{
                                 width: 100%;
                                 color: #A9A9A9;
+                                font-size: $font-size-medium;
                             }
                             &.on{
                                 background-color: $color-red;
                                 border-color: $color-red;
                                 .txt{
                                     color: #fff;
+                                    font-size: $font-size-medium;
                                 }
                                 .oval-con{
                                     color: #fff;
@@ -597,7 +601,11 @@
                             color: $color-red;
                             border:1px solid #D2D2D2;
                             border-radius: 50%;
+<<<<<<< HEAD
                             font-size: .4rem;
+=======
+                            font-size: $font-size-large;
+>>>>>>> 9dcc84519d611b04eda879e0f59f7c59b6982b41
                             &.on{
                                 color: #fff;
                                 border-radius: 50%;
@@ -606,14 +614,15 @@
                             }
                         }
                         .oval-con{
-                            height:.4rem;
+                            height:.6rem;
                             width:2.878rem;
-                            line-height: .4rem;
+                            line-height: .6rem;
                             text-align: center;
                             overflow: hidden;
                             margin: 0 auto;
                             border-radius: 0.8rem;
                             color: $color-red;
+                            font-size: 0.45rem;
                             // &.on{
                             //     color: #fff;
                             //     background-color: $color-red;
@@ -627,11 +636,11 @@
                             margin: 0 auto;
                             border:1px solid $color-red;
                             border-radius: 0.2rem;
-                            padding:0.2rem 0;
+                            padding:0.3rem 0;
                             .zodiac-title{
                                 padding-bottom:0.15rem;
                                 color:#FFD200;
-                                font-size: $font-size-medium-x;
+                                font-size: $font-size-large;
                             }
                             .zodiac-num{
                                 line-height: 0.5rem;
@@ -648,16 +657,18 @@
                                 }
                                 .txt{
                                     color: #fff;
+                                    font-size: $font-size-medium;
                                 }
                             }
                         }
                         .txt{
                             width:0.96rem;
-                            font-size:.2rem;
+                            font-size:.33rem;
                             padding-top:0.2rem;
                             margin: 0 auto;
                             line-height: 0.4rem;
                             word-break:break-all;
+                            font-size: $font-size-medium;
                         }
                         
                     }
@@ -665,6 +676,7 @@
                         margin-top: .1rem;
                         .txt{
                             line-height: 1.3rem;
+                            font-size: $font-size-medium;
                             &.redColor{
                                 color:$color-red;
                             }
@@ -750,6 +762,7 @@
                         }
                         .txt{
                             text-align: center;
+                            font-size: $font-size-medium;
                         }
                     }
                     &.other{

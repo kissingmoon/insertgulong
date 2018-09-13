@@ -191,6 +191,7 @@
         numberKeyboard
     },
     mounted() {
+        // console.log(this.wfFlag)
         this.init();
     },
     computed: {
@@ -210,20 +211,25 @@
         },
         //  获取追号号码数组
         getNums(){
+            // console.log(this.betNumber)
             let arrList,newList = [];
+            if(this.wfFlag == '11x5_qwx_dds'){
+                arrList = this.betNumber.split(',')
+                this.numArr = arrList.reverse();
+            }else{
+                arrList = this.betNumber.split(',')
+                for(let i = 0; i < arrList.length;i++){
+                    let str = arrList[i].replace(/\d(?=(\d{1})+\.)/g, "$&,").replace(/\d{1}(?![,.]|$)/g, "$&,");
+                    if( str.length > 0 ){
+                        newList.push(str)
+                    }
+                }
+                this.numArr = newList.reverse();
+            }
             if(this.wfFlag.includes('11x5')){
                 arrList = this.betNumber.split('-')
                 this.numArr = arrList.reverse();
-                return;
             }
-            arrList = this.betNumber.split(',')
-            for(let i = 0; i < arrList.length;i++){
-                let str = arrList[i].replace(/\d(?=(\d{1})+\.)/g, "$&,").replace(/\d{1}(?![,.]|$)/g, "$&,");
-                if( str.length > 0 ){
-                    newList.push(str)
-                }
-            }
-            this.numArr = newList.reverse();
         },
         // 初始化监听
         watchInit(){

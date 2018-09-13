@@ -159,7 +159,6 @@
             }
         },
         mounted(){
-            
             this.init();
             this.getType(this.$route.query.type)
         },

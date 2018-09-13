@@ -205,13 +205,20 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
             isShowSign = false;
             isCanBottomFastPick = false;
             break;
-        case "xglhc_zxbz_zxbz":case "xglhc_lm_3z2":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
+        case "xglhc_lm_3z2":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
         case "xglhc_lm_2zt":case "xglhc_lm_tc":case "xglhc_lm_4qz":
             buyNumberBeanList = BuyUtil.initDataBy(5, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
             isShowOdds = false;
+            break;
+        case "xglhc_zxbz_zxbz":
+            buyNumberBeanList = BuyUtil.initDataBy(5, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);
+            isCanTopFastPick = false;
+            isShowSign = false;
+            isCanBottomFastPick = false;
+            isShowOdds = true;
             break;
         case "xy28_tmb3_b3":
             buyNumberBeanList = BuyUtil.initDataBy(6, wfBean.wf_pl,wfBean.wf_flag,wfBean.name);

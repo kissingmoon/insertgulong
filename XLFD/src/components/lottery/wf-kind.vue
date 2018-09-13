@@ -59,7 +59,9 @@
         Parcel
     },
     created(){        
-        this.makeData();
+        if(this.$route.query.type == '9'){
+            this.makeData();
+        }
     },
     mounted() {
         setTimeout(() => {
@@ -234,6 +236,9 @@
                         border-color: #DEC233;
                         .name{
                             color: #DEC233;
+                        }
+                        .percent{
+                            color: #fff;
                         }
                     }
                     &:nth-child(3n){

@@ -160,6 +160,7 @@
             }
         },
         mounted(){
+            console.log(this.numList)
             this.init();
             this.getType(this.$route.query.type)
         },

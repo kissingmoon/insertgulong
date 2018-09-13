@@ -933,13 +933,13 @@
                 this.$refs.betnumberlist.clearKind();
             },
             //设置组合赔率
-            setTotal(){
+            setTotal(){//  totalOdds
                 switch(this.wfFlag){
                     case "xglhc_lm_3z2":case "xglhc_lm_2zt":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money+','+this.currentWf.wf_pl[1].award_money;
                         this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
                         break;
-                    case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":
+                    case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":case "xglhc_zxbz_zxbz":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money;
                         this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag
                         break;

@@ -1597,7 +1597,7 @@
                         text-align: center;
                         margin-left: 0.05rem;
                         color: #F2F2F2;
-                        font-size: .2rem;
+                        font-size: .4rem;
                         &:nth-child(7){
                             position: relative;
                             top: .12rem;

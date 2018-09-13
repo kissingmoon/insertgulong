@@ -601,11 +601,7 @@
                             color: $color-red;
                             border:1px solid #D2D2D2;
                             border-radius: 50%;
-<<<<<<< HEAD
-                            font-size: .4rem;
-=======
                             font-size: $font-size-large;
->>>>>>> 9dcc84519d611b04eda879e0f59f7c59b6982b41
                             &.on{
                                 color: #fff;
                                 border-radius: 50%;
@@ -756,9 +752,6 @@
                                     }
                                 }
                             }
-                            &:on{
-
-                            }
                         }
                         .txt{
                             text-align: center;
@@ -767,9 +760,6 @@
                     }
                     &.other{
                         text-align:left;
-                        >div{
-                            
-                        }
                         >div:nth-child(3n){
                             margin-right:0;
                         }

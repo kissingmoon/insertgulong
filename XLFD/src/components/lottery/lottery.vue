@@ -788,7 +788,6 @@
             },
             //修改玩法
             changeWf(i,s){
-                debugger
                 this.currentWf=this.wfList[i].wf[s];
                 this.wfFlag=this.wfList[i].wf[s].wf_flag;
                 // this.$emit('getWFflag',this.wfFlag)
@@ -801,7 +800,6 @@
                 this.selectNumList=[];
                 this.selectPosition=[];
                 this.selectObj={};
-                // debugger
                 if(!this.is28OrLhc){
                     this.wfDetail=LotteryWfDetail[lottery].wf_class[this.wfFlag];
                 }

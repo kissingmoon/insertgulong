@@ -18,11 +18,11 @@
                     </div>
                 </div>
                 <div class="kuai3WF" v-else>
-                    <div class="item" v-for="(item,index) in newArr" :key="index" @click="selectWf(item.parantIndex,item.activeIndex)">
+                    <div class="item" :class="{'on':item.wf_flag == currentWF}" v-for="(item,index) in newArr" :key="index" @click="selectWf(parseInt(item.parantIndex),parseInt(item.activeIndex))">
                         <p class="name">{{item.name}}</p>
                         <p class="percent">赔率{{item.wf_pl[0].award_money.toFixed(2) }}倍</p>
                         <div class="imgBox">
-                            <span v-for="(it,index) in item.param" :key="index" :class="it.clas" :style="{background:it.bg.background,backgroundSize:it.bg.backgroundSize}"></span>
+                            <span v-for="(it,index) in item.datas" :key="index" :class="it.clas" :style="{background:it.bg.background,backgroundSize:it.bg.backgroundSize}"></span>
                         </div>
                     </div>
                 </div>
@@ -41,6 +41,7 @@
     data() {
       return {
           dataArr:[],
+          newArr:[],
       }
     },
     props: {
@@ -57,8 +58,7 @@
         Scroll,
         Parcel
     },
-    created(){
-        console.log(this.data)
+    created(){        
         this.makeData();
     },
     mounted() {
@@ -83,47 +83,41 @@
             }
             for(let i = 0; i < this.newArr.length; i++){                
                 if(that.newArr[i].name == '三不同和值'){
-                    that.newArr[i].param = showCode([1,1,1],'9')
+                    that.newArr[i].datas = showCode([1,1,1],'9')
                 }else
                 if(that.newArr[i].name == '三不同胆拖'){
-                    that.newArr[i].param = showCode([1,1,1],'9')
+                    that.newArr[i].datas = showCode([1,1,1],'9')
                 }else
                 if(that.newArr[i].name == '三不同标准'){
-                    that.newArr[i].param = showCode([2,3,5],'9')
+                    that.newArr[i].datas = showCode([2,3,5],'9')
                 }else
                 if(that.newArr[i].name == '三连号通选'){
-                    that.newArr[i].param = showCode([1,2,3],'9')
+                    that.newArr[i].datas = showCode([1,2,3],'9')
                 }else
                 if(that.newArr[i].name == '三同号单选'){
-                    that.newArr[i].param = showCode([1,1,1],'9')
+                    that.newArr[i].datas = showCode([1,1,1],'9')
                 }else
                 if(that.newArr[i].name == '三同号通选'){
-                    that.newArr[i].param = showCode([1,1,1],'9')
+                    that.newArr[i].datas = showCode([1,1,1],'9')
                 }else
                 if(that.newArr[i].name == '二不同标准'){
-                    that.newArr[i].param = showCode([1,1,3],'9')
+                    that.newArr[i].datas = showCode([1,1,3],'9')
                 }else
                 if(that.newArr[i].name == '二不同胆拖'){
-                    that.newArr[i].param = showCode([1,4,4],'9')
+                    that.newArr[i].datas = showCode([1,4,4],'9')
                 }else
                 if(that.newArr[i].name == '和值'){
-                    that.newArr[i].param = showCode([1,2,3],'9')
+                    that.newArr[i].datas = showCode([1,2,3],'9')
                 }
             }
-            console.log(this.newArr)
         },
         close(){
             this.$emit('close','wfKindShow');
         },
         selectWf(i,s){
-            console.log('i='+i)
-            console.log('s='+s)
             this.$emit('selectWf',i,s);
         },
-        
     },
-    watch: {
-    }
   }
 </script>
 
@@ -206,7 +200,6 @@
                             overflow: hidden;
                             border:1px solid #d2d2d2;
                             border-radius: 0.8rem;
-                            
                         }
                         .currentSub{
                             color: #fff;

@@ -36,6 +36,8 @@
                     </div>
                     <div class="kjhm flex flex-align-center">
                         <span v-for="(num,n) in item.kj_code" :key="n" :class='num.clas' :style="num.bg">{{num.val}}</span>
+                        <!-- 开奖大小 -->
+                         <!-- <span >{{judge(item.kj_code).total}}</span> -->
                     </div>
                     <!-- <div v-if="item.show_type == 2 || item.show_type == 5" class="number show_type2">
                         <span v-for="(num,n) in item.kj_code" :class="{'blue':n == (item.kj_code.length-1)}">{{num.val}}</span>
@@ -84,7 +86,23 @@
         mounted(){
         },
         methods: {
-            
+            judge(list){
+            var returnObj={
+                total:0,
+                danshuang:"单",
+                daxiao:"小"
+            }
+            list.map((v,k)=>{
+                returnObj.total+=v.value
+            })
+            if(returnObj.total%2==0){
+                returnObj.danshuang="双"
+            }
+            if(returnObj.total>=11){
+                returnObj.daxiao="大"
+            }
+            return returnObj
+        }
         }
     }
 </script>

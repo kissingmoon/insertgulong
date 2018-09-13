@@ -122,11 +122,11 @@
                 </div>
             </div>
             <div class="optino-kind border-top-1px  border-bottom-1px" v-if="posi.isCanBottomFastPick">
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][0] == 1}" :data-txt="kindTypeList[p]" @click="selectKind(p,0)">全</div>
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][1] == 1}" @click="selectKind(p,1)">大</div>
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1}" @click="selectKind(p,2)">小</div>
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1}" @click="selectKind(p,3)">单</div>
-                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1}" @click="selectKind(p,4)">双</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][0] == 1&&posi.backgroundType<4,'on-k3':kindTypeList[p] && kindTypeList[p][0] == 1&&posi.backgroundType>=4}" :data-txt="kindTypeList[p]" @click="selectKind(p,0)">全</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][1] == 1&&posi.backgroundType<4,'on-k3':kindTypeList[p] && kindTypeList[p][1] == 1&&posi.backgroundType>=4}" @click="selectKind(p,1)">大</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][2] == 1&&posi.backgroundType<4,'on-k3':kindTypeList[p] && kindTypeList[p][2] == 1&&posi.backgroundType>=4}" @click="selectKind(p,2)">小</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][3] == 1&&posi.backgroundType<4,'on-k3':kindTypeList[p] && kindTypeList[p][3] == 1&&posi.backgroundType>=4}" @click="selectKind(p,3)">单</div>
+                <div class="kind-item" :class="{'on': kindTypeList[p] && kindTypeList[p][4] == 1&&posi.backgroundType<4,'on-k3':kindTypeList[p] && kindTypeList[p][4] == 1&&posi.backgroundType>=4}" @click="selectKind(p,4)">双</div>
                 <div class="kind-item" @click="selectKind(p,5)">清</div>
             </div>
         </div>
@@ -763,6 +763,9 @@
                         height:0.8rem;
                         line-height: 0.8rem;
                         @include border-left-1px(dashed,$color-red);
+                    }
+                    &.on-k3{
+                        background-color: #164d34;
                     }
                 }
                 div:first-child{

@@ -818,7 +818,12 @@
                         this.selectNumList.push([]);
                     });
                 }
-                this.isShowOdds=this.numberList[0].isShowOdds;
+                if(this.numberList[0].wfBean.wf_flag == '11x5_qwx_dds'){
+                    this.numberList[0].isShowOdds = false;
+                }else{
+                    this.isShowOdds=this.numberList[0].isShowOdds;
+                }
+                
                 this.setTotal();
                 this.watchInit();
             },
@@ -1592,6 +1597,10 @@
                         margin-left: 0.05rem;
                         color: #F2F2F2;
                         font-size: .2rem;
+                        &:nth-child(7){
+                            position: relative;
+                            top: .12rem;
+                        }
                     }
                     .last-draw-pk10{
                         display: inline-block;

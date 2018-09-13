@@ -160,7 +160,6 @@
             }
         },
         mounted(){
-            console.log(this.numList)
             this.init();
             this.getType(this.$route.query.type)
         },
@@ -520,7 +519,9 @@
                         text-align: center;
                         color: #A9A9A9;
                         margin:0.2rem 0.27rem 0.2rem 0;
-                        
+                        &:nth-child(6n){
+                            margin-right:0;
+                        }
                         &.mr37{
                             margin-right: 0.366rem;
                             &:nth-child(7n){

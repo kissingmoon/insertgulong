@@ -210,8 +210,13 @@
         },
         //  获取追号号码数组
         getNums(){
-            let arrList = this.betNumber.split(',')
-            let newList = [];
+            let arrList,newList = [];
+            if(this.wfFlag.includes('11x5')){
+                arrList = this.betNumber.split('-')
+                this.numArr = arrList.reverse();
+                return;
+            }
+            arrList = this.betNumber.split(',')
             for(let i = 0; i < arrList.length;i++){
                 let str = arrList[i].replace(/\d(?=(\d{1})+\.)/g, "$&,").replace(/\d{1}(?![,.]|$)/g, "$&,");
                 if( str.length > 0 ){
@@ -654,22 +659,24 @@
                 float: left;
                 width:6.6rem;
                 height:0.8rem;
+                position: relative;
+                @include no-wrap();
                 p{
                     display: inline-block;
                     padding-left: 0.2rem;
                     padding-right: .6rem;
-                    position: relative;
+                    
                     color: #454545;
                     min-width: 60%;
                     @include no-wrap();
                     span{
                         margin-left: .1rem;
-                        font-size: .48rem;
+                        font-size: .44rem;
                     }
                     em{
                         position: absolute;
                         bottom: .28rem;
-                        right: 0rem;
+                        right: .3rem;
                         width: .4rem;
                         height: .26rem;
                         // transform: rotate(-90deg);
@@ -720,13 +727,13 @@
             position: absolute;
             bottom: 2.25rem;
             z-index: 0;
-            padding: .1rem .3rem;
+            padding: .1rem .2rem;
             border-radius: .2rem .2rem 0 0 ;
             p{
-                font-size: .46rem;
+                font-size: .4rem;
                 color: #797979;
                 line-height: .68rem;
-                text-indent: .4rem;
+                text-indent: .3rem;
                 margin-bottom: .2rem;
                 &:last-child{
                     margin-bottom: 0;

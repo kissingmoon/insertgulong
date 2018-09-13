@@ -58,7 +58,7 @@
         Scroll,
         Parcel
     },
-    created(){        
+    created(){      
         if(this.$route.query.type == '9'){
             this.makeData();
         }

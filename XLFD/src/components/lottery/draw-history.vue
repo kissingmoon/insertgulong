@@ -123,7 +123,6 @@
             })
         },
         judge(list){
-            console.log(list)
             var returnObj={
                 total:0,
                 danshuang:"单",
@@ -234,9 +233,6 @@
                 }
                 .draw-num{
                     flex: 5;
-                    span{
-                        
-                    }
                     .last-draw-ssc{
                         display: inline-block;
                         width: 0.5rem;
@@ -286,6 +282,10 @@
                         margin-left: 0.05rem;
                         color: #F2F2F2;
                         font-size: .3rem;
+                        &:nth-child(7){
+                            position: relative;
+                            top: .12rem;
+                        }
                     }
                     .last-draw-pk10{
                         display: inline-block;

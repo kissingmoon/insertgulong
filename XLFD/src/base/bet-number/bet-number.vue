@@ -69,14 +69,13 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="option-item-wrapper other" v-if="posi.backgroundType == 3">
+                <div class="option-item-wrapper other" :class="{'dds': posi.title == '定单双'}" v-if="posi.backgroundType == 3">
                     <div class="option-item" v-for="(item,i) in posi.buyNumberBeanList" @click="selectNum(p,i,item.number_str)" :key="i">
                         <div class="wrap" :class="{'on': selectNumList[p] && selectNumList[p].indexOf(item.number_str) != -1}">
                             <div class="oval-con" v-html="item.str">
                             </div>
                             <div class="txt" v-if="posi.isShowOdds">赔率{{item.pl}}</div>
                         </div>
-                        
                     </div>
                 </div>
                 <div class="option-item-wrapper flex flex-v" v-if="posi.backgroundType == 4&&!posi.isShowSign">
@@ -160,7 +159,7 @@
             }
         },
         mounted(){
-            console.log(this.numList)
+            
             this.init();
             this.getType(this.$route.query.type)
         },
@@ -411,6 +410,13 @@
                     &.bgtype1>div:nth-child(6n){
                         margin-right:0;
                     }
+                    &.dds{
+                        .option-item{
+                            .wrap{
+                                padding: .5rem 0;
+                            }
+                        }
+                    }
                     .newk3-title{
                         padding:0.4rem 0.2rem 0.2rem 0.2rem;
                         line-height: 0.5rem;
@@ -520,7 +526,9 @@
                         text-align: center;
                         color: #A9A9A9;
                         margin:0.2rem 0.27rem 0.2rem 0;
-                        
+                        &:nth-child(6n){
+                            margin-right:0;
+                        }
                         &.mr37{
                             margin-right: 0.366rem;
                             &:nth-child(7n){

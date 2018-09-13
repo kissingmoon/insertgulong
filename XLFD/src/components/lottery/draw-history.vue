@@ -318,6 +318,7 @@
                 .tit-k3-shu{
                     display: inline-block;
                     @include bg-image('k3-shu');
+                    background-repeat: no-repeat;
                     background-size: 100% 100%;
                     height: 0.7rem;
                     width: 0.15rem;

@@ -18,6 +18,10 @@
                         <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
                         </span>
                         <!-- 开奖大小 -->
+                        <span class="k3-kjCode" v-if="v.lotteryType=='9'">
+                            <span class="k3-kjCode-Item"  v-for="(value, key) in judge( v.kjNewData.truekjCode)" :key="key">{{value}}</span>
+                        </span>
+                        
                         <!-- <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).total}}</span>
                         <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).daxiao}}</span>
                         <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).danshuang}}</span> -->
@@ -250,6 +254,15 @@ export default {
                     }
                     .kjhaoma{
                         height: 1.5rem;
+                        .k3-kjCode{
+                            position:absolute;
+                            right: 0.3rem;
+                            .k3-kjCode-Item{
+                                margin-left: 0.72rem;
+                                color: #949494;
+                                font-size: 0.35rem;
+                            }
+                        }
                         .last-draw-ssc{
                             display: inline-block;
                             width: 0.8rem;

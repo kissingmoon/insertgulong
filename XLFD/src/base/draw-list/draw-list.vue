@@ -37,6 +37,11 @@
                     <div class="kjhm flex flex-align-center">
                         <span v-for="(num,n) in item.kj_code" :key="n" :class='num.clas' :style="num.bg">{{num.val}}</span>
                         <!-- 开奖大小 -->
+                        <!-- <span>{{item}}</span> -->
+                        <span  class="k3-kjCode flex" v-if="lotteryType=='9'">
+                            <span class="k3-kjCode-Item flex-1 flex flex-center" v-for="(value, key) in judge(item.kj_code)" :key="key">{{value}}</span>
+                        </span>
+                        
                          <!-- <span >{{judge(item.kj_code).total}}</span> -->
                     </div>
                     <!-- <div v-if="item.show_type == 2 || item.show_type == 5" class="number show_type2">
@@ -72,11 +77,15 @@
             },
             isLink: {
                 type:Boolean,
-                defaule:false
+                default:false
             },
             url: {
                 type:String,
-                defaule:'/draw/number'
+                default:'/draw/number'
+            },
+            lotteryType: {
+                type:String,
+                default:''
             }
         },
         created() {      
@@ -126,6 +135,17 @@
             overflow: hidden;
             .kjhm{
                 height: 1.2rem;
+                .k3-kjCode{
+                    position: relative;
+                    left: 1.2rem;
+                    //display: inline-block;
+                    width: 3.83rem;
+                    .k3-kjCode-Item{
+                        //text-align: center;
+                        color: #949494;
+                        font-size: 0.35rem;
+                    }
+                }
                 .last-draw-ssc{
                     display: inline-block;
                     width: 0.8rem;

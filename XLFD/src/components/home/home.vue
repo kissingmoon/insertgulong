@@ -336,11 +336,26 @@
                 this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/')); 
                 this.trueRecomandList[k].click=true;   
                 var lockInt=parseInt(this.trueRecomandList[k].locktime.split(':')[1])
+                var baseMinNum=300,baseMaxNum=480;
+                switch(this.trueRecomandList[k].lottery_id){
+                            case "cqssc":
+                                baseMinNum=600;baseMaxNum=800;
+                            break;
+                            case "pk10":
+                                baseMinNum=500;baseMaxNum=600;
+                            break;
+                            case "xssc":
+                                baseMinNum=300;baseMaxNum=500;
+                            break;
+                            case "xglhc":
+                                baseMinNum=150;baseMaxNum=350;
+                            break;
+                        }
                 if(lockInt<=15){
-                    this.trueRecomandList[k].reserved=this.randomNum(300,600); 
+                    this.trueRecomandList[k].reserved=this.randomNum(baseMinNum,baseMaxNum); 
                 }
                 else{
-                    this.trueRecomandList[k].reserved=this.randomNum(400,600);
+                    this.trueRecomandList[k].reserved=this.randomNum(baseMinNum-100,baseMaxNum-100);
                 }
                 if(!this.interval){
                     this.startIntervl()
@@ -354,9 +369,23 @@
                         count=0;
                     }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
                     this.trueRecomandList.map((v,k)=>{ 
-                        console.log(v)
+                        var baseMinNum=300,baseMaxNum=480;
+                        switch(v.lottery_id){
+                            case "cqssc":
+                                baseMinNum=600;baseMaxNum=800;
+                            break;
+                            case "pk10":
+                                baseMinNum=500;baseMaxNum=600;
+                            break;
+                            case "xssc":
+                                baseMinNum=300;baseMaxNum=500;
+                            break;
+                            case "xglhc":
+                                baseMinNum=150;baseMaxNum=350;
+                            break;
+                        }
                         if(count%10==0){
-                            if(v.reserved>300&&v.reserved<600){
+                            if(v.reserved>baseMinNum&&v.reserved<baseMaxNum){
                                 var flag=this.randomNum(0,2);
                                 if(flag==0){
                                     v.reserved-=this.randomNum(1,5);
@@ -366,7 +395,7 @@
                                 }
                             }
                             else{
-                                v.reserved=this.randomNum(300,500); 
+                                v.reserved=this.randomNum(baseMinNum,baseMaxNum); 
                             } 
                         }                      
                         if(v.locktime){

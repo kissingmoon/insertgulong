@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <p  v-if="showbtn" @click="interval">随机</p> -->
+        <p  v-if="!hasSelect" @click="interval" class="randomBtn">机选</p>
         <div v-if="showmodel" class="lockmodel" v-slience></div>
     </div>
 </template>
@@ -18,10 +18,11 @@ export default {
             randomPos:false,
             selectObj:false,
             showbtn:true,
-            showmodel:false
+            showmodel:false,
+            timer:""
         }
     },
-    props: ['wf_flag'],
+    props: ['wf_flag','hasSelect'],
     directives: {
         slience: {
             // 指令的定义
@@ -599,12 +600,12 @@ export default {
             var speed=50;
             _this.showmodel=true;
             window.removeEventListener('shake', _this.interval);
-            var timer = setInterval(intervalfun, speed);
+            _this.timer = setInterval(intervalfun, speed);
             function intervalfun(){
-                clearInterval(timer);
-                timer = setInterval(intervalfun, speed)
+                clearInterval(_this.timer);
+                _this.timer = setInterval(intervalfun, speed)
                 if (repeat == 0) {
-                    clearInterval(timer);
+                    clearInterval(_this.timer);
                     _this.setTip('已选出号码！');
                     _this.showmodel=false;
                     window.addEventListener('shake', _this.interval);  
@@ -634,6 +635,7 @@ export default {
             var _this=this;
             this.myShakeEvent.stop();
             window.removeEventListener('shake', _this.interval);
+            clearInterval(_this.timer);
         }        
     },
     mounted(){  
@@ -644,16 +646,32 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
+    @import 'common/scss/variable.scss';
+    @import 'common/scss/mixin.scss';
     .lockmodel{
         filter:alpha(Opacity=10);
-        opacity:0.1;
+        opacity:0.2;
         z-index:9998;
         width: 100vw;
         height: 100vh;
-        background: green;
+        background: rgb(221, 224, 221);
         position: fixed;  
         bottom: 0;  
         left: 0; 
+    }
+    .randomBtn{
+        width:1.8rem;
+        height:1rem;
+        line-height: 1rem;
+        text-align: center;
+        background:#5E5D5B;
+        @include bg-image('shake');
+        background-repeat: no-repeat;
+        background-size: auto 100%;
+        border-radius: 0.1rem;
+        text-align: right;
+        padding-right: 0.3rem;
+        box-sizing: border-box;
     }
 </style>

@@ -165,13 +165,19 @@
                 </div>
                 <!-- 底部 -->
                 <div class="lottery-bottom">
-                    <div class="clear-all" @click="allClear">
+                    <div v-if="hasSelect&&lotteryType!='6'" class="clear-all" @click="allClear">
                         <p>清空</p>                         
                     </div>
-                    <!-- 标记 添加的随机按钮 -->
-                    <!-- <div class="lhc-bet-count">
-                        <random-bet :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
+                    <div v-if="lotteryType=='6'" class="clear-all" @click="allClear">
+                        <p>清空</p>                         
+                    </div>
+                    <!-- <div  v-if="!hasSelect" class="clear-all" @click="allClear">
+                        <p>随机</p>                         
                     </div> -->
+                    <!-- 标记 添加的随机按钮 -->
+                    <div v-if="lotteryType!='6'" :class="{randomBetClass:!hasSelect}">
+                        <random-bet :hasSelect="hasSelect" :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
+                    </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
                         <p>投注</p>
@@ -587,7 +593,8 @@
                     kj_show_hm:1,  //号码是否开奖展示， 1：是，0：否
                 },
                 greenBG:null,
-                lotteryType:''
+                lotteryType:'',
+                hasSelect:false
             }
         },
         components:{
@@ -672,7 +679,14 @@
             },
             watchInit(){
                 const _this=this;
-                this.$watch('selectNumList',() => {
+                
+                this.$watch('selectNumList',(newVal,oldVal) => {
+                    this.hasSelect=false;
+                    newVal.map((v,k)=>{
+                       if(v.length!=0){
+                            this.hasSelect=true;
+                       }
+                    })
                     this.recount();
                 });
                 this.$watch('selectPosition',() => {
@@ -1876,6 +1890,12 @@
             background-size: 100%;
             background-position: center top;
             color:rgb(230, 230, 230);
+            .randomBetClass{
+                height:1.15rem;
+                width:1.8rem;
+                float: left;
+                padding:0.22rem 0 0 0.2rem;
+            }
             .clear-all{
                 height:1.15rem;
                 width:1.8rem;

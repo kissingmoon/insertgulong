@@ -11,7 +11,7 @@
                 @pulldown="getDrawNubmer('down')"
                 @pullup="getDrawNubmer('up')"
                 >
-                <draw-list :data="drawNumber"></draw-list>
+                <draw-list :data="drawNumber" :lotteryType="lotteryType"></draw-list>
             </scroll>
         </div>
     </parcel>

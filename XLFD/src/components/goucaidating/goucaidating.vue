@@ -17,6 +17,14 @@
                     <p class="flex kjhaoma flex-align-center">                                  
                         <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
                         </span>
+                        <!-- 开奖大小 -->
+                        <span class="k3-kjCode" v-if="v.lotteryType=='9'">
+                            <span class="k3-kjCode-Item"  v-for="(value, key) in judge( v.kjNewData.truekjCode)" :key="key">{{value}}</span>
+                        </span>
+                        
+                        <!-- <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).total}}</span>
+                        <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).daxiao}}</span>
+                        <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).danshuang}}</span> -->
                     </p>
                     <p class="flex lockcount">
                         <span class="llockcount">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
@@ -61,6 +69,23 @@ export default {
     mounted(){
     },
     methods:{
+        judge(list){
+            var returnObj={
+                total:0,
+                danshuang:"单",
+                daxiao:"小"
+            }
+            list.map((v,k)=>{
+                returnObj.total+=v.value
+            })
+            if(returnObj.total%2==0){
+                returnObj.danshuang="双"
+            }
+            if(returnObj.total>=11){
+                returnObj.daxiao="大"
+            }
+            return returnObj
+        },
        getLottery(){
             this.$axios.postRequest(httpUrl.home.lottery)
             .then((res)=> {
@@ -229,6 +254,15 @@ export default {
                     }
                     .kjhaoma{
                         height: 1.5rem;
+                        .k3-kjCode{
+                            position:absolute;
+                            right: 0.3rem;
+                            .k3-kjCode-Item{
+                                margin-left: 0.72rem;
+                                color: #949494;
+                                font-size: 0.35rem;
+                            }
+                        }
                         .last-draw-ssc{
                             display: inline-block;
                             width: 0.8rem;

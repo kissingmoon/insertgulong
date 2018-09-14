@@ -47,7 +47,7 @@ export default {
                     navigator.vibrate([500, 500]);
                 }
                 else{
-                    alert("设备不支持震动")
+                    //alert("设备不支持震动")
                 }          
         },
         shakefun(emitFlag){           

@@ -4,11 +4,11 @@
             <scroll ref="scroll" class="home-content" :data='trueRecomandList.concat(betWin)'>               
                     <!-- 广告轮播图 -->
                     <div class="slider-content">
-                    <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
-                        <swiper-slide v-for="(item,index) in activitys" :key="index">
-                            <img  :data-src="item.image_url" class="swiper-lazy" :alt="item.title">
-                        </swiper-slide>
-                    </swiper>
+                        <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
+                            <swiper-slide v-for="(item,index) in activitys" :key="index">
+                                <img  :data-src="item.image_url" class="swiper-lazy" :alt="item.title">
+                            </swiper-slide>
+                        </swiper>
                     </div>
                     <!-- 跑马灯 -->
                     <div class="marquee-wrapper" @click="showNotice">
@@ -121,13 +121,29 @@
                         <p class="tit">中奖快讯</p>
                         <div class="topShadow shadowBox" @click='goNoticePage'></div>
                         <div class="botShadow shadowBox" @click='goNoticePage'></div>
-                        <swiper :options="betWinOption" ref="mySwiper" class="betwin-main swiper-no-swiping">
+                        <!-- <swiper :options="betWinOption" ref="mySwiper" class="betwin-main swiper-no-swiping">
                             <swiper-slide v-for='(item,k,i) in betWin' :key="i">
                                 <div class="betwin-txt" @click='goNoticePage'>
                                     <em class="ico"></em><span>{{item.content[0]}}</span><span class="yellow">{{item.content[1]}}</span><span>{{item.content[2]}}</span>
                                 </div>
                             </swiper-slide>
-                        </swiper>
+                        </swiper> -->
+                        <div class="testwrap">
+                            <ul>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                                <li>爱仕达购房规划</li>
+                            </ul>
+                        </div>
                     </div>
             </scroll>
         </div>
@@ -537,7 +553,22 @@
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-
+.testwrap{
+            height: 120px;
+            margin-top: 200px;
+            background-color: #949494;
+        }
+        ul{
+            animation: move 3s linear infinite;
+        }
+        @keyframes move{
+            0%{
+                transform:translate3d(0,0,0)
+            }
+            100%{
+                transform:translate3d(0,-400px,0)
+            }
+        }
 .home{
     position: fixed;
     width: 100%;
@@ -965,3 +996,4 @@
     transition-timing-function:linear;
 }
 </style>
+

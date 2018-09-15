@@ -6,7 +6,7 @@
                     <div class="slider-content">
                         <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
                             <swiper-slide v-for="(item,index) in activitys" :key="index">
-                                <img  :data-src="item.image_url" class="swiper-lazy" :alt="item.title">
+                                <img :src="item.image_url" class="swiper-lazy" :alt="item.title">
                             </swiper-slide>
                         </swiper>
                     </div>
@@ -121,29 +121,14 @@
                         <p class="tit">中奖快讯</p>
                         <div class="topShadow shadowBox" @click='goNoticePage'></div>
                         <div class="botShadow shadowBox" @click='goNoticePage'></div>
-                        <!-- <swiper :options="betWinOption" ref="mySwiper" class="betwin-main swiper-no-swiping">
-                            <swiper-slide v-for='(item,k,i) in betWin' :key="i">
-                                <div class="betwin-txt" @click='goNoticePage'>
+                        <div class="list">
+                            <div :class="{'inner-container':animate == true}" ref="betWin">
+                                <div class="betwin-txt" @click='goNoticePage' v-for='(item,i) in betWin' :key="i">
                                     <em class="ico"></em><span>{{item.content[0]}}</span><span class="yellow">{{item.content[1]}}</span><span>{{item.content[2]}}</span>
                                 </div>
-                            </swiper-slide>
-                        </swiper> -->
-                        <div class="testwrap">
-                            <ul>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                                <li>爱仕达购房规划</li>
-                            </ul>
+                            </div>
                         </div>
+                        
                     </div>
             </scroll>
         </div>
@@ -202,10 +187,6 @@
                 bzjlq_url:'',
                 //  轮播图配置
                 swiperOption:{
-                    lazy: {
-                        loadPrevNext: true,
-                        watchSlidesVisibility:true,
-                    },
                     direction:'horizontal',
                     slidesPerView:1,
                     observer:true,                  //  修改swiper自己或子元素时，自动初始化swiper 
@@ -214,11 +195,11 @@
                     loopAdditionalSlides : 1,       //  复制第一个img到最后
                     touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
                     slideToClickedSlide: true,
-                    autoplay:
-                    {
-                        delay:5000,
-                        disableOnInteraction:false
-                    },
+                    autoplay:false,
+                    // {
+                    //     delay:5000,
+                    //     disableOnInteraction:false
+                    // },
                     longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
                     spaceBetween: 15,               //   bannar图片之间的距离
                     autoplayStopOnLast:false,
@@ -247,7 +228,13 @@
                 returnSubList:[],
                 recomandList:[],
                 interval:"",
-                loading:false
+                loading:false,
+                animate:true,
+            }
+        },
+        watch:{
+            betWin(){
+                
             }
         },
         components: {
@@ -265,7 +252,7 @@
         mounted(){
             // document.body.addEventListener('touchmove', function (e) {
             //     e.preventDefault() // 阻止默认的处理方式(阻止下拉滑动的效果)
-            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android
+            // }, {passive: false}) // passive 参数不能省略，用来兼容ios和android            
         },
         beforeDestroy(){
             // this.oldLotteryList.forEach((item,i) => {
@@ -423,11 +410,9 @@
                         let lockInt=parseInt(locktime.split(':')[1])
                         
                         if(lockInt<=15){
-                            console.log(lockInt)
+                            // console.log(lockInt)
                             res.data.reserved=sub.reserved; 
-                        } 
-                        
-                                                    
+                        }                             
                         var obj = Object.assign(sub,res.data);
                         obj.running=true;
                     }
@@ -582,22 +567,6 @@
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-.testwrap{
-            height: 120px;
-            margin-top: 200px;
-            background-color: #949494;
-        }
-        ul{
-            animation: move 3s linear infinite;
-        }
-        @keyframes move{
-            0%{
-                transform:translate3d(0,0,0)
-            }
-            100%{
-                transform:translate3d(0,-400px,0)
-            }
-        }
 .home{
     position: fixed;
     width: 100%;
@@ -618,22 +587,6 @@
                 overflow: hidden;
                 border-top-left-radius: 0.12rem;
                 border-top-right-radius: 0.12rem;
-                .slider-item{
-                    float: left;
-                    box-sizing: border-box;
-                    overflow: hidden;
-                    text-align: center;
-                    a{
-                        display: block;
-                        width: 100%;
-                        overflow: hidden;
-                        text-decoration: none;
-                        img{
-                            display: block;
-                            width: 100%;
-                        }
-                    }
-                }
             }
             .swiper-container {
                 width: 8.7rem!important;
@@ -642,6 +595,7 @@
             }
             .swiper-container .swiper-wrapper .swiper-slide-active{ text-align: center;width: 8.7rem!important}
             .swiper-container .swiper-wrapper .swiper-slide-active img{ width: 8.7rem!important;margin: 0 auto;}
+            .swiper-container .swiper-wrapper .swiper-slide{background: url('./loading.png') no-repeat center center;background-size: 100% 90%;}
             .swiper-container .swiper-wrapper .swiper-slide img{width: 100%; height: 4rem; border-radius: .2rem;margin-top: .2rem}
             .swiper-container .swiper-wrapper .swiper-slide-prev{ margin-top: .2rem; height: 3.6rem!important;}
             .swiper-container .swiper-wrapper .swiper-slide-prev img{ height: 3.6rem!important;}
@@ -870,12 +824,6 @@
         }
     }
 }
-.zhongjianggonggao{
-        height: 1rem;
-        background: #fd3c57;
-        color: #ffffff;
-        font-size: 0.38rem;
-    }
 .betwin-wrapper{
     height:7rem;
     line-height: 0.8rem;
@@ -906,11 +854,12 @@
         border-bottom:.1rem solid #fff;
         box-shadow: 0 -.2rem .2rem #fff inset;
     }
-    .betwin-main{
-        height: 100%;
+    .list{
+        height: calc(100% - 0.8rem);
         overflow: hidden;
-        margin-top: 0;
-        background-color: #fff;
+        -webkit-animation: 20s rowup linear infinite normal;
+        animation: 20s rowup linear infinite normal;
+        position: relative;
         .betwin-txt{
             height:.8rem;
             color: #949494;
@@ -941,9 +890,20 @@
                 background-size: cover;
             }
         }
-        .swiper-slide{ height: .8rem!important; margin-bottom: 0!important; border-radius: .2rem;border-bottom: 1px solid #eeeeee}
     }
-}
+
+    .inner-container {
+        animation: myMove 10s linear infinite;
+        animation-fill-mode: forwards;
+    }
+    @keyframes myMove {
+        0% {
+            transform: translateY(0);
+        }
+        100% {
+            transform: translateY(-11rem);
+        }
+    }}
     .background {
         position:fixed;
         top: 0;

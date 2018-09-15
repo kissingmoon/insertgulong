@@ -195,11 +195,11 @@
                     loopAdditionalSlides : 1,       //  复制第一个img到最后
                     touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
                     slideToClickedSlide: true,
-                    autoplay:false,
-                    // {
-                    //     delay:5000,
-                    //     disableOnInteraction:false
-                    // },
+                    autoplay:
+                    {
+                        delay:5000,
+                        disableOnInteraction:false
+                    },
                     longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
                     spaceBetween: 15,               //   bannar图片之间的距离
                     autoplayStopOnLast:false,

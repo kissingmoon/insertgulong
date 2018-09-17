@@ -1,7 +1,7 @@
 <template>
     <div class="iframe-content">
-        <loading v-if="loadingshow" :loadingTip="loadingTip" :loadingshow="loadingshow"></loading>
-        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe" :loadingTip="loadingTip" :loadingshow="loadingshow">
+        <loading v-if="loadingShow" :loadingTip="loadingTip" ></loading>
+        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe" >
         </iframe>
     </div>
 </template>
@@ -12,7 +12,8 @@ import loading from 'base/loading/loading';
     export default {
         data() {
             return{
-                loadingTip:loadingTip
+               // loadingTip:loadingTip
+               loadingShow:true
             }
         },
         props:{
@@ -23,10 +24,6 @@ import loading from 'base/loading/loading';
             loadingTip:{
                 type: String,
                 default: ''
-            },
-            loadingshow:{
-                type:Boolean,
-                default:false
             }
         },
         watch:{
@@ -35,10 +32,10 @@ import loading from 'base/loading/loading';
             loading
         },
         mounted(){
-            console.log(this.$refs.payiframe)
             var _this=this;
+            _this.loadingShow=true;
             this.$refs.payiframe.onload=function(){
-                _this.loadingshow=false;
+                _this.loadingShow=false;
             }
         }
     }

@@ -165,18 +165,15 @@
                 </div>
                 <!-- 底部 -->
                 <div class="lottery-bottom">
-                    <div v-if="hasSelect&&lotteryType!='6'" class="clear-all" @click="allClear">
-                        <p>清空</p>                         
-                    </div>
-                    <div v-if="lotteryType=='6'" class="clear-all" @click="allClear">
+                    <div v-if="hasSelect" class="clear-all" @click="allClear">
                         <p>清空</p>                         
                     </div>
                     <!-- <div  v-if="!hasSelect" class="clear-all" @click="allClear">
                         <p>随机</p>                         
                     </div> -->
                     <!-- 标记 添加的随机按钮 -->
-                    <div v-if="lotteryType!='6'" :class="{randomBetClass:!hasSelect}">
-                        <random-bet :hasSelect="hasSelect" :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
+                    <div :class="{randomBetClass:!hasSelect}">
+                        <random-bet :numList="numberList" :hasSelect="hasSelect" :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
                     </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
@@ -921,16 +918,17 @@
                 var _this=this;
                 this.$refs.betnumberlist.clearKind()
                 this.selectNumList=num;
-                this.selectObj={};
-                if(Array.isArray(obj)){
-                    obj[0].map(function(v,k){
-                        _this.selectObj[v.number]=v
-                    })
-                }
-                else{
-                    let objkey=num[0][0];
-                    this.selectObj[objkey]=obj;
-                }
+                this.selectObj=obj
+                //this.selectObj={};
+                // if(Array.isArray(obj)){
+                //     obj[0].map(function(v,k){
+                //         _this.selectObj[v.number]=v
+                //     })
+                // }
+                // else{
+                //     let objkey=num[0][0];
+                //     this.selectObj[objkey]=obj;
+                // }
                 
                 
             },

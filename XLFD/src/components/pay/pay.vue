@@ -17,6 +17,11 @@
         <div class="div-content">
             <loading v-if="loading&&uId"></loading>
             <div class="model flex flex-center" v-if="showModel">
+                <div class="dialog">
+                    <p><img src="./loading.gif" alt=""></p>
+                    <p>正在跳转中...<br/>请在弹出的页面上完成充值</p>
+                </div>
+                
                 <!-- <div model-content>
                     <p  flex flex-center>正在跳转中...</p>
                     <p flex flex-center>请在弹出的页面上完成充值</p>
@@ -649,8 +654,24 @@ i{
                 position: fixed;
                 width: 100%;
                 height:100%;
-                background: $color-bg-deep-gray;
+                background: #fff;
                 z-index: 10001;
+                .dialog{
+                    border-radius: .5rem;
+                    background-color: #666;
+                    padding:.3rem .6rem;
+                    border-radius: .3rem;
+                    img{
+                        display: inline-block;
+                        width: 1rem;
+                        height: 1rem;                        
+                    }
+                    p{
+                        text-align: center;
+                        line-height: .6rem;
+                        color:#fff;
+                    }
+                }
                 
             }
         }

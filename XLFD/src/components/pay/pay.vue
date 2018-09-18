@@ -658,10 +658,13 @@ i{
                 z-index: 10001;
                 .dialog{
                     border-radius: .5rem;
+                    background-color: #666;
+                    padding:.3rem .6rem;
+                    border-radius: .3rem;
                     img{
                         display: inline-block;
                         width: 1rem;
-                        height: 1rem;
+                        height: 1rem;                        
                     }
                     p{
                         text-align: center;

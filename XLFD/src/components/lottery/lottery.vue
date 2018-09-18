@@ -1290,6 +1290,7 @@
                             this.updataNumberList.push(obj);
                             break;
                         default:
+                        debugger
                             for ( var key in this.selectObj){
                                 this.updataNumberList.push(this.selectObj[key]);
                             };

@@ -165,18 +165,15 @@
                 </div>
                 <!-- 底部 -->
                 <div class="lottery-bottom">
-                    <div v-if="hasSelect&&lotteryType!='6'" class="clear-all" @click="allClear">
-                        <p>清空</p>                         
-                    </div>
-                    <div v-if="lotteryType=='6'" class="clear-all" @click="allClear">
+                    <div v-if="hasSelect" class="clear-all" @click="allClear">
                         <p>清空</p>                         
                     </div>
                     <!-- <div  v-if="!hasSelect" class="clear-all" @click="allClear">
                         <p>随机</p>                         
                     </div> -->
                     <!-- 标记 添加的随机按钮 -->
-                    <div v-if="lotteryType!='6'" :class="{randomBetClass:!hasSelect}">
-                        <random-bet :hasSelect="hasSelect" :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
+                    <div :class="{randomBetClass:!hasSelect}">
+                        <random-bet :numList="numberList" :hasSelect="hasSelect" :wf_flag="currentWf.wf_flag" @selectRandNum='selectRandNum' @selectRandPos="selectRandPos" @selectRandObj="selectRandObj" ></random-bet>
                     </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
@@ -921,16 +918,17 @@
                 var _this=this;
                 this.$refs.betnumberlist.clearKind()
                 this.selectNumList=num;
-                this.selectObj={};
-                if(Array.isArray(obj)){
-                    obj[0].map(function(v,k){
-                        _this.selectObj[v.number]=v
-                    })
-                }
-                else{
-                    let objkey=num[0][0];
-                    this.selectObj[objkey]=obj;
-                }
+                this.selectObj=obj
+                //this.selectObj={};
+                // if(Array.isArray(obj)){
+                //     obj[0].map(function(v,k){
+                //         _this.selectObj[v.number]=v
+                //     })
+                // }
+                // else{
+                //     let objkey=num[0][0];
+                //     this.selectObj[objkey]=obj;
+                // }
                 
                 
             },
@@ -959,6 +957,9 @@
                         this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
                         break;
                     case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":case "xglhc_zxbz_zxbz":
+                    case "xglhc_hexiao_hx":
+                    case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
+                    case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money;
                         this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag
                         break;
@@ -1266,8 +1267,11 @@
                 if(isTrueNumber){
                     this.setTotal()
                     switch(this.wfFlag){
+                        
                         case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
                         case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
+                        case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
+                        case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
                             const obj={
                                 wf_flag:this.currentWf.wf_flag,
                                 wf_name:this.currentWf.name,
@@ -1280,6 +1284,7 @@
                                 obj.pl_flag=this.totalPlFlag;
                                 arr.push(this.selectObj[key].number_str);
                             };
+                            
                             obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
                             obj.pl=this.totalOdds;
                             this.updataNumberList.push(obj);

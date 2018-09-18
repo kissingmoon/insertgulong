@@ -137,11 +137,18 @@
                 count_money += item.bet_money;
                 wf_flag += item.wf_flag;
                 pl_flag += item.pl_flag;
+                //count_money = item.bet_money;
+                //pl_flag = item.pl_flag;
+                //wf_flag = item.wf_flag;
                 if(i != this.updataNumberList.length-1){
                     bet_number +=  "#";
                     count_money +=  "#";
                     wf_flag +=  "#";
                     pl_flag +=  "#";
+                    //  bet_number +=  ",";
+                    // count_money +=  ",";
+                    //  wf_flag +=  ",";
+                    //  pl_flag +=  ",";
                 }
             });
             var param={

@@ -1,6 +1,6 @@
 <template>
   <div class="tip" v-show="showTip">
-    <span class="desc" v-html="tip"></span>
+    <span class="desc" :style="optionalStyle" v-html="tip"></span>
   </div>
 </template>
 <script type="text/ecmascript-6">
@@ -9,7 +9,10 @@
         data(){
             return{
                 tiem:5000,
-                showTip:false
+                showTip:false,
+                optionalStyle:{
+                    fontSize:'0.5rem'
+                }
             }
         },
         computed: {
@@ -47,13 +50,13 @@
         top:40%;
         .desc{
             display: inline-block;
-            max-width: 50%;
-            padding:0.1rem 0.3rem;
+            max-width: 70%;
+            padding:0.2rem 0.3rem;
             border-radius: 0.4rem;
             background: #fff;
             box-shadow: 0rem 0.07rem 0.1rem rgba(0,0,0,.2);
-            line-height: 0.5rem;
-            font-size: $font-size-medium-x;
+            line-height: 0.7rem;
+            font-size: $font-size-large;
         } 
     }
 

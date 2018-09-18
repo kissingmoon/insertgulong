@@ -1,6 +1,7 @@
 <template>
 <div class="newpay"> 
     <!-- <scroll class="scroll-content"> -->
+        
         <router-view></router-view>
         <!-- 数字键盘 -->
         <number-keyboard
@@ -15,6 +16,12 @@
         </number-keyboard>
         <div class="div-content">
             <loading v-if="loading&&uId"></loading>
+            <div class="model flex flex-center" v-if="showModel">
+                <!-- <div model-content>
+                    <p  flex flex-center>正在跳转中...</p>
+                    <p flex flex-center>请在弹出的页面上完成充值</p>
+                </div> -->
+            </div>
             <div v-show="!uId" class="login-tip-wrapper">
                 <div class="login-tip">
                     <div class="img">
@@ -210,7 +217,8 @@ export default {
            },
            uId:"",
            jumpConfig:"",
-           loadingTip:"前往充值页面中,请不要离开。。。"
+           loadingTip:"前往充值页面中,请不要离开。。。",
+           showModel:false
         }
     },
     components:{
@@ -277,15 +285,21 @@ export default {
                     if(res.data && !res.data.errorCode){                      
                         this.jumpConfig=res.data.jumpConfig  
                         if(this.jumpConfig.flag=='1'){
-                            console.log("外部跳转")
+                            this.showModel=true;
                             let url=this.jumpConfig.chargeUrl;
                             let user_token=store.getters.user_token||session('user_token');
                             let goBack=this.jumpConfig.chargeParams;
-                            let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`;                           
-                            this.$router.push({
-                                path:'/'
-                            });
-                            context(str);
+                            let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`; 
+                            //正在跳转中... 
+                            //请在弹出的页面上完成充值
+                            this.setTip("正在跳转中...<br/>请在弹出的页面上完成充值")     
+                            setTimeout(()=>{
+                                this.$router.push({
+                                    path:'/'
+                                });
+                                context(str);
+                            },2500)                   
+                            
                         }                       
                     }
                 })  
@@ -629,6 +643,16 @@ i{
         .div-content{
             height: 100%;
             overflow: auto;
+            .model{
+                top:0;
+                left:0;
+                position: fixed;
+                width: 100%;
+                height:100%;
+                background: $color-bg-deep-gray;
+                z-index: 10001;
+                
+            }
         }
     // }
     .login-tip-wrapper{

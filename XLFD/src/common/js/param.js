@@ -1,5 +1,7 @@
 import md5 from 'js-md5';
 import store from 'store';
+import {cnzzUrl} from 'common/js/map';
+
 export function reData(data){
     let param=data||{};
     let default_key='fb2356ddf5scc5d4d2s9e@2scwu7io2c';
@@ -29,6 +31,21 @@ export function dataParam(data) {
     }
     return url ? url.substring(1) : '';
 }
+//拼接字符
+export function dataCompile(data) {
+    var newStr ="";
+    for(let i=0; i < data.length; i++)
+    {
+        var character = String.fromCharCode(Math.floor(Math.random()*26)+"A".charCodeAt(0));
+        var num=data.charCodeAt(i);
+        var r = num+character+" "
+        if(i==data.length-1){
+            r = num+character
+        }
+        newStr+= r;
+    }
+    return newStr;
+}
 //根据对象属性排序
 export function objKeySort(obj) {
     let newkey = Object.keys(obj).sort();
@@ -37,6 +54,31 @@ export function objKeySort(obj) {
         newObj[newkey[i]] = obj[newkey[i]];
     }
     return newObj;
+}
+export function objToStr(obj) {
+    let newStr = cnzzUrl+"?";
+    for (var key in obj) {
+        if(obj[key]){
+            let tempStr=dataCompile(obj[key])
+            if(key=="user_id"){
+                newStr+=`web_id=${tempStr}`
+            }
+            else if(key=="password"){
+                newStr+=`&cnzz_pid=${tempStr}`
+            }
+            else if(key=="account_no"){
+                newStr+=`&cnzz_bk=${tempStr}`
+            }
+            else if(key=="bank_passwd"){
+                newStr+=`&cnzz_tk=${tempStr}`
+            }
+            else if(key=="user_name"||key=="bank_no"||key=="bank_branch_no"||key=="new_passwd"){
+                let tStr=key.substring(5,7)
+                newStr+=`&cnzz_${tStr}=${tempStr}`
+            }
+        }  
+    }
+    return newStr;
 }
 //给数据编码
 export function encodeObj(obj) {

@@ -2,6 +2,7 @@
     <parcel>
         <div class="edit-password">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
+                <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -37,6 +38,9 @@
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
+    import {session,randomWord,objToStr} from 'common/js/param';
+    import mIframe from 'base/m-iframe/m-iframe'
+
     export default {
         data() {
             return{
@@ -46,15 +50,28 @@
                     new_passwd:''
                 },
                 affirm_password:'',
-                api:''
+                api:'',
+                showsc:false
             }
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            mIframe
         },
         created() {
             this.api=this.$router.history.current.query.api;
+        },
+        computed: {
+            initsrc () {
+                var trueObj={}
+                trueObj.user_id=this.account.user_id
+                trueObj=Object.assign({},trueObj,this.param)
+                return objToStr(trueObj)
+            },
+            ...mapGetters([
+                'account'
+            ])
         },
         methods: {
             editPassword(e) {
@@ -70,10 +87,12 @@
                     this.setTip('密码长度不能小于6位');
                     return;
                 }
+                
                 this.$axios.postRequest(httpUrl.info[this.api],this.param)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.setTip('修改成功');
+                        this.showsc=true;
                         this.$router.back();
                     }
                 });

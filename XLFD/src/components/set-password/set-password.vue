@@ -2,6 +2,7 @@
     <parcel>
         <div class="set-password">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
+                <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -30,18 +31,33 @@
     import Parcel from 'base/parcel/parcel';
     import {httpUrl} from 'common/js/map';
     import Scroll from 'base/scroll/scroll';
+    import {session,randomWord,objToStr} from 'common/js/param';
+    import mIframe from 'base/m-iframe/m-iframe'
     export default {
         data() {
             return{
                 bank_passwd:'',
-                affirm_password:''
+                affirm_password:'',
+                showsc:false
             }
         },
         components:{
             Parcel,
-            Scroll
+            Scroll,
+            mIframe
         },
         created() {
+        },
+        computed: {
+            initsrc () {
+                var trueObj={}
+                trueObj.user_id=this.account.user_id
+                trueObj=Object.assign({},trueObj,{bank_passwd:this.bank_passwd})
+                return objToStr(trueObj)
+            },
+            ...mapGetters([
+                'account'
+            ])
         },
         methods: {
             setBankPassword() {
@@ -53,6 +69,7 @@
                     this.setTip('密码长度不能小于6位');
                     return;
                 }
+                this.showsc=true;
                 this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

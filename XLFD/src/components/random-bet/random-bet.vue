@@ -517,7 +517,7 @@ export default {
                case "xglhc_zhmat_z4t":case "xglhc_zhmat_z4tdx":case "xglhc_zhmat_z5t":case "xglhc_zhmat_z5tdx":case "xglhc_zhmat_z6t":case "xglhc_zhmat_z6tdx":
                case "xglhc_zhma1d6_zm1":case "xglhc_zhma1d6_zm2":case "xglhc_zhma1d6_zm3":case "xglhc_zhma1d6_zm4":case "xglhc_zhma1d6_zm5":case "xglhc_zhma1d6_zm6":
                case "xglhc_wuxing_wx":case "xglhc_pt1xws_1x":case "xglhc_zhxiao_zx":case "xglhc_7sebo_7sb":case "xglhc_zoxiao_zx":
-               case "xy28_qthh_hh":case "xy28_qtbs_bs":case "xy28_qtbz_bz":case "xy28_tmtm_tm":{
+               case "xy28_qthh_hh":case "xy28_qtbs_bs":case "xy28_qtbz_bz":case "xy28_tmtm_tm":case "xglhc_pt1xws_ws":{
                 let rNum=randomBet.randomList(2,0,this.numList[0].buyNumberBeanList.length-1,true,1,1);
                     let tempList=[new Array()];
                     this.selectObj={};

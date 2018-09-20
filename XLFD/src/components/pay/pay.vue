@@ -16,9 +16,10 @@
         </number-keyboard>
         <div class="div-content">
             <loading v-if="loading&&uId"></loading>
-            <div class="model flex flex-center" v-if="showModel">
+            <div class="model flex flex-center" v-show="showModel">
                 <div class="dialog">
-                    <p><img src="./loading.gif" alt=""></p>
+                    <!-- <p><img src="./loading.gif" alt=""></p> -->
+                    <p class="gif"></p>
                     <p>正在跳转中...<br/>请在弹出的页面上完成充值</p>
                 </div>
                 
@@ -297,7 +298,11 @@ export default {
                             let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`; 
                             //正在跳转中... 
                             //请在弹出的页面上完成充值
+<<<<<<< HEAD
                             // this.setTip("正在跳转中...<br/>请在弹出的页面上完成充值")     
+=======
+                            //this.setTip("正在跳转中...<br/>请在弹出的页面上完成充值")     
+>>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                             setTimeout(()=>{
                                 this.$router.push({
                                     path:'/'
@@ -661,6 +666,13 @@ i{
                     background-color: #666;
                     padding:.3rem .6rem;
                     border-radius: .3rem;
+                    .gif{
+                        width: 1rem;
+                        height: 1rem;  
+                        background: url('./loading.gif');
+                        background-size: 100% 100%;
+                        margin: 0 auto;
+                    }
                     img{
                         display: inline-block;
                         width: 1rem;

@@ -215,6 +215,7 @@ export function initDataBy(type, wfPlBeanList,wf_flag,wf_name) {
             buyNumberBean.str = i + "尾";
             buyNumberBean.number_str = i + "尾";
             buyNumberBean.index = i;
+            buyNumberBean.wf_flag = wf_flag;
             buyNumberBean.pl = wfPlBeanList[pickIndex].award_money;
             buyNumberBean.pl_flag = wfPlBeanList[pickIndex].pl_flag;
             list.push(buyNumberBean);

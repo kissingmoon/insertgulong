@@ -433,65 +433,65 @@ export default {
                     //this.$emit('selectRandNum',this.randomList)
                     break;
                 }
-                //幸运28
-                case "xy28_qthh_hh":{
-                    let rNum=randomBet.randomList(2,1,10,true,1,1);
-                    this.randomList=randomBet.changeToChar(rNum,'xy28_qthh_hh')
-                    let pinyin=randomBet.changeToPinYin(rNum,'xy28_qthh_hh')
-                    let slelctstr=this.randomList[0][0]
-                    let betPl=randomBet.computedPl(rNum,'xy28_qthh_hh')
-                    this.selectObj={
-                                bet_money:"",
-                                index:rNum[0][0],
-                                number_str:slelctstr,
-                                pl:betPl[0][0],
-                                pl_flag:pinyin[0][0],
-                                str:slelctstr,
-                                wf_flag:"xy28_qthh_hh",
-                                wf_name:"混合"
-                    }
-                    break;
-                }
-                case "xy28_qtbs_bs":{
-                    var wfFlag=this.wf_flag;
-                    let rNum=randomBet.randomList(2,0,2,true,1,1);
-                    this.randomList=randomBet.changeToChar(rNum,'xy28_qtbs_bs')
-                    let pinyin=randomBet.changeToPinYin(rNum,'xy28_qtbs_bs')
-                    let slelctstr=this.randomList[0][0]
-                    let str=randomBet.computedStr(rNum,'xy28_qtbs_bs') 
-                    let  betPl=[];
-                    if ( wfFlag =="xy28_qtbs_bs") {
-                        betPl=randomBet.computedPl(rNum,'xy28_qtbs_bs')
-                    }                                                                
-                    else{
-                        betPl=randomBet.computedPl(rNum,'xglhc_sebo_sebo')
-                    }                  
-                    this.selectObj={
-                                bet_money:"",
-                                index:rNum[0][0],
-                                number_str:slelctstr,
-                                pl:betPl[0][0],
-                                pl_flag:pinyin[0][0],
-                                str:str[0][0],
-                                wf_flag:wfFlag,
-                                wf_name:"波色"
-                    }
-                    break;
-                }
-                case "xy28_qtbz_bz":{
-                    this.randomList=[["豹子"]]
-                    this.selectObj={
-                                bet_money:"",
-                                index:1,
-                                number_str:"豹子",
-                                pl:90,
-                                pl_flag:"baozi",
-                                str:"豹子",
-                                wf_flag:"xy28_qtbz_bz",
-                                wf_name:"豹子"
-                    }
-                    break;
-                }
+                // //幸运28
+                // case "xy28_qthh_hh":{
+                //     let rNum=randomBet.randomList(2,1,10,true,1,1);
+                //     this.randomList=randomBet.changeToChar(rNum,'xy28_qthh_hh')
+                //     let pinyin=randomBet.changeToPinYin(rNum,'xy28_qthh_hh')
+                //     let slelctstr=this.randomList[0][0]
+                //     let betPl=randomBet.computedPl(rNum,'xy28_qthh_hh')
+                //     this.selectObj={
+                //                 bet_money:"",
+                //                 index:rNum[0][0],
+                //                 number_str:slelctstr,
+                //                 pl:betPl[0][0],
+                //                 pl_flag:pinyin[0][0],
+                //                 str:slelctstr,
+                //                 wf_flag:"xy28_qthh_hh",
+                //                 wf_name:"混合"
+                //     }
+                //     break;
+                // }
+                // case "xy28_qtbs_bs":{
+                //     var wfFlag=this.wf_flag;
+                //     let rNum=randomBet.randomList(2,0,2,true,1,1);
+                //     this.randomList=randomBet.changeToChar(rNum,'xy28_qtbs_bs')
+                //     let pinyin=randomBet.changeToPinYin(rNum,'xy28_qtbs_bs')
+                //     let slelctstr=this.randomList[0][0]
+                //     let str=randomBet.computedStr(rNum,'xy28_qtbs_bs') 
+                //     let  betPl=[];
+                //     if ( wfFlag =="xy28_qtbs_bs") {
+                //         betPl=randomBet.computedPl(rNum,'xy28_qtbs_bs')
+                //     }                                                                
+                //     else{
+                //         betPl=randomBet.computedPl(rNum,'xglhc_sebo_sebo')
+                //     }                  
+                //     this.selectObj={
+                //                 bet_money:"",
+                //                 index:rNum[0][0],
+                //                 number_str:slelctstr,
+                //                 pl:betPl[0][0],
+                //                 pl_flag:pinyin[0][0],
+                //                 str:str[0][0],
+                //                 wf_flag:wfFlag,
+                //                 wf_name:"波色"
+                //     }
+                //     break;
+                // }
+                // case "xy28_qtbz_bz":{
+                //     this.randomList=[["豹子"]]
+                //     this.selectObj={
+                //                 bet_money:"",
+                //                 index:1,
+                //                 number_str:"豹子",
+                //                 pl:90,
+                //                 pl_flag:"baozi",
+                //                 str:"豹子",
+                //                 wf_flag:"xy28_qtbz_bz",
+                //                 wf_name:"豹子"
+                //     }
+                //     break;
+                // }
                 //六合彩
                 // case "xglhc_tema_xuma":{
                 //     let rNum=randomBet.randomList(2,1,49,true,1,1);
@@ -516,7 +516,8 @@ export default {
                case "xglhc_zhmat_z1t":case "xglhc_zhmat_z1tdx":case "xglhc_zhmat_z2t":case "xglhc_zhmat_z2tdx":case "xglhc_zhmat_z3t":case "xglhc_zhmat_z3tdx":
                case "xglhc_zhmat_z4t":case "xglhc_zhmat_z4tdx":case "xglhc_zhmat_z5t":case "xglhc_zhmat_z5tdx":case "xglhc_zhmat_z6t":case "xglhc_zhmat_z6tdx":
                case "xglhc_zhma1d6_zm1":case "xglhc_zhma1d6_zm2":case "xglhc_zhma1d6_zm3":case "xglhc_zhma1d6_zm4":case "xglhc_zhma1d6_zm5":case "xglhc_zhma1d6_zm6":
-               case "xglhc_wuxing_wx":case "xglhc_pt1xws_1x":case "xglhc_zhxiao_zx":case "xglhc_7sebo_7sb":case "xglhc_zoxiao_zx":{
+               case "xglhc_wuxing_wx":case "xglhc_pt1xws_1x":case "xglhc_zhxiao_zx":case "xglhc_7sebo_7sb":case "xglhc_zoxiao_zx":
+               case "xy28_qthh_hh":case "xy28_qtbs_bs":case "xy28_qtbz_bz":case "xy28_tmtm_tm":case "xglhc_pt1xws_ws":{
                 let rNum=randomBet.randomList(2,0,this.numList[0].buyNumberBeanList.length-1,true,1,1);
                     let tempList=[new Array()];
                     this.selectObj={};
@@ -542,7 +543,7 @@ export default {
                     this.randomList=tempList
                     break;
                 }
-                case "xglhc_lm_3z2":case "xglhc_lm_3qz":{
+                case "xglhc_lm_3z2":case "xglhc_lm_3qz":case "xy28_tmb3_b3":{
                     let rNum=randomBet.randomList(2,0,this.numList[0].buyNumberBeanList.length-1,true,1,3);
                     let tempList=[new Array()];
                     this.selectObj={};
@@ -591,51 +592,51 @@ export default {
                     break;
                 }
                 //幸运28
-                case "xy28_tmb3_b3":{
-                    var _this=this;
-                    _this.selectObjList=[];
-                    let rNum=randomBet.randomList(2,1,28,true,1,3);
-                    this.randomList=randomBet.changeToChar(rNum,'xy28_tmb3_b3')
-                    let slelctstr=this.randomList
-                    let numb=randomBet.changeToNum(rNum,'xy28_tmb3_b3')
-                    slelctstr.map(function(v,k){
-                        var selectObj={};
-                        let tempList=[]
-                        v.map(function(v1,k1){                            
-                            selectObj={
-                                index:rNum[k][k1],
-                                number:numb[k][k1],
-                                number_str:slelctstr[k][k1],
-                                pl:3.5,
-                                pl_flag:"tmb3",
-                                str:slelctstr[k][k1]
-                            }
-                            tempList.push(selectObj)
-                        })                            
-                        _this.selectObjList.push(tempList)
-                    })                                        
-                    break;
-                }
-                case "xy28_tmtm_tm":{
-                    let rNum=randomBet.randomList(2,1,28,true,1,1);
-                    console.log(this.numList)
-                    //this.numberList[0]
-                    this.randomList=randomBet.changeToChar(rNum,'xy28_tmtm_tm')
-                    let slelctstr=this.randomList[0][0]
-                    let betPl=randomBet.computedPl(rNum,'xy28_tmtm_tm')
-                    this.selectObj=this.numList[0].buyNumberBeanList[rNum[0][0]-1]
-                    // this.selectObj={
-                    //             bet_money:"",
-                    //             index:rNum[0][0],
-                    //             number_str:slelctstr,
-                    //             pl:betPl[0][0],
-                    //             pl_flag:slelctstr,
-                    //             str:slelctstr,
-                    //             wf_flag:"xy28_tmtm_tm",
-                    //             wf_name:"特码"
-                    // }
-                    break;
-                }
+                // case "xy28_tmb3_b3":{
+                //     var _this=this;
+                //     _this.selectObjList=[];
+                //     let rNum=randomBet.randomList(2,1,28,true,1,3);
+                //     this.randomList=randomBet.changeToChar(rNum,'xy28_tmb3_b3')
+                //     let slelctstr=this.randomList
+                //     let numb=randomBet.changeToNum(rNum,'xy28_tmb3_b3')
+                //     slelctstr.map(function(v,k){
+                //         var selectObj={};
+                //         let tempList=[]
+                //         v.map(function(v1,k1){                            
+                //             selectObj={
+                //                 index:rNum[k][k1],
+                //                 number:numb[k][k1],
+                //                 number_str:slelctstr[k][k1],
+                //                 pl:3.5,
+                //                 pl_flag:"tmb3",
+                //                 str:slelctstr[k][k1]
+                //             }
+                //             tempList.push(selectObj)
+                //         })                            
+                //         _this.selectObjList.push(tempList)
+                //     })                                        
+                //     break;
+                // }
+                // case "xy28_tmtm_tm":{
+                //     let rNum=randomBet.randomList(2,1,28,true,1,1);
+                //     console.log(this.numList)
+                //     //this.numberList[0]
+                //     this.randomList=randomBet.changeToChar(rNum,'xy28_tmtm_tm')
+                //     let slelctstr=this.randomList[0][0]
+                //     let betPl=randomBet.computedPl(rNum,'xy28_tmtm_tm')
+                //     this.selectObj=this.numList[0].buyNumberBeanList[rNum[0][0]-1]
+                //     // this.selectObj={
+                //     //             bet_money:"",
+                //     //             index:rNum[0][0],
+                //     //             number_str:slelctstr,
+                //     //             pl:betPl[0][0],
+                //     //             pl_flag:slelctstr,
+                //     //             str:slelctstr,
+                //     //             wf_flag:"xy28_tmtm_tm",
+                //     //             wf_name:"特码"
+                //     // }
+                //     break;
+                // }
             }
             if(this.randomPos){
                 this.$emit('selectRandPos',this.randomPos,this.randomList)

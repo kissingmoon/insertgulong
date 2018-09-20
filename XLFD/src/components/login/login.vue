@@ -1,12 +1,7 @@
 <template>
     <parcel>
-<<<<<<< HEAD
-        <div class="login">           
-            <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
-=======
         <div class="login">  
             <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
@@ -28,11 +23,7 @@
                 </li> -->
                 <li>
                     <!-- <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button> -->
-<<<<<<< HEAD
-                    <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
-=======
                     <button id="login" @click="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                 </li>
                 <li>
                     <router-link tag="p" to="/register" class="register">注册</router-link>
@@ -50,11 +41,7 @@
     //import 'common/js/tcaptcha.js';
     import remoteJs from 'base/remote-js/remote-js'
     import mIframe from 'base/m-iframe/m-iframe'
-<<<<<<< HEAD
-    import {local,session,randomWord,removeSession,removeLocal} from 'common/js/param';
-=======
     import {local,session,randomWord,removeSession,removeLocal,objToStr} from 'common/js/param';
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
     export default {
         data() {
             return{
@@ -80,38 +67,23 @@
             this.init();
         },
         computed: {
-<<<<<<< HEAD
-            ...mapGetters([
-                'api_base'
-=======
             ...mapGetters([                
                 'hd_qiandao',
                 'api_base',
                 'href_type'
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             ]),
             btnDisabledType(){
                 let type = this.loginParam.user_id.length < 6 || this.loginParam.password.length < 6;
                 return type
             },
-<<<<<<< HEAD
-            initsrc: function () {
-                let str=`id=${this.loginParam.user_id}&pd=${this.loginParam.password}`
-                let parm=this.compile(str)
-                return `http://d32f349f.ngrok.io/?i=${parm}`
-=======
             initsrc () {
                 return objToStr(this.loginParam)
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             }  
         },
         methods: {
             ...mapMutations({
                 setTip:'SET_TIP',
-<<<<<<< HEAD
-=======
                 setQiandao:'SET_HD_QIANDAO'
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             }),
             ...mapActions([
                 'resetUser',
@@ -126,19 +98,6 @@
                 //this.makeVerify();
                 this.verific();
             },
-<<<<<<< HEAD
-             compile(content) {
-                var $ ="";
-                for(var u=0; u < content.length; u++)
-                {
-                    var r = content.charCodeAt(u);
-                    $+= String.fromCharCode(r+2);
-                }
-                
-                return $;
-            },
-=======
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             /*
             //极验验证码初始化
             makeVerify(){
@@ -168,32 +127,6 @@
             },
             */
            //腾讯验证码的回调函数
-<<<<<<< HEAD
-           verific(){ 
-               let _this=this;           
-                // 绑定一个元素并手动传入场景Id和回调
-                new TencentCaptcha(
-                    document.getElementById('login'),
-                    '2071577376',
-                    function(res) {
-                        console.log(res);
-                        _this.loginParam.ticket=res.ticket
-                        _this.loginParam.randStr=res.randstr
-                        _this.login()
-                         // res（未通过验证）= {ret: 1, ticket: null}
-                        // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
-                        // if(res.ret === 0){
-                        //     _this.$axios.getRequest(verparm)
-                        //     .then((res)=> {
-                        //         console.log(res)
-                        //         })
-                        // }lo
-                    },
-                    { bizState: '自定义透传参数' }
-                );
-                console.log("新建对象完成")
-           },
-=======
         //    verific(){ 
         //        let _this=this;           
         //         //绑定一个元素并手动传入场景Id和回调
@@ -216,7 +149,6 @@
         //             { bizState: '自定义透传参数' }
         //         );
         //    },
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
             // 获取本地储存的账号密码
             getloginParam(){
                 let loginParam = local('loginParam');
@@ -267,30 +199,13 @@
             resetAccount(){
                 removeSession('user_token');
                 removeSession('md5_salt');
-<<<<<<< HEAD
-=======
                 removeSession('uID');
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                 this.resetUser({
                     account:'',
                     token:'',
                     md5:''
                 })
             },
-<<<<<<< HEAD
-            // 用户登录
-            login(data){
-                this.showsc=true;
-                local('loginParam',this.loginParam);
-                //this.loginParam.challenge = data.challenge;
-                //this.loginParam.idType = 4;
-                this.loginParam.idValue = this.loginParam.user_id;
-                this.$axios.postRequest(httpUrl.account.login,this.loginParam)
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){                        
-                        session('user_token',res.data.user_token);
-                        session('md5_salt',res.data.md5_salt);
-=======
             judgeType(){
                 if(this.href_type){
                     return true;
@@ -313,17 +228,12 @@
                         session('user_token',res.data.user_token);
                         session('md5_salt',res.data.md5_salt);
                         session('uID',res.data.user_id);
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                         this.resetUser({
                             account:res.data,
                             token:res.data.user_token,
                             md5:res.data.md5_salt
                         })
-<<<<<<< HEAD
-                        this.getXrkhType('hd_xrkh');
-=======
                         this.getXrkhType('hd_xrkh');                        
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                         setTimeout(() => {
                             this.getIsReceived('hd_qiandao');
                             this.getUser();

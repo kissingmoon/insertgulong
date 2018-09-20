@@ -298,11 +298,7 @@ export default {
                             let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`; 
                             //正在跳转中... 
                             //请在弹出的页面上完成充值
-<<<<<<< HEAD
-                            // this.setTip("正在跳转中...<br/>请在弹出的页面上完成充值")     
-=======
                             //this.setTip("正在跳转中...<br/>请在弹出的页面上完成充值")     
->>>>>>> 362c9a33c1af848316cb1db2c234fcbc57497f38
                             setTimeout(()=>{
                                 this.$router.push({
                                     path:'/'

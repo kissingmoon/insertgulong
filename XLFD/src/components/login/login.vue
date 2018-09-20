@@ -23,7 +23,7 @@
                 </li> -->
                 <li>
                     <!-- <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button> -->
-                    <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
+                    <button id="login" @click="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
                 </li>
                 <li>
                     <router-link tag="p" to="/register" class="register">注册</router-link>
@@ -127,28 +127,28 @@
             },
             */
            //腾讯验证码的回调函数
-           verific(){ 
-               let _this=this;           
-                //绑定一个元素并手动传入场景Id和回调
-                new TencentCaptcha(
-                    document.getElementById('login'),
-                    '2071577376',
-                    function(res) {
-                        _this.loginParam.ticket=res.ticket
-                        _this.loginParam.randStr=res.randstr
-                        _this.login()
-                         // res（未通过验证）= {ret: 1, ticket: null}
-                        // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
-                        // if(res.ret === 0){
-                        //     _this.$axios.getRequest(verparm)
-                        //     .then((res)=> {
-                        //         console.log(res)
-                        //         })
-                        // }lo
-                    },
-                    { bizState: '自定义透传参数' }
-                );
-           },
+        //    verific(){ 
+        //        let _this=this;           
+        //         //绑定一个元素并手动传入场景Id和回调
+        //         new TencentCaptcha(
+        //             document.getElementById('login'),
+        //             '2071577376',
+        //             function(res) {
+        //                 _this.loginParam.ticket=res.ticket
+        //                 _this.loginParam.randStr=res.randstr
+        //                 _this.login()
+        //                  // res（未通过验证）= {ret: 1, ticket: null}
+        //                 // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+        //                 // if(res.ret === 0){
+        //                 //     _this.$axios.getRequest(verparm)
+        //                 //     .then((res)=> {
+        //                 //         console.log(res)
+        //                 //         })
+        //                 // }lo
+        //             },
+        //             { bizState: '自定义透传参数' }
+        //         );
+        //    },
             // 获取本地储存的账号密码
             getloginParam(){
                 let loginParam = local('loginParam');

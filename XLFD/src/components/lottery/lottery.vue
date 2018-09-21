@@ -1296,7 +1296,6 @@
                             break;
                     };
                 }
-                
                 this.show('betOrderListShow');
                 this.allClear();
             },

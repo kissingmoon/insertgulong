@@ -35,7 +35,6 @@ axios.interceptors.response.use(res=> {
     }
     return res;
 }, err=> {
-  // debugger
   if (err.response.status == 504||err.response.status == 404) {
     store.commit('SET_TIP','网络加载中，请稍等！');
   } else if (err.response.status == 403) {

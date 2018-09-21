@@ -103,6 +103,9 @@
 
     },
     methods: {
+        ...mapMutations({
+            SET_TIP : 'SET_TIP'
+        }),
         init(){
             this.watchInit();
         },
@@ -128,6 +131,12 @@
             this.$emit('deleteOrder', i);
         },
         bet(){
+            for(let item of this.updataNumberList){
+                if(!item.bet_money){
+                    this.SET_TIP('请输入投注金额！')
+                    return;
+                }
+            }
             var bet_number='';
             var count_money='';
             var wf_flag='';

@@ -162,7 +162,7 @@
             setCode(){                
                 this.loginParam.code_id = 'H' + randomWord(false,8,10);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
-                this.codeUrl=`/api${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
+                this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
             },
             // 获取验证配置信息
             getBaseData(){
@@ -219,8 +219,7 @@
             },
             // 用户登录
             login(data){
-                console.log(this.loginParam)
-                local('loginParam',this.loginParam);
+                console.log(this.loginParam)     
                 this.showsc=true; 
                 //this.loginParam.challenge = data.challenge;
                 //this.loginParam.idType = 4;
@@ -229,6 +228,9 @@
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){ 
+                        // delete this.loginParam.code_id;           
+                        delete this.loginParam.code;           
+                        local('loginParam',this.loginParam);
                         session('user_token',res.data.user_token);
                         session('md5_salt',res.data.md5_salt);
                         session('uID',res.data.user_id);
@@ -247,6 +249,7 @@
                         });
                     }else{
                         this.init();
+                        this.loginParam.code = '';
                     }
                 });
             }

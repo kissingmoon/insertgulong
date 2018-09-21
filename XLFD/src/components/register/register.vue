@@ -104,7 +104,7 @@
             setCode(){
                 this.registerParam.code_id = 'H' + randomWord(false,6,8);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
-                this.codeUrl= `/api${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
+                this.codeUrl= `${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
             //腾讯验证码的回调函数
         //    verific(){ 
@@ -219,33 +219,33 @@
                 // this.registerParam.geetest_validate = result.geetest_validate;
                 // this.registerParam.geetest_seccode = result.geetest_seccode;
                 //this.registerParam.challenge = data.challenge;                
-                        console.log("begin>>>in")
-                        this.registerParam.idType = 4;
-                        this.registerParam.idValue = this.registerParam.user_id;
-                        this.registerParam.agent_domain= window.document.domain;
-                        this.$axios.postRequest(httpUrl.account.register,this.registerParam)
-                        .then((res)=> {
-                            if(res.data && !res.data.errorCode){
-                                session('user_token',res.data.user_token);
-                                session('md5_salt',res.data.md5_salt);
-                                this.resetUser({
-                                    account:res.data,
-                                    token:res.data.user_token,
-                                    md5:res.data.md5_salt
-                                })
-                                this.setTip("注册成功");
-                                this.getXrkhType('hd_xrkh');
-                                setTimeout(() => {
-                                    this.getIsReceived('hd_qiandao');
-                                },1000)
-                                this.$router.push({
-                                    path:'/'
-                                });
-                            }else{
-                                this.init();
-                            }
+                console.log("begin>>>in")
+                this.registerParam.idType = 4;
+                this.registerParam.idValue = this.registerParam.user_id;
+                this.registerParam.agent_domain= window.document.domain;
+                this.$axios.postRequest(httpUrl.account.register,this.registerParam)
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        session('user_token',res.data.user_token);
+                        session('md5_salt',res.data.md5_salt);
+                        this.resetUser({
+                            account:res.data,
+                            token:res.data.user_token,
+                            md5:res.data.md5_salt
+                        })
+                        this.setTip("注册成功");
+                        this.getXrkhType('hd_xrkh');
+                        setTimeout(() => {
+                            this.getIsReceived('hd_qiandao');
+                        },1000)
+                        this.$router.push({
+                            path:'/'
                         });
-                    
+                    }else{
+                        this.init();
+                        this.registerParam.code = '' ;
+                    }
+                });                    
             },
             ...mapMutations({
                 setTip:'SET_TIP',

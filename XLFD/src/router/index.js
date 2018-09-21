@@ -36,7 +36,7 @@ import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
 import Goucaidating from 'components/goucaidating/goucaidating';
 import betWin from 'components/betWin/betWin';
-
+import Loading from 'base/loading/loading';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -109,6 +109,10 @@ export default new Router({
         {
             path:'/login',
             component:Login
+        },
+        {
+            path:'/loading',
+            component:Loading
         },
         {
             path:'/pay',

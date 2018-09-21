@@ -44,6 +44,7 @@ export default {
         remoteJs
     },
     created() {
+       
         this.init();
         
     },

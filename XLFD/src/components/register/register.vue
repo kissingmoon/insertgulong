@@ -27,14 +27,14 @@
                         <input type="text" placeholder="手机号码（为了您的顺利出款，请如实填写！）" class="input-txt" v-model="registerParam.phone" maxlength="16">
                     </p>
                 </li> -->
-                <!-- <li>
+                <li>
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="registerParam.code" maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
                     </p>
-                </li> -->
+                </li>
                 <li>
                     <button id="register" @click="checkregister" class="login-btn" :disabled="btnDisabledType">注册</button>
                     <button id="register1" style="display:none">注册</button>
@@ -63,10 +63,10 @@
                     repeat_password:'',
                     phone:'',
                     agentCode:'',
-                    captcha1:""
+                    // captcha1:""
                 },
-                rdonly:false
-                // codeUrl:''
+                rdonly:false,
+                codeUrl:''
             }
         },
         components:{
@@ -95,41 +95,42 @@
         },
         methods: {
             init(){
-                // this.setCode();
                 // this.getBaseData();
                 //this.makeVerify();
-                this.verific();
+                // this.verific();
+                this.setCode()
             },
             // 生成随机id
             setCode(){
-                this.registerParam.code_id = randomWord(false,6,8);
+                this.registerParam.code_id = 'H' + randomWord(false,6,8);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
+                this.codeUrl= `/api${this.api_base}/config/generator-code?code_id=${this.registerParam.code_id}`
             },
             //腾讯验证码的回调函数
-           verific(){ 
-                      var _this=this;                        
-                        // 绑定一个元素并手动传入场景Id和回调
-                       this.captcha1=new TencentCaptcha(
-                            document.getElementById('register1'),
-                            '2071577376',
-                            function(res) {
-                                _this.registerParam.ticket=res.ticket
-                                _this.registerParam.randStr=res.randstr
-                                _this.register()
-                                // res（未通过验证）= {ret: 1, ticket: null}
-                                // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
-                                // if(res.ret === 0){
-                                //     _this.$axios.getRequest(verparm)
-                                //     .then((res)=> {
-                                //         console.log(res)
-                                //         })
-                                // }lo
-                            },
-                            { bizState: '自定义透传参数' }
-                        );
-                        console.log("新建对象完成")
+        //    verific(){ 
+        //               var _this=this;                        
+        //                 // 绑定一个元素并手动传入场景Id和回调
+        //                this.captcha1=new TencentCaptcha(
+        //                     document.getElementById('register1'),
+        //                     '2071577376',
+        //                     function(res) {
+        //                         _this.registerParam.ticket=res.ticket
+        //                         _this.registerParam.randStr=res.randstr
+        //                         _this.register()
+        //                         // res（未通过验证）= {ret: 1, ticket: null}
+        //                         // res（验证成功） = {ret: 0, ticket: "String", randstr: "String"}
+        //                         // if(res.ret === 0){
+        //                         //     _this.$axios.getRequest(verparm)
+        //                         //     .then((res)=> {
+        //                         //         console.log(res)
+        //                         //         })
+        //                         // }lo
+        //                     },
+        //                     { bizState: '自定义透传参数' }
+        //                 );
+        //                 console.log("新建对象完成")
                    
-           },
+        //    },
             // //极验验证码初始化
             // makeVerify(){
             //     let _this = this;
@@ -156,48 +157,49 @@
             //         })
             //     });
             // },
+
             // 初始化验证码
-            getBaseData(){
-                var _this = this;
-                this.$axios.postRequest(httpUrl.config.geetestCode,{code_id:this.registerParam.code_id})
-                .then((res)=> {
-                    let data=res.data;
-                    if(data.success == 1){
-                        initGeetest({
-                            gt: data.gt,
-                            challenge: data.challenge,
-                            offline: !data.success,
-                            new_captcha: true,
-                            product: 'bind',
-                            width:'7rem'
-                        }, function(captchaObj){
-                            captchaObj.onReady(() => {
-                                //验证码ready之后才能调用verify方法显示验证码
-                                document.getElementById('register').addEventListener('click',() => {
-                                    if(!_this.registerParam.password || !_this.registerParam.repeat_password){
-                                        _this.setTip("请输入密码和确认密码");
-                                        return;
-                                    }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
-                                        _this.setTip("确认密码不同");
-                                        return;
-                                    }else{
-                                        captchaObj.verify();
-                                    }
-                                });
-                            }).onSuccess(() => {
-                                let result = captchaObj.getValidate();
-                                if(!result){
-                                    _this.setTip('校验未通过');
-                                }else{
-                                    _this.register(result);
-                                }
-                            }).onError(() => {
-                                //your code
-                            });
-                        });
-                    }
-                });
-            },
+            // getBaseData(){
+            //     var _this = this;
+            //     this.$axios.postRequest(httpUrl.config.geetestCode,{code_id:this.registerParam.code_id})
+            //     .then((res)=> {
+            //         let data=res.data;
+            //         if(data.success == 1){
+            //             initGeetest({
+            //                 gt: data.gt,
+            //                 challenge: data.challenge,
+            //                 offline: !data.success,
+            //                 new_captcha: true,
+            //                 product: 'bind',
+            //                 width:'7rem'
+            //             }, function(captchaObj){
+            //                 captchaObj.onReady(() => {
+            //                     //验证码ready之后才能调用verify方法显示验证码
+            //                     document.getElementById('register').addEventListener('click',() => {
+            //                         if(!_this.registerParam.password || !_this.registerParam.repeat_password){
+            //                             _this.setTip("请输入密码和确认密码");
+            //                             return;
+            //                         }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
+            //                             _this.setTip("确认密码不同");
+            //                             return;
+            //                         }else{
+            //                             captchaObj.verify();
+            //                         }
+            //                     });
+            //                 }).onSuccess(() => {
+            //                     let result = captchaObj.getValidate();
+            //                     if(!result){
+            //                         _this.setTip('校验未通过');
+            //                     }else{
+            //                         _this.register(result);
+            //                     }
+            //                 }).onError(() => {
+            //                     //your code
+            //                 });
+            //             });
+            //         }
+            //     });
+            // },
             checkregister(){
                 let _this=this;         
                     if(!_this.registerParam.password || !_this.registerParam.repeat_password){
@@ -206,7 +208,11 @@
                     }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
                         _this.setTip("确认密码不同");
                         return;
-                    }else{ this.captcha1.show();}
+                    }
+                    // else{ this.captcha1.show();}
+                    else{
+                        this.register()
+                    }
             },
             register(data){
                 // this.registerParam.geetest_challenge = result.geetest_challenge;
@@ -236,7 +242,7 @@
                                     path:'/'
                                 });
                             }else{
-                                // this.init();
+                                this.init();
                             }
                         });
                     

@@ -13,14 +13,14 @@
                         <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password" maxlength="20">
                     </p>
                 </li>
-                <!-- <li>
+                <li>
                     <p class="txt-con code-txt border-bottom-1px">
                         <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code"  maxlength="6">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
                     </p>
-                </li> -->
+                </li>
                 <li>
                     <!-- <button id="login" class="login-btn" :disabled="btnDisabledType" >登录</button> -->
                     <button id="login" @click="login" class="login-btn" :disabled="btnDisabledType" >登录</button>
@@ -46,12 +46,12 @@
         data() {
             return{
                 loginParam:{
-                    // code_id:'',
-                    // code:'',
+                    code_id:'',
+                    code:'',
                     user_id:'',
                     password:''
                 },
-                // codeUrl:``
+                codeUrl:``,
                 showsc:false
             }
         },
@@ -61,6 +61,7 @@
             remoteJs
         },
         created() {
+           
             this.resetAccount();
         },
         mounted(){
@@ -93,10 +94,11 @@
             ]),
             init(){
                 this.getloginParam();
+                 this.setCode();
                 // this.setCode();
                 // this.getBaseData();
                 //this.makeVerify();
-                this.verific();
+                //this.verific();
             },
             /*
             //极验验证码初始化
@@ -157,9 +159,10 @@
                 }
             },
             // 随机生成8-10位的code_id
-            setCode(){
-                this.loginParam.code_id = randomWord(false,8,10);
+            setCode(){                
+                this.loginParam.code_id = 'H' + randomWord(false,8,10);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
+                this.codeUrl=`/api${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
             },
             // 获取验证配置信息
             getBaseData(){
@@ -216,6 +219,7 @@
             },
             // 用户登录
             login(data){
+                console.log(this.loginParam)
                 local('loginParam',this.loginParam);
                 this.showsc=true; 
                 //this.loginParam.challenge = data.challenge;
@@ -241,6 +245,8 @@
                         this.$router.push({
                             path:'/'
                         });
+                    }else{
+                        this.init();
                     }
                 });
             }

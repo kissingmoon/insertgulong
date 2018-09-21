@@ -429,6 +429,7 @@ export default {
                                     }  
                                     //标签页打开
                                     else if(this.jumpConfig.isLabel=='1'){
+                                        debugger
                                         let payurl=res.data.info;
                                         //window.open(payurl);  
                                         var new_window = window.open();

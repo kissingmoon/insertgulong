@@ -416,7 +416,9 @@ export default {
                     if(this.jumpConfig.flag=='0'){
                         if(this.checkOnlinePay()&&this.disableonlineSubmit){
                             this.disableonlineSubmit=false;
-                            var new_window = window.open('/loading');
+                            if(this.jumpConfig.isLabel=='1'){
+                                var new_window = window.open('/loading');
+                            }
                             this.$axios.postRequest(httpUrl.pay.toChargeNew,parms)
                             .then((res)=> {
                                 if(res.data && res.data.code==0){ 
@@ -428,14 +430,12 @@ export default {
                                     }  
                                     //标签页打开
                                     else if(this.jumpConfig.isLabel=='1'){
-                                        let payurl=res.data.info;
-                                        new_window.location=payurl;
+                                         let payurl=res.data.info;
+                                         new_window.location=payurl;
                                     }
                                 }
                                 else{
                                     this.setTip(res.data.info)
-                                    new_window.alert("网络异常，请重试！")
-                                    setTimeout(()=>{new_window.close();},1000)
                                 }
                             })
                         }

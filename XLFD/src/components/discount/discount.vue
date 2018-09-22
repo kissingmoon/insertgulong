@@ -55,6 +55,7 @@
 </template>
 <script>
     import Scroll from 'base/scroll/scroll';
+    import {mapActions,mapGetters,mapMutations} from 'vuex';
     import DataNone from 'components/data-none/data-none';
     import {httpUrl,activityKind} from 'common/js/map';
     import Loading from 'base/loading/loading';
@@ -73,6 +74,12 @@
             Scroll,
             Loading,
             DataNone
+        },
+        computed: {
+            ...mapGetters([
+                'user_token',
+                'href_type'
+            ])
         },
         created(){
             this.getDiscount();
@@ -107,15 +114,20 @@
                 this.getDiscount();
             },
             gotoDetail(item){
-                if(item.title=="欢乐中秋"){
-                    debugger
-                    window.open(item.turn_url)
+                if(this.href_type){
+                    context(item.turn_url);
                 }
                 else{
-                    this.$router.push({
-                        path: '/discount/activity',
-                        query: {title:item.title,url:item.turn_url}
-                    });
+                    if(item.title=="欢乐中秋"){
+                        location.href=item.turn_url
+                        //window.open(item.turn_url)
+                    }
+                    else{
+                        this.$router.push({
+                            path: '/discount/activity',
+                            query: {title:item.title,url:item.turn_url}
+                        });
+                    }
                 }
             }
         }

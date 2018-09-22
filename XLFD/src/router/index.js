@@ -147,6 +147,7 @@ export default new Router({
         {
             path:'/descover',
             component:Descover,
+            
             // component:Draw,
             children:[
                 {
@@ -215,7 +216,8 @@ export default new Router({
         },
         {
             path:'/discount',
-            component:Discount,          
+            component:Discount, 
+                     
             // meta: {
             //     keepAlive: true // 需要缓存
             //   },

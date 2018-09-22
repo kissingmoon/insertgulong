@@ -82,7 +82,10 @@ export default new Router({
         },
         {
             path:'/home',
-            component:Home,  
+            component:Home,
+            meta: {
+                keepAlive: true // 需要缓存
+            },  
             children:[
                 // {
                 //     path:'lottery',

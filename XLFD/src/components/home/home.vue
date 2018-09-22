@@ -3,13 +3,14 @@
         <div class="home" ref="home">
             <scroll ref="scroll" class="home-content" :data='trueRecomandList.concat(betWin)'>               
                     <!-- 广告轮播图 -->
-                    <div class="slider-content">
-                        <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
-                            <swiper-slide v-for="(item,index) in activitys" :key="index">
-                                <img :src="item.image_url" class="swiper-lazy" :alt="item.title">
-                            </swiper-slide>
-                        </swiper>
-                    </div>
+                    
+                        <div class="slider-content">
+                            <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
+                                <swiper-slide v-for="(item,index) in activitys" :key="index">
+                                    <img :src="item.image_url" class="swiper-lazy" :alt="item.title">
+                                </swiper-slide>
+                            </swiper>
+                        </div>
                     <!-- 跑马灯 -->
                     <div class="marquee-wrapper" @click="showNotice">
                         <marquee class="txt">
@@ -440,9 +441,9 @@
             bannarClick(i){
                 this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
             },
-            bannarClick(i){
-                this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
-            },
+            // bannarClick(i){
+            //     this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
+            // },
             showNotice(){
                 this.noticeShow = true;
             },

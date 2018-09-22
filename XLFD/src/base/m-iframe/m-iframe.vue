@@ -1,7 +1,7 @@
 <template>
     <div class="iframe-content">
         <loading v-if="loadingShow" :loadingTip="loadingTip" ></loading>
-        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe" >
+        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe">
         </iframe>
     </div>
 </template>
@@ -46,7 +46,6 @@ import loading from 'base/loading/loading';
         height:100%;
         -webkit-overflow-scrolling:touch;
         overflow:auto;
-        
         .iframe{
             width:100%;
             height:100%;

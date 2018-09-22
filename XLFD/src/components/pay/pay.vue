@@ -431,7 +431,7 @@ export default {
                                     //标签页打开
                                     else if(this.jumpConfig.isLabel=='1'){
                                          let payurl=res.data.info;
-                                         new_window.location=payurl;
+                                         new_window.location.href=payurl;
                                     }
                                 }
                                 else{

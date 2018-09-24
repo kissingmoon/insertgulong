@@ -114,20 +114,19 @@
                 this.getDiscount();
             },
             gotoDetail(item){
-                if(this.href_type){
-                    context(item.turn_url);
+                if(item.title=="欢乐中秋"){
+                    if(this.href_type){
+                        context(item.turn_url);
+                    }else{
+                        //location.href=item.turn_url
+                        window.open(item.turn_url)
+                    }
                 }
                 else{
-                    if(item.title=="欢乐中秋"){
-                        location.href=item.turn_url
-                        //window.open(item.turn_url)
-                    }
-                    else{
-                        this.$router.push({
-                            path: '/discount/activity',
-                            query: {title:item.title,url:item.turn_url}
-                        });
-                    }
+                    this.$router.push({
+                        path: '/discount/activity',
+                        query: {title:item.title,url:item.turn_url}
+                    });
                 }
             }
         }

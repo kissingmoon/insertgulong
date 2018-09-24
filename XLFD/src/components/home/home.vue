@@ -95,7 +95,14 @@
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="moreLottery">
+                        <div class="flex flex-center">
+                            <router-link  :to="{path:'/goucaidating'}" class="plus"></router-link>
+                        </div>
+                        <div class="flex flex-center">
+                            <router-link :to="{path:'/goucaidating'}">更多彩种</router-link>
+                        </div>
+                    </div>
                     <!-- 排名 -->
                     <div class="rank-wrapper" v-if="user_token">
                         <div class="rank-img"></div>
@@ -629,6 +636,20 @@
         .recomandscroll{
             height: 5.5rem;
             overflow: hidden;
+        }
+        .moreLottery{
+            padding-top: 0.2rem;
+            div{
+                padding-bottom: 0.2rem;
+                color: #949494;
+                font-size: 0.35rem;
+            }
+            .plus{
+                width: 0.85rem;
+                height: 0.85rem;
+                @include bg-image('Oval');
+                background-size: 100%;
+            }
         }
         .recomandWapper{
             height:auto;

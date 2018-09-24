@@ -1,8 +1,10 @@
 <template>
     <div id="app" class="app" >
         <remote-js :src='cnzzurl'></remote-js>
-        <m-header></m-header> 
-        <m-nav></m-nav>
+        <div class="headBox"><m-header></m-header> </div>
+        <div class="navBox">
+            <m-nav></m-nav>
+        </div>
         <tip></tip>        
         <!-- <router-view></router-view> -->
              <keep-alive>
@@ -117,5 +119,19 @@ export default {
     height:auto;
     overflow: hidden;
     min-height: 100%;
+    .headBox{
+        position: fixed;
+        top: 0;
+        width: 100%;
+        height: 1.2rem;
+        z-index: 99;
+    }
+    .navBox{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        height: 1.44rem;
+        z-index: 99;
+    }
 }
 </style>

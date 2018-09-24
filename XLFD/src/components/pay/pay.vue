@@ -87,7 +87,6 @@
             </div>
             <div v-if="choosenIncome==0" class="confirmdiv flex flex-center flex-v">
                 <div   class="confirmbtn flex flex-center" @click="onlineSubmit">确认</div>
-                
             </div>
             <div v-if="choosenIncome==1" class="companypay flex flex-v">
                 <div  class="typetitle flex flex-align-center">
@@ -415,9 +414,11 @@ export default {
                 var parms=this.submitParms;
                 if(this.jumpConfig){
                     if(this.jumpConfig.flag=='0'){
-                        console.log("内部跳转")
                         if(this.checkOnlinePay()&&this.disableonlineSubmit){
                             this.disableonlineSubmit=false;
+                            if(this.jumpConfig.isLabel=='1'){
+                                var new_window = window.open('/loading');
+                            }
                             this.$axios.postRequest(httpUrl.pay.toChargeNew,parms)
                             .then((res)=> {
                                 if(res.data && res.data.code==0){ 
@@ -429,10 +430,8 @@ export default {
                                     }  
                                     //标签页打开
                                     else if(this.jumpConfig.isLabel=='1'){
-                                        let payurl=res.data.info;
-                                        //window.open(payurl);  
-                                        var new_window = window.open();
-                                        new_window.location=payurl;
+                                         let payurl=res.data.info;
+                                         new_window.location.href=payurl;
                                     }
                                 }
                                 else{

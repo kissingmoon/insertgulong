@@ -2,6 +2,8 @@
     <parcel>
         <div class="activity-con">
             <m-iframe :url="url"></m-iframe>
+            <!-- <m-object :data="url"></m-object> -->
+            <!-- <m-embed :data="url"></m-embed> -->
         </div>
     </parcel>
 </template>
@@ -9,6 +11,8 @@
 <script type="text/ecmascript-6">
     import Parcel from 'base/parcel/parcel';
     import MIframe from 'base/m-iframe/m-iframe';
+    import MObject from 'base/m-object/m-object';
+    import MEmbed from 'base/m-embed/m-embed';
     import {mapGetters,mapActions} from 'vuex';
     export default {
         data(){
@@ -22,7 +26,9 @@
         },
         components:{
             Parcel,
-            MIframe
+            MIframe,
+            MObject,
+            MEmbed
         },
         created(){
             this.activityInit();
@@ -51,6 +57,7 @@
     position: fixed;
     width: 100%;
     top: 1.2rem;
+    //top: 0rem;
     bottom: 0rem;
     z-index: 201;
     background: #fff;

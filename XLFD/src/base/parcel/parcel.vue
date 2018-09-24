@@ -9,11 +9,12 @@
 </script>
 
 <style scoped lang="scss">
+
   .parcel-enter-active, .parcel-leave-active{
     transition: all 0.3s;
   }
 
-  .parcel-enter, .parcel-leave-to{
+  .parcel-enter,.parcel-leave-to{
     transform: translate3d(100%, 0, 0);
   }
 </style>

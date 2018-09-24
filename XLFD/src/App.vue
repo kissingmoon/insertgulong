@@ -51,7 +51,7 @@ export default {
         
     },
     mounted(){
-        // this.getUrl();
+        this.getUrl();
     },
     computed: {
         ...mapGetters([
@@ -76,9 +76,9 @@ export default {
             this.getUserData();
            this.getXglhcColor();
         },
-        // getUrl(){
-        //     this.sethreftype(this.$route.query.type)    //  这个type用来识别苹果内嵌浏览器和web浏览器
-        // },
+        getUrl(){
+            this.sethreftype(this.$route.query.type)    //  这个type用来识别苹果内嵌浏览器和web浏览器
+        },
         getUserData(){
             if(this.dataTimes){
                 clearTimeout(this.dataTimes);

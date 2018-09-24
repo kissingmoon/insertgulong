@@ -30,14 +30,22 @@
         <scroll ref="scroll" class="scroll-content" :data="activityList" >
             <div class="activity-list">
                 <ul>
-                    <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-bottom-1px" v-for="(item,index) in activityList" :key="index">
+                    <!-- <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-bottom-1px" v-for="(item,index) in activityList" :key="index">
                         <div class="img-wrapper">
                             <img v-lazy="item.image_url" alt="">
                         </div>
                         <div class="txt-wrapper">
                             <p>{{item.title}}</p>
                         </div>
-                    </router-link>
+                    </router-link> -->
+                    <li tag="li" class="border-bottom-1px" v-for="(item,index) in activityList" :key="index" @click="gotoDetail(item)">
+                        <div class="img-wrapper">
+                            <img v-lazy="item.image_url" alt="">
+                        </div>
+                        <div class="txt-wrapper">
+                            <p>{{item.title}}</p>
+                        </div>
+                    </li>
                 </ul>
             </div>
             <!-- <data-none v-show="activityList && activityList.length < 1"></data-none> -->
@@ -47,6 +55,7 @@
 </template>
 <script>
     import Scroll from 'base/scroll/scroll';
+    import {mapActions,mapGetters,mapMutations} from 'vuex';
     import DataNone from 'components/data-none/data-none';
     import {httpUrl,activityKind} from 'common/js/map';
     import Loading from 'base/loading/loading';
@@ -66,6 +75,12 @@
             Loading,
             DataNone
         },
+        computed: {
+            ...mapGetters([
+                'user_token',
+                'href_type'
+            ])
+        },
         created(){
             this.getDiscount();
         },
@@ -80,6 +95,7 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.activityList=res.data;
+                        // this.activityList[4].turn_url="http://192.168.8.47"
                     }
                 });
             },
@@ -96,6 +112,23 @@
             changeSort(num){
                 this.activityParam.order_by=num;
                 this.getDiscount();
+            },
+            gotoDetail(item){
+                if(this.href_type){
+                    context(item.turn_url);
+                }
+                else{
+                    if(item.title=="欢乐中秋"){
+                        location.href=item.turn_url
+                        //window.open(item.turn_url)
+                    }
+                    else{
+                        this.$router.push({
+                            path: '/discount/activity',
+                            query: {title:item.title,url:item.turn_url}
+                        });
+                    }
+                }
             }
         }
     }

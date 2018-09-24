@@ -1,7 +1,7 @@
 <template>
     <div class="iframe-content">
         <loading v-if="loadingShow" :loadingTip="loadingTip" ></loading>
-        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe" >
+        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe">
         </iframe>
     </div>
 </template>

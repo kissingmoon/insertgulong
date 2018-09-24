@@ -46,7 +46,6 @@ import loading from 'base/loading/loading';
         height:100%;
         -webkit-overflow-scrolling:touch;
         overflow:auto;
-        
         .iframe{
             width:100%;
             height:100%;
@@ -54,3 +53,4 @@ import loading from 'base/loading/loading';
         }
     }
 </style>
+

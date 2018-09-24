@@ -440,9 +440,6 @@
             bannarClick(i){
                 this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
             },
-            bannarClick(i){
-                this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
-            },
             showNotice(){
                 this.noticeShow = true;
             },

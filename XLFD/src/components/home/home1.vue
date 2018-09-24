@@ -80,14 +80,19 @@
             <p class="tit">中奖快讯</p>
             <div class="topShadow shadowBox" @click='goNoticePage'></div>
             <div class="botShadow shadowBox" @click='goNoticePage'></div>
-            <div class="list">
-                <div :class="{'inner-container':animate == true}" ref="betWin">
+            <div class="list" ref="list">
+                <div :class="{'inner-container':animate == true}" ref="betWin1">
+                    <div class="betwin-txt" @click='goNoticePage' v-for='(item,i) in betWin' :key="i">
+                        <em class="ico"></em><span>{{item.content[0]}}</span><span class="yellow">{{item.content[1]}}</span><span>{{item.content[2]}}</span>
+                    </div>
+                </div>
+                <!-- 下面重复的数据是为了实现无缝滚动而添加   并非多余 -->
+                <div :class="{'inner-container':animate == true}" ref="betWin2">
                     <div class="betwin-txt" @click='goNoticePage' v-for='(item,i) in betWin' :key="i">
                         <em class="ico"></em><span>{{item.content[0]}}</span><span class="yellow">{{item.content[1]}}</span><span>{{item.content[2]}}</span>
                     </div>
                 </div>
             </div>
-            
         </div>  
         <router-view></router-view>
     </div>
@@ -106,66 +111,66 @@ let vm = null;
     name:'',
     data () {
         return {
-                noticeShow:false,
-                activitys: [],
-                notice:{},
-                gift:[],
-                lotteryList:[],
-                oldLotteryList:[],
-                showSub:'',
-                rank:{
-                    today_flow_money:0,
-                    today_profit_loss:0,
-                    user_ranking:0
+            noticeShow:false,
+            activitys: [],
+            notice:{},
+            gift:[],
+            lotteryList:[],
+            oldLotteryList:[],
+            showSub:'',
+            rank:{
+                today_flow_money:0,
+                today_profit_loss:0,
+                user_ranking:0
+            },
+            betWin:[],
+            bzjlq_url:'',
+            //  轮播图配置
+            swiperOption:{
+                direction:'horizontal',
+                slidesPerView:1,
+                observer:true,                  //  修改swiper自己或子元素时，自动初始化swiper 
+                observeParents:true,            //  修改swiper的父元素时，自动初始化swiper 
+                loop:true,
+                loopAdditionalSlides : 1,       //  复制第一个img到最后
+                touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
+                slideToClickedSlide: true,
+                autoplay:
+                {
+                    delay:5000,
+                    disableOnInteraction:false
                 },
-                betWin:[],
-                bzjlq_url:'',
-                //  轮播图配置
-                swiperOption:{
-                    direction:'horizontal',
-                    slidesPerView:1,
-                    observer:true,                  //  修改swiper自己或子元素时，自动初始化swiper 
-                    observeParents:true,            //  修改swiper的父元素时，自动初始化swiper 
-                    loop:true,
-                    loopAdditionalSlides : 1,       //  复制第一个img到最后
-                    touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
-                    slideToClickedSlide: true,
-                    autoplay:
-                    {
-                        delay:5000,
-                        disableOnInteraction:false
-                    },
-                    longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
-                    spaceBetween: 15,               //   bannar图片之间的距离
-                    autoplayStopOnLast:false,
-                    effect:"scroll",                //  轮播效果类型  
-                    on:{
-                        click:function(){
-                            vm.bannarClick(this.realIndex)
-                        }
+                longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
+                spaceBetween: 15,               //   bannar图片之间的距离
+                autoplayStopOnLast:false,
+                effect:"scroll",                //  轮播效果类型  
+                on:{
+                    click:function(){
+                        vm.bannarClick(this.realIndex)
                     }
+                }
+            },
+            //  底部tips配置
+            betWinOption:{                 //  页面底部swiper配置
+                direction:'vertical',
+                slidesPerView: 9,    //显示几个slide
+                spaceBetween: 9,    //slide间距
+                loop: true,    //连续播放
+                autoplay:
+                {
+                    delay:0,
+                    disableOnInteraction:false
                 },
-                //  底部tips配置
-                betWinOption:{                 //  页面底部swiper配置
-                    direction:'vertical',
-                    slidesPerView: 9,    //显示几个slide
-                    spaceBetween: 9,    //slide间距
-                    loop: true,    //连续播放
-                    autoplay:
-                    {
-                        delay:0,
-                        disableOnInteraction:false
-                    },
-                    speed:1000,    //根据自己所需速度调整
-                    freeMode:true,
-                },
-               trueRecomandList:[],
-                returnSubList:[],
-                recomandList:[],
-                interval:"",
-                loading:false,
-                animate:true,
-            }
+                speed:1000,    //根据自己所需速度调整
+                freeMode:true,
+            },
+            trueRecomandList:[],
+            returnSubList:[],
+            recomandList:[],
+            interval:"",
+            loading:false,
+            animate:true,
+        }
     },
 
     computed: {
@@ -197,6 +202,7 @@ let vm = null;
             this.getBetWin();
             this.getBzjlq();
             this.getRecomandType();
+            
         },
         getRecomandType(){                
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)
@@ -328,7 +334,6 @@ let vm = null;
                     let lockInt=parseInt(locktime.split(':')[1])
                     
                     if(lockInt<=15){
-                        // console.log(lockInt)
                         res.data.reserved=sub.reserved; 
                     }                             
                     var obj = Object.assign(sub,res.data);
@@ -367,7 +372,6 @@ let vm = null;
         getActivitys() { 
             this.$axios.postRequest(httpUrl.home.sliderImg)
             .then((res)=> {
-                console.log(res)
                 if(res.data && !res.data.errorCode){
                     this.activitys=res.data;
                 }
@@ -830,7 +834,7 @@ let vm = null;
                 transform: translateY(0);
             }
             100% {
-                transform: translateY(-11rem);
+                transform: translateY(-16rem);
             }
         }
         .background {

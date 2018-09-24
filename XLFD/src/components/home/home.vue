@@ -448,12 +448,6 @@
             bannarClick(i){
                 this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
             },
-<<<<<<< HEAD
-=======
-            // bannarClick(i){
-            //     this.$router.push({path:'/home/activity',query:{title:this.activitys[i].title,url:this.activitys[i].target_url}})
-            // },
->>>>>>> eb0dbea2a7ff0c4b6e674b11d3bc7740e8b6e132
             showNotice(){
                 this.noticeShow = true;
             },

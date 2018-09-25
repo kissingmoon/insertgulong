@@ -1,5 +1,5 @@
 <template>
-    <div class="flex mainwapper ">  
+    <div class="flex mainwapper">  
         <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
             <ul class="leftcontainer">
                 <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
@@ -224,9 +224,12 @@ export default {
         width: 100%;
         top: 1.2rem;
         bottom: 1.44rem;
+        overflow-x: hidden;
         .scroll-warpper{
-            height: 100%;
-            overflow: hidden;
+            // height: 100%;      此处影响页面上下滑动，出现划不动的现象
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            overflow-x: hidden;
             .leftcontainer{
                 border-right: 1px solid #F2F2F2 ;
                 li{

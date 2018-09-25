@@ -93,6 +93,28 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <!-- 跑马灯详情 -->
+        <div v-show="noticeShow">
+            <div class="background" @click="hideNotice">
+            </div>
+            <div class="detail">
+                <div class="detail-wrapper clearfix">
+                    <div class="detail-main">
+                       <div class="title border-bottom-1px">
+                           公告详情
+                       </div>
+                       <div class="info">
+                           <div class="txt">
+                               {{notice.content}}
+                           </div>
+                       </div>
+                    </div>
+                </div>
+                <div class="detail-close">
+                    <button @click="hideNotice">确定</button>
+                </div>
+            </div>
         </div>  
         <router-view></router-view>
     </div>
@@ -844,8 +866,9 @@ let vm = null;
             100% {
                 transform: translateY(-16rem);
             }
-        }
-        .background {
+        }        
+    }
+    .background {
             position:fixed;
             top: 0;
             left: 0;
@@ -920,7 +943,6 @@ let vm = null;
                 }
             }
         }
-    }
 }
 </style>
 <style>

@@ -1,17 +1,17 @@
 <template>
     <div class="flex mainwapper ">  
-        <!-- <scroll class="flex-1  scroll-warpper" :data='lotteryList'> -->
-        <div class="flex-1  scroll-warpper">
+        <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
+        <!-- <div class="flex-1  scroll-warpper"> -->
             <ul class="leftcontainer">
                 <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
                     <img v-lazy="v.currentImage" alt="">
                 </li>
             </ul>
-        </div>
+        <!-- </div> -->
             
-        <!-- </scroll> -->
-        <!-- <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>   -->
-             <div class="flex-3  scroll-warpper">
+        </scroll>
+        <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>  
+             <!-- <div class="flex-3  scroll-warpper"> -->
             <ul class="rightcontainer">
                 <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">   
                     <p class="flex nameText">
@@ -36,8 +36,8 @@
                     </p>
                 </router-link> 
             </ul>
-             </div>
-        <!-- </scroll>    -->
+             <!-- </div> -->
+        </scroll>   
     </div>
 </template>
 <script>
@@ -229,9 +229,11 @@ export default {
         width: 100%;
         top: 1.2rem;
         bottom: 1.44rem;
+        -webkit-overflow-scrolling:touch;
         .scroll-warpper{
             height: 100%;
             overflow: auto;
+            -webkit-overflow-scrolling:touch;
             .leftcontainer{
                 border-right: 1px solid #F2F2F2 ;
                 li{

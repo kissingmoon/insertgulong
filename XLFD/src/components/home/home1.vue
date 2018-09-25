@@ -141,7 +141,7 @@ let vm = null;
                     disableOnInteraction:false
                 },
                 longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
-                spaceBetween: 15,               //   bannar图片之间的距离
+                spaceBetween: 15,        //   bannar图片之间的距离
                 autoplayStopOnLast:false,
                 effect:"scroll",                //  轮播效果类型  
                 on:{

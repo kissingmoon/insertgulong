@@ -14,7 +14,7 @@ fastclick.attach(document.body);
 Vue.use(VueLazyload,{
     loading:require('common/img/icon-loading-img.png')
 },VueAwesomeSwiper);
-Vue.prototype.TencentCaptcha = TencentCaptcha;
+// Vue.prototype.TencentCaptcha = TencentCaptcha;
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

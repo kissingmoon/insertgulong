@@ -1,13 +1,17 @@
 <template>
     <div class="flex mainwapper ">  
-        <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
+        <!-- <scroll class="flex-1  scroll-warpper" :data='lotteryList'> -->
+        <div class="flex-1  scroll-warpper">
             <ul class="leftcontainer">
                 <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
                     <img v-lazy="v.currentImage" alt="">
                 </li>
             </ul>
-        </scroll>
-        <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>  
+        </div>
+            
+        <!-- </scroll> -->
+        <!-- <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>   -->
+             <div class="flex-3  scroll-warpper">
             <ul class="rightcontainer">
                 <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">   
                     <p class="flex nameText">
@@ -15,7 +19,7 @@
                         <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
                     </p>
                     <p class="flex kjhaoma flex-align-center">                                  
-                        <span class="" v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
+                        <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
                         </span>
                         <!-- 开奖大小 -->
                         <span class="k3-kjCode" v-if="v.lotteryType=='9'">
@@ -32,7 +36,8 @@
                     </p>
                 </router-link> 
             </ul>
-        </scroll>   
+             </div>
+        <!-- </scroll>    -->
     </div>
 </template>
 <script>
@@ -226,7 +231,7 @@ export default {
         bottom: 1.44rem;
         .scroll-warpper{
             height: 100%;
-            overflow: hidden;
+            overflow: auto;
             .leftcontainer{
                 border-right: 1px solid #F2F2F2 ;
                 li{
@@ -236,6 +241,7 @@ export default {
                 }
             } 
             .rightcontainer{
+                position: relative;
                 li{
                     height: 3rem;
                     padding: 0 0.3rem;

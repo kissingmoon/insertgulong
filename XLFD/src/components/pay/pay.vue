@@ -642,6 +642,7 @@ i{
     top: 1.2rem;
     bottom: 1.44rem;
     background-color: #ececec;  
+    z-index: 103;
     // .scroll-content{
     //     height: 100%;
     //     overflow: auto;

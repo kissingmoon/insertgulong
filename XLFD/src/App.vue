@@ -7,11 +7,10 @@
         </div>
         <tip></tip>        
         <!-- <router-view></router-view> -->
-             <keep-alive>
+        <keep-alive>
             <router-view v-if="$route.meta.keepAlive"></router-view>
-            </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>      
-               
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>      
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>

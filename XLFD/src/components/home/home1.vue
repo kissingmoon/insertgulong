@@ -127,6 +127,7 @@ let vm = null;
                 loop:true,
                 loopAdditionalSlides : 1,       //  复制第一个img到最后
                 touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
+                preloadImages:false,            //  禁止加载所有图片
                 slideToClickedSlide: true,
                 autoplay:
                 {
@@ -185,6 +186,7 @@ let vm = null;
         // });
         clearInterval(this.interval)
     },
+    
     methods: {
         init(){
             this.getActivitys();

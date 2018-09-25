@@ -6,7 +6,7 @@
     <div class="home">
         <!-- 广告轮播图 -->
         <div class="slider-content">
-            <swiper v-if="activitys.length > 1" :options="swiperOption" ref="mySwiper">
+            <swiper v-if="activitys.length > 1 && isKeep" :options="swiperOption" ref="mySwiper">
                 <swiper-slide v-for="(item,index) in activitys" :key="index">
                     <img :src="item.image_url" class="swiper-lazy" :alt="item.title">
                 </swiper-slide>
@@ -129,21 +129,22 @@ let vm = null;
             swiperOption:{
                 direction:'horizontal',
                 slidesPerView:1,
-                observer:true,                  //  修改swiper自己或子元素时，自动初始化swiper 
-                observeParents:true,            //  修改swiper的父元素时，自动初始化swiper 
+                observer:true,                      //  修改swiper自己或子元素时，自动初始化swiper 
+                observeParents:true,                //  修改swiper的父元素时，自动初始化swiper 
                 loop:true,
-                loopAdditionalSlides : 1,       //  复制第一个img到最后
-                touchRatio : 0.8,               //  手指滑动的距离与图片移动的距离比例
+                loopAdditionalSlides : 1,           //  复制第一个img到最后
+                touchRatio : 0.8,                   //  手指滑动的距离与图片移动的距离比例
+                preloadImages:false,                //  禁止加载所有图片
                 slideToClickedSlide: true,
                 autoplay:
                 {
                     delay:5000,
                     disableOnInteraction:false
                 },
-                longSwipesRatio : 0.3,          //   滑动超过40%才能触发滚动
-                spaceBetween: 15,        //   bannar图片之间的距离
+                longSwipesRatio : 0.3,              //   滑动超过40%才能触发滚动
+                spaceBetween: 15,                   //   bannar图片之间的距离
                 autoplayStopOnLast:false,
-                effect:"scroll",                //  轮播效果类型  
+                effect:"scroll",                    //  轮播效果类型  
                 on:{
                     click:function(){
                         vm.bannarClick(this.realIndex)
@@ -151,17 +152,17 @@ let vm = null;
                 }
             },
             //  底部tips配置
-            betWinOption:{                 //  页面底部swiper配置
+            betWinOption:{                          //  页面底部swiper配置
                 direction:'vertical',
-                slidesPerView: 9,    //显示几个slide
-                spaceBetween: 9,    //slide间距
-                loop: true,    //连续播放
+                slidesPerView: 9,                   //显示几个slide
+                spaceBetween: 9,                    //slide间距
+                loop: true,                         //连续播放
                 autoplay:
                 {
                     delay:0,
                     disableOnInteraction:false
                 },
-                speed:1000,    //根据自己所需速度调整
+                speed:1000,                         //根据自己所需速度调整
                 freeMode:true,
             },
             trueRecomandList:[],
@@ -170,6 +171,7 @@ let vm = null;
             interval:"",
             loading:false,
             animate:true,
+            isKeep:false,                           // 控制页面在keep-alive后轮播不播放的问题
         }
     },
 
@@ -182,6 +184,7 @@ let vm = null;
     created(){
         vm = this;
         this.init();
+        console.log(this)
     },
     beforeDestroy(){
         // this.oldLotteryList.forEach((item,i) => {
@@ -191,6 +194,12 @@ let vm = null;
         //     });
         // });
         clearInterval(this.interval)
+    },
+    activated(){
+        this.isKeep = true;
+    },
+    deactivated(){
+        this.isKeep = false;
     },
     methods: {
         init(){
@@ -202,7 +211,7 @@ let vm = null;
             this.getBetWin();
             this.getBzjlq();
             this.getRecomandType();
-            
+            //this.isKeep = true;
         },
         getRecomandType(){                
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)

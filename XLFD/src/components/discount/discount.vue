@@ -27,7 +27,8 @@
                 <span class="hot" :class="{'on':activityParam.order_by == 2}" @click="changeSort(2)">热度排序</span>
             </div>
         </div>
-        <scroll ref="scroll" class="scroll-content" :data="activityList" >
+        <!-- <scroll ref="scroll" class="scroll-content" :data="activityList" > -->
+            <div class="scroll-content">
             <div class="activity-list">
                 <ul>
                     <!-- <router-link tag="li" :to="{path:'/discount/activity',query:{title:item.title,url:item.turn_url}}" class="border-bottom-1px" v-for="(item,index) in activityList" :key="index">
@@ -48,8 +49,9 @@
                     </li>
                 </ul>
             </div>
+            </div>
             <!-- <data-none v-show="activityList && activityList.length < 1"></data-none> -->
-        </scroll>
+        <!-- </scroll> -->
         <router-view></router-view>
     </div>
 </template>
@@ -114,20 +116,19 @@
                 this.getDiscount();
             },
             gotoDetail(item){
-                if(this.href_type){
-                    context(item.turn_url);
+                if(item.title=="欢乐中秋"){
+                    if(this.href_type){
+                        context(item.turn_url);
+                    }else{
+                        //location.href=item.turn_url
+                        window.open(item.turn_url)
+                    }
                 }
                 else{
-                    if(item.title=="欢乐中秋"){
-                        location.href=item.turn_url
-                        //window.open(item.turn_url)
-                    }
-                    else{
-                        this.$router.push({
-                            path: '/discount/activity',
-                            query: {title:item.title,url:item.turn_url}
-                        });
-                    }
+                    this.$router.push({
+                        path: '/discount/activity',
+                        query: {title:item.title,url:item.turn_url}
+                    });
                 }
             }
         }
@@ -210,12 +211,12 @@
     }
     .scroll-content{
         height:calc(100% - 3.4rem);
-        overflow: hidden;
+        overflow: auto;
         width:100%;
         background: #fff;
         .activity-list{
             height:auto;
-            overflow: hidden;
+            overflow: auto;
             li{
                 height:1.47rem;
                 padding:0.3rem 0.3rem;

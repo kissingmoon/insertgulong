@@ -184,7 +184,6 @@ let vm = null;
     created(){
         vm = this;
         this.init();
-        console.log(this)
     },
     beforeDestroy(){
         // this.oldLotteryList.forEach((item,i) => {

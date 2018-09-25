@@ -7,11 +7,17 @@
         </div>
         <tip></tip>        
         <!-- <router-view></router-view> -->
-             <keep-alive>
-            <router-view v-if="$route.meta.keepAlive"></router-view>
-            </keep-alive>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>      
-               
+        <Fade>
+        <keep-alive>
+            
+                <router-view v-if="$route.meta.keepAlive"></router-view>
+                       
+        </keep-alive>
+        </Fade>
+            <Fade>
+                <router-view v-if="!$route.meta.keepAlive"></router-view>   
+           </Fade>
+            
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>
@@ -24,6 +30,7 @@ import MNav from 'components/nav/m-nav.vue';
 import ActivityQiandao from 'components/activity/activity-qiandao.vue';
 import ActivityXrkh from 'components/activity/activity-xrkh.vue';
 import Parcel from 'base/parcel/parcel';
+import Fade from 'base/fade/fade';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
 import {headerConfig} from 'common/js/map';
@@ -37,6 +44,7 @@ export default {
         }
     },
     components:{
+        Fade,
         Parcel,
         MHeader,
         MNav,

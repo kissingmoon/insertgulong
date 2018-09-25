@@ -1176,7 +1176,12 @@
                 
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
-                    this.betCount=this.selectNumList[0].length;
+                    if(this.wfFlag=="xy28_tmb3_b3"){
+                        const funName= this.wfFlag;
+                        this.betCount=CalcBetCount[funName](this.betNumber);
+                    }else{
+                        this.betCount=this.selectNumList[0].length;
+                    }
                 }else{
                     const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
                     try{

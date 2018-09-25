@@ -1083,3 +1083,6 @@ export function m11x5RXDT(value, num) {
     const count = ComAndArrangeUtil.combination(tuoma.length, num - danma.length);
     return Math.floor(count);
 }
+export function xy28_tmb3_b3(value) {
+    return value.length>=6?value.length/6:0;
+}

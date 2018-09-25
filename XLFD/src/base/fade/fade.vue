@@ -15,15 +15,15 @@
 </script>
 
 <style lang='scss' scoped>
-    .fade-enter-active{
-        transition: all 0.3s ease-in-out;
+    .fade-enter-active,.parcel-leave-active{
+        transition: all 0.5s ease-in;
     }
 
     .fade-enter,.fade-leave-to{
-        //opacity: 0;
+        opacity: 0.5;
+        background-color: #fff;
         //transform: translate3d(0, 100%, 0);
-        transform: translateY(100%);
-        transform: scale(0);
-        transform-origin: 50% 100%;
+        //transform: scale(0);
+        //transform-origin: 50vw 100vh;
     }
 </style>

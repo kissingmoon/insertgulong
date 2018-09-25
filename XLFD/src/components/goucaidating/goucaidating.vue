@@ -1,5 +1,5 @@
 <template>
-    <div class="flex mainwapper ">  
+    <div class="flex mainwapper">  
         <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
         <!-- <div class="flex-1  scroll-warpper"> -->
             <ul class="leftcontainer">
@@ -229,11 +229,20 @@ export default {
         width: 100%;
         top: 1.2rem;
         bottom: 1.44rem;
+<<<<<<< HEAD
         -webkit-overflow-scrolling:touch;
         .scroll-warpper{
             height: 100%;
             overflow: auto;
             -webkit-overflow-scrolling:touch;
+=======
+        overflow-x: hidden;
+        .scroll-warpper{
+            // height: 100%;      此处影响页面上下滑动，出现划不动的现象
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            overflow-x: hidden;
+>>>>>>> 1f9162c5ebe20ac74c7192a95f35c262b90d3536
             .leftcontainer{
                 border-right: 1px solid #F2F2F2 ;
                 li{

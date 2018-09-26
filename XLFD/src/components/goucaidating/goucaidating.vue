@@ -1,6 +1,6 @@
 <template>
     <div class="flex mainwapper">  
-        <scroll class="flex-1  scroll-warpper" :data='lotteryList'>
+        <scroll class="flex-1  scroll-warpper" :data='lotteryList' v-if="showScroll">
         <!-- <div class="flex-1  scroll-warpper"> -->
             <ul class="leftcontainer">
                 <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
@@ -31,7 +31,7 @@
                         <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).danshuang}}</span> -->
                     </p>
                     <p class="flex lockcount">
-                        <span class="llockcount">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
+                        <span class="llockcount flex flex-center">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
                         <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">立即投注</router-link>
                     </p>
                 </router-link> 
@@ -54,7 +54,8 @@ export default {
              trueCurrentSubList:[],//当前要渲染的数组
              interval:'',
              returnObj:{},
-             chooseMain:false
+             chooseMain:false,
+             showScroll:false
         }
     },
     computed:{
@@ -67,11 +68,19 @@ export default {
     },
     created() {   
         this.getLottery()
+        
+    },
+    activated(){
+        this.showScroll = true;
+    },
+    deactivated(){
+        this.showScroll = false;
     },
     beforeDestroy(){
         clearInterval(this.interval)
     },
     mounted(){
+        
     },
     methods:{
         judge(list){
@@ -229,21 +238,16 @@ export default {
         width: 100%;
         top: 1.2rem;
         bottom: 1.44rem;
-<<<<<<< HEAD
-        -webkit-overflow-scrolling:touch;
-        .scroll-warpper{
-            height: 100%;
-            overflow: auto;
-            -webkit-overflow-scrolling:touch;
-=======
         overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
         .scroll-warpper{
-            // height: 100%;      此处影响页面上下滑动，出现划不动的现象
+             height: 100%;     // 此处影响页面上下滑动，出现划不动的现象
             overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
             overflow-x: hidden;
->>>>>>> 1f9162c5ebe20ac74c7192a95f35c262b90d3536
             .leftcontainer{
+                min-height: 101%;
+                position: relative;
                 border-right: 1px solid #F2F2F2 ;
                 li{
                     height: 2.52rem;
@@ -252,9 +256,10 @@ export default {
                 }
             } 
             .rightcontainer{
+                min-height: 101%;
                 position: relative;
                 li{
-                    height: 3rem;
+                    min-height: 3rem;
                     padding: 0 0.3rem;
                     border-bottom:1px solid#F2F2F2 ;
                     .nameText{
@@ -341,12 +346,12 @@ export default {
                         }
                     }
                     .lockcount{
-                        height: 0.7rem;
+                        min-height: 0.7rem;
                         justify-content:space-between;
                         .llockcount{
                            font-size: 0.3rem;
                            color: #949494 ;
-                           line-height: 0.7rem;
+                           //line-height: 0.7rem;
                         }
                         .rlockcount{
                             background: #DA1C36;

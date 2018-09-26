@@ -312,7 +312,9 @@ export default {
 .better-scroll-root {
     .better-scroll-container{
         position: relative;
-        min-height: 100%;
+        overflow-y: scroll;
+        -webkit-overflow-scrolling: touch;
+        min-height: 101%;
         background-color: #fff;
         &.kuai3BG{
             background-color: transparent;

@@ -220,7 +220,7 @@ let vm = null;
         this.isKeep = true;
     },
     deactivated(){
-        this.isKeep = false;
+        this.isKeep = false;        
     },
     methods: {
         init(){

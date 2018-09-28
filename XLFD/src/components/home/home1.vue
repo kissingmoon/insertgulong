@@ -37,21 +37,23 @@
                     <img v-lazy="v.recomandObj.lotteryImage" alt="">
                 </div>
                 <div class="recomandName flex flex-pack-center flex-v">
-                    <div  class="reName-title">{{v.recomandObj.lotteryName}}</div>
+                    <div  class="reName-title">
+                        <!-- {{v.recomandObj.lotteryName}} -->
+                        <em>{{v.recomandObj.lotteryName}}</em>
+                        <span class="kaijiang" v-if="v.recomandObj.isPrivate == 1"></span>
+                    </div>
                     <div class="reName-time">距截止:{{v.locktime}}</div>
                 </div>
                 <div class="recomandEnter flex flex-center flex-v">
-                    <div class="reEnter-onlinenum">当前在线:{{v.reserved}}</div>
+                    <div class="reEnter-onlinenum" v-if="!v.recomandObj.isSelf">当前在线:{{v.reserved}}</div>
                     <div class="reEnter-enter">点击进入</div>
                 </div>
             </div>
         </div>
         <div class="moreLottery">
-            <div class="flex flex-center">
-                <router-link  :to="{path:'/goucaidating'}" class="plus"></router-link>
-            </div>
-            <div class="flex flex-center">
-                <router-link :to="{path:'/goucaidating'}">更多彩种</router-link>
+            <div class="border-1px" @click="goGoucai">
+                <div class="addSign"></div>
+                <div>添加彩种</div>
             </div>
         </div>
         <!-- 排名 -->
@@ -116,7 +118,10 @@
                 </div>
             </div>
         </div>  
-        <router-view></router-view>
+        <keep-alive>            
+            <router-view v-if="$route.meta.keepAlive"></router-view>                       
+        </keep-alive>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>   
     </div>
 </template>
 
@@ -194,18 +199,26 @@ let vm = null;
             loading:false,
             animate:true,
             isKeep:false,                           // 控制页面在keep-alive后轮播不播放的问题
+            isRequested:false,                      // 请求自选彩种时，防止created钩子种请求过后activated重复请求
         }
     },
 
     computed: {
         ...mapGetters([
             'user_token',
-            'hd_qiandao'
+            'hd_qiandao',
         ]),
     },
     created(){
         vm = this;
         this.init();
+    },
+    watch:{
+        $route(to,from){
+            if( to.path == '/home' && from.path == '/home/addCaiType'){
+                this.getRecomandType();
+            }
+        }
     },
     beforeDestroy(){
         // this.oldLotteryList.forEach((item,i) => {
@@ -220,46 +233,97 @@ let vm = null;
         this.isKeep = true;
     },
     deactivated(){
-        this.isKeep = false;        
+        this.isKeep = false;         
     },
     methods: {
         init(){
             this.getActivitys();
             this.getNotice();
             this.getGift();
-            //this.getLottery();
             this.getRank();
             this.getBetWin();
             this.getBzjlq();
             this.getRecomandType();
-            //this.isKeep = true;
         },
-        getRecomandType(){                
+
+        //  设置进入添加彩种页面时，底部nav导航首页高亮
+        ...mapMutations({
+            setNavActive:'SET_NAV_ACTIVE',
+            setTip:'SET_TIP',
+        }),
+        goGoucai(){
+            if(!this.user_token){
+                this.setTip('您还未登入，请先登入')
+                setTimeout(()=>{
+                    this.$router.push({ path:'/login'})
+                },1000)                 
+                return
+            }
+            this.setNavActive(true)
+            this.$router.push({ path:'/home/addCaiType',query:{type:'addType'}})
+        },
+        getRecomandType(){   
+            this.isRequested = true;
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    res.data.list.map((v,k)=>{
-                        this.recomandList=res.data.list;                          
-                    })                        
+                    this.recomandList=res.data.list;   
+                    if(this.user_token){
+                        this.getChooseSelfType((ret)=>{
+                            this.recomandList= this.recomandList.concat(ret)
+                            var parmList=[];
+                            this.returnSubList=[];
+                            this.recomandList.map((v,k)=>{
+                                parmList.push({'lottery_id':v.flag,'type':'1'})
+                            })                             
+                            //新添加   
+                            var tempList = new Array();                                              
+                            this.recomandList.map((v,k)=>{
+                                tempList[k]={}
+                                tempList[k].recomandObj=this.recomandList[k]
+                                tempList[k].running=true;
+                                tempList[k].locktime="";
+                                tempList[k].click=false;
+                            })                                          
+                            this.trueRecomandList=tempList.concat() 
+                            console.log(this.trueRecomandList)
+                            this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
+                            //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
+                        });
+                        return;
+                    }
+                                
                     var parmList=[];
                     this.returnSubList=[];
                     this.recomandList.map((v,k)=>{
                         parmList.push({'lottery_id':v.flag,'type':'1'})
-                    }) 
+                    })                     
                     //新添加   
-                    var tempList = new Array();                                             
+                    var tempList = new Array();                                              
                     this.recomandList.map((v,k)=>{
                         tempList[k]={}
                         tempList[k].recomandObj=this.recomandList[k]
                         tempList[k].running=true;
                         tempList[k].locktime="";
                         tempList[k].click=false;
-                    })              
-                    this.trueRecomandList=tempList.concat()         
+                    })                                           
+                    this.trueRecomandList=tempList.concat() 
                     this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
                     //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                 }
             });
+        },
+        getChooseSelfType(callback){            
+            this.$axios.postRequest(httpUrl.lottery.getType)
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    var choosedTypes = res.data;
+                    choosedTypes.map((v,k)=>{
+                        v.isSelf = true;                    
+                    })  
+                }   
+                callback(choosedTypes)           
+            })
         },
         mapPost(url,n,parmList){
             for(let i=0;i<n;i++){
@@ -273,25 +337,25 @@ let vm = null;
         },
         makeTrueList(k,resData){ 
             var tempObj=resData;
-            this.trueRecomandList[k] = Object.assign(this.trueRecomandList[k],tempObj);
+            this.trueRecomandList[k] = Object.assign(this.trueRecomandList[k],tempObj);            
             this.trueRecomandList[k].locktime=countTime(tempObj.lock_time.replace(/-/g,'/')); 
             this.trueRecomandList[k].click=true;   
             var lockInt=parseInt(this.trueRecomandList[k].locktime.split(':')[1])
             var baseMinNum=300,baseMaxNum=480;
             switch(this.trueRecomandList[k].lottery_id){
-                        case "cqssc":
-                            baseMinNum=600;baseMaxNum=800;
-                        break;
-                        case "pk10":
-                            baseMinNum=500;baseMaxNum=600;
-                        break;
-                        case "xssc":
-                            baseMinNum=300;baseMaxNum=500;
-                        break;
-                        case "xglhc":
-                            baseMinNum=150;baseMaxNum=350;
-                        break;
-                    }
+                case "cqssc":
+                    baseMinNum=600;baseMaxNum=800;
+                break;
+                case "pk10":
+                    baseMinNum=500;baseMaxNum=600;
+                break;
+                case "xssc":
+                    baseMinNum=300;baseMaxNum=500;
+                break;
+                case "xglhc":
+                    baseMinNum=150;baseMaxNum=350;
+                break;
+            }
             if(lockInt<=15){
                 this.trueRecomandList[k].reserved=this.randomNum(baseMinNum,baseMaxNum); 
             }
@@ -304,8 +368,7 @@ let vm = null;
         },
         startIntervl(){
             var count=0;
-            this.interval=setInterval(() => {//reserved 
-                    
+            this.interval=setInterval(() => {//reserved                     
                 if(count==30){
                     count=0;
                 }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
@@ -349,9 +412,8 @@ let vm = null;
                                 },5000)
                             }
                         }  
-                        }         
+                    }         
                 })
-
                 count++; 
             },1000);
         },
@@ -372,6 +434,7 @@ let vm = null;
             })
         },
         enterLottery(v){
+            console.log(v)
             this.$router.push({
                 path: '/lottery',
                 query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
@@ -581,17 +644,27 @@ let vm = null;
         overflow: hidden;
     }
     .moreLottery{
-        padding-top: 0.2rem;
-        div{
-            padding-bottom: 0.2rem;
+        padding: 0.3rem 0;
+        text-align: center;
+        >div{
+            display: inline-block;
+            width: 4rem;
             color: #949494;
             font-size: 0.35rem;
-        }
-        .plus{
-            width: 0.85rem;
-            height: 0.85rem;
-            @include bg-image('Oval');
-            background-size: 100%;
+            padding: .26rem 0;
+            border: 1px solid #949494;
+            border-radius: .5rem;
+            >div{
+                display: inline-block;
+                vertical-align: middle;                
+            }
+            .addSign{
+                width: .36rem;
+                height: .36rem;
+                @include bg-image('./addSign');
+                background-repeat: no-repeat;
+                background-size: 100% 100%;
+            }
         }
     }
     .recomandWapper{
@@ -619,7 +692,22 @@ let vm = null;
             .recomandName{
                 width: 5rem;
                 .reName-title{
-                    font-size:0.4rem
+                    font-size:0.4rem;
+                    em{
+                        font-style: normal;
+                        vertical-align: middle;
+                    }
+                    .kaijiang{
+                        vertical-align: middle;
+                        display: inline-block;
+                        width: 1.4rem;
+                        height: .4rem;
+                        margin-left: .1rem;
+                        margin-bottom: .02rem;
+                        @include bg-image('./allday');
+                        background-repeat: no-repeat;
+                        background-size: 100% 100%;
+                    }
                 }
                 .reName-time{
                     margin-top:0.15rem;

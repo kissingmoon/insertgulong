@@ -1,6 +1,6 @@
 <template>
     <div class="nav">
-        <router-link tag="div" class="nav-item" to="/home">
+        <router-link tag="div" class="nav-item" to="/home" :class="{'active':getNavActive}">
             <p class="icon-con icon-home"></p>
             <p class="txt">首页</p>
         </router-link>
@@ -28,7 +28,18 @@
     </div>
 </template>
 <script>
-    
+import {mapGetters} from 'vuex';
+    export default({
+        name:'',
+        // created(){
+        //     console.log(this.getNavActive)
+        // },
+        computed: {
+            ...mapGetters([
+                'getNavActive'
+            ])
+        },
+    })
 </script>
 <style scoped lang="scss">
 @import 'common/scss/variable.scss';
@@ -78,6 +89,12 @@
             width:1.72rem;
             margin: 0 auto;
             line-height: 0.5rem;
+        }
+        &.active{
+            color:#FFE212;
+            .icon-home{
+                @include bg-image('home-on');
+            }
         }
         &.router-link-exact-active{
             color:#FFE212;

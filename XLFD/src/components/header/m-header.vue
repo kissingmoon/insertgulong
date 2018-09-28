@@ -52,7 +52,8 @@
                 setShowTime:'SET_SHOW_TIME',
                 setShowPicker:'SET_SHOW_PICKER',
                 setMessageCount:'SET_MESSAGE_COUNT',
-                setShowSearch:'SET_SHOW_SEARCH'
+                setShowSearch:'SET_SHOW_SEARCH',
+                setReflesh:'SET_REFLESH'
             }),
             ...mapActions([
                 'getMessageCount'
@@ -80,7 +81,7 @@
                 }else{
                     this.setMessageCount(0);
                 }
-            }
+            },
         }
     }
 </script>

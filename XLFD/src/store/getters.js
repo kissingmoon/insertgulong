@@ -17,4 +17,6 @@ export const has_phone = state => state.has_phone;
 export const show_search = state => state.show_search;
 export const href_type = state => state.href_type;
 export const xglhc_color = state => state.xglhc_color;
+//  设置添加彩种页面底部导航保留首页当前样式
+export const getNavActive = state => state.nav_active;
 

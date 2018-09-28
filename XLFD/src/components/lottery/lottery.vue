@@ -724,7 +724,7 @@
             },
             //获取玩法
             getBetWF(){
-                const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC:httpUrl.bet.lotteryWf;
+                const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC : httpUrl.bet.lotteryWf;
                 this.$axios.postRequest(api,{lottery_id:this.lotteryId})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

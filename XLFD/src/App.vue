@@ -53,8 +53,7 @@ export default {
         ActivityXrkh,
         remoteJs
     },
-    created() {
-       
+    created() {       
         this.init();
         
     },
@@ -80,9 +79,12 @@ export default {
                 token:user_token,
                 md5:md5_salt
             });
+            if( this.$route.query.type == 'addType' ){
+                this.setNavActive(true)
+            }
             this.setHeader(headerConfig[path]);
             this.getUserData();
-           this.getXglhcColor();
+            this.getXglhcColor();
         },
         getUrl(){
             this.sethreftype(this.$route.query.type)    //  这个type用来识别苹果内嵌浏览器和web浏览器
@@ -107,13 +109,20 @@ export default {
             'getXglhcColor'
         ]),
         ...mapMutations({
-            sethreftype:'SET_HREF_TYPE'
+            sethreftype:'SET_HREF_TYPE',
+            setNavActive:'SET_NAV_ACTIVE'
         })
     },
     watch:{
         $route(to) {
-            let path=to.path;
-            this.setHeader(headerConfig[path]);
+            let path=to.path;       
+            if( to.query.type == 'addType' ){
+                this.setNavActive(true)
+                this.setHeader(headerConfig['/addType']);
+            }else{
+                this.setNavActive(false)
+                this.setHeader(headerConfig[path]);
+            }
         }
     }
 }

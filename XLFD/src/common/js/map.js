@@ -48,6 +48,12 @@ export const httpUrl = {
     discount:{
         activity:'/v2/activity/get-activity'
     },
+    lottery:{
+        addType:'/v5/gc/addUserLottery',     //  新增彩种
+        delType:'/v5/gc/removeUserLottery',     //  删除彩种
+        getType:'/v5/gc/getUserLottery',     //  获取用户添加的彩种
+        getTypeList:'/v5/gc/get-cp-type',     //  获取彩种列表
+    },
     descover:{
         rank:'/v2/gd-dsb/get-dsb-rank',
         order:'/v2/gd-dsb/get-all-gd',
@@ -258,6 +264,10 @@ export const headerConfig = {
         title:'活动详情',
         back:true
     },
+    '/home/addCaiType':{
+        title:'添加彩种',
+        back:true
+    },
     '/draw':{
         title:'开奖信息',
         back:true,
@@ -397,5 +407,9 @@ export const headerConfig = {
         title:'购彩大厅',
         service:true,
         message:true
+    },
+    '/addType':{
+        title:'添加彩种',
+        back:true
     }
 };

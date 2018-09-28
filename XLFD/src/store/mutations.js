@@ -60,7 +60,11 @@ const mutations = {
   },
   [types.SET_XGLHC_COLOR](state, param) {
     state.xglhc_color = param;
-  }
+  },
+  //  设置添加彩种页面底部导航保留首页当前样式
+  [types.SET_NAV_ACTIVE](state, param){
+    state.nav_active = param;
+  },
 }
 
 export default mutations

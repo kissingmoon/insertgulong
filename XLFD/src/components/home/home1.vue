@@ -310,18 +310,19 @@ let vm = null;
                     count=0;
                 }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
                 this.trueRecomandList.map((v,k)=>{ 
-                    var baseMinNum=300,baseMaxNum=480;
-                    switch(v.lottery_id){
-                        case "cqssc":
+                    var baseMinNum,baseMaxNum;
+                    
+                    switch(v.recomandObj.lotteryType){
+                        case "1":
                             baseMinNum=600;baseMaxNum=800;
                         break;
-                        case "pk10":
+                        case "10":
                             baseMinNum=500;baseMaxNum=600;
                         break;
-                        case "xssc":
+                        case "1":
                             baseMinNum=300;baseMaxNum=500;
                         break;
-                        case "xglhc":
+                        case "6":
                             baseMinNum=150;baseMaxNum=350;
                         break;
                     }

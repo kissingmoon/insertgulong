@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p  v-if="!hasSelect" @click="startInterval" class="randomBtn">机选</p>
+        <p  v-if="!hasSelect" @click="interval" class="randomBtn">机选</p>
         <div v-if="showmodel" class="lockmodel" v-slience></div>
     </div>
 </template>
@@ -655,66 +655,37 @@ export default {
                 this.randomList=false
             }
             else{
-                //this.$emit('selectRandNum',this.randomList)
-                return this.randomList
+                this.$emit('selectRandNum',this.randomList)
                 this.randomList=false
             }          
         },
-        startInterval(){
-            var resultIndexList=this.shakefun().concat()
-            //console.log(resultIndexList)
-            var stepList=[]
-            resultIndexList.map((v,k)=>{
-                v.sort(function(x, y){
-                    return y-x;
-                });
-            })
-            console.log(resultIndexList)
-            resultIndexList.map((v,k)=>{
-                var tempList=[]
-                v.map((v1,k1)=>{
-                    tempList[k1]=v1+2*this.numList[k].buyNumberBeanList.length;
-                })
-                stepList.push(tempList)
-            })
-            console.log(stepList)
-            var num=0;
-            var speed=200;
-            this.timer=setInterval(()=>{
-                this.randomList=[];
-                this.numList.map((v,k)=>{
-                    var leng=v.buyNumberBeanList.length;
-                    this.randomList[k]=[];
-                    stepList[k].map((v1,k1)=>{
-                        if(num>=v1){
-                            let index=resultIndexList[k][k1]
-                            this.randomList[k][k1]=v.buyNumberBeanList[index].number_str
-                            if(num==30){
-                                clearInterval(this.timer)
-                            }
-                        }
-                        else{
-                            this.randomList[k][0]=v.buyNumberBeanList[num%leng].number_str
-                        }
-                    })
-                    //在这里修改
-                    // if(num>=stepList[k]){
-                    //     let index=resultIndexList[k][0]
-                    //     this.randomList[k][0]=v.buyNumberBeanList[index].number_str
-                    //     if(num==30){
-                    //         clearInterval(this.timer)
-                    //     }
-                    // }
-                    // else{
-                    //     var leng=v.buyNumberBeanList.length
-                    //     this.randomList[k][0]=v.buyNumberBeanList[num%leng].number_str
-                    // }
-                })
-                console.log(this.randomList)
-                this.$emit('selectRandNum',this.randomList)
-                num++
-            },speed)
-            
+        interval(e,flag){
+            var _this=this;
+            var repeat=21;  
+            var speed=100;
+            _this.showmodel=true;
+            window.removeEventListener('shake', _this.interval);
+            _this.timer = setInterval(intervalfun, speed);
+            function intervalfun(){
+                clearInterval(_this.timer);
+                _this.timer = setInterval(intervalfun, speed)
+                if (repeat == 0) {
+                    clearInterval(_this.timer);
+                    _this.setTip('已选出号码！');
+                    _this.showmodel=false;
+                    window.addEventListener('shake', _this.interval);  
+                    return;
+                }
+                else if(repeat > 7&&repeat <20){
+                    speed += 5;
+                }
+                else if(repeat <= 5){
+                    speed += 20;
+                }                                                             
+                repeat--;
+                _this.shakefun();                
+            }
+            this.vibrate();
         },
         addShakeEvent(){
             var _this=this;
@@ -733,10 +704,10 @@ export default {
         }        
     },
     mounted(){  
-        //this.addShakeEvent() 
+        this.addShakeEvent() 
     },
     beforeDestroy(){
-        //this.removeShakeEvent()
+        this.removeShakeEvent()
     }
 }
 </script>

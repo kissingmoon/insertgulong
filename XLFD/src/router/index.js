@@ -38,6 +38,7 @@ import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
 import Goucaidating from 'components/goucaidating/goucaidating';
 import betWin from 'components/betWin/betWin';
+import addCaiType from 'components/addCaiZhong/addCaiType';
 import Loading from 'base/loading/loading';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
@@ -100,6 +101,13 @@ export default new Router({
                 {
                     path:'betwin',
                     component:betWin
+                },
+                {
+                    path:'addCaiType',
+                    component:addCaiType,
+                    meta: {
+                        keepAlive: true // 需要缓存
+                    }, 
                 },
             ]
         },

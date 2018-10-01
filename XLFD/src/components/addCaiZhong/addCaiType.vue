@@ -1,5 +1,5 @@
 <template>
-    <div class="flex mainwapper">  
+    <div class="flex mainwapper">
         <scroll class="flex-1  scroll-warpper" :data='lotteryList' v-if="showScroll">
         <!-- <div class="flex-1  scroll-warpper"> -->
             <ul class="leftcontainer">
@@ -14,12 +14,13 @@
              <!-- <div class="flex-3  scroll-warpper"> -->
             <ul class="rightcontainer">
                 <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">   
+                <!-- <li v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" > -->
                     <p class="flex nameText">
                         <span class="lnameText">
                             <em>{{v.subLotteryObj.lottery_name}}</em>
                             <span class="kaijiang" v-if="v.subLotteryObj.isPrivate == 1"></span>
-                        </span>
-                        <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
+                        </span>                        
+                        <span class="rnameText">第{{v.kjNewData.lotteryQh.length > 8 ? v.kjNewData.lotteryQh.slice(8) : v.kjNewData.lotteryQh}}期</span>
                     </p>
                     <p class="flex kjhaoma flex-align-center">                                  
                         <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
@@ -34,11 +35,12 @@
                         <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).danshuang}}</span> -->
                     </p>
                     <p class="flex lockcount">
-                        <span class="llockcount flex flex-center">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
-                        <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">
-                            立即投注
-                        </router-link>
+                        <!-- 距{{v.lottery_qh}}期截止{{v.locktime}} -->
+                        <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}{{ v.isAdd}}</span>
+                        <span class="rlockcount" v-if=" v.subLotteryObj.user_cp_flag == 0" @click.stop='addType(v,k)'>立即添加</span>
+                        <span class="rlockcount grayBg" v-if=" v.subLotteryObj.user_cp_flag == 1" @click.stop='removeType(v)'>取消添加</span>                        
                     </p>
+                <!-- </li>     -->
                 </router-link> 
             </ul>
              <!-- </div> -->
@@ -60,7 +62,7 @@ export default {
              interval:'',
              returnObj:{},
              chooseMain:false,
-             showScroll:false
+             showScroll:false,
         }
     },
     computed:{
@@ -72,11 +74,13 @@ export default {
         Scroll
     },
     created() {   
+        this.showScroll = true;
         this.getLottery()        
     },
     activated(){
         this.showScroll = true;
     },
+    
     deactivated(){
         this.showScroll = false;
     },
@@ -87,6 +91,30 @@ export default {
         
     },
     methods:{
+        //  新增彩种
+        addType(item,k){            
+            let param = {
+                lottery_id:item.lottery_id
+            }
+            this.$axios.postRequest(httpUrl.lottery.addType , param)
+            .then(ret => {
+                if( ret.status == 200 && ret.data.status == 1){
+                    item.subLotteryObj.user_cp_flag = '1';
+                }                
+            })
+        },
+        //  删除彩种
+        removeType(item){
+            let param = {
+                lottery_id:item.lottery_id
+            }
+            this.$axios.postRequest(httpUrl.lottery.delType , param)
+            .then(ret => {
+                if( ret.status == 200 && ret.data.status == 1){
+                    item.subLotteryObj.user_cp_flag = '0'
+                }
+            })
+        },
         judge(list){
             var returnObj={
                 total:0,
@@ -105,8 +133,9 @@ export default {
             return returnObj
         },
         getLottery(){
-            this.$axios.postRequest(httpUrl.lottery.getTypeList)    // httpUrl.home.lottery
+            this.$axios.postRequest(httpUrl.lottery.getTypeList)
             .then((res)=> {
+                console.log(res)
                 if(res.data && !res.data.errorCode){
                     this.chooseMain=true;
                     this.lotteryList=res.data; 
@@ -122,9 +151,8 @@ export default {
                             tempList[k][k1].click=false
                         })
                     })   
-                    this.truetotalList=tempList.concat()
-                    this.trueCurrentSubList=this.truetotalList[0]  
-                    console.log(this.trueCurrentSubList)
+                    this.truetotalList=tempList.concat()   
+                    this.trueCurrentSubList=this.truetotalList[0];                         
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
                     this.getSubLockTime(this.lotteryList,0)                    
                 }
@@ -229,6 +257,7 @@ export default {
                 }
             })   
             this.trueCurrentSubList=this.truetotalList[k]
+            console.log(this.trueCurrentSubList)
             if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }
@@ -236,14 +265,16 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>   
-@import 'common/scss/mixin.scss';      
+<style lang="scss" scoped>     
+@import 'common/scss/mixin.scss';  
     .mainwapper{
         position: fixed;
         width: 100%;
         top: 1.2rem;
-        bottom: 1.44rem;
+        bottom: 0;
+        z-index: 132;
         overflow-x: hidden;
+        background-color: #fff;
         -webkit-overflow-scrolling: touch;
         .scroll-warpper{
              height: 100%;     // 此处影响页面上下滑动，出现划不动的现象
@@ -283,12 +314,12 @@ export default {
                                 width: 1.4rem;
                                 height: .4rem;
                                 margin-left: .1rem;
-                                margin-bottom: .02rem;
                                 @include bg-image('./images/allday');
                                 background-repeat: no-repeat;
                                 background-size: 100% 100%;
                             }
                        }
+                       
                        .rnameText{
                            font-size: 0.3rem;
                            color: #949494 ;
@@ -383,6 +414,9 @@ export default {
                             text-align: center;
                             font-size: 0.3rem;
                             border-radius: 0.1rem;
+                            &.grayBg{
+                                background-color: #949494
+                            }
                         }
                     }
                 }

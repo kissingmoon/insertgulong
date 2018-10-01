@@ -18,3 +18,4 @@ export const SET_SHOW_SEARCH = 'SET_SHOW_SEARCH';
 export const SET_HREF_TYPE = 'SET_HREF_TYPE';
 export const SET_USER_ID = 'SET_USER_ID';
 export const SET_XGLHC_COLOR = 'SET_XGLHC_COLOR';
+export const SET_NAV_ACTIVE = 'SET_NAV_ACTIVE';         //  设置添加彩种页面底部导航保留首页当前样式

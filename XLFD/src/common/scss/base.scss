@@ -41,6 +41,12 @@ body{
             transform: scaleX(0.7);
         }
     }
+    .border-1px{
+        &::before{
+            -webkit-transform: scaleX(0.7);
+            transform: scaleX(0.7);
+        }
+    }
 }
 
 @media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
@@ -66,6 +72,12 @@ body{
         &::before{
             -webkit-transform: scaleX(0.5);
             transform: scaleX(0.5);
+        }
+    }
+    .border-1px{
+        &::before{
+            -webkit-transform: scaleX(0.7);
+            transform: scaleX(0.7);
         }
     }
     

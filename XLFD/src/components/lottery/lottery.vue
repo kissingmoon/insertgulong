@@ -912,12 +912,12 @@
             selectRandPos(pos,num){
                 this.$refs.betnumberlist.clearKind()
                 this.selectPosition=pos
-                this.selectNumList=num
+                //this.selectNumList=num
             },
-            selectRandObj(num,obj){
+            selectRandObj(obj){
                 var _this=this;
                 this.$refs.betnumberlist.clearKind()
-                this.selectNumList=num;
+                //this.selectNumList=num;
                 this.selectObj=obj
                 //this.selectObj={};
                 // if(Array.isArray(obj)){

@@ -66,8 +66,6 @@ export default {
         },
         getSingleLockTime(num,subnum){
             var id=this.truetotalList[num].trueSubList[subnum].lottery_id
-            console.log(id)
-            console.log(num,subnum)
             this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'2'})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){  
@@ -83,8 +81,7 @@ export default {
                         sub.locktime=countTime(sub.lock_time.replace(/-/g,'/'));
                         if(sub.locktime=="00:00:00"){
                             clearInterval(this.truetotalList[num].intervlList[subnum])
-                            setTimeout(() => {                                               
-                                console.log("该定时器已经清除")
+                            setTimeout(() => {                   
                                 this.getSingleLockTime(num,subnum)
                             },5000);
                         }
@@ -114,31 +111,26 @@ export default {
                 callback(num)        
             }            
         },
-        creatTrueSub(num){
-            console.log("子彩种倒计时加载完毕")                                                 
+        creatTrueSub(num){                                            
             this.currentSubList.map((v,k)=>{
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
                 v.index=num
             })
             this.trueCurrentSubList=this.currentSubList.concat() 
             this.createTruetotalList(num,this.trueCurrentSubList)
-            console.log(this.trueCurrentSubList)
             this.trueCurrentSubList.map((v,k)=>{
                 this.intervlRunCount(v,num,k)
-            }) 
-            console.log(this.truetotalList[num].intervlList)   
+            })  
         },
         createTruetotalList(k,v){
            this.truetotalList[k].trueSubList=v     
         },
-        intervlRunCount(sub,num,subnum){   
-            console.log("看看总共有几个定时器")     
+        intervlRunCount(sub,num,subnum){       
             this.truetotalList[num].intervlList[subnum]= setInterval(() => {                
                 sub.locktime=countTime(sub.lock_time.replace(/-/g,'/'));
                 if(sub.locktime=="00:00:00"){
                     clearInterval(this.truetotalList[num].intervlList[subnum])
-                    setTimeout(() => {                                               
-                        console.log("该定时器已经清除")
+                    setTimeout(() => {                 
                         this.getSingleLockTime(num,subnum)
                     },5000);
                 }
@@ -152,8 +144,6 @@ export default {
             }
             else{
                 this.trueCurrentSubList=this.truetotalList[k].trueSubList
-                console.log("已经有了")
-                console.log(this.truetotalList[k].trueSubList)
             }
         }
     }

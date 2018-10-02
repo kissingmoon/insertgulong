@@ -310,6 +310,9 @@ export default {
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .better-scroll-root {
+    &::-webkit-scrollbar{
+        display: none
+    }
     .better-scroll-container{
         position: relative;
         overflow-y: scroll;
@@ -318,6 +321,9 @@ export default {
         background-color: #fff;
         &.kuai3BG{
             background-color: transparent;
+        }
+        &::-webkit-scrollbar{
+            display: none
         }
     }
     .pulldown-tip {

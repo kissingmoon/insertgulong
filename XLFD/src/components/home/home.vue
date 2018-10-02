@@ -418,7 +418,6 @@
                         let lockInt=parseInt(locktime.split(':')[1])
                         
                         if(lockInt<=15){
-                            // console.log(lockInt)
                             res.data.reserved=sub.reserved; 
                         }                             
                         var obj = Object.assign(sub,res.data);

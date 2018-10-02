@@ -211,6 +211,7 @@ let vm = null;
     },
     created(){
         vm = this;
+        this.isRequested = true;
         this.init();
     },
     watch:{
@@ -231,6 +232,11 @@ let vm = null;
     },
     activated(){
         this.isKeep = true;
+        if(this.isRequested){
+            this.isRequested = false;
+            return;
+        }
+        this.getRecomandType();        
     },
     deactivated(){
         this.isKeep = false;         
@@ -262,8 +268,7 @@ let vm = null;
             this.setNavActive(true)
             this.$router.push({ path:'/home/addCaiType',query:{type:'addType'}})
         },
-        getRecomandType(){   
-            this.isRequested = true;
+        getRecomandType(){               
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
@@ -286,7 +291,6 @@ let vm = null;
                                 tempList[k].click=false;
                             })                                          
                             this.trueRecomandList=tempList.concat() 
-                            console.log(this.trueRecomandList)
                             this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
                             //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                         });
@@ -434,7 +438,6 @@ let vm = null;
             })
         },
         enterLottery(v){
-            console.log(v)
             this.$router.push({
                 path: '/lottery',
                 query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
@@ -908,9 +911,28 @@ let vm = null;
         .list{
             height: calc(100% - 0.8rem);
             overflow: hidden;
-            -webkit-animation: 20s rowup linear infinite normal;
-            animation: 20s rowup linear infinite normal;
             position: relative;
+            .inner-container {
+                animation: myMove 10s linear infinite;
+                -o-animation: myMove 10s linear infinite;
+                -webkit-animation: myMove 10s linear infinite;
+                -moz-animation: myMove 10s linear infinite;
+                animation-fill-mode: forwards;
+            }
+            @keyframes myMove {
+                0% {
+                    transform: translateY(0);
+                    -moz-transform: translateY(0);
+                    -webkit-transform: translateY(0);
+                    -o-transform: translateY(0);                    
+                }
+                100% {
+                    transform: translateY(-16rem);
+                    -o-transform: translateY(-16rem);
+                    -webkit-transform: translateY(-16rem);
+                    -moz-transform: translateY(-16rem);
+                }
+            } 
             .betwin-txt{
                 height:.8rem;
                 color: #949494;
@@ -941,20 +963,7 @@ let vm = null;
                     background-size: cover;
                 }
             }
-        }
-
-        .inner-container {
-            animation: myMove 10s linear infinite;
-            animation-fill-mode: forwards;
-        }
-        @keyframes myMove {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-16rem);
-            }
-        }        
+        }      
     }
     .background {
             position:fixed;

@@ -19,7 +19,7 @@
                             <em>{{v.subLotteryObj.lottery_name}}</em>
                             <span class="kaijiang" v-if="v.subLotteryObj.isPrivate == 1"></span>
                         </span>
-                        <span class="rnameText">第{{v.kjNewData.lotteryQh}}期</span>
+                        <span class="rnameText">第{{v.kjNewData.lotteryQh.length > 8 ? v.kjNewData.lotteryQh.slice(8): v.kjNewData.lotteryQh}}期</span>
                     </p>
                     <p class="flex kjhaoma flex-align-center">                                  
                         <span  v-for="(v1,k1) in v.kjNewData.truekjCode" :key="k1" :style="v1.bg" :class="v1.clas">{{v1.val}}
@@ -34,7 +34,7 @@
                         <span v-if="v.lotteryType=='9'">{{judge( v.kjNewData.truekjCode).danshuang}}</span> -->
                     </p>
                     <p class="flex lockcount">
-                        <span class="llockcount flex flex-center">距{{v.lottery_qh}}期截止{{v.locktime}}</span>
+                        <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}</span>
                         <router-link v-if="v.click" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">
                             立即投注
                         </router-link>
@@ -124,7 +124,6 @@ export default {
                     })   
                     this.truetotalList=tempList.concat()
                     this.trueCurrentSubList=this.truetotalList[0]  
-                    console.log(this.trueCurrentSubList)
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
                     this.getSubLockTime(this.lotteryList,0)                    
                 }

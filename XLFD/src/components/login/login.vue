@@ -218,8 +218,7 @@
                 }
             },
             // 用户登录
-            login(data){
-                console.log(this.loginParam)     
+            login(data){   
                 this.showsc=true; 
                 //this.loginParam.challenge = data.challenge;
                 //this.loginParam.idType = 4;

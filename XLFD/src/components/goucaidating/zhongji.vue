@@ -68,7 +68,6 @@ export default {
                         v.currentImage=v.lottery_image_blue
                         this.$set(this.lotteryList,k,v) 
                     })    
-                    console.log(this.lotteryList)
                     this.getSubLockTime(this.lotteryList,0)
                 }
             });

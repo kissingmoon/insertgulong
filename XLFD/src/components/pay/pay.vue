@@ -393,7 +393,6 @@ export default {
             var index = str.indexOf('-');
             var max = str.substr(index + 1,str.length);
             var min= str.substr(0,index);
-            console.log(min,max)
             var currentnum=parseInt(this.onlineMoney);      
             if(!currentnum){
                 this.setTip("请输入金额")

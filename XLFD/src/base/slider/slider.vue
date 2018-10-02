@@ -96,7 +96,7 @@
         })
 
         this.slider.on('scrollStart', (val) => {
-          console.log(val)
+          // console.log(val)
         })
 
         this.slider.on('scrollEnd', () => {
@@ -122,7 +122,6 @@
       },
       _play() {
         let pageIndex = this.currentPageIndex + 1;
-        console.log(this.currentPageIndex+1)
         if (this.loop) {
           pageIndex += 1
         }

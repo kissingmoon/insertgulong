@@ -287,7 +287,6 @@
                     v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
                 })
                 this.trueRecomandList=this.returnSubList.concat()
-                console.log(this.trueRecomandList)
                 this.startIntervl()
             },
             startIntervl(){
@@ -295,8 +294,6 @@
                     this.trueRecomandList.map((v,k)=>{                         
                         if(v.running==true){
                             if(v.locktime=="00:00:00"){
-                                console.log("倒计时结束")
-                                console.log(v)
                                 v.running=false;
                                 setTimeout(()=>{
                                     this.getSingleLockTime(v,k)
@@ -313,12 +310,7 @@
                 var id=sub.lottery_id
                 this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'1'})
                 .then((res)=> {
-                    if(res.data && !res.data.errorCode){ 
-                        console.log("发送了一次请求，旧的数据")
-                        console.log(sub)
-                        console.log("发送了一次请求，新的数据")
-                        console.log(res.data)
-                        
+                    if(res.data && !res.data.errorCode){                         
                         // this.$set(this.trueRecomandList,num,obj) 
                     }
                 })

@@ -218,11 +218,7 @@
                 }
             },
             // 用户登录
-<<<<<<< HEAD
             login(data){
-=======
-            login(data){   
->>>>>>> fc6e4e51b13efb22edd1c07a50b02c49898cb1e7
                 this.showsc=true; 
                 //this.loginParam.challenge = data.challenge;
                 //this.loginParam.idType = 4;

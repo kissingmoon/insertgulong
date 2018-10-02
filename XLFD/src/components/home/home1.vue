@@ -45,7 +45,7 @@
                     <div class="reName-time">距截止:{{v.locktime}}</div>
                 </div>
                 <div class="recomandEnter flex flex-center flex-v">
-                    <div class="reEnter-onlinenum" v-if="!v.recomandObj.isSelf">当前在线:{{v.reserved}}</div>
+                    <div class="reEnter-onlinenum" v-if="!v.recomandObj.isSelf&&v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
                     <div class="reEnter-enter">点击进入</div>
                 </div>
             </div>
@@ -274,7 +274,8 @@ let vm = null;
                             var parmList=[];
                             this.returnSubList=[];
                             this.recomandList.map((v,k)=>{
-                                parmList.push({'lottery_id':v.flag,'type':'1'})
+                                // parmList.push({'lottery_id':v.flag,'type':'1'})
+                                parmList.push({'lottery_id':v.flag,'type':'2'})
                             })                             
                             //新添加   
                             var tempList = new Array();                                              
@@ -286,7 +287,6 @@ let vm = null;
                                 tempList[k].click=false;
                             })                                          
                             this.trueRecomandList=tempList.concat() 
-                            console.log(this.trueRecomandList)
                             this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
                             //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                         });
@@ -296,7 +296,8 @@ let vm = null;
                     var parmList=[];
                     this.returnSubList=[];
                     this.recomandList.map((v,k)=>{
-                        parmList.push({'lottery_id':v.flag,'type':'1'})
+                        parmList.push({'lottery_id':v.flag,'type':'2'})
+                        // parmList.push({'lottery_id':v.flag,'type':'1'})
                     })                     
                     //新添加   
                     var tempList = new Array();                                              
@@ -368,13 +369,13 @@ let vm = null;
         },
         startIntervl(){
             var count=0;
+            var right=0;
             this.interval=setInterval(() => {//reserved                     
                 if(count==30){
                     count=0;
                 }//时时彩600-800   北京500-700 五分才300-500   六合彩150-350      
                 this.trueRecomandList.map((v,k)=>{ 
                     var baseMinNum,baseMaxNum;
-                    
                     switch(v.recomandObj.lotteryType){
                         case "1":
                             baseMinNum=600;baseMaxNum=800;
@@ -412,15 +413,23 @@ let vm = null;
                                     this.getSingleLockTime(v,k)
                                 },5000)
                             }
+                            if(right==120){
+                                this.getSingleLockTime(v,k)
+                                if(k==this.trueRecomandList.length-1){
+                                    right=0;
+                                }
+                            }
                         }  
                     }         
                 })
                 count++; 
+                right++;
             },1000);
         },
         getSingleLockTime(sub,num){
             var id=sub.lottery_id
-            this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'1'})
+            // this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'1'})
+            this.$axios.postRequest(httpUrl.bet.cpLocktime,{'lottery_id':id,'type':'2'})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){ 
                     let locktime =countTime(res.data.lock_time.replace(/-/g,'/'));   

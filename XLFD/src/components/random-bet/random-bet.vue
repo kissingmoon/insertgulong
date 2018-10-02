@@ -465,7 +465,6 @@ export default {
             this.showmodel=true;
             var result=this.shakefun()
             var resultIndexList=result.randomList.concat()
-            console.log(resultIndexList)
             var stepList=[]
             resultIndexList.map((v,k)=>{
                 v.sort(function(x, y){
@@ -493,16 +492,18 @@ export default {
                 tempRanList=[]
                 this.numList.map((v,k)=>{
                     var leng=v.buyNumberBeanList.length;
-                    //this.randomList[k]=[];
                     tempRanList[k]=[];
                     stepList[k].map((v1,k1)=>{
-                        if(num>=v1){
+                    // v.buyNumberBeanList.map((v1,k1)=>{
+                        
+                        if(num>=stepList[k][k1]){
                             let index=resultIndexList[k][k1]
                             // this.randomList[k][k1]=v.buyNumberBeanList[index].number_str
                             tempRanList[k][k1]=v.buyNumberBeanList[index].number_str
                             if(result.randomPos){
                             }
-                            if(num>=3*leng){
+                            if(num>=3*leng-1){
+                                this.setTip('已选出号码！');
                                 clearInterval(this.timer)
                                 this.showmodel=false;
                             }
@@ -527,7 +528,6 @@ export default {
                     //     this.randomList[k][0]=v.buyNumberBeanList[num%leng].number_str
                     // }
                 })
-                console.log(this.randomList)
                     // this.$emit('selectRandNum',this.randomList)
                    this.$emit('selectRandNum',tempRanList) 
                     //this.$emit('selectRandPos',this.randomPos)

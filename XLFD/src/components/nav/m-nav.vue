@@ -31,9 +31,6 @@
 import {mapGetters} from 'vuex';
     export default({
         name:'',
-        // created(){
-        //     console.log(this.getNavActive)
-        // },
         computed: {
             ...mapGetters([
                 'getNavActive'

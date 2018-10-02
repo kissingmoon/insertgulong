@@ -3,7 +3,7 @@
         <scroll class="flex-1  scroll-warpper" :data='lotteryList' v-if="showScroll">
         <!-- <div class="flex-1  scroll-warpper"> -->
             <ul class="leftcontainer">
-                <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain&&chooseSubLottery(k)">
+                <li v-for="(v,k) in lotteryList" :key="k" @click="chooseMain && chooseSubLottery(k)">
                     <img v-lazy="v.currentImage" alt="">
                 </li>
             </ul>
@@ -13,8 +13,8 @@
         <scroll class="flex-3 scroll-warpper" :data='trueCurrentSubList'>  
              <!-- <div class="flex-3  scroll-warpper"> -->
             <ul class="rightcontainer">
-                <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">   
-                <!-- <li v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" > -->
+                <!-- <router-link v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" tag="li" :to="{path:'/draw/number',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">    -->
+                <li v-for="(v,k) in trueCurrentSubList" v-if="v.click" :key="k" >
                     <p class="flex nameText">
                         <span class="lnameText">
                             <em>{{v.subLotteryObj.lottery_name}}</em>
@@ -36,12 +36,12 @@
                     </p>
                     <p class="flex lockcount">
                         <!-- 距{{v.lottery_qh}}期截止{{v.locktime}} -->
-                        <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}{{ v.isAdd}}</span>
-                        <span class="rlockcount" v-if=" v.subLotteryObj.user_cp_flag == 0" @click.stop='addType(v,k)'>立即添加</span>
-                        <span class="rlockcount grayBg" v-if=" v.subLotteryObj.user_cp_flag == 1" @click.stop='removeType(v)'>取消添加</span>                        
+                        <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}</span>
+                        <span class="rlockcount" v-if=" v.subLotteryObj.user_cp_flag == 0" @click.stop='noClick && addType(v,k)'>立即添加</span>
+                        <span class="rlockcount grayBg" v-if=" v.subLotteryObj.user_cp_flag == 1" @click.stop='noClick && removeType(v)'>取消添加</span>                        
                     </p>
-                <!-- </li>     -->
-                </router-link> 
+                </li>    
+                <!-- </router-link>  -->
             </ul>
              <!-- </div> -->
         </scroll>   
@@ -63,6 +63,8 @@ export default {
              returnObj:{},
              chooseMain:false,
              showScroll:false,
+             noClick: true,
+             isRequested:false,                      // 请求自选彩种时，防止created钩子种请求过后activated重复请求
         }
     },
     computed:{
@@ -75,10 +77,16 @@ export default {
     },
     created() {   
         this.showScroll = true;
+        this.isRequested = true;
         this.getLottery()        
     },
     activated(){
-        this.showScroll = true;
+        this.showScroll = true;   
+        if(this.isRequested){
+            this.isRequested = false;
+            return;
+        }     
+        this.getLottery();
     },
     
     deactivated(){
@@ -92,26 +100,30 @@ export default {
     },
     methods:{
         //  新增彩种
-        addType(item,k){            
+        addType(item,k){ 
             let param = {
                 lottery_id:item.lottery_id
             }
+            this.noClick = false;   
             this.$axios.postRequest(httpUrl.lottery.addType , param)
             .then(ret => {
-                if( ret.status == 200 && ret.data.status == 1){
+                if( ret.status == 200 && ret.data.status == 1){                    
                     item.subLotteryObj.user_cp_flag = '1';
+                    this.noClick = true;
                 }                
             })
         },
         //  删除彩种
-        removeType(item){
+        removeType(item){            
             let param = {
                 lottery_id:item.lottery_id
             }
+            this.noClick = false;   
             this.$axios.postRequest(httpUrl.lottery.delType , param)
             .then(ret => {
                 if( ret.status == 200 && ret.data.status == 1){
-                    item.subLotteryObj.user_cp_flag = '0'
+                    item.subLotteryObj.user_cp_flag = '0';
+                    this.noClick = true;
                 }
             })
         },
@@ -135,7 +147,6 @@ export default {
         getLottery(){
             this.$axios.postRequest(httpUrl.lottery.getTypeList)
             .then((res)=> {
-                console.log(res)
                 if(res.data && !res.data.errorCode){
                     this.chooseMain=true;
                     this.lotteryList=res.data; 
@@ -257,7 +268,6 @@ export default {
                 }
             })   
             this.trueCurrentSubList=this.truetotalList[k]
-            console.log(this.trueCurrentSubList)
             if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }
@@ -414,6 +424,7 @@ export default {
                             text-align: center;
                             font-size: 0.3rem;
                             border-radius: 0.1rem;
+                            touch-action: none; 
                             &.grayBg{
                                 background-color: #949494
                             }

@@ -8,15 +8,13 @@
         <tip></tip>        
         <!-- <router-view></router-view> -->
         <Fade>
-        <keep-alive>
-            
-                <router-view v-if="$route.meta.keepAlive"></router-view>
-                       
-        </keep-alive>
+            <keep-alive>            
+                <router-view v-if="$route.meta.keepAlive"></router-view>                       
+            </keep-alive>
         </Fade>
             <Fade>
                 <router-view v-if="!$route.meta.keepAlive"></router-view>   
-           </Fade>
+            </Fade>
             
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>

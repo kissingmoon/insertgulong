@@ -125,10 +125,10 @@
                     icon: 'https://www.xlfd.com/img/images/userphoto/3.jpg',
                     // 不要过于依赖以下两个回调，很多浏览器是不支持的
                     success: function() {
-                        console.log('success')
+                        // console.log('success')
                     },
                     fail: function() {
-                        console.log('fail')
+                        // console.log('fail')
                     }
                 }
                 nativeShare.setShareData(shareData)

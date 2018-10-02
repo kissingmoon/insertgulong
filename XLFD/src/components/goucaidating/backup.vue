@@ -52,8 +52,6 @@ export default {
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.lotteryList=res.data;
-                    console.log("总彩种加载完毕")
-                    console.log(this.lotteryList)
                     this.currentList=this.lotteryList[0].sub_lottery
                     this.getSubLockTime(this.currentList)
                 }
@@ -81,13 +79,11 @@ export default {
                 callback()        
             }            
         },
-        creatTrueSub(){
-            console.log("子彩种倒计时加载完毕")                                                 
+        creatTrueSub(){                                              
             this.currentSubList.map((v,k)=>{
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
             })
             this.trueCurrentSubList=this.currentSubList.concat() 
-            console.log(this.trueCurrentSubList)
             this.trueCurrentSubList.map((v,k)=>{
                 this.intervlRunCount(v)
             }) 

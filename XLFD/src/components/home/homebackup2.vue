@@ -288,7 +288,6 @@
                     v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
                 })
                 this.trueRecomandList=this.returnSubList.concat()
-                console.log(this.trueRecomandList)
                 this.startIntervl()
             },
             startIntervl(){
@@ -297,8 +296,6 @@
                         v.locktime=countTime(v.lock_time.replace(/-/g,'/'));                        
                         if(v.running==true){
                             if(v.locktime=="00:00:00"){
-                                console.log("倒计时结束")
-                                console.log(v)
                                 v.running=false;
                                 setTimeout(()=>{
                                     this.getSingleLockTime(v,k)

@@ -100,7 +100,6 @@ export default {
             this.trueSubList.map((v,k)=>{
                 v.locktime=countTime(v.lock_time.replace(/-/g,'/'));
             })
-            console.log(this.trueSubList)
             this.updateTruetotalList(obj.totalIndex,"trueSubList",this.trueSubList)
         },
         updateTruetotalList(index,key,newvalue){
@@ -108,7 +107,6 @@ export default {
             //tempTotalList[obj.totalIndex].trueSubList=this.subList;
             tempTotalList[index][key]=newvalue
             this.truetotalList=tempTotalList
-            console.log(this.truetotalList)
         }
     }
 }

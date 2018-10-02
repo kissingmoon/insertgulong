@@ -115,17 +115,13 @@ export default {
                     this.intervlRunCount(v,obj.totalIndex,k)
                 })
             }
-            else{
-                console.log("定时器已经存在")
-            }
         },
         updateTruetotalList(index,key,newvalue){
             var tempTotalList=this.truetotalList.concat()
             tempTotalList[index][key]=newvalue
             this.truetotalList=tempTotalList
         },
-        intervlRunCount(sub,num,subnum){   
-            console.log("看看总共有几个定时器")     
+        intervlRunCount(sub,num,subnum){       
             this.truetotalList[num].intervlList[subnum]= setInterval(() => {                
                 sub.locktime=countTime(sub.lock_time.replace(/-/g,'/'));
                 if(sub.locktime=="00:00:00"){
@@ -150,8 +146,6 @@ export default {
                    //this.truetotalList[num].trueSubList[subnum]=obj;
                    //this.set(this.truetotalList[num].trueSubList, subnum, obj)
                    this.truetotalList[num].trueSubList.splice(subnum, 1, obj)
-                   console.log("总数组更新了")
-                   console.log(this.truetotalList[num])
                    this.intervlRunCount(this.truetotalList[num].trueSubList[subnum],num,subnum)
                 }
             })

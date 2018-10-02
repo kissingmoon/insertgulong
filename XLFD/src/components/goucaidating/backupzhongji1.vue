@@ -153,8 +153,6 @@ export default {
                    //this.truetotalList[num].trueSubList[subnum]=obj;
                    //this.set(this.truetotalList[num].trueSubList, subnum, obj)
                    this.truetotalList[num].trueSubList.splice(subnum, 1, obj)
-                   console.log("总数组更新了")
-                   console.log(this.truetotalList[num])
                   // this.intervlRunCount(this.truetotalList[num].trueSubList[subnum],num,subnum)
                 }
             })

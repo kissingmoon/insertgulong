@@ -391,8 +391,10 @@
 
             }
             .form-btn{
-                position: relative;
-                margin:-1.8rem auto 0 auto;
+                position: absolute;
+                bottom: 2rem;
+                left: 0;
+                right: 0;
                 height:1.17rem;
                 clear: both;
                 padding:0 0.56rem;

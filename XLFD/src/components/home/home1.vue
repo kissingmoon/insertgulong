@@ -45,7 +45,7 @@
                     <div class="reName-time">距截止:{{v.locktime}}</div>
                 </div>
                 <div class="recomandEnter flex flex-center flex-v">
-                    <div class="reEnter-onlinenum" v-if="!v.recomandObj.isSelf&&v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
+                    <div class="reEnter-onlinenum" v-if="v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
                     <div class="reEnter-enter">点击进入</div>
                 </div>
             </div>
@@ -275,7 +275,7 @@ let vm = null;
                     this.recomandList=res.data.list;   
                     if(this.user_token){
                         this.getChooseSelfType((ret)=>{
-                            this.recomandList= this.recomandList.concat(ret)
+                            this.recomandList = this.recomandList.concat(ret)
                             var parmList=[];
                             this.returnSubList=[];
                             this.recomandList.map((v,k)=>{
@@ -292,6 +292,7 @@ let vm = null;
                                 tempList[k].click=false;
                             })                                          
                             this.trueRecomandList=tempList.concat() 
+                            // console.log(this.trueRecomandList)
                             this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
                             //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                         });

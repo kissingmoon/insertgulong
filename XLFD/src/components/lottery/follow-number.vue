@@ -59,10 +59,9 @@
             <!-- </scroll> -->
             <div class="lottery-set">
                 <div class="number" @click="showAllNum">
-                    <p>号码: <span>{{numArr[numArr.length - 1]}}</span>
-                    
-                    <em :class="{'rotate':isShow}"><i class="angle"></i></em>
-                </p>
+                    <p>号码: <span>{{numArr[numArr.length - 1]}}</span>                        
+                        <em :class="{'rotate':isShow}"><i class="angle"></i></em>
+                    </p>
                 </div>
                 <div class="stop" @click="setZhuihaoStop">
                     <p class="check-box" ><i class="icon-right" v-show="zhuihaoStop == 1"></i></p>
@@ -191,7 +190,7 @@
         numberKeyboard
     },
     mounted() {
-        // console.log(this.wfFlag)
+        console.log(this.wfFlag)
         this.init();
     },
     computed: {
@@ -200,7 +199,7 @@
         ])
     },
     methods: {
-        init(){
+        init(){            
             this.baseTimes=this.betTimes;
             this.watchInit();
             this.getLotteryQh();
@@ -211,12 +210,13 @@
         },
         //  获取追号号码数组
         getNums(){
-            // console.log(this.betNumber)
+            // console.log(this.betNumber)            
             let arrList,newList = [];
-            if(this.wfFlag == '11x5_qwx_dds'){
+            if(this.wfFlag == '11x5_qwx_dds' || this.wfFlag == 'k3_hz_hz' || this.wfFlag == 'k3_3bth_hz'){
                 arrList = this.betNumber.split(',')
                 this.numArr = arrList.reverse();
-            }else{
+            }
+            else{
                 arrList = this.betNumber.split(',')
                 for(let i = 0; i < arrList.length;i++){
                     let str = arrList[i].replace(/\d(?=(\d{1})+\.)/g, "$&,").replace(/\d{1}(?![,.]|$)/g, "$&,");

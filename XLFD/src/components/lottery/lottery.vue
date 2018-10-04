@@ -591,7 +591,7 @@
                 },
                 greenBG:null,
                 lotteryType:'',
-                hasSelect:false
+                hasSelect:false,
             }
         },
         components:{
@@ -675,8 +675,7 @@
                 this.initLotteryModes();
             },
             watchInit(){
-                const _this=this;
-                
+                const _this=this;                
                 this.$watch('selectNumList',(newVal,oldVal) => {
                     this.hasSelect=false;
                     newVal.map((v,k)=>{
@@ -762,7 +761,7 @@
                     this.getDrawHis();
                 }
                 // if (this.drawCountTime == "00:00:00" && urlHash == "/home/lottery") {
-                    if (this.drawCountTime == "00:00:00" && urlHash == "/lottery") {
+                if (this.drawCountTime == "00:00:00" && urlHash == "/lottery") {
                     this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
@@ -771,10 +770,11 @@
                     clearTimeout(this.getLockTimes);
                     this.getLockTimes = setTimeout(() => {
                         this.getLockTime();
+                        this.getDrawHis();
                     },2000);
                 }
                 // else if(urlHash == "/home/lottery"){
-                    else if(urlHash == "/lottery"){
+                else if(urlHash == "/lottery"){
                     clearTimeout(this.lockTimes);
                     this.lockTimes=setTimeout(() => {
                         this.setCountTime(dateStr);
@@ -799,8 +799,10 @@
             },
             //修改玩法
             changeWf(i,s){
+                this.betCount = 0;
                 this.currentWf=this.wfList[i].wf[s];
                 this.wfFlag=this.wfList[i].wf[s].wf_flag;
+                // console.log(this.wfFlag)
                 // this.$emit('getWFflag',this.wfFlag)
                 this.makeWfParam();
                 this.hide('wfKindShow');
@@ -848,7 +850,7 @@
                         delete this.selectObj[num];
                     }
                 }else{
-                    this.selectNumList[p].push(num);
+                    this.selectNumList[p].push(num);                    
                     if(this.is28OrLhc){
                         this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                     }
@@ -950,18 +952,27 @@
                 this.$refs.betnumberlist.clearKind();
             },
             //设置组合赔率
-            setTotal(){//  totalOdds
+            setTotal(index){//  totalOdds
                 switch(this.wfFlag){
                     case "xglhc_lm_3z2":case "xglhc_lm_2zt":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money+','+this.currentWf.wf_pl[1].award_money;
                         this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
                         break;
-                    case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":case "xglhc_zxbz_zxbz":
                     case "xglhc_hexiao_hx":
+                        if(index){
+                            this.totalOdds=this.currentWf.wf_pl[index].award_money;
+                            this.totalPlFlag=this.currentWf.wf_pl[index].pl_flag;
+                        }else{
+                            this.totalOdds=this.currentWf.wf_pl[0].award_money;
+                            this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
+                        }
+                        break;
+                    case "xglhc_lm_3qz":case "xglhc_lm_2qz":case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xy28_tmb3_b3":case "xglhc_zxbz_zxbz":
+                    
                     case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
                     case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
                         this.totalOdds=this.currentWf.wf_pl[0].award_money;
-                        this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag
+                        this.totalPlFlag=this.currentWf.wf_pl[0].pl_flag;
                         break;
                     default:
                         this.totalOdds='';
@@ -1173,13 +1184,23 @@
             },
             //组合下注号码和计算注数
             recount(){
-                
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
                     if(this.wfFlag=="xy28_tmb3_b3"){
                         const funName= this.wfFlag;
-                        this.betCount=CalcBetCount[funName](this.betNumber);
-                    }else{
+                        if(this.betNumber.length == 3){
+                            this.betCount = 1;
+                        }
+                        // this.betCount=CalcBetCount[funName](this.betNumber);
+                    }else if(this.wfFlag == 'xglhc_lm_tc'){
+                        if(this.betNumber.length >= 4){
+                            this.betCount = this.betNumber.length/2-1;
+                        }else{
+                            this.betCount = 0;
+                        }
+                        
+                    }
+                    else{
                         this.betCount=this.selectNumList[0].length;
                     }
                 }else{
@@ -1270,9 +1291,8 @@
                     }
                 }
                 if(isTrueNumber){
-                    this.setTotal()
-                    switch(this.wfFlag){
-                        
+                    this.setTotal(keyLength-2)
+                    switch(this.wfFlag){                        
                         case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
                         case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
                         case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":

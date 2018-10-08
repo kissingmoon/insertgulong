@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p v-if="!hasSelect" @click="startInterval" class="randomBtn">机选</p>
+        <p  v-if="!hasSelect" @click="startInterval" class="randomBtn">机选</p>
         <div v-if="showmodel" class="lockmodel" v-slience></div>
     </div>
 </template>
@@ -36,9 +36,8 @@ export default {
     },
     methods: {
         ...mapMutations({
-            setTip:'SET_TIP',
+                setTip:'SET_TIP',
         }),
-        //震动调用函数
         vibrate(){
             navigator.vibrate = navigator.vibrate
                         || navigator.webkitVibrate

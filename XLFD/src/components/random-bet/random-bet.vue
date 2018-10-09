@@ -466,75 +466,69 @@ export default {
             this.showmodel=true;
             var result=this.shakefun()
             var resultIndexList=result.randomList.concat()
-            var stepList=[]
+            var tempIndexRanList=[]
+            var switchs=[]
+            var plusIndex=[]
+            var circleRound=2;
+            var speed=100;
             resultIndexList.map((v,k)=>{
                 v.sort(function(x, y){
-                    return y-x;
+                    return x-y;
                 });
             })
-            if(this.wf_flag=="k3_3th_lhtx"){
-                resultIndexList=[[3,2,1,0]]
-            }
-            if(this.wf_flag=="k3_3th_thtx"){
-                resultIndexList=[[5,4,3,2,1,0]]
-            }
-            resultIndexList.map((v,k)=>{
-                var tempList=[]
-                v.map((v1,k1)=>{
-                    tempList[k1]=v1+2*this.numList[k].buyNumberBeanList.length;
-                })
-                stepList.push(tempList)
+            this.numList.map((v,k)=>{
+                tempIndexRanList[k]=[]
+                if(resultIndexList[k].length==0){
+                    switchs[k]=true
+                    plusIndex[k]=0
+                }
+                else{
+                    switchs[k]=false
+                    plusIndex[k]=resultIndexList[k].length
+                }
             })
-            var num=0;
-            var speed=100;
-            var tempRanList=[]
+            var len=tempIndexRanList.length
+            var countIndex=0;
             this.timer=setInterval(()=>{
-                // this.randomList=[];
-                tempRanList=[]
-                this.numList.map((v,k)=>{
-                    var leng=v.buyNumberBeanList.length;
-                    tempRanList[k]=[];
-                    stepList[k].map((v1,k1)=>{
-                    // v.buyNumberBeanList.map((v1,k1)=>{
-                        
-                        if(num>=stepList[k][k1]){
-                            let index=resultIndexList[k][k1]
-                            // this.randomList[k][k1]=v.buyNumberBeanList[index].number_str
-                            tempRanList[k][k1]=v.buyNumberBeanList[index].number_str
-                            if(result.randomPos){
-                            }
-                            if(num>=3*leng-1){
-                                this.setTip('已选出号码！');
-                                clearInterval(this.timer)
-                                this.showmodel=false;
-                            }
-                        }
-                        else{
-                            // tempRanList[k][0]=v.buyNumberBeanList[num%leng].number_str
-                            tempRanList[k][k1]=v.buyNumberBeanList[num%leng].number_str
-                            if(result.randomPos){
-                            }
-                        }
-                    })
-                    //在这里修改
-                    // if(num>=stepList[k]){
-                    //     let index=resultIndexList[k][0]
-                    //     this.randomList[k][0]=v.buyNumberBeanList[index].number_str
-                    //     if(num==30){
-                    //         clearInterval(this.timer)
-                    //     }
-                    // }
-                    // else{
-                    //     var leng=v.buyNumberBeanList.length
-                    //     this.randomList[k][0]=v.buyNumberBeanList[num%leng].number_str
-                    // }
-                })
-                    // this.$emit('selectRandNum',this.randomList)
-                   this.$emit('selectRandNum',tempRanList) 
-                    //this.$emit('selectRandPos',this.randomPos)
-                num++
+                tempIndexRanList[0]=[]
+                // this.numList.map((v,k)=>{
+                    
+                //        // tempIndexRanList[k]=[]
+                //         tempIndexRanList[k][0]=v.buyNumberBeanList[countIndex].number_str
+                    
+                //     // if(resultIndexList.length!=0){
+                //     //     if(countIndex==resultIndexList[k][0]){
+                //     //         tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[resultIndexList[k][plusIndex[k]]].number_str
+                //     //         resultIndexList[k].shift()
+                //     //         if(resultIndexList[k].length==0){
+                //     //             switchs[k]=false
+                //     //         }
+                //     //         plusIndex[k]++
+                //     //     }
+                //     //     else{
+                //     //         if(switchs[k]){
+                //     //             // tempIndexRanList[k][0]=v.buyNumberBeanList[countIndex].number_str
+                //     //             tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                //     //         }
+                //     //     }
+                //     // }else{
+                //     //     switchs.map((v,k)=>{
+                //     //         if(v){
+                //     //             tempIndexRanList[k]=[]
+                //     //         }
+                //     //     })
+                //     //     this.setTip('已选出号码！');
+                //     //     clearInterval(this.timer)
+                //     //     this.showmodel=false;
+                //     // }
+                // })
+                tempIndexRanList[0][0]=this.numList[0].buyNumberBeanList[countIndex].number_str
+                console.log(JSON.stringify(tempIndexRanList));
+                this.$emit('selectRandNum',tempIndexRanList) 
+                countIndex++
             },speed)
             if(result.selectObj){
+                console.log(JSON.stringify(result.selectObj));
                 this.$emit('selectRandObj',result.selectObj)
             }
             if(result.randomPos){

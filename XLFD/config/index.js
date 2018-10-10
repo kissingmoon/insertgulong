@@ -21,12 +21,12 @@ module.exports = {
              }
           },
           '/test': {
-            target: 'http://test.weinisi01.com',
-            // target: 'http://192.168.8.8:8800',
+            //target: 'http://test.weinisi01.com',
+            target: 'http://192.168.8.8:8800',
             changeOrigin: true, 
              pathRewrite: {
-              '^/test': 'api'
-              // '^/test': ''
+              //'^/test': 'api'
+              '^/test': ''
              }
           },
           '/jason':{

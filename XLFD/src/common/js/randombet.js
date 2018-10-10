@@ -123,5 +123,15 @@ export default {
             }
         }    
         return subset;
+    },
+    //判断一个二维数组中是否全部是空数组
+    //比如[[],[],[]]
+    judgeTwoArray: function(arr){
+        for(let i=0,l=arr.length;i<l;i++){
+            if(arr[i].length!=0){
+                return false
+            }
+        }
+        return true;
     }
 }

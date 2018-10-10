@@ -53,6 +53,7 @@ export const httpUrl = {
         delType:'/v5/gc/removeUserLottery',     //  删除彩种
         getType:'/v5/gc/getUserLottery',     //  获取用户添加的彩种
         getTypeList:'/v5/gc/get-cp-type',     //  获取彩种列表
+        getRoomList:'/v5/room/getRoomList'//获取房间模式的房间
     },
     descover:{
         rank:'/v2/gd-dsb/get-dsb-rank',
@@ -90,7 +91,8 @@ export const httpUrl = {
         geetestCode:'/config/geetest-code',
         sendCode:'/user/sendCode',
         getRecomemendCpType:'/v5/gc/getRecommendCpType',
-        getJumpConfig:'/v5/jumpConfig/getJumpConfig'
+        getJumpConfig:'/v5/jumpConfig/getJumpConfig',
+        webSocket:'ws://192.168.8.8:8800/websocket'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url',

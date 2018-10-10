@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 // import Home from 'components/home/home';
 import Home from 'components/home/home1';
-
+import LotteryRoom from 'components/lottery-room/lottery-room';
 import Pay from 'components/pay/pay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
@@ -153,6 +153,10 @@ export default new Router({
                     component:Lottery
                 }
             ]  
+        },
+        {
+            path:'/lotteryroom',
+            component:LotteryRoom,
         },
         {
             path:'/descover',

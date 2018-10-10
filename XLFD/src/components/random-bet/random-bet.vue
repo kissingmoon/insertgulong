@@ -466,69 +466,55 @@ export default {
             this.showmodel=true;
             var result=this.shakefun()
             var resultIndexList=result.randomList.concat()
+            var resultList=JSON.parse(JSON.stringify(resultIndexList))
+            resultList.map((v,k)=>{
+                v.map((v1,k1)=>{
+                    resultList[k][k1]=this.numList[k].buyNumberBeanList[resultIndexList[k][k1]].number_str
+                })
+            })
+            console.log(JSON.stringify(resultList))
             var tempIndexRanList=[]
             var switchs=[]
             var plusIndex=[]
             var circleRound=2;
-            var speed=100;
+            var speed=1200;
             resultIndexList.map((v,k)=>{
                 v.sort(function(x, y){
                     return x-y;
                 });
             })
             this.numList.map((v,k)=>{
-                tempIndexRanList[k]=[]
-                if(resultIndexList[k].length==0){
-                    switchs[k]=true
-                    plusIndex[k]=0
-                }
-                else{
-                    switchs[k]=false
-                    plusIndex[k]=resultIndexList[k].length
-                }
+                tempIndexRanList[k]=new Array(resultIndexList[k].length)
+                switchs[k]=true
+                plusIndex[k]=0
             })
             var len=tempIndexRanList.length
             var countIndex=0;
+            var tempResult=JSON.parse(JSON.stringify(resultIndexList))
+            
             this.timer=setInterval(()=>{
-                tempIndexRanList[0]=[]
-                // this.numList.map((v,k)=>{
+                tempIndexRanList=tempIndexRanList.concat()
+                this.numList.map((v,k)=>{
                     
-                //        // tempIndexRanList[k]=[]
-                //         tempIndexRanList[k][0]=v.buyNumberBeanList[countIndex].number_str
-                    
-                //     // if(resultIndexList.length!=0){
-                //     //     if(countIndex==resultIndexList[k][0]){
-                //     //         tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[resultIndexList[k][plusIndex[k]]].number_str
-                //     //         resultIndexList[k].shift()
-                //     //         if(resultIndexList[k].length==0){
-                //     //             switchs[k]=false
-                //     //         }
-                //     //         plusIndex[k]++
-                //     //     }
-                //     //     else{
-                //     //         if(switchs[k]){
-                //     //             // tempIndexRanList[k][0]=v.buyNumberBeanList[countIndex].number_str
-                //     //             tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
-                //     //         }
-                //     //     }
-                //     // }else{
-                //     //     switchs.map((v,k)=>{
-                //     //         if(v){
-                //     //             tempIndexRanList[k]=[]
-                //     //         }
-                //     //     })
-                //     //     this.setTip('已选出号码！');
-                //     //     clearInterval(this.timer)
-                //     //     this.showmodel=false;
-                //     // }
-                // })
-                tempIndexRanList[0][0]=this.numList[0].buyNumberBeanList[countIndex].number_str
-                console.log(JSON.stringify(tempIndexRanList));
-                this.$emit('selectRandNum',tempIndexRanList) 
+                        //tempIndexRanList[k]=tempIndexRanList[k].concat()
+                        if(tempResult[k].length==0){}else{
+                            tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                        }
+                        
+                    if(countIndex==tempResult[k][0]){
+                        tempResult[k].shift()
+                        plusIndex[k]++
+                    }
+                })
+                if(randomBet.judgeTwoArray(tempResult)){
+                    tempIndexRanList=resultList
+                    clearInterval(this.timer)
+                    this.showmodel=false;
+                }
                 countIndex++
+                this.$emit('selectRandNum',tempIndexRanList) 
             },speed)
             if(result.selectObj){
-                console.log(JSON.stringify(result.selectObj));
                 this.$emit('selectRandObj',result.selectObj)
             }
             if(result.randomPos){

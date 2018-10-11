@@ -45,8 +45,8 @@ axios.interceptors.response.use(res=> {
   return Promise.resolve(err);
 })
 
-let base = '/api';
-// let base = '/test';
+// let base = '/api';
+let base = '/test';
 // let base  = '';
 //let base = '/jason';
 

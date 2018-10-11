@@ -466,13 +466,19 @@ export default {
             this.showmodel=true;
             var result=this.shakefun()
             var resultIndexList=result.randomList.concat()
+            if(this.wf_flag=="k3_3th_lhtx"){
+                resultIndexList=[[3,2,1,0]]
+            }
+            if(this.wf_flag=="k3_3th_thtx"){
+                resultIndexList=[[5,4,3,2,1,0]]
+            }
             var resultList=JSON.parse(JSON.stringify(resultIndexList))
+            
             resultList.map((v,k)=>{
                 v.map((v1,k1)=>{
                     resultList[k][k1]=this.numList[k].buyNumberBeanList[resultIndexList[k][k1]].number_str
                 })
             })
-            console.log(JSON.stringify(resultList))
             var tempIndexRanList=[]
             var switchs=[]
             var plusIndex=[]
@@ -491,20 +497,25 @@ export default {
             var len=tempIndexRanList.length
             var countIndex=0;
             var tempResult=JSON.parse(JSON.stringify(resultIndexList))
-            
             this.timer=setInterval(()=>{
-                tempIndexRanList=tempIndexRanList.concat()
+               tempIndexRanList=tempIndexRanList.concat()
                 if(circleRound==0){
                     this.numList.map((v,k)=>{
-                        tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                        if(switchs[k]){
+                            tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                        }
                         if(countIndex==tempResult[k][0]){
                             tempResult[k].shift()
                             plusIndex[k]++
+                            if(tempResult[k].length==0){
+                                switchs[k]=false
+                            }
                         }
                     })
                     if(randomBet.judgeTwoArray(tempResult)){
                         tempIndexRanList=resultList
                         clearInterval(this.timer)
+                        this.setTip('已选出号码！');
                         this.showmodel=false;
                     }
                 }else{

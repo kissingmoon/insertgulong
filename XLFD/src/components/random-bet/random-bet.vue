@@ -477,7 +477,7 @@ export default {
             var switchs=[]
             var plusIndex=[]
             var circleRound=2;
-            var speed=1200;
+            var speed=100;
             resultIndexList.map((v,k)=>{
                 v.sort(function(x, y){
                     return x-y;
@@ -494,24 +494,29 @@ export default {
             
             this.timer=setInterval(()=>{
                 tempIndexRanList=tempIndexRanList.concat()
-                this.numList.map((v,k)=>{
-                    
-                        //tempIndexRanList[k]=tempIndexRanList[k].concat()
-                        if(tempResult[k].length==0){}else{
-                            tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                if(circleRound==0){
+                    this.numList.map((v,k)=>{
+                        tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                        if(countIndex==tempResult[k][0]){
+                            tempResult[k].shift()
+                            plusIndex[k]++
                         }
-                        
-                    if(countIndex==tempResult[k][0]){
-                        tempResult[k].shift()
-                        plusIndex[k]++
+                    })
+                    if(randomBet.judgeTwoArray(tempResult)){
+                        tempIndexRanList=resultList
+                        clearInterval(this.timer)
+                        this.showmodel=false;
                     }
-                })
-                if(randomBet.judgeTwoArray(tempResult)){
-                    tempIndexRanList=resultList
-                    clearInterval(this.timer)
-                    this.showmodel=false;
+                }else{
+                    this.numList.map((v,k)=>{
+                        tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                    })
                 }
                 countIndex++
+                if(countIndex==this.numList[0].buyNumberBeanList.length){
+                    countIndex=0
+                    circleRound--
+                }
                 this.$emit('selectRandNum',tempIndexRanList) 
             },speed)
             if(result.selectObj){

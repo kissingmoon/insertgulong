@@ -484,6 +484,9 @@ export default {
             var plusIndex=[]
             var circleRound=2;
             var speed=100;
+            if(this.numList[0].buyNumberBeanList.length>15){
+                speed=50;
+            }
             resultIndexList.map((v,k)=>{
                 v.sort(function(x, y){
                     return x-y;

@@ -504,16 +504,16 @@ export default {
                tempIndexRanList=tempIndexRanList.concat()
                 if(circleRound==0){
                     this.numList.map((v,k)=>{
-                        if(switchs[k]){
-                            tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
-                        }
-                        if(countIndex==tempResult[k][0]){
-                            tempResult[k].shift()
-                            plusIndex[k]++
-                            if(tempResult[k].length==0){
-                                switchs[k]=false
+                            if(switchs[k]){
+                                tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
                             }
-                        }
+                            if(countIndex==tempResult[k][0]){
+                                tempResult[k].shift()
+                                plusIndex[k]++
+                                if(tempResult[k].length==0){
+                                    switchs[k]=false
+                                }
+                            }
                     })
                     if(randomBet.judgeTwoArray(tempResult)){
                         tempIndexRanList=resultList
@@ -523,7 +523,11 @@ export default {
                     }
                 }else{
                     this.numList.map((v,k)=>{
+                        if(countIndex<v.buyNumberBeanList.length){
                         tempIndexRanList[k][plusIndex[k]]=v.buyNumberBeanList[countIndex].number_str
+                        }else{
+                            tempIndexRanList[k][0]=v.buyNumberBeanList[v.buyNumberBeanList.length-1].number_str
+                        }
                     })
                 }
                 countIndex++

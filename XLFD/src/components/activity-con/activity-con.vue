@@ -58,7 +58,7 @@
     width: 100%;
     top: 1.2rem;
     //top: 0rem;
-    bottom: 0rem;
+    bottom: 1.4rem;
     z-index: 201;
     background: #fff;
 }

@@ -41,28 +41,14 @@ export default {
     },
     methods:{
         gotoBetRoom(v){
+            var queryObj=this.$route.query;
+            queryObj.roomId=v.roomId
             this.$router.push({
-                path: '/betroom'
+                path: '/betroom',
+                query: queryObj
             });
         },
-        openWebsocket(v){
-            var websocket
-             if ('WebSocket' in window) {
-                    websocket = new WebSocket(`${httpUrl.config.webSocket}/${v.roomId}/889798798`);
-                }
-            else {
-                    alert('当前浏览器 Not support websocket')
-                }
-            websocket.onopen = function () {
-                alert("WebSocket连接成功");
-                websocket.send("message");
-            }
-            //接收到消息的回调方法
-            websocket.onmessage = event=> {
-                alert("收到服务器消息了")
-                this.socketMessage=event.data;
-            }
-        },
+        
         ...mapMutations({
                 setHeader:'SET_HEADER',
             }),

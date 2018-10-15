@@ -141,7 +141,17 @@ export default {
             return returnObj
         },
         getLottery(){
-            this.$axios.postRequest(httpUrl.lottery.getTypeList)    // httpUrl.home.lottery
+            var parm={}
+            var pattern=/^www./
+            var dm="www.test.weinisi01.com"
+            // if(pattern.test(document.domain)){
+                // parm.agent=document.domain.substring(4)
+            if(pattern.test(dm)){
+                parm.agent=dm.substring(4)
+            }else{
+                parm.agent=document.domain
+            }
+            this.$axios.postRequest(httpUrl.lottery.getTypeList,parm)    // httpUrl.home.lottery
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.chooseMain=true;

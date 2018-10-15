@@ -1,13 +1,25 @@
 <template>
     <div class="wapper">
-        
-        <div :style="roomStyle" v-for="(v,k) in trueTatalList" :key="k" v-on:click="gotoBetRoom(v)">
-            {{v}}
+        <div class="room-wapper" :style="roomStyle" v-for="(v,k) in trueTatalList" :key="k">
+            <div class="room-title flex flex-align-center">
+                {{v.roomGroupName}}
+            </div>
+            <div class="room-content flex"  v-on:click="gotoBetRoom(v)">
+                <div class="room-option" v-for="(v1,k1) in v.list" :key="k1"> 
+                    <div class="option-content flex flex-v">
+                        <div class="option-body flex flex-v flex-center">
+                            <div class="option-img">
+                                <img v-lazy="v1.roomImage" alt="">
+                            </div>
+                        </div>
+                        <div class="option-footer flex flex-v">
+                            <div class="flex-1 flex flex-center">{{v1.roomName}}</div>
+                            <div class="flex-1 flex flex-center">{{v1.onlineCount}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-            {{socketMessage}}
-        </div>
-        
     </div>
 </template>
 <script>
@@ -18,7 +30,7 @@ export default {
         return {
             trueTatalList:[],
             roomStyle:{
-                marginTop:"30px"
+                marginTop:"0.4rem"
             },
             socketMessage:"",
             header:{
@@ -35,8 +47,8 @@ export default {
         this.setHeader(this.header);
         this.$axios.postRequest(httpUrl.lottery.getRoomList,parm)    // httpUrl.home.lottery
         .then((res)=> {
-            console.log(res.data.list)
-            this.trueTatalList=res.data.list.concat();
+            console.log(res.data)
+            this.trueTatalList=res.data.data.concat();
         })
     },
     methods:{
@@ -56,11 +68,58 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import 'common/scss/variable.scss';
 .wapper{
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 1.44rem;
+    bottom: 0rem;
+    overflow: auto;
+    z-index: 103;
+    background: #ffffff;
+    .room-wapper{
+        .room-title{
+            width: 3.9rem;
+            height: 0.85rem;
+            background-image: linear-gradient(-134deg, #FF5E74 0%, #C86DD7 100%);
+            border-radius: 0 87px 87px 0;
+            padding-left: 0.5rem;
+            box-sizing: border-box;
+            color: #ffffff;
+            font-size: $font-size-medium;
+        }
+        .room-content{
+            flex-wrap: wrap;
+            .room-option{
+                width: 50%;
+                height: 6rem;
+                padding: 0.5rem;
+                box-sizing:border-box;
+                .option-content{
+                    border: 5px solid #CD9E62;
+                    justify-content:flex-end;
+                    height: 95%;
+                    border-top-left-radius: 50% 40%;
+                    border-top-right-radius: 50% 40%;
+                    .option-body{
+                        height: 4rem;
+                        .option-img{
+                            height: 2.1rem;
+                            width: 2.6rem;
+                            img{
+                                width: 100%;
+                                height: 100%;
+                            }
+                        }
+                    }
+                    .option-footer{
+                        height: 1.05rem;
+                        background: #FFD3A0;
+                    }
+                }
+            }
+        }
+    }
 }
 </style>
 

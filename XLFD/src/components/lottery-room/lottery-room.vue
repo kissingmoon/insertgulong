@@ -4,8 +4,8 @@
             <div class="room-title flex flex-align-center">
                 {{v.roomGroupName}}
             </div>
-            <div class="room-content flex"  v-on:click="gotoBetRoom(v)">
-                <div class="room-option" v-for="(v1,k1) in v.list" :key="k1"> 
+            <div class="room-content flex">
+                <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)"> 
                     <div class="option-content flex flex-v">
                         <div class="option-body flex flex-v flex-center">
                             <div class="option-img">
@@ -47,7 +47,6 @@ export default {
         this.setHeader(this.header);
         this.$axios.postRequest(httpUrl.lottery.getRoomList,parm)    // httpUrl.home.lottery
         .then((res)=> {
-            console.log(res.data)
             this.trueTatalList=res.data.data.concat();
         })
     },
@@ -105,7 +104,7 @@ export default {
                         height: 4rem;
                         .option-img{
                             height: 2.1rem;
-                            width: 2.6rem;
+                            width: 2.8rem;
                             img{
                                 width: 100%;
                                 height: 100%;

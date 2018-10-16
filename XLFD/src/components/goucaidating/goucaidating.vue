@@ -42,7 +42,7 @@
                             <router-link v-if="v.click&&currentModel==0" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">
                                 立即投注
                             </router-link>
-                            <router-link v-if="v.click&&currentModel==1" class="rlockcount" tag="span" :to="{path:'/lotteryroom',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name}}">
+                            <router-link v-if="v.click&&currentModel==1" class="rlockcount" tag="span" :to="{path:'/lotteryroom',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">
                                 立即投注
                             </router-link>
                         </p>

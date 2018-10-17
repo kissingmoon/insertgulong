@@ -2,7 +2,7 @@
     <parcel>
         <div class="bank">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
-                <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
+                <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -79,7 +79,7 @@
                 bankList: {
                     data1: [{name:'中国工商银行',flag:'1'}]
                 },
-                showsc:false
+                // showsc:false
             }
         },
         components:{
@@ -132,7 +132,7 @@
             },
             setBankInfo(){
                 this.bankParam.account_no=this.accountNo
-                this.showsc=true
+                // this.showsc=true
                 this.$axios.postRequest(httpUrl.info.bindBank,this.bankParam)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

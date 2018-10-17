@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="login">  
-            <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
+            <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
@@ -52,7 +52,7 @@
                     password:''
                 },
                 codeUrl:``,
-                showsc:false
+                // showsc:false
             }
         },
         components:{
@@ -219,7 +219,7 @@
             },
             // 用户登录
             login(data){
-                this.showsc=true; 
+                // this.showsc=true; 
                 //this.loginParam.challenge = data.challenge;
                 //this.loginParam.idType = 4;
                 this.loginParam.idValue = this.loginParam.user_id;

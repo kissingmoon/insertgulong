@@ -21,8 +21,8 @@
            
         </div>
        <div class="flex-1 main-wapper">
-           <div v-for="(v,k) in socketList" :key="k">
-               <div>{{v.neirong}}</div>
+           <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
+               <div :class="v.class">{{v.neirong}}</div>
            </div>
        </div>
        <div class="flex flex-align-center footer">
@@ -157,6 +157,7 @@ export default {
                 var resData=JSON.parse(event.data)
                 console.log(JSON.parse(event.data))
                 var obj={neirong:resData.message}
+                obj.class="msgType"+resData.msgType
                 this.socketList.push(obj)
             }
         },
@@ -289,7 +290,25 @@ export default {
         }
     }
     .main-wapper{
-        background: #F2F2F2
+        background: #F2F2F2;
+        .message-wapper{
+            padding: 0.3rem 0;
+            .msgType0{
+                color: #DA1C36;
+                width: 7rem;
+                background: #E2E2E2;
+                line-height: 0.5rem;
+                text-align: center;
+                padding: 0.1rem 0;
+            }
+            .msgType1{
+                padding:0 0.2rem;
+                background: #E2E2E2;
+                height: 1rem;
+                line-height: 1rem;
+                color: #969696 ;
+            }
+        }
     }
     .footer{
         height: 1.4rem;

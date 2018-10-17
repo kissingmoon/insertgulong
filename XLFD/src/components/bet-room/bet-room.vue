@@ -146,7 +146,7 @@ export default {
                 }
             this.webSocket.onopen = function () {
                 console.log("WebSocket连接成功");
-                this.webSocket.send("message");
+                // this.webSocket.send("message");
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
@@ -299,6 +299,7 @@ export default {
                 line-height: 0.5rem;
                 text-align: center;
                 padding: 0.1rem 0;
+                border-radius: 5px;
             }
             .msgType1{
                 padding:0 0.2rem;
@@ -306,6 +307,7 @@ export default {
                 height: 1rem;
                 line-height: 1rem;
                 color: #969696 ;
+                border-radius: 5px;
             }
         }
     }

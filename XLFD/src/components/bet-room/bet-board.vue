@@ -29,8 +29,9 @@
                 >
             </bet-number>
         </div>
-        <div class="bet-content">
-            投注
+        <div class="bet-content flex flex-align-center flex-pack-justify">
+            <div>已选择</div>
+            <div class="bet-button flex flex-center">确认投注</div>
         </div>
         <!-- 玩法 -->
         <div class="wf" v-if="wfKindShow">
@@ -412,6 +413,14 @@ export default {
     .bet-content{
         height: 2rem;
         font-size: 0.4rem;
+        padding: 0 0.5rem;
+        .bet-button{
+            width: 2.5rem;
+            height: 1rem;
+            background: #3CDA93;
+            border-radius: 4px;
+            color: #ffffff;
+        }
     }
     .wf{
         position: absolute;

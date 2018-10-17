@@ -53,12 +53,13 @@ export default {
             drawCountTime:'',
             lockTimes:'',
             socketList:[{
-                neirong:"111"
+                neirong:"连接成功"
             }],
             drawHistoryList:[],
             betKeyboard:false,
             newDraw:{},
-            lotteryType:""
+            lotteryType:"",
+            webSocket:""
         }
     },
     components:{
@@ -86,6 +87,9 @@ export default {
             'account',
             'xglhc_color'
         ])
+    },
+    beforeDestroy(){
+        this.webSocket.close()
     },
      methods:{
         ...mapMutations({
@@ -136,23 +140,23 @@ export default {
             }
         },
         openWebsocket(){
-            var websocket
             if ('WebSocket' in window) {
-                    websocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+                    this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
                 }
             else {
                     alert('当前浏览器 Not support websocket')
                 }
-            websocket.onopen = function () {
+            this.webSocket.onopen = function () {
                 console.log("WebSocket连接成功");
-                websocket.send("message");
+                this.webSocket.send("message");
             }
             //接收到消息的回调方法
-            websocket.onmessage = event=> {
+            this.webSocket.onmessage = event=> {
                 console.log("收到服务器消息了")
                 // this.socketMessage=event.data;
-                console.log(event)
-                var obj={neirong:event.data}
+                var resData=JSON.parse(event.data)
+                console.log(JSON.parse(event.data))
+                var obj={neirong:resData.message}
                 this.socketList.push(obj)
             }
         },

@@ -1,15 +1,24 @@
 <template>
-    <div>
-        <bet-number 
-            ref="betnumberlist"
-            :numList="numberList"
-            :selectNumList="selectNumList"
-            :selectPosition="selectPosition"
-            @selectNum="selectNum"
-            @selectPosi="selectPosi"
-            @selectKind="selectKind"
-            >
-        </bet-number>
+    <div class="wapper">
+        <div class="top-wapper">
+            <p class="txt" @click="show('wfKindShow')">
+                <span class="kind">玩<br>法</span>
+                {{currentWf.name}}
+                <i class="angle"></i>
+            </p>
+        </div>
+        <div class="main-wapper">
+            <bet-number 
+                ref="betnumberlist"
+                :numList="numberList"
+                :selectNumList="selectNumList"
+                :selectPosition="selectPosition"
+                @selectNum="selectNum"
+                @selectPosi="selectPosi"
+                @selectKind="selectKind"
+                >
+            </bet-number>
+        </div>
         <div class="bet-content">
             投注
         </div>
@@ -259,8 +268,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.wapper{
+    .top-wapper{
+        
+    }
+    .main-wapper{}
     .bet-content{
         height: 2rem;
         font-size: 0.4rem;
     }
+}
 </style>

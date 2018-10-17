@@ -144,10 +144,10 @@ export default {
             var parm={}
             var pattern=/^www./
             var dm="www.test.weinisi01.com"
-            // if(pattern.test(document.domain)){
-                // parm.agent=document.domain.substring(4)
-            if(pattern.test(dm)){
-                parm.agent=dm.substring(4)
+            if(pattern.test(document.domain)){
+                parm.agent=document.domain.substring(4)
+            // if(pattern.test(dm)){
+            //     parm.agent=dm.substring(4)
             }else{
                 parm.agent=document.domain
             }

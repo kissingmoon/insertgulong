@@ -29,9 +29,7 @@
             <input style="width:6.8rem;height:0.87rem;"  type="text">
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
-       <bet-board v-if="betKeyboard" class="bet-board">
-
-       </bet-board>
+       <bet-board v-if="betKeyboard" @closeBoard="hideBet" class="bet-board"></bet-board>
    </div>
 </template>
 <script>
@@ -59,7 +57,7 @@ export default {
             betKeyboard:false,
             newDraw:{},
             lotteryType:"",
-            webSocket:""
+            webSocket:"",
         }
     },
     components:{
@@ -93,8 +91,8 @@ export default {
     },
      methods:{
         ...mapMutations({
-                setTip:'SET_TIP',
-            }),
+            setTip:'SET_TIP',
+        }),   
         //获取玩法封单时间
         getLockTime(){
             this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
@@ -189,6 +187,7 @@ export default {
     .bet-board{
         position: fixed;
         width: 100%;
+        top: initial;
         bottom: 0;
         z-index: 104;
         height: 80vh;

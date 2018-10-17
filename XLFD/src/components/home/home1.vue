@@ -30,23 +30,26 @@
                 <span><b style="border:2px solid #DA1C36;padding:0.1rem 0;"></b>&nbsp;推荐彩种</span>
                 <router-link :to="{path:'/goucaidating'}" class="reTitle-more">更多彩种>></router-link>
             </div>
-            <div class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k"  @click="v.click&&enterLottery(v)">
-                <!-- {{v.reserved}}-{{v.recomandObj.lotteryName}}-{{v.recomandObj.lotteryImage}}-{{v.locktime}} -->
-                
-                <div class="recomandImg flex flex-center">
-                    <img v-lazy="v.recomandObj.lotteryImage" alt="">
+            <div class="recomandMode">
+                <div class="modeType">
+                    <div class="oldMode" :class="{'active_left':modeIndex == 0}" @click="changeMode(0)">传统模式</div>
+                    <div class="roomMode" :class="{'active_right':modeIndex == 1}" @click="changeMode(1)">房间模式</div>
                 </div>
-                <div class="recomandName flex flex-pack-center flex-v">
-                    <div  class="reName-title">
-                        <!-- {{v.recomandObj.lotteryName}} -->
-                        <em>{{v.recomandObj.lotteryName}}</em>
-                        <span class="kaijiang" v-if="v.recomandObj.isPrivate == 1"></span>
+                <div class="recomandType flex" v-for="(v,k) in trueRecomandList" :key="k"  @click="v.click&&enterLottery(v)">                
+                    <div class="recomandImg flex flex-center">
+                        <img v-lazy="v.recomandObj.lotteryImage" alt="">
                     </div>
-                    <div class="reName-time">距截止:{{v.locktime}}</div>
-                </div>
-                <div class="recomandEnter flex flex-center flex-v">
-                    <div class="reEnter-onlinenum" v-if="v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
-                    <div class="reEnter-enter">点击进入</div>
+                    <div class="recomandName flex flex-pack-center flex-v">
+                        <div  class="reName-title">
+                            <em>{{v.recomandObj.lotteryName}}</em>
+                            <span class="kaijiang" v-if="v.recomandObj.isPrivate == 1"></span>
+                        </div>
+                        <div class="reName-time">{{modeIndex == 0 ? '距截止:' : '房间模式:' }} {{v.locktime}}</div>
+                    </div>
+                    <div class="recomandEnter flex flex-center flex-v">
+                        <div class="reEnter-onlinenum" v-if="v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
+                        <div class="reEnter-enter">点击进入</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -200,6 +203,7 @@ let vm = null;
             animate:true,
             isKeep:false,                           // 控制页面在keep-alive后轮播不播放的问题
             isRequested:false,                      // 请求自选彩种时，防止created钩子种请求过后activated重复请求
+            modeIndex:0,                            //  房间模式与传统模式
         }
     },
 
@@ -222,12 +226,6 @@ let vm = null;
         }
     },
     beforeDestroy(){
-        // this.oldLotteryList.forEach((item,i) => {
-        //     item.sub_lottery.forEach((sub,s) => {
-        //         const id=sub.lottery_id;
-        //         clearTimeout(this[id]);
-        //     });
-        // });
         clearInterval(this.interval)
     },
     activated(){
@@ -257,6 +255,10 @@ let vm = null;
             setNavActive:'SET_NAV_ACTIVE',
             setTip:'SET_TIP',
         }),
+
+        changeMode(i){
+            this.modeIndex = i;
+        },
         goGoucai(){
             if(!this.user_token){
                 this.setTip('您还未登入，请先登入')
@@ -450,10 +452,17 @@ let vm = null;
             })
         },
         enterLottery(v){
-            this.$router.push({
-                path: '/lottery',
-                query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
-            });
+            if(this.modeIndex == 1){
+                this.$router.push({
+                    path: '/lotteryroom',
+                    query: {id:v.recomandObj.flag,name: v.recomandObj.lotteryName,type:v.recomandObj.lotteryType}
+                });
+            }else{
+                this.$router.push({
+                    path: '/lottery',
+                    query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
+                });
+            }
         },
         randomNum(minNum,maxNum){ 
             switch(arguments.length){ 
@@ -632,15 +641,17 @@ let vm = null;
         .swiper-container .swiper-wrapper .swiper-slide-next img{ height: 3.6rem!important;}
     }
     .marquee-wrapper{
-        padding:0.15rem;
-        padding-left: 0;
+        padding:.15rem 0;
         height:0.58rem;
-        line-height: 0.64rem;
+        line-height: 0.64rem;  
+        width: 100vw;
         .txt{
+            display: inline-block;            
             border-left:1vw solid #FED931;
-            font-size: $font-size-small-x;
+            font-size: $font-size-small-x;            
         }
     }
+    
     .new-gift-wrapper{
         height:2.4rem;
         overflow: hidden;
@@ -694,58 +705,83 @@ let vm = null;
                 font-size: 0.35rem;
             }
         }
-        .recomandType{
-            height: 1.8rem;
-            border-bottom:1px solid #F2F2F2;
-            .recomandImg{
-                width: 2rem;
-                img{
-                    width: 1.5rem;
-                    height: 1.5rem;
-                }
-            }
-            .recomandName{
-                width: 5rem;
-                .reName-title{
-                    font-size:0.4rem;
-                    em{
-                        font-style: normal;
-                        vertical-align: middle;
+        .recomandMode{
+            .modeType{
+                display: flex;
+                padding-top: .1rem;
+                background-color: #FD3C57;
+                >div{
+                    flex: auto;
+                    color: #fff;
+                    font-size: .44rem;
+                    line-height: 1rem;
+                    text-align: center;
+                    &.active_left{
+                        color: #ff5f75;
+                        background-color: #fff;
+                        border-radius: 0 .2rem 0 0;
                     }
-                    .kaijiang{
-                        vertical-align: middle;
-                        display: inline-block;
-                        width: 1.4rem;
-                        height: .4rem;
-                        margin-left: .1rem;
-                        margin-bottom: .02rem;
-                        @include bg-image('./allday');
-                        background-repeat: no-repeat;
-                        background-size: 100% 100%;
+                    &.active_right{
+                        color: #ff5f75;
+                        background-color: #fff;
+                        border-radius: .2rem 0 0 0;
                     }
                 }
-                .reName-time{
-                    margin-top:0.15rem;
-                    color:#949494
-                }
             }
-            .recomandEnter{
-                width: 3rem;
-                .reEnter-onlinenum{
-                    color:red;
-                    font-size:0.3rem
+            .recomandType{
+                height: 1.8rem;
+                border-bottom:1px solid #F2F2F2;
+                .recomandImg{
+                    width: 2rem;
+                    img{
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
                 }
-                .reEnter-enter{
-                    margin-top:0.15rem;
-                    color: #17CA97;
-                    padding: 0.08rem 0.15rem;
-                    border:1px solid #17CA97;
-                    border-radius: 0.1rem;
+                .recomandName{
+                    width: 5rem;
+                    .reName-title{
+                        font-size:0.4rem;
+                        em{
+                            font-style: normal;
+                            vertical-align: middle;
+                        }
+                        .kaijiang{
+                            vertical-align: middle;
+                            display: inline-block;
+                            width: 1.4rem;
+                            height: .4rem;
+                            margin-left: .1rem;
+                            margin-bottom: .02rem;
+                            @include bg-image('./allday');
+                            background-repeat: no-repeat;
+                            background-size: 100% 100%;
+                        }
+                    }
+                    .reName-time{
+                        margin-top:0.15rem;
+                        color:#949494
+                    }
+                }
+                .recomandEnter{
+                    width: 3rem;
+                    .reEnter-onlinenum{
+                        color:red;
+                        font-size:0.3rem
+                    }
+                    .reEnter-enter{
+                        margin-top:0.15rem;
+                        color: #17CA97;
+                        padding: 0.08rem 0.15rem;
+                        border:1px solid #17CA97;
+                        border-radius: 0.1rem;
+                    }
+                    
                 }
                 
             }
-            
         }
+        
     }
     .lottery-wrapper{
         height:auto;

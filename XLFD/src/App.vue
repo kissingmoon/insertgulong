@@ -113,7 +113,7 @@ export default {
     },
     watch:{
         $route(to) {
-            let path=to.path;       
+            let path=to.path;
             if( to.query.type == 'addType' ){
                 this.setNavActive(true)
                 this.setHeader(headerConfig['/addType']);

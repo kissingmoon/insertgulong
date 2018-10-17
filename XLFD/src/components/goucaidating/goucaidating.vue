@@ -162,12 +162,15 @@ export default {
                         this.$set(this.lotteryList,k,v) 
                         tempList[k] = new Array()
                         v.sub_lottery.map((v1,k1)=>{
+                            
                             tempList[k][k1]={}
                             tempList[k][k1].kjNewData={kjCode:"",lotteryQh:""}
                             tempList[k][k1].subLotteryObj=v1
                             tempList[k][k1].click=false
+                            
                         })
                     })   
+                    console.log(tempList)
                     this.truetotalList=tempList.concat()
                     this.trueCurrentSubList=this.truetotalList[0]  
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image

@@ -7,6 +7,7 @@ import betRoom from 'components/bet-room/bet-room';
 import Pay from 'components/pay/pay';
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
+import NewDiscount from 'components/discount/discount_new';
 import Activity from 'components/activity-con/activity-con';
 import Info from 'components/info/info';
 import Login from 'components/login/login';
@@ -235,7 +236,7 @@ export default new Router({
         },
         {
             path:'/discount',
-            component:Discount, 
+            component:NewDiscount, 
                      
             meta: {
                 keepAlive: true // 需要缓存

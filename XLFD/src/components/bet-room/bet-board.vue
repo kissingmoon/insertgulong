@@ -34,7 +34,7 @@
         </div>
         <div class="bet-content flex flex-align-center flex-pack-justify">
             <div>已选{{betCount}}注&nbsp;|&nbsp;合计{{totalMoney}}元</div>
-            <div class="bet-button flex flex-center">确认投注</div>
+            <div class="bet-button flex flex-center" v-on:click="betOrder">确认投注</div>
         </div>
         <!-- 玩法 -->
         <div class="wf" v-if="wfKindShow">
@@ -73,7 +73,8 @@ export default {
             wfKindShow:false,  //玩法种类
             betCount:"",
             betTimes:2,
-            totalMoney:""
+            totalMoney:"",
+            betNumber:""
         }
     },
     components:{
@@ -260,6 +261,65 @@ export default {
                     break;
             }
         },
+        //投注
+        betOrder(){
+            const param={
+                lottery_id:this.lotteryId,
+                lottery_qh:this.lotteryInfo.lottery_qh,
+                wf_flag:this.wfFlag,
+                bet_number:this.betNumber,
+                by_money:this.betTimes,
+                bet_count:this.betCount,
+                // lottery_modes:this.lotteryModes
+                lottery_modes:0
+            }
+            //this.show('loadingShow')
+            this.$axios.postRequest(httpUrl.bet.betOrder,param)
+            .then((res)=> {
+                //this.hide('loadingShow');
+                if(res.data && !res.data.errorCode){
+                    // this.allClear();
+                    // this.getUser()
+                    //this.hide('betAffirmShow');
+                    //this.show('betSuccessShow');
+                    this.$emit('sendSocketMsg',param)
+                };
+            })
+            .catch((err) => {
+                this.hide('loadingShow');
+            });
+        },
+        recount(){
+            this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
+            if(this.is28OrLhc){
+                if(this.wfFlag=="xy28_tmb3_b3"){
+                    const funName= this.wfFlag;
+                    if(this.betNumber.length == 3){
+                        this.betCount = 1;
+                    }
+                    // this.betCount=CalcBetCount[funName](this.betNumber);
+                }else if(this.wfFlag == 'xglhc_lm_tc'){
+                    if(this.betNumber.length >= 4){
+                        this.betCount = this.betNumber.length/2-1;
+                    }else{
+                        this.betCount = 0;
+                    }
+                    
+                }
+                else{
+                    this.betCount=this.selectNumList[0].length;
+                }
+            }else{
+                const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
+                try{
+                    this.betCount=CalcBetCount[funName](this.betNumber);
+                }
+                catch(err){
+                    this.betCount=0;
+                }
+            }
+            this.calculateBetMoney()
+        },
         watchInit(){
             const _this=this;                
             this.$watch('selectNumList',(newVal,oldVal) => {
@@ -294,37 +354,6 @@ export default {
                 }
                 this.gdParam.back_rate = this.backRateCopy;
             });
-        },
-        recount(){
-            this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
-            if(this.is28OrLhc){
-                if(this.wfFlag=="xy28_tmb3_b3"){
-                    const funName= this.wfFlag;
-                    if(this.betNumber.length == 3){
-                        this.betCount = 1;
-                    }
-                    // this.betCount=CalcBetCount[funName](this.betNumber);
-                }else if(this.wfFlag == 'xglhc_lm_tc'){
-                    if(this.betNumber.length >= 4){
-                        this.betCount = this.betNumber.length/2-1;
-                    }else{
-                        this.betCount = 0;
-                    }
-                    
-                }
-                else{
-                    this.betCount=this.selectNumList[0].length;
-                }
-            }else{
-                const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
-                try{
-                    this.betCount=CalcBetCount[funName](this.betNumber);
-                }
-                catch(err){
-                    this.betCount=0;
-                }
-            }
-            this.calculateBetMoney()
         },
         calculateBetMoney(){
             let money=this.betTimes*this.betCount;

@@ -29,7 +29,12 @@
             <input style="width:6.8rem;height:0.87rem;"  type="text">
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
-       <bet-board v-if="betKeyboard" @closeBoard="hideBet" class="bet-board"></bet-board>
+       <bet-board v-if="betKeyboard" 
+                  @closeBoard="hideBet" 
+                  @sendSocketMsg="sendSocketMsg" 
+                  class="bet-board"
+                  :lotteryInfo="lotteryInfo"
+        ></bet-board>
    </div>
 </template>
 <script>
@@ -50,9 +55,7 @@ export default {
             lotteryId:"",
             drawCountTime:'',
             lockTimes:'',
-            socketList:[{
-                neirong:"连接成功"
-            }],
+            socketList:[],
             drawHistoryList:[],
             betKeyboard:false,
             newDraw:{},
@@ -144,9 +147,8 @@ export default {
             else {
                     alert('当前浏览器 Not support websocket')
                 }
-            this.webSocket.onopen = function () {
+            this.webSocket.onopen =  ()=> {
                 console.log("WebSocket连接成功");
-                // this.webSocket.send("message");
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
@@ -158,6 +160,10 @@ export default {
                 obj.class="msgType"+resData.msgType
                 this.socketList.push(obj)
             }
+        },
+        sendSocketMsg(message){
+            console.log("出发了")
+            this.webSocket.send("message");
         },
         showBet(){
             this.betKeyboard=true;

@@ -439,6 +439,7 @@ export default {
         }
         .handle{
             display: flex;
+            margin: .3rem 0 .2rem;
             >div{
                 flex: auto;
                 line-height: 1rem;

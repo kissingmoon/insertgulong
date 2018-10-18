@@ -30,7 +30,10 @@
             </bet-number>
         </div>
         <div class="bet-content flex flex-align-center flex-pack-justify">
-            <div>已选择</div>
+            <input v-model.number="betTimes" style="border: 1px solid #D9D9D9;border-radius: 4px;height:0.8rem;width:100%;" type="text">
+        </div>
+        <div class="bet-content flex flex-align-center flex-pack-justify">
+            <div>已选{{betCount}}注&nbsp;|&nbsp;合计{{totalMoney}}元</div>
             <div class="bet-button flex flex-center">确认投注</div>
         </div>
         <!-- 玩法 -->
@@ -46,6 +49,7 @@ import {httpUrl,betUnit} from 'common/js/map';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import {BaseVM} from 'common/js/BuyCM';
 import WfKind from 'components/lottery/wf-kind-room';
+import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
 
 export default {
     data(){
@@ -67,6 +71,9 @@ export default {
             wfDetail:"",
             wfFlag:'',
             wfKindShow:false,  //玩法种类
+            betCount:"",
+            betTimes:2,
+            totalMoney:""
         }
     },
     components:{
@@ -74,8 +81,17 @@ export default {
         WfKind
     },
     created() {
-            this.getBetWF();
-        },
+        this.getBetWF();
+    },
+    watch:{
+        betTimes(newVal,oldVal){
+            const regex = /^\d*$/;
+            if(!regex.test(newVal)) {
+                this.betTimes = oldVal ;
+            }
+            this.calculateBetMoney()
+        }
+    },
     methods:{
         //确认离开
         closeBoard(){
@@ -308,6 +324,11 @@ export default {
                     this.betCount=0;
                 }
             }
+            this.calculateBetMoney()
+        },
+        calculateBetMoney(){
+            let money=this.betTimes*this.betCount;
+            this.totalMoney = money.toFixed(2);
         }
     }
 }
@@ -411,9 +432,8 @@ export default {
     }
     .main-wapper{}
     .bet-content{
-        height: 2rem;
         font-size: 0.4rem;
-        padding: 0 0.5rem;
+        padding: 0.3rem 0.5rem;
         .bet-button{
             width: 2.5rem;
             height: 1rem;
@@ -421,6 +441,9 @@ export default {
             border-radius: 4px;
             color: #ffffff;
         }
+    }
+    .bet-content:last-child{
+        padding: 0rem 0.5rem 0.2rem 0.5rem;
     }
     .wf{
         position: absolute;

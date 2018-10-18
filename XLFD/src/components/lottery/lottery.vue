@@ -635,7 +635,7 @@
                 this.totalMoney = money.toFixed(2);
                 return money.toFixed(2);
             },
-            //计算下注金额
+            //计算中奖金额
             formetWinMoney(){
                 let money= this.showWinMoney*this.betTimes/2;
                 return money.toFixed(2);

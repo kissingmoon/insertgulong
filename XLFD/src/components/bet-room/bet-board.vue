@@ -1,23 +1,51 @@
 <template>
-    <div class="wapper">
-        <div class="top-wapper">
-            <!-- <p class="txt" @click="show('wfKindShow')">
-                <span class="kind">玩<br>法</span>
-                {{currentWf.name}}
-                <i class="angle"></i>
-            </p> -->
-            <div class="lottery-title-content">
-                <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div>
-                <h1 class="title">
-                    <p class="txt" @click="show('wfKindShow')">
-                        <span class="kind">玩<br>法</span>
-                        {{currentWf.name}}
-                        <i class="angle"></i>
-                    </p>
-                </h1>
+    <parcel>
+        <div class="wapper">
+            <div class="top-wapper">
+                <!-- <p class="txt" @click="show('wfKindShow')">
+                    <span class="kind">玩<br>法</span>
+                    {{currentWf.name}}
+                    <i class="angle"></i>
+                </p> -->
+                <div class="lottery-title-content">
+                    <!-- <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div> -->
+                    <h1 class="title">
+                        <p class="txt" @click="show('wfKindShow')">
+                            <span class="kind">玩<br>法</span>
+                            {{currentWf.name}}
+                            <i class="angle"></i>
+                        </p>
+                    </h1>
+                </div>
             </div>
-        </div>
-        <div class="main-wapper">
+            <div class="main-wapper">
+                <bet-number 
+                    ref="betnumberlist"
+                    :numList="numberList"
+                    :selectNumList="selectNumList"
+                    :selectPosition="selectPosition"
+                    @selectNum="selectNum"
+                    @selectPosi="selectPosi"
+                    @selectKind="selectKind"
+                    >
+                </bet-number>
+            </div>
+            <div class="bet-content">
+                <div class="inputBox">
+                    <input type="text" class="amount" v-model.number="betTimes">
+                    <div class="explain">赔率说明</div>
+                </div>
+                <div class="handle">
+                    <div>已选:<span>{{betCount}}</span>注<em>|</em>合计:<span>{{totalMoney}}</span>元</div>
+                    <button class="btn" type="button">确认投注</button>
+                </div>
+            </div>
+            <!-- 玩法 -->
+            <!-- <div class="wf" v-if="wfKindShow">
+                <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
+            </div>         -->
+        <!-- </div> -->
+        <!-- <div class="main-wapper">
             <bet-number 
                 ref="betnumberlist"
                 :numList="numberList"
@@ -28,22 +56,24 @@
                 @selectKind="selectKind"
                 >
             </bet-number>
-        </div>
-        <div class="bet-content flex flex-align-center flex-pack-justify">
-            <input v-model.number="betTimes" style="border: 1px solid #D9D9D9;border-radius: 4px;height:0.8rem;width:100%;" type="text">
+        </div> -->
+        <!-- <div class="bet-content flex flex-align-center flex-pack-justify">
+            <input v-model.number="betTimes" style="border: 1px solid #D9D9D9;border-radius: 4px;height:0.8rem;width:100%;">
         </div>
         <div class="bet-content flex flex-align-center flex-pack-justify">
             <div>已选{{betCount}}注&nbsp;|&nbsp;合计{{totalMoney}}元</div>
             <div class="bet-button flex flex-center" v-on:click="betOrder">确认投注</div>
-        </div>
+        </div> -->
         <!-- 玩法 -->
         <div class="wf" v-if="wfKindShow">
             <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
         </div>        
     </div>
+    </parcel>
 </template>
 <script>
-import BetNumber from 'base/bet-number/bet-number';
+import Parcel from 'base/parcel/parcel';
+import BetNumber from 'base/bet-number/bet-number-room';
 import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
 import {httpUrl,betUnit} from 'common/js/map';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
@@ -79,7 +109,8 @@ export default {
     },
     components:{
         BetNumber,
-        WfKind
+        WfKind,
+        Parcel
     },
     created() {
         this.getBetWF();
@@ -134,6 +165,7 @@ export default {
                     this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                 }
             }
+            console.log(this.selectNumList)
             this.changeTotal();
         },
         //选择位置
@@ -462,14 +494,47 @@ export default {
     .main-wapper{}
     .bet-content{
         font-size: 0.4rem;
-        padding: 0.3rem 0.5rem;
-        .bet-button{
-            width: 2.5rem;
-            height: 1rem;
-            background: #3CDA93;
-            border-radius: 4px;
-            color: #ffffff;
+        padding: 0 .3rem;
+        .inputBox{
+            display: flex;            
+            border: 1px solid #d9d9d9;
+            border-radius: .1rem;
+            .amount{
+                flex: auto;
+                height: 1rem;
+                line-height: .4rem;
+                margin-left: .2rem;
+            }
+            .explain{
+                color: #DA1C36 ;
+                margin-right: .3rem;
+                line-height: 1rem;
+            }
         }
+        .handle{
+            display: flex;
+            margin: .3rem 0 .2rem;
+            >div{
+                flex: auto;
+                line-height: 1rem;
+                color: #959595;
+                span{
+                    color: #DA1C36 ;
+                }
+                em{
+                    margin: 0 .1rem;
+                }
+            }
+            .btn{
+                width: 2.8rem;
+                height: 1rem;
+                color: #fff;
+                line-height: 1rem;
+                border-radius: .1rem;
+                background-color: #3CDA93;
+            }
+        }
+        
     }
     .bet-content:last-child{
         padding: 0rem 0.5rem 0.2rem 0.5rem;

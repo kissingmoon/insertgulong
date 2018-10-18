@@ -18,7 +18,7 @@
                 </span>
                 <span>X</span>
             </div>
-           
+            
         </div>
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
@@ -190,6 +190,15 @@ export default {
     bottom: 0;
     z-index: 103;
     background: #ffffff;
+    .grayBg{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #000;
+        opacity: .7;
+        overflow: hidden;
+    }
     .bet-board{
         position: fixed;
         width: 100%;

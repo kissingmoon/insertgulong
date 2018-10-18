@@ -35,6 +35,7 @@
                   class="bet-board"
                   :lotteryInfo="lotteryInfo"
         ></bet-board>
+        <div class="grayBg" v-if="betKeyboard"></div>
    </div>
 </template>
 <script>

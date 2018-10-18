@@ -45,7 +45,27 @@
                 <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
             </div>        
         </div>
-    </parcel>
+        <div class="main-wapper">
+            <bet-number 
+                ref="betnumberlist"
+                :numList="numberList"
+                :selectNumList="selectNumList"
+                :selectPosition="selectPosition"
+                @selectNum="selectNum"
+                @selectPosi="selectPosi"
+                @selectKind="selectKind"
+                >
+            </bet-number>
+        </div>
+        <div class="bet-content flex flex-align-center flex-pack-justify">
+            <div>已选择</div>
+            <div class="bet-button flex flex-center">确认投注</div>
+        </div>
+        <!-- 玩法 -->
+        <div class="wf" v-if="wfKindShow">
+            <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
+        </div>        
+    </div>
 </template>
 <script>
 import Parcel from 'base/parcel/parcel';

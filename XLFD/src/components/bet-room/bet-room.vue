@@ -210,16 +210,26 @@ export default {
                 console.log("收到服务器消息了")
                 // this.socketMessage=event.data;
                 var resData=JSON.parse(event.data)
+                console.log(event.data)
                 console.log(JSON.parse(event.data))
-                var obj={neirong:resData.message}
+                var obj={}
+                if(resData.msgType=='2'){
+                    obj={neirong:JSON.parse(resData.message)}
+                }else{
+                    obj={neirong:resData.message}
+                }
                 obj.class="msgType"+resData.msgType
                 this.socketList.push(obj)
             }
         },
         sendSocketMsg(message){
             console.log("出发了")
-            console.log(message)
-            this.webSocket.send(message);
+            
+            // this.webSocket.send("如果你能收到我的消息");
+            // this.webSocket.send(message);
+            message.user_token=this.user_token
+            console.log(JSON.stringify(message))
+            this.webSocket.send(JSON.stringify(message));
         },
         showBet(){
             this.betKeyboard=true;

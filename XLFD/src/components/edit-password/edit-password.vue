@@ -2,7 +2,7 @@
     <parcel>
         <div class="edit-password">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
-                <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe> 
+                <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -51,7 +51,7 @@
                 },
                 affirm_password:'',
                 api:'',
-                showsc:false
+                // showsc:false
             }
         },
         components:{
@@ -92,7 +92,7 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.setTip('修改成功');
-                        this.showsc=true;
+                        // this.showsc=true;
                         this.$router.back();
                     }
                 });

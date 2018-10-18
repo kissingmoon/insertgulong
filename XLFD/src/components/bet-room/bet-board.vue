@@ -36,6 +36,7 @@
             </div>
             <div class="handle">
                 <div>已投注：<span>9</span>注 <em>|</em> 合计：<span>9</span>元</div>
+                <button class="btn" type="button">确认投注</button>
             </div>
         </div>
         <!-- 玩法 -->
@@ -436,6 +437,29 @@ export default {
                 line-height: 1rem;
             }
         }
+        .handle{
+            display: flex;
+            >div{
+                flex: auto;
+                line-height: 1rem;
+                color: #959595;
+                span{
+                    color: #DA1C36 ;
+                }
+                em{
+                    margin: 0 .1rem;
+                }
+            }
+            .btn{
+                width: 2.8rem;
+                height: 1rem;
+                color: #fff;
+                line-height: 1rem;
+                border-radius: .1rem;
+                background-color: #3CDA93;
+            }
+        }
+        
     }
     .wf{
         position: absolute;

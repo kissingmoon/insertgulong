@@ -164,7 +164,8 @@ export default {
         },
         sendSocketMsg(message){
             console.log("出发了")
-            this.webSocket.send("message");
+            console.log(message)
+            this.webSocket.send(message);
         },
         showBet(){
             this.betKeyboard=true;

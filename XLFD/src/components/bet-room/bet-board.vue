@@ -2,13 +2,7 @@
     <parcel>
         <div class="wapper">
             <div class="top-wapper">
-                <!-- <p class="txt" @click="show('wfKindShow')">
-                    <span class="kind">玩<br>法</span>
-                    {{currentWf.name}}
-                    <i class="angle"></i>
-                </p> -->
                 <div class="lottery-title-content">
-                    <!-- <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div> -->
                     <h1 class="title">
                         <p class="txt" @click="show('wfKindShow')">
                             <span class="kind">玩<br>法</span>
@@ -37,37 +31,13 @@
                 </div>
                 <div class="handle">
                     <div>已选:<span>{{betCount}}</span>注<em>|</em>合计:<span>{{totalMoney}}</span>元</div>
-                    <button class="btn" type="button">确认投注</button>
+                    <button class="btn" type="button" v-on:click="betOrder">确认投注</button>
                 </div>
             </div>
             <!-- 玩法 -->
-            <!-- <div class="wf" v-if="wfKindShow">
+            <div class="wf" v-if="wfKindShow">
                 <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
-            </div>         -->
-        <!-- </div> -->
-        <!-- <div class="main-wapper">
-            <bet-number 
-                ref="betnumberlist"
-                :numList="numberList"
-                :selectNumList="selectNumList"
-                :selectPosition="selectPosition"
-                @selectNum="selectNum"
-                @selectPosi="selectPosi"
-                @selectKind="selectKind"
-                >
-            </bet-number>
-        </div> -->
-        <!-- <div class="bet-content flex flex-align-center flex-pack-justify">
-            <input v-model.number="betTimes" style="border: 1px solid #D9D9D9;border-radius: 4px;height:0.8rem;width:100%;">
-        </div>
-        <div class="bet-content flex flex-align-center flex-pack-justify">
-            <div>已选{{betCount}}注&nbsp;|&nbsp;合计{{totalMoney}}元</div>
-            <div class="bet-button flex flex-center" v-on:click="betOrder">确认投注</div>
-        </div> -->
-        <!-- 玩法 -->
-        <div class="wf" v-if="wfKindShow">
-            <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
-        </div>        
+            </div>        
     </div>
     </parcel>
 </template>
@@ -105,6 +75,12 @@ export default {
             betTimes:2,
             totalMoney:"",
             betNumber:""
+        }
+    },
+    props: {
+        lotteryInfo:{
+            type: Object,
+            default: {}
         }
     },
     components:{
@@ -296,7 +272,8 @@ export default {
         //投注
         betOrder(){
             const param={
-                lottery_id:this.lotteryId,
+                // lottery_id:this.lotteryId,
+                lottery_id:this.lotteryInfo.lottery_id,
                 lottery_qh:this.lotteryInfo.lottery_qh,
                 wf_flag:this.wfFlag,
                 bet_number:this.betNumber,

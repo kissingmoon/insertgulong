@@ -168,6 +168,7 @@
         .scroll-content{
             height:calc( 100% - 1.2rem);
             overflow: hidden;
+            background-color: #F1F1F1;
             .kind-wrapper{
                 height:auto;
                 overflow: hidden;
@@ -175,6 +176,7 @@
                     height:auto;
                     overflow: hidden;
                     color: #454545;
+                    background-color: #fff;
                     .item-title{
                         height:0.8rem;
                         line-height: 0.8rem;

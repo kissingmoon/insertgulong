@@ -1,51 +1,54 @@
 <template>
-    <div class="wapper">
-        <div class="top-wapper">
-            <!-- <p class="txt" @click="show('wfKindShow')">
-                <span class="kind">玩<br>法</span>
-                {{currentWf.name}}
-                <i class="angle"></i>
-            </p> -->
-            <div class="lottery-title-content">
-                <!-- <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div> -->
-                <h1 class="title">
-                    <p class="txt" @click="show('wfKindShow')">
-                        <span class="kind">玩<br>法</span>
-                        {{currentWf.name}}
-                        <i class="angle"></i>
-                    </p>
-                </h1>
+    <parcel>
+        <div class="wapper">
+            <div class="top-wapper">
+                <!-- <p class="txt" @click="show('wfKindShow')">
+                    <span class="kind">玩<br>法</span>
+                    {{currentWf.name}}
+                    <i class="angle"></i>
+                </p> -->
+                <div class="lottery-title-content">
+                    <!-- <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div> -->
+                    <h1 class="title">
+                        <p class="txt" @click="show('wfKindShow')">
+                            <span class="kind">玩<br>法</span>
+                            {{currentWf.name}}
+                            <i class="angle"></i>
+                        </p>
+                    </h1>
+                </div>
             </div>
-        </div>
-        <div class="main-wapper">
-            <bet-number 
-                ref="betnumberlist"
-                :numList="numberList"
-                :selectNumList="selectNumList"
-                :selectPosition="selectPosition"
-                @selectNum="selectNum"
-                @selectPosi="selectPosi"
-                @selectKind="selectKind"
-                >
-            </bet-number>
-        </div>
-        <div class="bet-content">
-            <div class="inputBox">
-                <input type="number" class="amount" v-model="amount">
-                <div class="explain">赔率说明</div>
+            <div class="main-wapper">
+                <bet-number 
+                    ref="betnumberlist"
+                    :numList="numberList"
+                    :selectNumList="selectNumList"
+                    :selectPosition="selectPosition"
+                    @selectNum="selectNum"
+                    @selectPosi="selectPosi"
+                    @selectKind="selectKind"
+                    >
+                </bet-number>
             </div>
-            <div class="handle">
-                <div>已投注：<span>9</span>注 <em>|</em> 合计：<span>9</span>元</div>
-                <button class="btn" type="button">确认投注</button>
+            <div class="bet-content">
+                <div class="inputBox">
+                    <input type="number" class="amount" v-model="amount">
+                    <div class="explain">赔率说明</div>
+                </div>
+                <div class="handle">
+                    <div>已投注：<span>9</span>注 <em>|</em> 合计：<span>9</span>元</div>
+                    <button class="btn" type="button">确认投注</button>
+                </div>
             </div>
+            <!-- 玩法 -->
+            <div class="wf" v-if="wfKindShow">
+                <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
+            </div>        
         </div>
-        <!-- 玩法 -->
-        <div class="wf" v-if="wfKindShow">
-            <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
-        </div>        
-    </div>
+    </parcel>
 </template>
 <script>
+import Parcel from 'base/parcel/parcel';
 import BetNumber from 'base/bet-number/bet-number-room';
 import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
 import {httpUrl,betUnit} from 'common/js/map';
@@ -78,7 +81,8 @@ export default {
     },
     components:{
         BetNumber,
-        WfKind
+        WfKind,
+        Parcel
     },
     created() {
             this.getBetWF();
@@ -124,6 +128,7 @@ export default {
                     this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                 }
             }
+            console.log(this.selectNumList)
             this.changeTotal();
         },
         //选择位置

@@ -29,7 +29,7 @@
             <input style="width:6.8rem;height:0.87rem;"  type="text">
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
-       <bet-board v-if="betKeyboard" @closeBoard="hideBet" class="bet-board"></bet-board>
+       <bet-board v-if="betKeyboard" class="bet-board"></bet-board>
        <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
    </div>
 </template>

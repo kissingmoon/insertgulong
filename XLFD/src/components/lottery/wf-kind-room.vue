@@ -1,5 +1,5 @@
 <template>
-    <parcel>
+    <!-- <parcel> -->
         <div class="kind-content">
             <div class="kind-title-content">
                 <div class="back" @click="close"><i class="icon-arrows-left"></i></div>
@@ -28,7 +28,7 @@
                 </div>
             </scroll>
         </div>
-    </parcel>
+    <!-- </parcel> -->
 </template>
 
 <script type="text/ecmascript-6">
@@ -127,6 +127,8 @@
     @import "common/scss/variable.scss";
     @import 'common/scss/mixin.scss';
     .kind-content{
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         .kind-title-content{
             position:relative;
             height:1.2rem;

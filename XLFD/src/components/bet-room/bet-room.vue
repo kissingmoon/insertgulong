@@ -30,12 +30,17 @@
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" 
+                @showWf="showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   class="bet-board"
-                  :lotteryInfo="lotteryInfo"
-        ></bet-board>
+                  :lotteryInfo="lotteryInfo">
+        </bet-board>
         <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
+        <div class="wfkind" v-if="wfKindShow">
+            <!-- <p v-for="item in 200">asdfsdfg</p> -->
+            <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
+        </div>
    </div>
 </template>
 <script>
@@ -44,6 +49,7 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
 import {slicer,countTime} from 'common/js/param.js';
 import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
+import WfKind from 'components/lottery/wf-kind-room';
 
 export default {
     data(){
@@ -62,10 +68,16 @@ export default {
             newDraw:{},
             lotteryType:"",
             webSocket:"",
+
+            //  test
+            wfKindShow:false,
+            wfList:[],
+            wfFlag:'',
         }
     },
     components:{
-        BetBoard
+        BetBoard,
+        WfKind,
     },
     created(){
         this.lotteryId=this.$route.query.id;
@@ -97,6 +109,48 @@ export default {
         ...mapMutations({
             setTip:'SET_TIP',
         }),   
+        showWf(wf){
+            this[wf] = true;
+        },
+        hide(key){
+            this[key]=false;
+        },
+        //修改玩法
+        changeWf(i,s){
+            this.betCount = 0;
+            this.currentWf=this.wfList[i].wf[s];
+            this.wfFlag=this.wfList[i].wf[s].wf_flag;
+            // console.log(this.wfFlag)
+            // this.$emit('getWFflag',this.wfFlag)
+            this.makeWfParam();
+            this.hide('wfKindShow');
+        },
+        getBetWF(){
+            const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC : httpUrl.bet.lotteryWf;
+            this.$axios.postRequest(api,{lottery_id:this.$route.query.id})
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    this.wfList=res.data;
+                    this.selectTacitWf();
+                    this.makeWfParam();
+                };
+            });
+        },
+        selectTacitWf(){
+            let tacitWf=this.tacitWf[this.lotteryType];
+            this.wfList.forEach((item,i) => {
+                item.wf.forEach((sub,s)=>{
+                    if( sub.wf_flag == tacitWf ){
+                        this.currentWf=this.wfList[i].wf[s];
+                        return false;
+                    }
+                });
+            });
+            if(Object.keys(this.currentWf).length == 0 && this.wfList.length > 0){
+                this.currentWf=this.wfList[0].wf[0];
+            }
+            this.wfFlag=this.currentWf.wf_flag;
+        },
         //获取玩法封单时间
         getLockTime(){
             this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
@@ -201,7 +255,7 @@ export default {
         opacity: .7;
         overflow: hidden;
     }
-    .bet-board{
+    .bet-board,.wfkind{
         position: fixed;
         width: 100%;
         top: initial;

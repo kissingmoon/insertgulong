@@ -7,7 +7,7 @@
                 <i class="angle"></i>
             </p> -->
             <div class="lottery-title-content">
-                <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div>
+                <!-- <div class="back" @click="closeBoard"><i class="icon-arrows-left"></i></div> -->
                 <h1 class="title">
                     <p class="txt" @click="show('wfKindShow')">
                         <span class="kind">玩<br>法</span>
@@ -30,7 +30,13 @@
             </bet-number>
         </div>
         <div class="bet-content">
-            投注
+            <div class="inputBox">
+                <input type="number" class="amount" v-model="amount">
+                <div class="explain">赔率说明</div>
+            </div>
+            <div class="handle">
+                <div>已投注：<span>9</span>注 <em>|</em> 合计：<span>9</span>元</div>
+            </div>
         </div>
         <!-- 玩法 -->
         <div class="wf" v-if="wfKindShow">
@@ -39,7 +45,7 @@
     </div>
 </template>
 <script>
-import BetNumber from 'base/bet-number/bet-number';
+import BetNumber from 'base/bet-number/bet-number-room';
 import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
 import {httpUrl,betUnit} from 'common/js/map';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
@@ -66,6 +72,7 @@ export default {
             wfDetail:"",
             wfFlag:'',
             wfKindShow:false,  //玩法种类
+            amount:1,
         }
     },
     components:{
@@ -412,6 +419,23 @@ export default {
     .bet-content{
         height: 2rem;
         font-size: 0.4rem;
+        padding: 0 .3rem;
+        .inputBox{
+            display: flex;            
+            border: 1px solid #d9d9d9;
+            border-radius: .1rem;
+            .amount{
+                flex: auto;
+                height: 1rem;
+                line-height: .4rem;
+                margin-left: .2rem;
+            }
+            .explain{
+                color: #DA1C36 ;
+                margin-right: .3rem;
+                line-height: 1rem;
+            }
+        }
     }
     .wf{
         position: absolute;

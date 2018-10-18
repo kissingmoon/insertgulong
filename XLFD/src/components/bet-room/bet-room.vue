@@ -18,7 +18,7 @@
                 </span>
                 <span>X</span>
             </div>
-           
+            
         </div>
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k">
@@ -30,6 +30,7 @@
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" @closeBoard="hideBet" class="bet-board"></bet-board>
+       <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
    </div>
 </template>
 <script>
@@ -183,6 +184,15 @@ export default {
     bottom: 0;
     z-index: 103;
     background: #ffffff;
+    .grayBg{
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #000;
+        opacity: .7;
+        overflow: hidden;
+    }
     .bet-board{
         position: fixed;
         width: 100%;

@@ -293,6 +293,7 @@ export default {
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
                     this.$emit('sendSocketMsg',param)
+                    this.closeBoard()
                 };
             })
             .catch((err) => {
@@ -468,6 +469,9 @@ export default {
                 }
             }
         }
+    }
+    .main-wapper{
+        min-height: 57vh;
     }
     .bet-content{
         font-size: 0.4rem;

@@ -12,13 +12,12 @@
        </div>
         <div class="flex kj-wapper flex-pack-center">
             <div class="flex flex-center">{{newDraw.lottery_qh}}期开奖</div>
-            <div class="flex flex-1 flex-center lottery-wf">
+            <div class="flex flex-1 flex-center lottery-wf" @click="showHistory" v-for="(item,index) in isAll?newDraw:[]">
                 <span :class=v.clas v-for="(v,k) in newDraw.resultList" :key="k" :style="v.bg">
                     {{v.val}}
                 </span>
-                <span>X</span>
+                <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"></span>
             </div>
-            
         </div>
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
@@ -55,6 +54,10 @@
                   class="bet-board"
                   :lotteryInfo="lotteryInfo">
         </bet-board>
+
+        <div class="followCase">
+            
+        </div>
         <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
    </div>
 </template>
@@ -84,7 +87,8 @@ export default {
             newDraw:{},
             lotteryType:"",
             webSocket:"",
-            textMsg:""
+            textMsg:"",
+            isHistoryShow:false,
         }
     },
     components:{
@@ -121,7 +125,10 @@ export default {
      methods:{
         ...mapMutations({
             setTip:'SET_TIP',
-        }),   
+        }),
+        showHistory(){
+            this.isHistoryShow = !this.isHistoryShow;
+        },   
         showWf(wf){
             this[wf] = true;
         },
@@ -142,10 +149,13 @@ export default {
                 if(res.data && !res.data.errorCode){
                     this.newDraw=res.data[0];
                     this.drawHistoryList=slicer(res.data,"kj_code",",");
+                    console.log(this.drawHistoryList)
+                    debugger
                     //根据最近一期的开奖号码显示不同的颜色
                     this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryType,this.xglhc_color)
+                    console.log(this.newDraw)
                 };
-            });
+            });            
         },
         //倒计时功能
         setCountTime(dateStr) {
@@ -309,12 +319,22 @@ export default {
         height: 1.06rem;
         box-sizing: border-box;
         padding: 0 0.3rem;
+        position: relative;
         @include border-bottom-1px(solid,#f2f2f2);
         .lottery-wf{
+            float: right;
             font-size: $font-size-medium;
             line-height: 0.8rem;
             color:$color-yellow;
             @include no-wrap();
+            .icon-triangle-below{
+                position: absolute;
+                right: .2rem;
+                transition: all .3s ease-in-out;
+            }
+            .show{
+                    transform: rotate(180deg)
+                }
             .last-draw-ssc{
                 display: inline-block;
                 width: 0.7rem;

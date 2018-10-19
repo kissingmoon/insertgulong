@@ -53,6 +53,7 @@
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   class="bet-board"
+                  :lotteryType="lotteryType"
                   :lotteryInfo="lotteryInfo">
         </bet-board>
         <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>

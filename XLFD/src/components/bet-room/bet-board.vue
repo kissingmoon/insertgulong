@@ -81,6 +81,9 @@ export default {
         lotteryInfo:{
             type: Object,
             default: {}
+        },
+        lotteryType:{
+            type:String
         }
     },
     components:{
@@ -322,6 +325,7 @@ export default {
             }else{
                 const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
                 try{
+                    
                     this.betCount=CalcBetCount[funName](this.betNumber);
                 }
                 catch(err){

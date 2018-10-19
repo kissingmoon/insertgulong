@@ -74,13 +74,17 @@ export default {
             betCount:"",
             betTimes:2,
             totalMoney:"",
-            betNumber:""
+            betNumber:"",
+            is28OrLhc:false
         }
     },
     props: {
         lotteryInfo:{
             type: Object,
             default: {}
+        },
+        lotteryType:{
+            type:String
         }
     },
     components:{
@@ -89,6 +93,7 @@ export default {
         Parcel
     },
     created() {
+        this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.getBetWF();
     },
     watch:{
@@ -323,6 +328,7 @@ export default {
             }else{
                 const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
                 try{
+                    
                     this.betCount=CalcBetCount[funName](this.betNumber);
                 }
                 catch(err){

@@ -52,6 +52,7 @@
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   class="bet-board"
+                  :lotteryType="lotteryType"
                   :lotteryInfo="lotteryInfo">
         </bet-board>
 

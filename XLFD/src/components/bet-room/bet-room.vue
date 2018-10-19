@@ -389,6 +389,7 @@ export default {
     }
     .main-wapper{
         background: #F2F2F2;
+        overflow: auto;
         .message-wapper{
             padding: 0.3rem 0;
             .msgType0{

@@ -74,7 +74,8 @@ export default {
             betCount:"",
             betTimes:2,
             totalMoney:"",
-            betNumber:""
+            betNumber:"",
+            is28OrLhc:false
         }
     },
     props: {
@@ -92,6 +93,7 @@ export default {
         Parcel
     },
     created() {
+        this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.getBetWF();
     },
     watch:{

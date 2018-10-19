@@ -26,7 +26,8 @@
            </div>
        </div>
        <div class="flex flex-align-center footer">
-            <input style="width:6.8rem;height:0.87rem;"  type="text">
+            <input v-model="textMsg" class="flex-1" style="height:0.87rem;"  type="text">
+            <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button>
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" 
@@ -62,6 +63,7 @@ export default {
             newDraw:{},
             lotteryType:"",
             webSocket:"",
+            textMsg:""
         }
     },
     components:{
@@ -176,6 +178,11 @@ export default {
             message.user_token=this.user_token
             console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));
+        },
+        sendMsg(){
+            var textObj={}
+            textObj.textMsg=this.textMsg
+            this.sendSocketMsg(textObj)
         },
         showBet(){
             this.betKeyboard=true;

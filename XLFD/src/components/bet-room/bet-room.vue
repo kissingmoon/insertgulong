@@ -37,10 +37,6 @@
                   :lotteryInfo="lotteryInfo">
         </bet-board>
         <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
-        <div class="wfkind" v-if="wfKindShow">
-            <!-- <p v-for="item in 200">asdfsdfg</p> -->
-            <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
-        </div>
    </div>
 </template>
 <script>
@@ -68,11 +64,6 @@ export default {
             newDraw:{},
             lotteryType:"",
             webSocket:"",
-
-            //  test
-            wfKindShow:false,
-            wfList:[],
-            wfFlag:'',
         }
     },
     components:{
@@ -111,45 +102,6 @@ export default {
         }),   
         showWf(wf){
             this[wf] = true;
-        },
-        hide(key){
-            this[key]=false;
-        },
-        //修改玩法
-        changeWf(i,s){
-            this.betCount = 0;
-            this.currentWf=this.wfList[i].wf[s];
-            this.wfFlag=this.wfList[i].wf[s].wf_flag;
-            // console.log(this.wfFlag)
-            // this.$emit('getWFflag',this.wfFlag)
-            this.makeWfParam();
-            this.hide('wfKindShow');
-        },
-        getBetWF(){
-            const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC : httpUrl.bet.lotteryWf;
-            this.$axios.postRequest(api,{lottery_id:this.$route.query.id})
-            .then((res)=> {
-                if(res.data && !res.data.errorCode){
-                    this.wfList=res.data;
-                    this.selectTacitWf();
-                    this.makeWfParam();
-                };
-            });
-        },
-        selectTacitWf(){
-            let tacitWf=this.tacitWf[this.lotteryType];
-            this.wfList.forEach((item,i) => {
-                item.wf.forEach((sub,s)=>{
-                    if( sub.wf_flag == tacitWf ){
-                        this.currentWf=this.wfList[i].wf[s];
-                        return false;
-                    }
-                });
-            });
-            if(Object.keys(this.currentWf).length == 0 && this.wfList.length > 0){
-                this.currentWf=this.wfList[0].wf[0];
-            }
-            this.wfFlag=this.currentWf.wf_flag;
         },
         //获取玩法封单时间
         getLockTime(){

@@ -111,6 +111,7 @@ export default {
             this.$emit('closeBoard','betKeyboard')
         },
         show(key){
+            this.$emit('showWf','wfKindShow')
             this[key]=true;
         },
         // 隐藏
@@ -468,7 +469,6 @@ export default {
             }
         }
     }
-    .main-wapper{}
     .bet-content{
         font-size: 0.4rem;
         padding: 0 .3rem;
@@ -506,6 +506,7 @@ export default {
                 width: 2.8rem;
                 height: 1rem;
                 color: #fff;
+                font-size: .4rem;
                 line-height: 1rem;
                 border-radius: .1rem;
                 background-color: #3CDA93;

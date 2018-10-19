@@ -31,11 +31,12 @@
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" 
+                @showWf="showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   class="bet-board"
-                  :lotteryInfo="lotteryInfo"
-        ></bet-board>
+                  :lotteryInfo="lotteryInfo">
+        </bet-board>
         <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
    </div>
 </template>
@@ -45,6 +46,7 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
 import {slicer,countTime} from 'common/js/param.js';
 import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
+import WfKind from 'components/lottery/wf-kind-room';
 
 export default {
     data(){
@@ -67,7 +69,8 @@ export default {
         }
     },
     components:{
-        BetBoard
+        BetBoard,
+        WfKind,
     },
     created(){
         this.lotteryId=this.$route.query.id;
@@ -99,6 +102,9 @@ export default {
         ...mapMutations({
             setTip:'SET_TIP',
         }),   
+        showWf(wf){
+            this[wf] = true;
+        },
         //获取玩法封单时间
         getLockTime(){
             this.$axios.postRequest(httpUrl.bet.lockTime,{lottery_id:this.lotteryId})
@@ -218,7 +224,7 @@ export default {
         opacity: .7;
         overflow: hidden;
     }
-    .bet-board{
+    .bet-board,.wfkind{
         position: fixed;
         width: 100%;
         top: initial;

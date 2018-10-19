@@ -23,12 +23,22 @@
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
                <div v-if="v.msgType!='2'" :class="v.class">{{v.neirong}}</div>
-               <div :class="v.class" class="flex" v-if="v.msgType=='2'">
-                   <div><img :src="v.neirong.image_url" alt=""></div>
-                   <div @click="!v.isSelf&&followBet">
-                       <div>{{v.neirong.user_id}}</div>
-                       <div>第{{v.neirong.lottery_qh}}期 {{v.neirong.wf_flag}} </div>
-                       <div>{{v.neirong.bet_money}}元</div>
+               <div :class="v.class" class="flex flex-1" v-if="v.msgType=='2'">
+                   <div class="user-img">
+                       <img :src="v.neirong.image_url" alt="">
+                    </div>
+                   <div class="user-betMsg" @click="!v.isSelf&&followBet(v.neirong)">
+                       <div class="flex flex-align-center betMsg-title">{{v.neirong.user_id}}</div>
+                       <div class="betMsg-content flex flex-v"> 
+                            <div class="flex flex-1 flex-align-center flex-pack-justify">
+                                <span>第{{v.neirong.lottery_qh}}期</span>
+                                <span> {{v.neirong.wfDetail.title}} </span>
+                            </div>
+                            <div class="flex flex-1  flex-align-center flex-pack-justify">
+                                <span>{{v.neirong.bet_money}}元</span>
+                                <span>{{v.neirong.bet_number}}</span>
+                            </div>
+                       </div>
                    </div>
                </div>
            </div>
@@ -55,6 +65,7 @@ import {slicer,countTime} from 'common/js/param.js';
 import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import WfKind from 'components/lottery/wf-kind-room';
+import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 
 export default {
     data(){
@@ -160,6 +171,7 @@ export default {
         },
         openWebsocket(){
             if ('WebSocket' in window) {
+               
                     this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
                 }
             else {
@@ -180,7 +192,9 @@ export default {
                 obj.class="msgType"+resData.msgType
                 if(resData.msgType=='2'){
                     obj.neirong=JSON.parse(resData.message)
+                    const lottery=obj.neirong.wf_flag.split('_')[0];
                     obj.isSelf=false;
+                    obj.neirong.wfDetail=LotteryWfDetail[lottery].wf_class[obj.neirong.wf_flag];
                     console.log(this.user_token)
                     if(obj.neirong.user_token==this.user_token){
                         obj.class="msgType"+resData.msgType+"-self"
@@ -205,8 +219,35 @@ export default {
             textObj.textMsg=this.textMsg
             this.sendSocketMsg(textObj)
         },
-        followBet(){
-            alert("跟单呀")
+        followBet(followInfo){
+            console.log("followInfo")
+            if(followInfo.lottery_qh!=this.lotteryInfo.lottery_qh){
+                this.setTip(`${followInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.lottery_qh}期继续跟单`);
+            }
+            var param={
+                bet_count: followInfo.bet_count,
+                bet_number:followInfo.bet_number,
+                by_money:followInfo.by_money,
+                lottery_id:followInfo.lottery_id,
+                lottery_modes:followInfo.lottery_modes,
+                lottery_qh:followInfo.lottery_qh,
+                wf_flag:followInfo.wf_flag
+            }
+            this.$axios.postRequest(httpUrl.bet.betOrder,param)
+            .then((res)=> {
+                //this.hide('loadingShow');
+                if(res.data && !res.data.errorCode){
+                    // this.allClear();
+                    // this.getUser()
+                    //this.hide('betAffirmShow');
+                    //this.show('betSuccessShow');
+                    alert("跟单成功")
+                    this.sendSocketMsg(param)
+                };
+            })
+            .catch((err) => {
+                this.hide('loadingShow');
+            });
         },
         showBet(){
             this.betKeyboard=true;
@@ -366,6 +407,68 @@ export default {
                 line-height: 1rem;
                 color: #969696 ;
                 border-radius: 5px;
+            }
+            .msgType2{
+                height: 2.2rem;
+                padding:0 0.3rem;
+                .user-img{
+                    height: 1.1rem;
+                    width: 1.1rem;
+                    border-radius: 50%;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .user-betMsg{
+                    margin-left: 0.3rem;
+                    width: 6rem;    
+                    .betMsg-title{
+                        color: #969696;
+                        font-size: $font-size-small;
+                        height: 0.5rem;
+                    }
+                    .betMsg-content{
+                        padding: 0 0.3rem;
+                        height: 1.7rem;
+                        opacity: 0.69;
+                        background: #DA1C36;
+                        border-radius: 0 10px 10px 10px;
+                        color: #FFFFFF;
+                    }
+                }
+            }
+            .msgType2-self{
+                height: 2.2rem;
+                padding:0 0.3rem;
+                flex-direction:row-reverse;
+                .user-img{
+                    height: 1.1rem;
+                    width: 1.1rem;
+                    border-radius: 50%;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
+                }
+                .user-betMsg{
+                    margin-right: 0.3rem;
+                    width: 6rem; 
+                    .betMsg-title{
+                        color: #969696;
+                        font-size: $font-size-small;
+                        height: 0.5rem;
+                        flex-direction:row-reverse;
+                    }
+                    .betMsg-content{
+                        padding: 0 0.3rem;
+                        height: 1.7rem;
+                        opacity: 0.69;
+                        background:#CD9E62;
+                        border-radius: 10px 0px 10px 10px;
+                        color: #FFFFFF;
+                    }
+                }
             }
         }
     }

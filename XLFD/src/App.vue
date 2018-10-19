@@ -1,6 +1,6 @@
 <template>
     <div id="app" class="app" >
-        <remote-js :src='cnzzurl'></remote-js>
+        <!-- <remote-js :src='cnzzurl'></remote-js> -->
         <div class="headBox"><m-header></m-header> </div>
         <div class="navBox">
             <m-nav></m-nav>

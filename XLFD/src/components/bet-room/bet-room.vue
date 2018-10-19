@@ -22,7 +22,15 @@
         </div>
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
-               <div :class="v.class">{{v.neirong}}</div>
+               <div v-if="v.msgType!='2'" :class="v.class">{{v.neirong}}</div>
+               <div :class="v.class" class="flex" v-if="v.msgType=='2'">
+                   <div><img :src="v.neirong.image_url" alt=""></div>
+                   <div @click="!v.isSelf&&followBet">
+                       <div>{{v.neirong.user_id}}</div>
+                       <div>第{{v.neirong.lottery_qh}}期 {{v.neirong.wf_flag}} </div>
+                       <div>{{v.neirong.bet_money}}元</div>
+                   </div>
+               </div>
            </div>
        </div>
        <div class="flex flex-align-center footer">
@@ -96,6 +104,7 @@ export default {
         ])
     },
     beforeDestroy(){
+        console.log("这里会关闭一次web socket")
         this.webSocket.close()
     },
      methods:{
@@ -167,18 +176,24 @@ export default {
                 console.log(event.data)
                 console.log(JSON.parse(event.data))
                 var obj={}
-                if(resData.msgType=='2'){
-                    obj={neirong:JSON.parse(resData.message)}
-                }else{
-                    obj={neirong:resData.message}
-                }
+                obj.msgType=resData.msgType
                 obj.class="msgType"+resData.msgType
+                if(resData.msgType=='2'){
+                    obj.neirong=JSON.parse(resData.message)
+                    obj.isSelf=false;
+                    console.log(this.user_token)
+                    if(obj.neirong.user_token==this.user_token){
+                        obj.class="msgType"+resData.msgType+"-self"
+                        obj.isSelf=true;
+                    }
+                }else{
+                    obj.neirong=resData.message
+                }
                 this.socketList.push(obj)
             }
         },
         sendSocketMsg(message){
             console.log("出发了")
-            
             // this.webSocket.send("如果你能收到我的消息");
             // this.webSocket.send(message);
             message.user_token=this.user_token
@@ -189,6 +204,9 @@ export default {
             var textObj={}
             textObj.textMsg=this.textMsg
             this.sendSocketMsg(textObj)
+        },
+        followBet(){
+            alert("跟单呀")
         },
         showBet(){
             this.betKeyboard=true;

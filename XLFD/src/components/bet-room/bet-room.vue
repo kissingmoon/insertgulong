@@ -19,14 +19,14 @@
             </div>
             <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
         </div>
-       <div class="flex-1 main-wapper">
+       <div class="flex-1 main-wapper" ref='mainWrap'>
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
                <div v-if="v.msgType!='2'" :class="v.class">{{v.neirong}}</div>
                <div :class="v.class" class="flex flex-1" v-if="v.msgType=='2'">
                    <div class="user-img">
                        <img :src="v.neirong.image_url" alt="">
                     </div>
-                   <div class="user-betMsg" @click="!v.isSelf&&followBet(v.neirong)">
+                   <div class="user-betMsg" @click="!v.isSelf&&isFollowBet(v.neirong)">
                        <div class="flex flex-align-center betMsg-title">{{v.neirong.user_id}}</div>
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
@@ -56,22 +56,22 @@
                   :lotteryInfo="lotteryInfo">
         </bet-board>
 
-        <div class="followCase" v-if="ifFollow">
+        <div class="followCase" v-if="isFollow">
             <p class="title">是否跟投？</p>
             <div class="content">
-                <p class="clearFloat"><span class="text">玩家</span><span class="name">大黑子</span></p>
-                <p class="clearFloat"><span class="text">期数</span><span class="name">2331268</span></p>
-                <p class="clearFloat"><span class="text">玩法</span><span class="name">和值</span></p>
-                <p class="clearFloat"><span class="text">内容</span><span class="name">和值</span></p>
-                <p class="clearFloat noborder"><span class="text">金额</span><span class="name">700元</span></p>
+                <p class="clearFloat"><span class="text">玩家</span><span class="name">{{followInfo.user_id}}</span></p>
+                <p class="clearFloat"><span class="text">期数</span><span class="name">{{followInfo.lottery_qh}}</span></p>
+                <p class="clearFloat"><span class="text">玩法</span><span class="name">{{followInfo.wfDetail.title}}</span></p>
+                <p class="clearFloat"><span class="text">内容</span><span class="name con">{{followInfo.wfDetail.title}}:{{followInfo.bet_number}}</span></p>
+                <p class="clearFloat noborder"><span class="text">金额</span><span class="name">{{followInfo.bet_money}}元</span></p>
             </div>
             <div class="handle">
-                <div class="cancel">取消</div>
-                <div class="confirm">确认</div>
+                <div class="cancel" @click="cancel">取消</div>
+                <div class="confirm" @click="confirmFollow">确认</div>
             </div>
         </div>
         <!-- betKeyboard ||  -->
-        <div class="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="hideBet"></div>   
+        <div class="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
    </div>
 </template>
 <script>
@@ -104,7 +104,9 @@ export default {
             isHistoryShow:false,  // 是否显示全部历史记录
             firstHistory:[],      // 历史开奖记录默认显示第一条数据
             isBG_show:false,        //  灰色背景是否显示
-            ifFollow:false,         //  是否跟投
+            isFollow:false,         //  是否跟投
+            socketMsg:{},
+            followInfo:{},          //  跟投信息
         }
     },
     components:{
@@ -139,12 +141,17 @@ export default {
         this.webSocket.close()
     },
      methods:{
-        ...mapMutations({
-            setTip:'SET_TIP',
-        }),
+        confirmFollow(){            
+            this.isBG_show = false;
+            this.cancel();
+            this.followBet(this.followInfo)
+        },
+        cancel(){
+            this.isBG_show= false;
+            this.isFollow = false;
+        },
         showHistory(){
             this.isHistoryShow = !this.isHistoryShow;
-            // this.$refs.kjWapper.style.height = '5.3rem';
         },   
         showWf(wf){
             this[wf] = true;
@@ -198,13 +205,12 @@ export default {
             }
         },
         openWebsocket(){
-            if ('WebSocket' in window) {
-               
-                    this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
-                }
+            if ('WebSocket' in window) {               
+                this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+            }
             else {
-                    alert('当前浏览器 Not support websocket')
-                }
+                alert('当前浏览器 Not support websocket')
+            }
             this.webSocket.onopen =  ()=> {
                 console.log("WebSocket连接成功");
             }
@@ -217,7 +223,7 @@ export default {
                 console.log(JSON.parse(event.data))
                 var obj={}
                 obj.msgType=resData.msgType
-                obj.class="msgType"+resData.msgType
+                obj.class="msgType"+resData.msgType                
                 if(resData.msgType=='2'){
                     obj.neirong=JSON.parse(resData.message)
                     const lottery=obj.neirong.wf_flag.split('_')[0];
@@ -232,21 +238,29 @@ export default {
                     obj.neirong=resData.message
                 }
                 this.socketList.push(obj)
+                this.$nextTick(()=>{
+                    this.$refs.mainWrap.scrollTop = this.$refs.mainWrap.scrollHeight
+                })
             }
         },
         sendSocketMsg(message){
             console.log("出发了")
             // this.webSocket.send("如果你能收到我的消息");
             // this.webSocket.send(message);
-            return
             message.user_token=this.user_token
-            console.log(JSON.stringify(message))
-            this.webSocket.send(JSON.stringify(message));
+            console.log(JSON.stringify(message)) 
+            this.webSocket.send(JSON.stringify(message));  
+            this.isBG_show = false;
         },
         sendMsg(){
             var textObj={}
             textObj.textMsg=this.textMsg
             this.sendSocketMsg(textObj)
+        },
+        isFollowBet(followInfo){
+            this.isFollow = true;
+            this.isBG_show = true;
+            this.followInfo = followInfo;
         },
         followBet(followInfo){
             console.log("followInfo")
@@ -270,8 +284,9 @@ export default {
                     // this.getUser()
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
-                    alert("跟单成功")
-                    this.sendSocketMsg(param)
+                    // alert("跟单成功")
+                    this.setTip('跟单成功')
+                    this.sendSocketMsg(param)                    
                 };
             })
             .catch((err) => {
@@ -285,10 +300,14 @@ export default {
         hideBet(){
             this.betKeyboard=false;
             this.isHistoryShow = false;
-            this.isBG_show = false;
+        },
+        closeAll(){
+            this.hideBet();
+            this.cancel();
         },
         ...mapMutations({
             setHeader:'SET_HEADER',
+            setTip:'SET_TIP',
         })
      }
 }
@@ -463,7 +482,7 @@ export default {
                 background: #E2E2E2;
                 line-height: 0.5rem;
                 text-align: center;
-                padding: 0.1rem 0;
+                padding: 0.1rem .14rem;
                 border-radius: 5px;
             }
             .msgType1{
@@ -542,6 +561,7 @@ export default {
         position: fixed;
         top: 50%;
         left: 50%;
+        z-index: 11;
         background-color: #fff;
         width:7rem;
         -webkit-transform: translateX(-50%) translateY(-50%);
@@ -555,8 +575,10 @@ export default {
         .content{
             padding: 0 .5rem;
             .clearFloat{
-                line-height: 1.2rem;
                 margin-bottom: .2rem;
+                display: flex;
+                padding: .3rem 0;
+                line-height: .6rem;
                 @include border-bottom-1px(solid,#F2F2F2);
                 &.noborder{
                     margin: 0;
@@ -565,15 +587,18 @@ export default {
                     }
                 }
                 .text{
-                    float: left;
+                    width: 2rem;
+                    color: #949494;
                 }
                 .name{
-                    float: right;
-                }
-                &:before{
-                    content: '';
-                    display: inline-block;
-                    clear: both;
+                    width: 3rem;
+                    flex: auto;
+                    text-align: right;                        
+                    word-wrap: break-word;
+                    word-break: break-all;
+                    &.con{
+                        text-align: left;  
+                    }
                 }
             }
         }

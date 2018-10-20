@@ -276,7 +276,7 @@ export default {
             }
         },
         //投注
-        betOrder(){
+        betOrder(){            
             const param={
                 // lottery_id:this.lotteryId,
                 lottery_id:this.lotteryInfo.lottery_id,

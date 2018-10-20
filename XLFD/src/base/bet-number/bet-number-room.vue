@@ -361,10 +361,28 @@
                     height:0.6rem;
                     margin-top:0.7rem;
                     padding-right: 0.2rem;
-                    @include bg-image('bg-option-title');
-                    background-repeat: no-repeat;
-                    background-size: 100% 100%;
                     color: #fff;
+                    p{
+                        height: .6rem;
+                        width: 1.4rem;
+                        line-height: .6rem;
+                        text-align: center;
+                        font-size: .32rem;
+                        color: #fff;
+                        background-color: #ffbf00;
+                        position: relative;
+                        span{
+                            display: block;
+                            width: 0;
+                            height: 0;
+                            border-width: .3rem .2rem;
+                            border-style: solid;
+                            border-color: transparent transparent transparent #ffbf00;
+                            position: absolute;
+                            top: 0;
+                            right: -.39rem;
+                        }
+                    }
                 }
                 .option-title{
                     flex: 1;
@@ -418,28 +436,26 @@
                         color: #fff;
                         text-align: center;
                         font-size: 0.3rem;
+                        color: #DA1C36;
                     }
                     .hezhi-body{
                         flex-wrap: wrap;
                         justify-content:flex-start;
                         .hezhi-item{
-                            @include bg-image('hezhi');
-                            background-repeat: no-repeat;
-                            background-size: 100% 100%;
                             width: 2.05rem;
                             height: 1.2rem;
+                            color: #a9a9a9;
                             margin-left: 0.22rem;
                             margin-top: 0.38rem;
+                            border: 1px solid #d2d2d2;
+                            border-radius: .2rem;
                             &.on{
-                                @include bg-image('hezhi-on');
-                                background-repeat: no-repeat;
-                                background-size: 100% 100%;
-                                color:#DEC233;
+                                border-color: #DEC233;
+                                color: #DEC233;
                                 .hezhi-item-pl{
-                                    color: #fff;;
+                                    color: #DEC233;
                                 }
                             }
-                            color: #fff;
                             .hezhi-item-num{
                                 font-size: 0.42rem;
                                 height: 70%;
@@ -458,18 +474,16 @@
                             width: 4.5rem;
                             height: 1.2rem;
                             background-size: 100% 100%;
-                            @include bg-image('santonghao');
-                            background-repeat: no-repeat;
-                            background-size: 100% 100%;
+                            border: 1px solid #d2d2d2;
+                            border-radius: .2rem;
+                            box-sizing: border-box;
                             font-size: 0.42rem;
-                            color:#fff;
+                            color:#a9a9a9;
                             &.on{
-                                @include bg-image('santonghao-on');
-                                background-repeat: no-repeat;
-                                background-size: 100% 100%;
+                                border-color: #DEC233;
+                                color: #DEC233;
                             }
-                        }
-                        
+                        }                        
                     }
                     .tuodan-body{
                         flex-wrap: wrap;
@@ -478,19 +492,16 @@
                         .option-item{
                             margin: 0.2rem 0;
                             .tuodan{
-                                @include bg-image('Rectangle');
-                                background-repeat: no-repeat;
-                                background-size: 100% 100%;
                                 width: 1.1rem;
                                 height: 1rem;
                                 margin-left:0.22rem; 
                                 border-radius: 0.1rem;
-                                color: #fff;
+                                color: #a9a9a9;
                                 font-size: 0.42rem;
+                                border: 1px solid #d2d2d2;
+                                border-radius: .2rem;
+                                box-sizing: border-box;
                                 &.on{
-                                    @include bg-image('Rectangle-on');
-                                    background-repeat: no-repeat;
-                                    background-size: 100% 100%;
                                     border-color: #DEC233;
                                     color: #DEC233;
                                 }
@@ -503,20 +514,17 @@
                         .option-item{
                             margin:0;                            
                             .newk3-item{
-                                @include bg-image('Rectangle');
-                                background-repeat: no-repeat;
-                                background-size: cover;
                                 width: 1.35rem;
                                 height: 1.2rem;
                                 margin-left:0.18rem; 
                                 margin-top:0.2rem; 
                                 border-radius: 0.1rem;
-                                color: #fff;
+                                color: #a9a9a9;
                                 font-size: 0.42rem;
+                                border: 1px solid #d2d2d2;
+                                border-radius: .2rem;
+                                box-sizing: border-box;
                                 &.on{
-                                    @include bg-image('Rectangle-on');
-                                    background-repeat: no-repeat;
-                                    background-size: 100% 100%;
                                     border-color: #DEC233;
                                     color: #DEC233;
                                 }

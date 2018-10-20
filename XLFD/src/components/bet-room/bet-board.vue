@@ -30,7 +30,7 @@
                     <div class="explain">赔率说明</div>
                 </div>
                 <div class="handle">
-                    <div>已选:<span>{{betCount}}</span>注<em>|</em>合计:<span>{{totalMoney}}</span>元</div>
+                    <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
                     <button class="btn" type="button" v-on:click="betOrder">确认投注</button>
                 </div>
             </div>
@@ -383,6 +383,9 @@ export default {
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .wapper{
+    display: flex;
+    overflow: hidden;
+    flex-direction: column;
     .top-wapper{
         .lottery-title-content{
             position:relative;
@@ -478,6 +481,8 @@ export default {
     }
     .main-wapper{
         min-height: 57vh;
+        flex: auto;
+        overflow-y: auto;
     }
     .bet-content{
         font-size: 0.4rem;
@@ -488,22 +493,23 @@ export default {
             border-radius: .1rem;
             .amount{
                 flex: auto;
-                height: 1rem;
-                line-height: .4rem;
+                height: .8rem;
+                line-height: .3rem;
                 margin-left: .2rem;
             }
             .explain{
                 color: #DA1C36 ;
                 margin-right: .3rem;
-                line-height: 1rem;
+                line-height: .8rem;
             }
         }
         .handle{
             display: flex;
-            margin: .3rem 0 .2rem;
+            margin: .2rem 0 .1rem;
             >div{
                 flex: auto;
-                line-height: 1rem;
+                font-size: .34rem;
+                line-height: .8rem;
                 color: #959595;
                 span{
                     color: #DA1C36 ;
@@ -513,11 +519,11 @@ export default {
                 }
             }
             .btn{
-                width: 2.8rem;
-                height: 1rem;
+                width: 2.6rem;
+                height: .8rem;
                 color: #fff;
                 font-size: .4rem;
-                line-height: 1rem;
+                line-height: .8rem;
                 border-radius: .1rem;
                 background-color: #3CDA93;
             }
@@ -525,7 +531,7 @@ export default {
         
     }
     .bet-content:last-child{
-        padding: 0rem 0.5rem 0.2rem 0.5rem;
+        padding: 0rem 0.5rem 0.1rem 0.5rem;
     }
     .wf{
         position: absolute;

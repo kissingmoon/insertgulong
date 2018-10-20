@@ -63,7 +63,7 @@
     },
     mounted() {
         setTimeout(() => {
-            this.$refs.scroll.refresh();
+            // this.$refs.scroll.refresh();
         }, 20)
     },
     activated() {
@@ -125,6 +125,7 @@
     @import "common/scss/variable.scss";
     @import 'common/scss/mixin.scss';
     .kind-content{
+        height: 100%;
         .kind-title-content{
             position:relative;
             height:1.2rem;
@@ -165,8 +166,8 @@
         }
         .scroll-content{
             height:calc( 100% - 1.2rem);
-            overflow: hidden;
-            background-color: #F1F1F1;
+            overflow-y: auto;
+            position: relative;
             .kind-wrapper{
                 height:auto;
                 overflow: hidden;
@@ -213,14 +214,11 @@
                 bottom: 0;
                 padding: .3rem .5rem;
                 font-size: 0;
-                @include bg-image('greenbg');
-                background-repeat: no-repeat;
-                background-size: 100% 100%;
                 .item{
                     display: inline-block;
                     width: 2.6rem;
                     height: 2.6rem;
-                    border: 1px solid #A6DFC6;
+                    border: 1px solid #d2d2d2;
                     border-radius: .2rem;
                     box-sizing: border-box;
                     margin-right: .59rem;
@@ -234,7 +232,7 @@
                             color: #DEC233;
                         }
                         .percent{
-                            color: #fff;
+                            color: #DEC233;
                         }
                     }
                     &:nth-child(3n){
@@ -245,11 +243,11 @@
                     }
                     .name{
                         font-size: .4rem;
-                        color: #fff;
+                        color: #333;
                     }
                     .percent{
                         font-size: .3rem;
-                        color: #0B4426;
+                        color: #a9a9a9;
                         margin-top: .3rem;
                     }
                     .imgBox{

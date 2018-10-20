@@ -10,14 +10,14 @@
                <div class="flex-1 flex flex-center count">{{account.balance}}</div>
            </div>
        </div>
-        <div class="flex kj-wapper flex-pack-center">
-            <div class="flex flex-center">{{newDraw.lottery_qh}}期开奖</div>
-            <div class="flex flex-1 flex-center lottery-wf" @click="showHistory" v-for="(item,index) in isAll?newDraw:[]">
-                <span :class=v.clas v-for="(v,k) in newDraw.resultList" :key="k" :style="v.bg">
-                    {{v.val}}
-                </span>
-                <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"></span>
+        <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
+            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory">
+                <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
+                <div class="flex flex-1 flex-center lottery-wf" >
+                    <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
+                </div>
             </div>
+            <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
         </div>
        <div class="flex-1 main-wapper">
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
@@ -48,7 +48,7 @@
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" 
-                @showWf="showWf"
+                  @showWf="showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   class="bet-board"
@@ -56,10 +56,22 @@
                   :lotteryInfo="lotteryInfo">
         </bet-board>
 
-        <div class="followCase">
-            
+        <div class="followCase" v-if="ifFollow">
+            <p class="title">是否跟投？</p>
+            <div class="content">
+                <p class="clearFloat"><span class="text">玩家</span><span class="name">大黑子</span></p>
+                <p class="clearFloat"><span class="text">期数</span><span class="name">2331268</span></p>
+                <p class="clearFloat"><span class="text">玩法</span><span class="name">和值</span></p>
+                <p class="clearFloat"><span class="text">内容</span><span class="name">和值</span></p>
+                <p class="clearFloat noborder"><span class="text">金额</span><span class="name">700元</span></p>
+            </div>
+            <div class="handle">
+                <div class="cancel">取消</div>
+                <div class="confirm">确认</div>
+            </div>
         </div>
-        <div class="grayBg" v-if="betKeyboard" @click="hideBet"></div>
+        <!-- betKeyboard ||  -->
+        <div class="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="hideBet"></div>   
    </div>
 </template>
 <script>
@@ -89,7 +101,10 @@ export default {
             lotteryType:"",
             webSocket:"",
             textMsg:"",
-            isHistoryShow:false,
+            isHistoryShow:false,  // 是否显示全部历史记录
+            firstHistory:[],      // 历史开奖记录默认显示第一条数据
+            isBG_show:false,        //  灰色背景是否显示
+            ifFollow:false,         //  是否跟投
         }
     },
     components:{
@@ -129,6 +144,7 @@ export default {
         }),
         showHistory(){
             this.isHistoryShow = !this.isHistoryShow;
+            // this.$refs.kjWapper.style.height = '5.3rem';
         },   
         showWf(wf){
             this[wf] = true;
@@ -150,11 +166,12 @@ export default {
                 if(res.data && !res.data.errorCode){
                     this.newDraw=res.data[0];
                     this.drawHistoryList=slicer(res.data,"kj_code",",");
-                    console.log(this.drawHistoryList)
-                    debugger
+                    for(let item of this.drawHistoryList){
+                        item.resultList = showKjCodeByType(item.kj_code,this.lotteryType,this.xglhc_color)
+                    }
+                    this.firstHistory[0] =  this.drawHistoryList[0];      //  默认显示第一条记录
                     //根据最近一期的开奖号码显示不同的颜色
                     this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryType,this.xglhc_color)
-                    console.log(this.newDraw)
                 };
             });            
         },
@@ -221,6 +238,7 @@ export default {
             console.log("出发了")
             // this.webSocket.send("如果你能收到我的消息");
             // this.webSocket.send(message);
+            return
             message.user_token=this.user_token
             console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));
@@ -262,9 +280,12 @@ export default {
         },
         showBet(){
             this.betKeyboard=true;
+            this.isBG_show = true;
         },
         hideBet(){
             this.betKeyboard=false;
+            this.isHistoryShow = false;
+            this.isBG_show = false;
         },
         ...mapMutations({
             setHeader:'SET_HEADER',
@@ -289,10 +310,15 @@ export default {
         position: fixed;
         top: 0;
         bottom: 0;
+        z-index: 10;
         width: 100%;
         background-color: #000;
         opacity: .7;
         overflow: hidden;
+        &.marginTop{
+            top: 1.2rem;
+            z-index: 1;
+        }
     }
     .bet-board,.wfkind{
         position: fixed;
@@ -302,9 +328,11 @@ export default {
         z-index: 104;
         height: 80vh;
         background: #ffffff;
-        overflow: auto;
+        // overflow: auto;
     }
     .top-wapper{
+        z-index: 9;
+        background: #ffffff;
         @include border-bottom-1px(solid,#f2f2f2);
         .top-content{
             height: 1.65rem;
@@ -320,22 +348,37 @@ export default {
         height: 1.06rem;
         box-sizing: border-box;
         padding: 0 0.3rem;
-        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        z-index: 9;
+        background: #ffffff;
+        transition: all .3s ease-in-out;
         @include border-bottom-1px(solid,#f2f2f2);
+        position: absolute;
+        width: 100%;
+        top: 1.65rem;
+        &.showAll{
+            height: 5.3rem;
+        }
+        .icon-triangle-below{
+            position: absolute;
+            top: 0;
+            right: .2rem;
+            line-height: 1.06rem;
+            transition: all .3s ease-in-out;
+        }
+        .show{
+            transform: rotate(180deg)
+        }
+        .history_item{
+            line-height: 1.06rem;
+        }
         .lottery-wf{
             float: right;
             font-size: $font-size-medium;
             line-height: 0.8rem;
             color:$color-yellow;
-            @include no-wrap();
-            .icon-triangle-below{
-                position: absolute;
-                right: .2rem;
-                transition: all .3s ease-in-out;
-            }
-            .show{
-                    transform: rotate(180deg)
-                }
+            @include no-wrap();            
             .last-draw-ssc{
                 display: inline-block;
                 width: 0.7rem;
@@ -411,6 +454,7 @@ export default {
     .main-wapper{
         background: #F2F2F2;
         overflow: auto;
+        padding-top: 1.06rem;
         .message-wapper{
             padding: 0.3rem 0;
             .msgType0{
@@ -491,6 +535,62 @@ export default {
                         color: #FFFFFF;
                     }
                 }
+            }
+        }
+    }
+    .followCase{
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        background-color: #fff;
+        width:7rem;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        .title{
+            font-size: .5rem;
+            font-weight: 700;
+            line-height: 1.6rem;
+            text-align: center;
+            color: #000;
+        }
+        .content{
+            padding: 0 .5rem;
+            .clearFloat{
+                line-height: 1.2rem;
+                margin-bottom: .2rem;
+                @include border-bottom-1px(solid,#F2F2F2);
+                &.noborder{
+                    margin: 0;
+                    &:after{
+                        border: none
+                    }
+                }
+                .text{
+                    float: left;
+                }
+                .name{
+                    float: right;
+                }
+                &:before{
+                    content: '';
+                    display: inline-block;
+                    clear: both;
+                }
+            }
+        }
+        
+        .handle{
+            font-size: 0;
+            >div{
+                width: 50%;
+                font-size: .5rem;
+                color: #949494;
+                text-align: center;
+                line-height: 1.4rem;
+                display: inline-block;                
+            }
+            .confirm{
+                background-color: #DA1C36;
+                color: #fff;
             }
         }
     }

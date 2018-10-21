@@ -11,7 +11,7 @@
            </div>
        </div>
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
-            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory">
+            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
                 <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
@@ -141,6 +141,9 @@ export default {
         this.webSocket.close()
     },
      methods:{
+         ...mapMutations({
+                setTip:'SET_TIP',
+            }),
         confirmFollow(){            
             this.isBG_show = false;
             this.cancel();

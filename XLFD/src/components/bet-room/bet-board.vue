@@ -473,6 +473,7 @@ export default {
                     // this.getUser()
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
+                    param.lotteryType=this.lotteryType
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };
@@ -518,13 +519,15 @@ export default {
             .then((res)=> {
                 this.loadingShow=false;
                 if(res.data && !res.data.errorCode){
-                    param.lottery_modes=0//元
-                    param.by_money=2
-                    param.bet_count=1
+                    // param.lottery_modes=0//元
+                    // param.by_money=2
+                    // param.bet_count=1
+                    param.lottery_type=this.lotteryType
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
-                    console.log(param.wfDetail)
+                    
+                    console.log(param)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };

@@ -213,9 +213,11 @@ export default {
             if ('WebSocket' in window) {               
                 this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
                 this.webSocket.onclose =  () =>{
+                    var obj={}
                     obj.class="msgType0"
                     obj.msgType="0"
                     obj.neirong="已经断开连接！"
+                    this.socketList=[obj]
                 }
             }
             else {
@@ -228,6 +230,7 @@ export default {
             this.webSocket.onmessage = event=> {
                 console.log("收到服务器消息了")
                 var resData=JSON.parse(event.data)
+                console.log(resData)
                 var obj={}
                 obj.msgType=resData.msgType
                 obj.class="msgType"+resData.msgType                
@@ -277,24 +280,10 @@ export default {
                 this.setTip(`${followInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.lottery_qh}期继续跟单`);
             }
             if(!this.is28OrLhc){
-                var param={
-                    bet_count: followInfo.bet_count,
-                    bet_number:followInfo.bet_number,
-                    by_money:followInfo.by_money,
-                    lottery_id:followInfo.lottery_id,
-                    lottery_modes:followInfo.lottery_modes,
-                    lottery_qh:followInfo.lottery_qh,
-                    wf_flag:followInfo.wf_flag
-                }
+                let param=this.followInfo
                 this.$axios.postRequest(httpUrl.bet.betOrder,param)
                 .then((res)=> {
-                    //this.hide('loadingShow');
                     if(res.data && !res.data.errorCode){
-                        // this.allClear();
-                        // this.getUser()
-                        //this.hide('betAffirmShow');
-                        //this.show('betSuccessShow');
-                        // alert("跟单成功")
                         this.setTip('跟单成功')
                         this.sendSocketMsg(param)                    
                     };
@@ -304,7 +293,17 @@ export default {
                 });
             }
             else{
-                alert("功能开发中。。。")
+                let param=this.followInfo
+                this.$axios.postRequest(httpUrl.bet.betLHC28,param)
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.setTip('跟单成功')
+                         this.sendSocketMsg(param)  
+                    };
+                })
+                .catch((err) => {
+                    this.loadingShow=false;
+                });
             }
         },
         showBet(){

@@ -1,5 +1,5 @@
 <template>
-    <parcel>
+    <BotToTop>
         <div class="kind-content">
             <div class="kind-title-content">
                 <div class="back" @click="close"><i class="icon-arrows-left"></i></div>
@@ -28,13 +28,13 @@
                 </div>         
             </scroll>  
         </div>
-    </parcel>
+    </BotToTop>
 </template>
 
 <script type="text/ecmascript-6">
   import {mapMutations} from 'vuex';
   import Scroll from 'base/scroll/scroll';
-  import Parcel from 'base/parcel/parcel';
+  import BotToTop from 'base/bot-to-top/bot-to-top';
   import showCode from 'common/js/showKjCodeByType'
 
   export default {
@@ -56,7 +56,7 @@
     },
     components:{
         Scroll,
-        Parcel
+        BotToTop
     },
     created(){      
         if(this.$route.query.type == '9'){

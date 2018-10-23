@@ -1,5 +1,5 @@
 <template>
-    <parcel>
+    <BotToTop>
         <div class="wapper">
             <div class="top-wapper">
                 <div class="lottery-title-content">
@@ -58,10 +58,10 @@
                 </div>
             </div>       
     </div>
-    </parcel>
+    </BotToTop>
 </template>
 <script>
-import Parcel from 'base/parcel/parcel';
+import BotToTop from 'base/bot-to-top/bot-to-top';
 import BetNumber from 'base/bet-number/bet-number-room';
 import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
 import {httpUrl,betUnit} from 'common/js/map';
@@ -113,7 +113,7 @@ export default {
     components:{
         BetNumber,
         WfKind,
-        Parcel
+        BotToTop
     },
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
@@ -477,6 +477,7 @@ export default {
                     param.lotteryType=this.lotteryType
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
+                    this.setTip('投注成功')
                 };
             })
             .catch((err) => {

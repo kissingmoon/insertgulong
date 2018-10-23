@@ -41,14 +41,10 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
     },
     methods: {
         getDiscount(){
-            console.log(1111)
             this.$axios.postRequest(httpUrl.discount.activity,this.activityParam)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    // alert(JSON.stringify(res))
-                    console.log(res)
                     this.activityList=res.data;
-                    // this.activityList[4].turn_url="http://192.168.8.47"
                 }
             });
         },
@@ -73,8 +69,7 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
 </script>
 
 <style lang='scss' scoped>
-.wrap{
-    
+.wrap{    
     .items{
         padding: 1.7rem .3rem 1.44rem;
     }
@@ -87,7 +82,6 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
         .img{
             width: 6rem;
             height: 2.7rem;
-            background-color: yellow;
             img{
                 width: 100%;
                 height: 100%;

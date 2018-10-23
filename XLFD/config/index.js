@@ -12,13 +12,13 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
         '/api': {
-            // target: 'https://www.xlfdapi.com', 
-            target: 'http://www.weinisi01.com', 
+            target: 'https://www.xlfdapi.com', 
+            // target: 'http://www.weinisi01.com', 
             secure: true,
             changeOrigin: true, 
              pathRewrite: {
-              // '^/api': '',
-              '^/api': 'api'
+              '^/api': '',
+              // '^/api': 'api'
              }
           },
           '/test': {

@@ -1,5 +1,5 @@
 <template>
-    <parcel>
+    <BotToTop>
         <div class="wapper">
             <div class="top-wapper">
                 <div class="lottery-title-content">
@@ -39,10 +39,10 @@
                 <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
             </div>        
     </div>
-    </parcel>
+    </BotToTop>
 </template>
 <script>
-import Parcel from 'base/parcel/parcel';
+import BotToTop from 'base/bot-to-top/bot-to-top';
 import BetNumber from 'base/bet-number/bet-number-room';
 import {getBetNumberByBetGroupList} from 'common/js/BetNumber.js';
 import {httpUrl,betUnit} from 'common/js/map';
@@ -50,6 +50,7 @@ import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import {BaseVM} from 'common/js/BuyCM';
 import WfKind from 'components/lottery/wf-kind-room';
 import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
+import { mapGetters, mapMutations } from 'vuex';
 
 export default {
     data(){
@@ -90,7 +91,7 @@ export default {
     components:{
         BetNumber,
         WfKind,
-        Parcel
+        BotToTop
     },
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
@@ -105,7 +106,10 @@ export default {
             this.calculateBetMoney()
         }
     },
-    methods:{
+    methods:{        
+        ...mapMutations({
+            setTip:'SET_TIP',
+        }),
         //确认离开
         closeBoard(){
             // if(this.is28OrLhc && this.updataNumberList.length > 0){
@@ -299,6 +303,7 @@ export default {
                     //this.show('betSuccessShow');
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
+                    this.setTip('投注成功')
                 };
             })
             .catch((err) => {

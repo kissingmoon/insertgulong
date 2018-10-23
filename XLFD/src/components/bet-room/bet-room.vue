@@ -11,7 +11,7 @@
            </div>
        </div>
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
-            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory">
+            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
                 <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
@@ -31,7 +31,7 @@
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
                                 <span>第{{v.neirong.lottery_qh}}期</span>
-                                <span> {{v.neirong.wfDetail.title}} </span>
+                                <span> {{v.neirong.wfDetail.title||v.neirong.wfDetail.name}} </span>
                             </div>
                             <div class="flex flex-1  flex-align-center flex-pack-justify">
                                 <span>{{v.neirong.bet_money}}元</span>
@@ -107,6 +107,7 @@ export default {
             isFollow:false,         //  是否跟投
             socketMsg:{},
             followInfo:{},          //  跟投信息
+            is28OrLhc:false
         }
     },
     components:{
@@ -117,6 +118,7 @@ export default {
         this.lotteryId=this.$route.query.id;
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
+        this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
@@ -141,6 +143,9 @@ export default {
         this.webSocket.close()
     },
      methods:{
+         ...mapMutations({
+                setTip:'SET_TIP',
+            }),
         confirmFollow(){            
             this.isBG_show = false;
             this.cancel();
@@ -207,6 +212,13 @@ export default {
         openWebsocket(){
             if ('WebSocket' in window) {               
                 this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+                this.webSocket.onclose =  () =>{
+                    var obj={}
+                    obj.class="msgType0"
+                    obj.msgType="0"
+                    obj.neirong="已经断开连接！"
+                    this.socketList=[obj]
+                }
             }
             else {
                 alert('当前浏览器 Not support websocket')
@@ -217,19 +229,21 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 console.log("收到服务器消息了")
-                // this.socketMessage=event.data;
                 var resData=JSON.parse(event.data)
-                console.log(event.data)
-                console.log(JSON.parse(event.data))
+                console.log(resData)
                 var obj={}
                 obj.msgType=resData.msgType
                 obj.class="msgType"+resData.msgType                
                 if(resData.msgType=='2'){
                     obj.neirong=JSON.parse(resData.message)
+                    if(obj.neirong.wfDetail){
+                        obj.neirong.wfDetail=JSON.parse(obj.neirong.wfDetail)
+                    }
                     const lottery=obj.neirong.wf_flag.split('_')[0];
                     obj.isSelf=false;
-                    obj.neirong.wfDetail=LotteryWfDetail[lottery].wf_class[obj.neirong.wf_flag];
-                    console.log(this.user_token)
+                    if(!this.is28OrLhc&&!obj.neirong.wfDetail){
+                        obj.neirong.wfDetail=LotteryWfDetail[lottery].wf_class[obj.neirong.wf_flag];
+                    }
                     if(obj.neirong.user_token==this.user_token){
                         obj.class="msgType"+resData.msgType+"-self"
                         obj.isSelf=true;
@@ -245,8 +259,6 @@ export default {
         },
         sendSocketMsg(message){
             console.log("出发了")
-            // this.webSocket.send("如果你能收到我的消息");
-            // this.webSocket.send(message);
             message.user_token=this.user_token
             console.log(JSON.stringify(message)) 
             this.webSocket.send(JSON.stringify(message));  
@@ -267,31 +279,32 @@ export default {
             if(followInfo.lottery_qh!=this.lotteryInfo.lottery_qh){
                 this.setTip(`${followInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.lottery_qh}期继续跟单`);
             }
-            var param={
-                bet_count: followInfo.bet_count,
-                bet_number:followInfo.bet_number,
-                by_money:followInfo.by_money,
-                lottery_id:followInfo.lottery_id,
-                lottery_modes:followInfo.lottery_modes,
-                lottery_qh:followInfo.lottery_qh,
-                wf_flag:followInfo.wf_flag
+            if(!this.is28OrLhc){
+                let param=this.followInfo
+                this.$axios.postRequest(httpUrl.bet.betOrder,param)
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.setTip('跟单成功')
+                        this.sendSocketMsg(param)                    
+                    };
+                })
+                .catch((err) => {
+                    this.hide('loadingShow');
+                });
             }
-            this.$axios.postRequest(httpUrl.bet.betOrder,param)
-            .then((res)=> {
-                //this.hide('loadingShow');
-                if(res.data && !res.data.errorCode){
-                    // this.allClear();
-                    // this.getUser()
-                    //this.hide('betAffirmShow');
-                    //this.show('betSuccessShow');
-                    // alert("跟单成功")
-                    this.setTip('跟单成功')
-                    this.sendSocketMsg(param)                    
-                };
-            })
-            .catch((err) => {
-                this.hide('loadingShow');
-            });
+            else{
+                let param=this.followInfo
+                this.$axios.postRequest(httpUrl.bet.betLHC28,param)
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.setTip('跟单成功')
+                         this.sendSocketMsg(param)  
+                    };
+                })
+                .catch((err) => {
+                    this.loadingShow=false;
+                });
+            }
         },
         showBet(){
             this.betKeyboard=true;

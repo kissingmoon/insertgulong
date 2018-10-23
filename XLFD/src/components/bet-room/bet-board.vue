@@ -31,13 +31,32 @@
                 </div>
                 <div class="handle">
                     <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
-                    <button class="btn" type="button" v-on:click="betOrder">确认投注</button>
+                    <button v-if="!is28OrLhc" class="btn" type="button" v-on:click="betExamine">确认投注</button>
+                    <button v-if="is28OrLhc" class="btn" type="button" v-on:click="makeBetOrder">确认投注</button>
                 </div>
             </div>
             <!-- 玩法 -->
             <div class="wf" v-if="wfKindShow">
                 <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
-            </div>        
+            </div> 
+            <!-- 金额不足提示 -->
+            <div v-if="moneyLackShow">
+                <div class="background" @click="hide('moneyLackShow')"></div>
+                <div class="bet-success-detail">
+                    <div class="bet-success-wrapper clearfix">
+                        <div class="detail-title">投注失败</div>
+                        <div class="bet-success-main">
+                            <div class="success-tip">
+                                余额不足，把握机会！
+                            </div>
+                            <div class="btn-wrapper">
+                                <button class="cancel" @click="hide('moneyLackShow')">取消</button>
+                                <button class="affirm"  @click="gotoPage('/pay')">立即充值</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>       
     </div>
     </BotToTop>
 </template>
@@ -50,7 +69,7 @@ import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import {BaseVM} from 'common/js/BuyCM';
 import WfKind from 'components/lottery/wf-kind-room';
 import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
-import { mapGetters, mapMutations } from 'vuex';
+import {mapMutations,mapActions,mapGetters} from 'vuex';
 
 export default {
     data(){
@@ -76,7 +95,10 @@ export default {
             betTimes:2,
             totalMoney:"",
             betNumber:"",
-            is28OrLhc:false
+            is28OrLhc:false,
+            moneyLackShow:false,
+            updataNumberList:[],
+            selectObj:{}
         }
     },
     props: {
@@ -103,13 +125,23 @@ export default {
             if(!regex.test(newVal)) {
                 this.betTimes = oldVal ;
             }
+            if(this.is28OrLhc){
+                // this.selectObj.bet_money=this.betTimes
+            }
             this.calculateBetMoney()
         }
     },
-    methods:{        
+    computed:{
+        ...mapGetters([
+            'user_token',
+            'account',
+            'xglhc_color'
+        ])
+    },
+    methods:{
         ...mapMutations({
-            setTip:'SET_TIP',
-        }),
+                setTip:'SET_TIP',
+            }),
         //确认离开
         closeBoard(){
             // if(this.is28OrLhc && this.updataNumberList.length > 0){
@@ -225,6 +257,119 @@ export default {
             this.setTotal();
             this.watchInit();
         },
+         //六和28投注号码生成
+            makeBetOrder(){
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                    return;
+                }
+                const keyLength=Object.keys(this.selectObj).length;
+                const plLength=this.currentWf.wf_pl.length;
+                let isTrueNumber=true;
+                if(this.updataNumberList.length>=0){
+                    // 号码判断
+                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                        if (keyLength < 2) {
+                            this.setTip("最少选择2个号码");
+                        } else {
+                            this.setTip("最多选择11个号码");
+                        }
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                            || this.wfFlag=="xglhc_lxlw_2lw")
+                            && keyLength != 2) {
+                        this.setTip("请选择2个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                            || this.wfFlag=="xy28_tmb3_b3")
+                            && keyLength != 3) {
+                        this.setTip("请选择3个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                            || this.wfFlag=="xglhc_lxlw_4lw")
+                            && keyLength != 4) {
+                        this.setTip("请选择4个号码");
+                        return;
+                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                        this.setTip("请选择5个号码");
+                        return;
+                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                        if (keyLength < 6) {
+                            this.setTip("最少选择6个号码");
+                        } else {
+                            this.setTip(`最多选择${5+plLength}个号码`);
+                        }
+                        return;
+                    }else if(keyLength == 0){
+                        this.setTip("请选择一组号码");
+                        return;
+                    }
+                }else{
+                    // 号码判断
+                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                            || this.wfFlag=="xglhc_lxlw_2lw")
+                            && keyLength != 2) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                            || this.wfFlag=="xy28_tmb3_b3")
+                            && keyLength != 3) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                            || this.wfFlag=="xglhc_lxlw_4lw")
+                            && keyLength != 4) {
+                        isTrueNumber=false;
+                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                        isTrueNumber=false;
+                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                        isTrueNumber=false;
+                    }else if(keyLength == 0){
+                        isTrueNumber=false;
+                    }
+                }
+                if(isTrueNumber){
+                    this.setTotal(keyLength-2)
+                    switch(this.wfFlag){                        
+                        case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
+                        case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
+                        case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
+                        case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
+                            const obj={
+                                wf_flag:this.currentWf.wf_flag,
+                                wf_name:this.currentWf.name,
+                                bet_money:'',
+                                number_str:'',
+                                pl_flag:''
+                            }
+                            const arr = [];
+                            for ( var key in this.selectObj){
+                                this.selectObj[key].bet_money=this.betTimes;
+                                obj.pl_flag=this.totalPlFlag;
+                                arr.push(this.selectObj[key].number_str);
+                            };
+                            obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
+                            obj.pl=this.totalOdds;
+                            this.updataNumberList.push(obj);
+                            break;
+                        default:
+                            for ( var key in this.selectObj){
+                                this.selectObj[key].bet_money=this.betTimes;
+                                this.updataNumberList.push(this.selectObj[key]);
+                            };
+                            break;
+                    };
+                    this.bet()
+                }
+                // this.show('betOrderListShow');
+                // this.allClear();
+            },
         //设置组合赔率
         setTotal(index){//  totalOdds
             switch(this.wfFlag){
@@ -279,8 +424,35 @@ export default {
                     break;
             }
         },
+        // 判断余额是否足够
+        judgeLackMoney(){
+            if(parseFloat(this.totalMoney) > parseFloat(this.account.balance)){
+                this.show('moneyLackShow');
+                return false;
+            }else{
+                return true;
+            }
+        },
+        betExamine(){
+            if(!this.user_token){
+                this.$router.push({
+                    path:'/login'
+                });
+                return;
+            }
+            if(this.betCount > 0){
+                const judge = this.judgeLackMoney();
+                if(judge){
+                    this.betOrder()
+                }else{
+                    this.setTip("金额不足~")
+                }
+            }else{
+                this.setTip("请选择一组号码")
+            }
+        },
         //投注
-        betOrder(){            
+        betOrder(){           
             const param={
                 // lottery_id:this.lotteryId,
                 lottery_id:this.lotteryInfo.lottery_id,
@@ -301,6 +473,7 @@ export default {
                     // this.getUser()
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
+                    param.lotteryType=this.lotteryType
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                     this.setTip('投注成功')
@@ -308,6 +481,60 @@ export default {
             })
             .catch((err) => {
                 this.hide('loadingShow');
+            });
+        },
+        //六和28投注
+        bet(){
+            for(let item of this.updataNumberList){
+                if(!item.bet_money){
+                    this.setTip('请输入投注金额！')
+                    return;
+                }
+            }
+            var bet_number='';
+            var count_money='';
+            var wf_flag='';
+            var pl_flag='';
+            this.updataNumberList.forEach((item,i) => {
+                bet_number += item.number_str;
+                count_money += item.bet_money;
+                wf_flag += item.wf_flag;
+                pl_flag += item.pl_flag;
+                if(i != this.updataNumberList.length-1){
+                    bet_number +=  "#";
+                    count_money +=  "#";
+                    wf_flag +=  "#";
+                    pl_flag +=  "#";
+                }
+            });
+            var param={
+                lottery_id:this.lotteryInfo.lottery_id,
+                lottery_qh:this.lotteryInfo.lottery_qh,
+                bet_number,
+                count_money,
+                wf_flag,
+                pl_flag
+            };
+            this.loadingShow=true;
+            this.$axios.postRequest(httpUrl.bet.betLHC28,param)
+            .then((res)=> {
+                this.loadingShow=false;
+                if(res.data && !res.data.errorCode){
+                    // param.lottery_modes=0//元
+                    // param.by_money=2
+                    // param.bet_count=1
+                    param.lottery_type=this.lotteryType
+                    param.wfDetail={}
+                    param.wfDetail.title=this.currentWf.name
+                    param.wfDetail.wf_flag=this.currentWf.wf_flag
+                    
+                    console.log(param)
+                    this.$emit('sendSocketMsg',param)
+                    this.closeBoard()
+                };
+            })
+            .catch((err) => {
+                this.loadingShow=false;
             });
         },
         recount(){
@@ -387,6 +614,7 @@ export default {
 <style lang="scss" scoped>
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
+
 .wapper{
     display: flex;
     overflow: hidden;

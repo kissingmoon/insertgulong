@@ -57,7 +57,7 @@
                     </div>
                 </div>
             </div>       
-    </div>
+        </div>
     </BotToTop>
 </template>
 <script>
@@ -87,6 +87,7 @@ export default {
                     '11':'xy28_qthh_hh'
             },
             wfList:[],
+            zodiac:[],
             currentWf:'',
             wfDetail:"",
             wfFlag:'',
@@ -118,6 +119,7 @@ export default {
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.getBetWF();
+        this.getZodiac();
     },
     watch:{
         betTimes(newVal,oldVal){
@@ -164,7 +166,6 @@ export default {
             this.betCount = 0;
             this.currentWf=this.wfList[i].wf[s];
             this.wfFlag=this.wfList[i].wf[s].wf_flag;
-            // console.log(this.wfFlag)
             // this.$emit('getWFflag',this.wfFlag)
             this.makeWfParam();
             this.hide('wfKindShow');
@@ -183,7 +184,6 @@ export default {
                     this.selectObj[num]=this.numberList[0].buyNumberBeanList[i];
                 }
             }
-            console.log(this.selectNumList)
             this.changeTotal();
         },
         //选择位置
@@ -257,119 +257,128 @@ export default {
             this.setTotal();
             this.watchInit();
         },
+        //获取12生肖
+        getZodiac(){
+            this.$axios.postRequest(httpUrl.bet.zodiac)
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    this.zodiac=res.data;
+                };
+            });
+        },
          //六和28投注号码生成
-            makeBetOrder(){
-                if(!this.user_token){
-                    this.$router.push({
-                        path:'/login'
-                    });
+        makeBetOrder(){
+            if(!this.user_token){
+                this.$router.push({
+                    path:'/login'
+                });
+                return;
+            }
+            const keyLength=Object.keys(this.selectObj).length;
+            const plLength=this.currentWf.wf_pl.length;
+            let isTrueNumber=true;
+            if(this.updataNumberList.length>=0){
+                // 号码判断
+                if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                    if (keyLength < 2) {
+                        this.setTip("最少选择2个号码");
+                    } else {
+                        this.setTip("最多选择11个号码");
+                    }
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                        || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                        || this.wfFlag=="xglhc_lxlw_2lw")
+                        && keyLength != 2) {
+                    this.setTip("请选择2个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                        || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                        || this.wfFlag=="xy28_tmb3_b3")
+                        && keyLength != 3) {
+                    this.setTip("请选择3个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                        || this.wfFlag=="xglhc_lxlw_4lw")
+                        && keyLength != 4) {
+                    this.setTip("请选择4个号码");
+                    return;
+                } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                    this.setTip("请选择5个号码");
+                    return;
+                } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                    if (keyLength < 6) {
+                        this.setTip("最少选择6个号码");
+                    } else {
+                        this.setTip(`最多选择${5+plLength}个号码`);
+                    }
+                    return;
+                }else if(keyLength == 0){
+                    this.setTip("请选择一组号码");
                     return;
                 }
-                const keyLength=Object.keys(this.selectObj).length;
-                const plLength=this.currentWf.wf_pl.length;
-                let isTrueNumber=true;
-                if(this.updataNumberList.length>=0){
-                    // 号码判断
-                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
-                        if (keyLength < 2) {
-                            this.setTip("最少选择2个号码");
-                        } else {
-                            this.setTip("最多选择11个号码");
-                        }
-                        return;
-                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
-                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
-                            || this.wfFlag=="xglhc_lxlw_2lw")
-                            && keyLength != 2) {
-                        this.setTip("请选择2个号码");
-                        return;
-                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
-                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
-                            || this.wfFlag=="xy28_tmb3_b3")
-                            && keyLength != 3) {
-                        this.setTip("请选择3个号码");
-                        return;
-                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
-                            || this.wfFlag=="xglhc_lxlw_4lw")
-                            && keyLength != 4) {
-                        this.setTip("请选择4个号码");
-                        return;
-                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
-                        this.setTip("请选择5个号码");
-                        return;
-                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
-                        if (keyLength < 6) {
-                            this.setTip("最少选择6个号码");
-                        } else {
-                            this.setTip(`最多选择${5+plLength}个号码`);
-                        }
-                        return;
-                    }else if(keyLength == 0){
-                        this.setTip("请选择一组号码");
-                        return;
-                    }
-                }else{
-                    // 号码判断
-                    if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
-                        isTrueNumber=false;
-                    } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
-                            || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
-                            || this.wfFlag=="xglhc_lxlw_2lw")
-                            && keyLength != 2) {
-                        isTrueNumber=false;
-                    } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
-                            || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
-                            || this.wfFlag=="xy28_tmb3_b3")
-                            && keyLength != 3) {
-                        isTrueNumber=false;
-                    } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
-                            || this.wfFlag=="xglhc_lxlw_4lw")
-                            && keyLength != 4) {
-                        isTrueNumber=false;
-                    } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
-                        isTrueNumber=false;
-                    } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
-                        isTrueNumber=false;
-                    }else if(keyLength == 0){
-                        isTrueNumber=false;
-                    }
+            }else{
+                // 号码判断
+                if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
+                    isTrueNumber=false;
+                } else if ((this.wfFlag=="xglhc_lm_2qz" || this.wfFlag=="xglhc_lm_2zt"
+                        || this.wfFlag=="xglhc_lm_tc" || this.wfFlag=="xglhc_lxlw_2lx"
+                        || this.wfFlag=="xglhc_lxlw_2lw")
+                        && keyLength != 2) {
+                    isTrueNumber=false;
+                } else if ((this.wfFlag=="xglhc_lm_3z2" || this.wfFlag=="xglhc_lm_3qz"
+                        || this.wfFlag=="xglhc_lxlw_3lx" || this.wfFlag=="xglhc_lxlw_3lw"
+                        || this.wfFlag=="xy28_tmb3_b3")
+                        && keyLength != 3) {
+                    isTrueNumber=false;
+                } else if ((this.wfFlag=="xglhc_lm_4qz" || this.wfFlag=="xglhc_lxlw_4lx"
+                        || this.wfFlag=="xglhc_lxlw_4lw")
+                        && keyLength != 4) {
+                    isTrueNumber=false;
+                } else if ((this.wfFlag=="xglhc_lxlw_5lx" || this.wfFlag=="xglhc_lxlw_5lw") && keyLength != 5) {
+                    isTrueNumber=false;
+                } else if (this.wfFlag=="xglhc_zxbz_zxbz" &&  (keyLength < 6 || keyLength > (5+plLength))) {
+                    isTrueNumber=false;
+                }else if(keyLength == 0){
+                    isTrueNumber=false;
                 }
-                if(isTrueNumber){
-                    this.setTotal(keyLength-2)
-                    switch(this.wfFlag){                        
-                        case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
-                        case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
-                        case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
-                        case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
-                            const obj={
-                                wf_flag:this.currentWf.wf_flag,
-                                wf_name:this.currentWf.name,
-                                bet_money:'',
-                                number_str:'',
-                                pl_flag:''
-                            }
-                            const arr = [];
-                            for ( var key in this.selectObj){
-                                this.selectObj[key].bet_money=this.betTimes;
-                                obj.pl_flag=this.totalPlFlag;
-                                arr.push(this.selectObj[key].number_str);
-                            };
-                            obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
-                            obj.pl=this.totalOdds;
-                            this.updataNumberList.push(obj);
-                            break;
-                        default:
-                            for ( var key in this.selectObj){
-                                this.selectObj[key].bet_money=this.betTimes;
-                                this.updataNumberList.push(this.selectObj[key]);
-                            };
-                            break;
-                    };
-                    this.bet()
-                }
-                // this.show('betOrderListShow');
-                // this.allClear();
-            },
+            }
+            if(isTrueNumber){
+                this.setTotal(keyLength-2)
+                switch(this.wfFlag){                        
+                    case "xglhc_lm_3z2":case "xglhc_lm_2zt":case "xglhc_lm_3qz":case "xglhc_lm_2qz":
+                    case "xglhc_lm_tc":case "xglhc_lm_4qz":case "xglhc_zxbz_zxbz":case "xglhc_hexiao_hx":case "xy28_tmb3_b3":
+                    case "xglhc_lxlw_2lx":case "xglhc_lxlw_3lx":case "xglhc_lxlw_4lx":case "xglhc_lxlw_5lx":
+                    case "xglhc_lxlw_2lw":case "xglhc_lxlw_3lw":case "xglhc_lxlw_4lw":case "xglhc_lxlw_5lw":
+                        const obj={
+                            wf_flag:this.currentWf.wf_flag,
+                            wf_name:this.currentWf.name,
+                            bet_money:'',
+                            number_str:'',
+                            pl_flag:''
+                        }
+                        const arr = [];
+                        for ( var key in this.selectObj){
+                            this.selectObj[key].bet_money=this.betTimes;
+                            obj.pl_flag=this.totalPlFlag;
+                            arr.push(this.selectObj[key].number_str);
+                        };
+                        obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
+                        obj.pl=this.totalOdds;
+                        this.updataNumberList.push(obj);
+                        break;
+                    default:
+                        for ( var key in this.selectObj){
+                            this.selectObj[key].bet_money=this.betTimes;
+                            this.updataNumberList.push(this.selectObj[key]);
+                        };
+                        break;
+                };
+                this.bet()
+            }
+            // this.show('betOrderListShow');
+            // this.allClear();
+        },
         //设置组合赔率
         setTotal(index){//  totalOdds
             switch(this.wfFlag){
@@ -398,7 +407,7 @@ export default {
                     this.totalPlFlag='';
                 break;
             };
-        },
+        },        
         //修改组合赔率
         changeTotal(){
             switch(this.wfFlag){

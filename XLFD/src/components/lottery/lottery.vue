@@ -801,8 +801,7 @@
             changeWf(i,s){
                 this.betCount = 0;
                 this.currentWf=this.wfList[i].wf[s];
-                this.wfFlag=this.wfList[i].wf[s].wf_flag;
-                // console.log(this.wfFlag)
+                this.wfFlag=this.wfList[i].wf[s].wf_flag;                
                 // this.$emit('getWFflag',this.wfFlag)
                 this.makeWfParam();
                 this.hide('wfKindShow');

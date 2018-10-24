@@ -294,7 +294,6 @@ let vm = null;
                                 tempList[k].click=false;
                             })                                          
                             this.trueRecomandList=tempList.concat() 
-                            // console.log(this.trueRecomandList)
                             this.mapPost(httpUrl.bet.lockTime,this.recomandList.length,parmList)
                             //this.intervlPost(httpUrl.bet.lockTime,this.recomandList.length,parmList,this.returnSubList,this.makeTrueList)
                         });

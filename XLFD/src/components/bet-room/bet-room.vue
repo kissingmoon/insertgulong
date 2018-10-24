@@ -41,7 +41,7 @@
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
                                 <span>第{{v.neirong.lottery_qh}}期</span>
-                                <span> {{v.neirong.wfDetail.title||v.neirong.wfDetail.name}} </span>
+                                <span> {{v.neirong.wfDetail.title || v.neirong.wfDetail.name}} </span>
                             </div>
                             <div class="flex flex-1  flex-align-center flex-pack-justify">
                                 <span>{{v.neirong.bet_money}}元</span>
@@ -57,15 +57,16 @@
             <!-- <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button> -->
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
-       <bet-board v-if="betKeyboard" 
+        <bet-board v-if="betKeyboard" 
                   @showWf="showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
+                  @moneyLackShow='moneyLackShowFun'
                   class="bet-board"
                   :lotteryType="lotteryType"
                   :lotteryInfo="lotteryInfo">
         </bet-board>
-
+        <!-- 跟投弹窗 -->
         <div class="followCase" v-if="isFollow">
             <p class="title">是否跟投？</p>
             <div class="content">
@@ -80,6 +81,24 @@
                 <div class="confirm" @click="confirmFollow">确认</div>
             </div>
         </div>
+        <!-- 金额不足提示 -->
+        <div v-if="moneyLackShow">
+            <!-- <div class="background" @click="hide('moneyLackShow')"></div> -->
+            <div class="bet-success-detail">
+                <div class="bet-success-wrapper clearfix">
+                    <div class="detail-title">投注失败</div>
+                    <div class="bet-success-main">
+                        <div class="success-tip">
+                            余额不足，把握机会！
+                        </div>
+                        <div class="btn-wrapper">
+                            <button class="cancel" @click="cancel()">取消</button>
+                            <button class="affirm"  @click="gotoPage('/pay')">立即充值</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
         <!-- betKeyboard ||  -->
         <div class="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
    </div>
@@ -117,7 +136,8 @@ export default {
             isFollow:false,         //  是否跟投
             socketMsg:{},
             followInfo:{},          //  跟投信息
-            is28OrLhc:false
+            is28OrLhc:false,
+            moneyLackShow:false,
         }
     },
     components:{
@@ -134,6 +154,7 @@ export default {
         if(this.user_token){
             this.openWebsocket()
             this.getLockTime()
+            this.getUser()
         }
         else{
             this.$router.push({
@@ -153,9 +174,16 @@ export default {
         this.webSocket.close()
     },
      methods:{
+         ...mapActions([
+            'getUser'
+        ]),
          ...mapMutations({
-                setTip:'SET_TIP',
-            }),
+            setTip:'SET_TIP',
+        }),
+        moneyLackShowFun(status){
+            this.moneyLackShow = status;
+            this.betKeyboard = false;
+        },
         confirmFollow(){            
             this.isBG_show = false;
             this.cancel();
@@ -164,12 +192,19 @@ export default {
         cancel(){
             this.isBG_show= false;
             this.isFollow = false;
+            this.moneyLackShow = false;
         },
         showHistory(){
             this.isHistoryShow = !this.isHistoryShow;
         },   
         showWf(wf){
             this[wf] = true;
+        },
+        //页面跳转
+        gotoPage(url){
+            this.$router.push({
+                path:url
+            });
         },
         //获取玩法封单时间
         getLockTime(){
@@ -667,6 +702,77 @@ export default {
             .confirm{
                 background-color: #DA1C36;
                 color: #fff;
+            }
+        }
+    }
+    .bet-success-detail{
+        position:fixed;
+        top:calc((100% - 5.6rem) / 2);
+        left:1.2rem;
+        z-index:320;
+        width:7.6rem;
+        height:5.6rem;
+        overflow: hidden;
+        background: #F4EBE6;
+        background-size: 0.6rem;
+        border-radius: 0.2rem;
+        border:1px solid #7B6503;
+        .detail-title{
+            height:1.2rem;
+            background: #474643;
+            background-repeat: no-repeat;
+            background-size: 100%;
+            background-position: center bottom;
+            border-top-left-radius: 0.2rem;
+            border-top-right-radius: 0.2rem;
+            color:#fff;
+            line-height: 1.2rem;
+            text-align: center;
+            font-size: $font-size-large;
+        }
+        .bet-success-wrapper{
+            min-height:100%;
+            .bet-success-main{
+                overflow:hidden;
+                height:auto;
+                .success-tip{
+                    height:2.6rem;
+                    line-height: 2.6rem;
+                    text-align: center;
+                    font-size: $font-size-medium-x;
+                    color: #403F3D;
+                }                
+                .btn-wrapper{
+                    height: 0.8rem;
+                    padding-top: 0.2rem;
+                    text-align: center;
+                    width:100%;
+                    .cancel{
+                        height:0.8rem;
+                        width:2.5rem;
+                        line-height: 0.8rem;
+                        text-align: center;
+                        background:#38BB80;
+                        color: #fff;
+                        font-size: $font-size-medium-x;
+                        border-radius: 0.1rem;
+                        border:0;
+                        padding:0;
+                        margin-right: 0.8rem;
+                    }
+                    .affirm{
+                        height:0.8rem;
+                        width:2.5rem;
+                        line-height: 0.8rem;
+                        text-align: center;
+                        background:$color-yellow;
+                        color: #fff;
+                        font-size: $font-size-medium-x;
+                        border-radius: 0.1rem;
+                        border:0;
+                        padding:0;
+                    }
+                }
             }
         }
     }

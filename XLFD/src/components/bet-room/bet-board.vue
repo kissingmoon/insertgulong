@@ -39,24 +39,6 @@
             <div class="wf" v-if="wfKindShow">
                 <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
             </div> 
-            <!-- 金额不足提示 -->
-            <div v-if="moneyLackShow">
-                <div class="background" @click="hide('moneyLackShow')"></div>
-                <div class="bet-success-detail">
-                    <div class="bet-success-wrapper clearfix">
-                        <div class="detail-title">投注失败</div>
-                        <div class="bet-success-main">
-                            <div class="success-tip">
-                                余额不足，把握机会！
-                            </div>
-                            <div class="btn-wrapper">
-                                <button class="cancel" @click="hide('moneyLackShow')">取消</button>
-                                <button class="affirm"  @click="gotoPage('/pay')">立即充值</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>       
         </div>
     </BotToTop>
 </template>
@@ -454,7 +436,8 @@ export default {
                 if(judge){
                     this.betOrder()
                 }else{
-                    this.setTip("金额不足~")
+                    this.$emit('moneyLackShow',true)
+                    // this.setTip("金额不足~")
                 }
             }else{
                 this.setTip("请选择一组号码")
@@ -782,6 +765,6 @@ export default {
         bottom: 0rem;
         z-index: 503;
         background-color: #fff;
-    }
+    }    
 }
 </style>

@@ -22,7 +22,6 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
     let isShowSign = false;                  // 是否显示最左侧的名字
     let isCanBottomFastPick = false;        // 是否可以快速选择，即下方的全、大、小、双、单、清按钮是否可见
     let backgroundType = TYPE_CIRCLE;  //定义号码背景形状，1 = 圆形 ， 2 方形，3 = 长园形
-    
     switch (wfBean.wf_flag) {
         case "ssc_lhd":
             buyNumberBeanList = position == 0 ? BuyUtil.initDataStr(str0) : BuyUtil.initDataStr(str1);

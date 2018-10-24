@@ -58,15 +58,11 @@
         Scroll,
         BotToTop
     },
-    created(){      
+    created(){    
+
         if(this.$route.query.type == '9'){
             this.makeData(this.data);
         }
-    },
-    mounted() {
-        setTimeout(() => {
-            // this.$refs.scroll.refresh();
-        }, 20)
     },
     activated() {
     },

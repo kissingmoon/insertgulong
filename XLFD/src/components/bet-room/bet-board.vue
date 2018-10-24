@@ -482,6 +482,7 @@ export default {
                     // this.getUser()
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
+                    this.setTip('投注成功！')
                     param.lotteryType=this.lotteryType
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
@@ -536,6 +537,7 @@ export default {
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
+                    this.setTip('投注成功！')
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };

@@ -21,13 +21,23 @@
         </div>
        <div class="flex-1 main-wapper" ref='mainWrap'>
            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
-               <div v-if="v.msgType!='2'" :class="v.class">{{v.neirong}}</div>
+               <div v-if="v.msgType=='0'" :class="v.class">{{v.neirong}}</div>
+               <div v-if="v.msgType=='1'" :class="v.class" class="flex flex-center flex-v">
+                   <div v-if="v.neirong.inRoomTime" class="u-intime">{{v.neirong.inRoomTime}}</div>
+                   <div v-if="v.neirong.userId" class="u-name">欢迎<span style="color:#CD9E62">{{v.neirong.userId}}</span>进入房间</div>
+                   <div v-if="v.neirong.lottery_qh" class="u-name">
+                       <span style="color:#CD9E62" class="u-intime">{{v.neirong.lottery_qh}}</span>
+                       <span class="u-intime">{{v.neirong.bet_msg}}</span>
+                    </div>
+                </div>
                <div :class="v.class" class="flex flex-1" v-if="v.msgType=='2'">
                    <div class="user-img">
                        <img :src="v.neirong.image_url" alt="">
                     </div>
                    <div class="user-betMsg" @click="!v.isSelf&&isFollowBet(v.neirong)">
-                       <div class="flex flex-align-center betMsg-title">{{v.neirong.user_id}}</div>
+                       <div class="flex flex-align-center betMsg-title">
+                           {{v.neirong.user_id}}
+                        </div>
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
                                 <span>第{{v.neirong.lottery_qh}}期</span>
@@ -43,8 +53,8 @@
            </div>
        </div>
        <div class="flex flex-align-center footer">
-            <input v-model="textMsg" class="flex-1" style="height:0.87rem;"  type="text">
-            <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button>
+            <input v-model="textMsg" class="flex-1" style="height:0.87rem;"  type="text" readonly v-on:click.stop="showBet">
+            <!-- <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button> -->
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
        <bet-board v-if="betKeyboard" 
@@ -168,6 +178,13 @@ export default {
                 if(res.data && !res.data.errorCode){
                     this.lotteryInfo=res.data;
                     this.setCountTime(res.data.lock_time.replace(/-/g,'/'));
+                    let obj={}
+                    obj.class="msgType1"
+                    obj.msgType="1"
+                    obj.neirong={}
+                    obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
+                    obj.neirong.bet_msg="期,单注一元起,现在开始可以下注"
+                    this.socketList.push(obj)
                 };
             });
         },
@@ -195,7 +212,14 @@ export default {
                 this.getDrawHis();
             }
             if (this.drawCountTime == "00:00:00" && urlHash == "/betroom") {
-                this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
+                // this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
+                let obj={}
+                obj.class="msgType1"
+                obj.msgType="1"
+                obj.neirong={}
+                obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
+                obj.neirong.bet_msg="期已封单,请在下一期期继续投注"
+                this.socketList.push(obj)
                 clearTimeout(this.getLockTimes);
                 this.getLockTimes = setTimeout(() => {
                     this.getLockTime();
@@ -224,7 +248,11 @@ export default {
                 alert('当前浏览器 Not support websocket')
             }
             this.webSocket.onopen =  ()=> {
-                console.log("WebSocket连接成功");
+                var obj={}
+                obj.class="msgType0"
+                obj.msgType="0"
+                obj.neirong="欢迎进入游戏大厅！"
+                this.socketList.push(obj)
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
@@ -248,8 +276,12 @@ export default {
                         obj.class="msgType"+resData.msgType+"-self"
                         obj.isSelf=true;
                     }
-                }else{
-                    obj.neirong=resData.message
+                }else if(resData.msgType=='1'){
+                    obj.neirong=JSON.parse(resData.message)
+                    if(obj.neirong.user_token!=this.user_token){
+                        let len=obj.neirong.userId.length
+                        obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-3,len-1)
+                    }
                 }
                 this.socketList.push(obj)
                 this.$nextTick(()=>{
@@ -278,6 +310,7 @@ export default {
             console.log("followInfo")
             if(followInfo.lottery_qh!=this.lotteryInfo.lottery_qh){
                 this.setTip(`${followInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.lottery_qh}期继续跟单`);
+                return;
             }
             if(!this.is28OrLhc){
                 let param=this.followInfo
@@ -298,7 +331,7 @@ export default {
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.setTip('跟单成功')
-                         this.sendSocketMsg(param)  
+                        this.sendSocketMsg(param)  
                     };
                 })
                 .catch((err) => {
@@ -488,7 +521,7 @@ export default {
         overflow: auto;
         padding-top: 1.06rem;
         .message-wapper{
-            padding: 0.3rem 0;
+            padding: 0.3rem 0 0 0;
             .msgType0{
                 color: #DA1C36;
                 width: 7rem;
@@ -499,12 +532,17 @@ export default {
                 border-radius: 5px;
             }
             .msgType1{
-                padding:0 0.2rem;
-                background: #E2E2E2;
-                height: 1rem;
-                line-height: 1rem;
+                // height: 2rem;
+                line-height: 0.8rem;
                 color: #969696 ;
-                border-radius: 5px;
+                .u-intime{
+                    font-size: $font-size-small;
+                }
+                .u-name{
+                    border-radius: 5px;
+                    background: #E2E2E2;
+                    padding:0 0.2rem;
+                }
             }
             .msgType2{
                 height: 2.2rem;
@@ -635,8 +673,10 @@ export default {
     .footer{
         height: 1.4rem;
         justify-content:space-around;
+        padding: 0 0.3rem;
         input{
             background: #F2F2F2;
+            margin-right: 0.2rem;
         }
         .footer-btn{
             width:2.1rem;

@@ -1183,6 +1183,7 @@
             },
             //组合下注号码和计算注数
             recount(){
+                debugger
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
                     var  funName= this.wfFlag;
@@ -1204,8 +1205,13 @@
                             this.betCount = 0;
                         }
                         
-                    }else if(this.wfFlag == 'xglhc_lxlw_5lw'){
-                        this.betCount=CalcBetCount[funName](this.selectNumList[0]); 
+                    }else if(this.wfFlag == 'xglhc_lxlw_5lw' || this.wfFlag == 'xglhc_lxlw_4lw' || this.wfFlag == 'xglhc_lxlw_3lw' || this.wfFlag == 'xglhc_lxlw_2lw' 
+                             || this.wfFlag == 'xglhc_lxlw_5lx' || this.wfFlag == 'xglhc_lxlw_4lx' || this.wfFlag == 'xglhc_lxlw_3lx' || this.wfFlag == 'xglhc_lxlw_2lx'
+                             || this.wfFlag == 'xglhc_lm_3z2' || this.wfFlag == 'xglhc_lm_3qz' || this.wfFlag == 'xglhc_lm_2qz' || this.wfFlag == 'xglhc_lm_2zt' 
+                             || this.wfFlag == 'xglhc_lm_4qz'                              
+                    ){
+                        // this.betCount=CalcBetCount[funName](this.selectNumList[0]); 
+                        this.betCount = CalcBetCount.getZhuShu(funName,this.selectNumList[0])
                     }
                     else{
                         this.betCount=this.selectNumList[0].length;

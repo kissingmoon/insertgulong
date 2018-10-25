@@ -1089,3 +1089,13 @@ export function xy28_tmb3_b3(value) {
 export function xglhc_lxlw_5lw(value) {
     return value.length>=5?1:0;
 }
+export function xglhc_lm_3z2(value,callee) {
+    console.log(callee)
+    return value.length>=5?1:0;
+}
+// test function
+export function getZhuShu(name,value){
+    let numIndex = name.lastIndexOf('_')+1;
+    let num = name.substr(numIndex,1)
+    return value.length >= num ? 1 : 0;
+}

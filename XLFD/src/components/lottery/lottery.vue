@@ -1183,7 +1183,6 @@
             },
             //组合下注号码和计算注数
             recount(){
-                debugger
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
                     var  funName= this.wfFlag;

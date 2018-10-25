@@ -111,6 +111,7 @@ import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import WfKind from 'components/lottery/wf-kind-room';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
+import WebsocketHeartbeatJs from 'websocket-heartbeat-js';
 
 export default {
     data(){
@@ -269,25 +270,52 @@ export default {
             }
         },
         openWebsocket(){
-            if ('WebSocket' in window) {               
-                this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
-                this.webSocket.onclose =  () =>{
-                    var obj={}
-                    obj.class="msgType0"
-                    obj.msgType="0"
-                    obj.neirong="已经断开连接！"
-                    this.socketList=[obj]
+            if ('WebSocket' in window) {    
+                const options = {
+                    url: `${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`,
+                    pingTimeout: 15000, 
+                    pongTimeout: 10000, 
+                    reconnectTimeout: 4000,
+                    pingMsg: "heartbeat"
                 }
+                this.webSocket = new WebsocketHeartbeatJs(options);        
+                // this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+                // this.webSocket.onclose =  () =>{
+                    // var obj={}
+                    // obj.class="msgType0"
+                    // obj.msgType="0"
+                    // obj.neirong="已经断开连接！"
+                    // this.socketList=[obj]
+                // }
             }
             else {
                 alert('当前浏览器 Not support websocket')
             }
             this.webSocket.onopen =  ()=> {
+                this.socketList=[]
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
                 obj.neirong="欢迎进入游戏大厅！"
                 this.socketList.unshift(obj)
+            }
+            this.webSocket.onclose = () => {
+                var obj={}
+                obj.class="msgType0"
+                obj.msgType="0"
+                obj.neirong="连接失败！"
+                this.socketList=[obj]
+            }
+            this.webSocket.onreconnect = (e) => {
+                    this.socketList=[]
+                    var obj={}
+                    obj.class="msgType0"
+                    obj.msgType="0"
+                    obj.neirong="尝试重新连接中。。。"
+                    setTimeout(()=>{
+                        this.socketList=[obj]
+                    },1000)
+                    
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {

@@ -41,11 +41,11 @@
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
                                 <span>第{{v.neirong.lottery_qh}}期</span>
-                                <span> {{v.neirong.wfDetail.name}} </span>
+                                <span> {{v.neirong.wfDetail.title}} </span>
                             </div>
                             <div class="flex flex-1  flex-align-center flex-pack-justify">
                                 <span>{{v.neirong.bet_money}}元</span>
-                                <span>{{v.neirong.bet_number}}</span>
+                                <span>{{v.neirong.remark}}</span>
                             </div>
                        </div>
                    </div>
@@ -299,9 +299,12 @@ export default {
                 obj.class="msgType"+resData.msgType                
                 if(resData.msgType=='2'){
                     obj.neirong=JSON.parse(resData.message)
+                    obj.neirong.remark=obj.neirong.bet_number
+                    if(obj.neirong.bet_number.length>10){
+                        obj.neirong.remark="多项投注"
+                    }
                     if(obj.neirong.wfDetail){
                         obj.neirong.wfDetail=JSON.parse(obj.neirong.wfDetail)
-                        
                         obj.neirong.wfDetail.name=obj.neirong.wfDetail.title
                     }
                     const lottery=obj.neirong.wf_flag.split('_')[0];

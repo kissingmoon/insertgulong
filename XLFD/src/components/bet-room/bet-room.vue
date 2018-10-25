@@ -41,7 +41,7 @@
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
                                 <span>第{{v.neirong.lottery_qh}}期</span>
-                                <span> {{v.neirong.wfDetail.title||v.neirong.wfDetail.name}} </span>
+                                <span> {{v.neirong.wfDetail.name}} </span>
                             </div>
                             <div class="flex flex-1  flex-align-center flex-pack-justify">
                                 <span>{{v.neirong.bet_money}}元</span>
@@ -252,7 +252,7 @@ export default {
                 obj.class="msgType0"
                 obj.msgType="0"
                 obj.neirong="欢迎进入游戏大厅！"
-                this.socketList.push(obj)
+                this.socketList.unshift(obj)
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
@@ -266,6 +266,8 @@ export default {
                     obj.neirong=JSON.parse(resData.message)
                     if(obj.neirong.wfDetail){
                         obj.neirong.wfDetail=JSON.parse(obj.neirong.wfDetail)
+                        
+                        obj.neirong.wfDetail.name=obj.neirong.wfDetail.title
                     }
                     const lottery=obj.neirong.wf_flag.split('_')[0];
                     obj.isSelf=false;
@@ -275,12 +277,15 @@ export default {
                     if(obj.neirong.user_token==this.user_token){
                         obj.class="msgType"+resData.msgType+"-self"
                         obj.isSelf=true;
+                    }else{
+                        let len=obj.neirong.user_id.length
+                        obj.neirong.user_id=obj.neirong.user_id.substring(0,2)+"***"+obj.neirong.user_id.substring(len-2,len)
                     }
                 }else if(resData.msgType=='1'){
                     obj.neirong=JSON.parse(resData.message)
                     if(obj.neirong.user_token!=this.user_token){
                         let len=obj.neirong.userId.length
-                        obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-3,len-1)
+                        obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-2,len)
                     }
                 }
                 this.socketList.push(obj)
@@ -318,6 +323,7 @@ export default {
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.setTip('跟单成功')
+                        //少了一个lottery_type
                         this.sendSocketMsg(param)                    
                     };
                 })

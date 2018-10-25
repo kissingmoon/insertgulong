@@ -29,14 +29,6 @@ module.exports = {
               // '^/test': 'api'
               '^/test': ''
              }
-          },
-          '/jason':{
-            target: 'http://192.168.196.236:8080', 
-            secure: true,
-            changeOrigin: true, 
-             pathRewrite: {
-              '^/jason': ''
-             }
           }
     },
 

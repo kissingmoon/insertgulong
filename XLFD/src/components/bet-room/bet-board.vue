@@ -1,6 +1,7 @@
 <template>
     <BotToTop>
         <div class="wapper">
+            <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
             <div class="top-wapper">
                 <div class="lottery-title-content">
                     <h1 class="title">
@@ -70,7 +71,7 @@ import {BaseVM} from 'common/js/BuyCM';
 import WfKind from 'components/lottery/wf-kind-room';
 import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
-
+import Loading from 'base/loading/loading';
 export default {
     data(){
         return {
@@ -99,7 +100,10 @@ export default {
             is28OrLhc:false,
             moneyLackShow:false,
             updataNumberList:[],
-            selectObj:{}
+            selectObj:{},
+            canclick:true,
+            loadingShow:false,
+            loadingTip:"投注中。。。"
         }
     },
     props: {
@@ -114,7 +118,8 @@ export default {
     components:{
         BetNumber,
         WfKind,
-        BotToTop
+        BotToTop,
+        Loading
     },
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
@@ -363,6 +368,7 @@ export default {
                             obj.pl_flag=this.totalPlFlag;
                             arr.push(this.selectObj[key].number_str);
                         };
+                        obj.bet_money=this.betTimes;
                         obj.number_str= this.wfFlag == "xglhc_hexiao_hx"? arr.sort().join(''):arr.sort().join(',')
                         obj.pl=this.totalOdds;
                         this.updataNumberList.push(obj);
@@ -461,7 +467,13 @@ export default {
             }
         },
         //投注
-        betOrder(){           
+        betOrder(){    
+            console.log(parseInt(this.betTimes))
+            if(parseInt(this.betTimes)<=0){
+                this.setTip('请输入投注金额！')
+                return;
+            }   
+            // this.canclick=false
             const param={
                 // lottery_id:this.lotteryId,
                 lottery_id:this.lotteryInfo.lottery_id,
@@ -473,10 +485,11 @@ export default {
                 // lottery_modes:this.lotteryModes
                 lottery_modes:0
             }
-            //this.show('loadingShow')
+            this.show('loadingShow')
             this.$axios.postRequest(httpUrl.bet.betOrder,param)
             .then((res)=> {
-                //this.hide('loadingShow');
+                // this.canclick=true
+                this.hide('loadingShow');
                 if(res.data && !res.data.errorCode){
                     // this.allClear();
                     // this.getUser()
@@ -501,6 +514,7 @@ export default {
                     return;
                 }
             }
+            //this.canclick=false
             var bet_number='';
             var count_money='';
             var wf_flag='';
@@ -528,6 +542,7 @@ export default {
             this.loadingShow=true;
             this.$axios.postRequest(httpUrl.bet.betLHC28,param)
             .then((res)=> {
+                this.canclick=true
                 this.loadingShow=false;
                 if(res.data && !res.data.errorCode){
                     // param.lottery_modes=0//元
@@ -549,12 +564,18 @@ export default {
         recount(){
             this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
             if(this.is28OrLhc){
+                var  funName= this.wfFlag;
                 if(this.wfFlag=="xy28_tmb3_b3"){
-                    const funName= this.wfFlag;
-                    if(this.betNumber.length == 3){
-                        this.betCount = 1;
+                    
+                    if(this.selectNumList[0].length < 3  ){
+                           this.betCount=0;
+                        }else if(this.selectNumList[0].length >3 ){
+                            this.setTip("请选择3个号码")
+                        }
+                        else{
+                        // this.betCount=CalcBetCount[funName](this.betNumber);
+                        this.betCount=1;
                     }
-                    // this.betCount=CalcBetCount[funName](this.betNumber);
                 }else if(this.wfFlag == 'xglhc_lm_tc'){
                     if(this.betNumber.length >= 4){
                         this.betCount = this.betNumber.length/2-1;
@@ -562,6 +583,8 @@ export default {
                         this.betCount = 0;
                     }
                     
+                }else if(this.wfFlag == 'xglhc_lxlw_5lw'){
+                    this.betCount=CalcBetCount[funName](this.selectNumList[0]); 
                 }
                 else{
                     this.betCount=this.selectNumList[0].length;
@@ -616,6 +639,13 @@ export default {
         calculateBetMoney(){
             let money=this.betTimes*this.betCount;
             this.totalMoney = money.toFixed(2);
+        },
+        show(key){
+            this[key]=true;
+        },
+        // 隐藏
+        hide(key){
+            this[key]=false;
         }
     }
 }

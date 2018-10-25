@@ -40,9 +40,13 @@ export default {
         }
     },
     computed:{
+        ...mapGetters([
+            'user_token'
+        ])
     },
     created(){
-        let parm={lotteryId:"cqssc"}
+        // let parm={lotteryId:"cqssc"}
+        let parm={lotteryId:this.$route.query.id}
         this.header.title =this.$route.query.name;
         this.setHeader(this.header);
         this.$axios.postRequest(httpUrl.lottery.getRoomList,parm)    // httpUrl.home.lottery
@@ -52,12 +56,18 @@ export default {
     },
     methods:{
         gotoBetRoom(v){
-            var queryObj=this.$route.query;
-            queryObj.roomId=v.roomId
-            this.$router.push({
-                path: '/betroom',
-                query: queryObj
-            });
+            if(!this.user_token){
+                this.$router.push({
+                    path:'/login'
+                });
+            }else{
+                var queryObj=this.$route.query;
+                queryObj.roomId=v.roomId
+                this.$router.push({
+                    path: '/betroom',
+                    query: queryObj
+                });
+            }
         },
         
         ...mapMutations({

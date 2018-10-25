@@ -1084,5 +1084,8 @@ export function m11x5RXDT(value, num) {
     return Math.floor(count);
 }
 export function xy28_tmb3_b3(value) {
-    return value.length>=6?value.length/6:0;
+    return value.length>=3?value.length/3:0;
+}
+export function xglhc_lxlw_5lw(value) {
+    return value.length>=5?1:0;
 }

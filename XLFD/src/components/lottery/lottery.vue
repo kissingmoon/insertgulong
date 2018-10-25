@@ -1185,12 +1185,18 @@
             recount(){
                 this.betNumber=getBetNumberByBetGroupList(this.selectNumList,this.wfFlag,this.selectPosition);
                 if(this.is28OrLhc){
+                    var  funName= this.wfFlag;
                     if(this.wfFlag=="xy28_tmb3_b3"){
-                        const funName= this.wfFlag;
-                        if(this.betNumber.length == 3){
-                            this.betCount = 1;
+                        // const funName= this.wfFlag;
+                        if(this.selectNumList[0].length < 3  ){
+                           this.betCount=0;
+                        }else if(this.selectNumList[0].length >3 ){
+                            this.setTip("请选择3个号码")
                         }
-                        // this.betCount=CalcBetCount[funName](this.betNumber);
+                        else{
+                            // this.betCount=CalcBetCount[funName](this.betNumber);
+                            this.betCount=1;
+                        }
                     }else if(this.wfFlag == 'xglhc_lm_tc'){
                         if(this.betNumber.length >= 4){
                             this.betCount = this.betNumber.length/2-1;
@@ -1198,6 +1204,8 @@
                             this.betCount = 0;
                         }
                         
+                    }else if(this.wfFlag == 'xglhc_lxlw_5lw'){
+                        this.betCount=CalcBetCount[funName](this.selectNumList[0]); 
                     }
                     else{
                         this.betCount=this.selectNumList[0].length;

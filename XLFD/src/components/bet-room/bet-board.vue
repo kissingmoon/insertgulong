@@ -779,6 +779,7 @@ export default {
                     color: #DA1C36 ;
                 }
                 em{
+                    font-style: normal;
                     margin: 0 .1rem;
                 }
             }

@@ -28,7 +28,7 @@
             <div class="bet-content">
                 <div class="inputBox">
                     <input type="text" class="amount" v-model.number="betTimes">
-                    <div class="explain">赔率说明</div>
+                    <div class="explain" @click="showWfExplain">玩法说明</div>
                 </div>
                 <div class="handle">
                     <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
@@ -129,8 +129,13 @@ export default {
     },
     methods:{
         ...mapMutations({
-                setTip:'SET_TIP',
-            }),
+            setTip:'SET_TIP',
+        }),
+        //  显示玩法规则
+        showWfExplain(){
+            console.log(this.wfDetail)
+            this.$emit('wfExplain',this.wfDetail)
+        },
         //确认离开
         closeBoard(){
             // if(this.is28OrLhc && this.updataNumberList.length > 0){
@@ -140,6 +145,7 @@ export default {
             // }
             this.$emit('closeBoard','betKeyboard')
         },
+        //  显示玩法选择页面
         show(key){
             this.$emit('showWf','wfKindShow')
             this[key]=true;

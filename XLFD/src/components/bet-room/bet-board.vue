@@ -28,7 +28,7 @@
             <div class="bet-content">
                 <div class="inputBox">
                     <input type="text" class="amount" v-model.number="betTimes">
-                    <div class="explain">赔率说明</div>
+                    <div class="explain" @click="showWfExplain">玩法说明</div>
                 </div>
                 <div class="handle">
                     <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
@@ -129,8 +129,13 @@ export default {
     },
     methods:{
         ...mapMutations({
-                setTip:'SET_TIP',
-            }),
+            setTip:'SET_TIP',
+        }),
+        //  显示玩法规则
+        showWfExplain(){
+            console.log(this.wfDetail)
+            this.$emit('wfExplain',this.wfDetail)
+        },
         //确认离开
         closeBoard(){
             // if(this.is28OrLhc && this.updataNumberList.length > 0){
@@ -140,6 +145,7 @@ export default {
             // }
             this.$emit('closeBoard','betKeyboard')
         },
+        //  显示玩法选择页面
         show(key){
             this.$emit('showWf','wfKindShow')
             this[key]=true;
@@ -564,14 +570,19 @@ export default {
                         this.betCount = this.betNumber.length/2-1;
                     }else{
                         this.betCount = 0;
-                    }
-                    
+                    }                    
                 }else if(this.wfFlag == 'xglhc_lxlw_5lw' || this.wfFlag == 'xglhc_lxlw_4lw' || this.wfFlag == 'xglhc_lxlw_3lw' || this.wfFlag == 'xglhc_lxlw_2lw' 
                              || this.wfFlag == 'xglhc_lxlw_5lx' || this.wfFlag == 'xglhc_lxlw_4lx' || this.wfFlag == 'xglhc_lxlw_3lx' || this.wfFlag == 'xglhc_lxlw_2lx'
                              || this.wfFlag == 'xglhc_lm_3z2' || this.wfFlag == 'xglhc_lm_3qz' || this.wfFlag == 'xglhc_lm_2qz' || this.wfFlag == 'xglhc_lm_2zt' 
                              || this.wfFlag == 'xglhc_lm_4qz'  ){
                     // this.betCount=CalcBetCount[funName](this.selectNumList[0]); 
                     this.betCount = CalcBetCount.getZhuShu(funName,this.selectNumList[0])
+                }else if( this.wfFlag == 'xglhc_hexiao_hx' ){      //   合肖玩法设置
+                    let len = this.selectNumList[0].length;
+                    this.betCount = len > 1 ? 1 : 0
+                }else if( this.wfFlag == 'xglhc_zxbz_zxbz' ){      //   自选不中玩法设置
+                    let len = this.selectNumList[0].length;
+                    this.betCount = len > 5 ? 1 : 0
                 }
                 else{
                     this.betCount=this.selectNumList[0].length;
@@ -774,6 +785,7 @@ export default {
                     color: #DA1C36 ;
                 }
                 em{
+                    font-style: normal;
                     margin: 0 .1rem;
                 }
             }

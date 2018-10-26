@@ -58,7 +58,8 @@
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
         <bet-board v-if="betKeyboard" 
-                  @showWf="showWf"
+                  @wfExplain = "wfExplain"
+                  @showWf = "showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   @moneyLackShow='moneyLackShowFun'
@@ -99,8 +100,33 @@
                 </div>
             </div>
         </div>  
+        <!-- 玩法规则 -->
+        <div v-if="wfRuleShow" class="wfRule"> 
+            <!-- <div class="background" @click="hide('wfRuleShow')"></div> -->
+            <div class="detail">
+                <div class="wf-detail-wrapper clearfix">
+                    <div class="detail-title">玩法提示</div>
+                    <div class="wf-detail-main">
+                        <ul>
+                            <li class="item-wrapper">
+                                <p class="title">当前玩法</p>
+                                <p class="txt">{{wfDetail.name}}</p>
+                            </li>
+                            <li class="item-wrapper">
+                                <p class="title">选号规则</p>
+                                <p class="txt">{{wfDetail.explain}}</p>
+                            </li>
+                            <li class="item-wrapper">
+                                <p class="title">中奖说明</p>
+                                <p class="txt">{{wfDetail.help}}</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- betKeyboard ||  -->
-        <div class="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
+        <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
    </div>
 </template>
 <script>
@@ -140,7 +166,9 @@ export default {
             is28OrLhc:false,
             moneyLackShow:false,
             canSend:true,
-            lockReconnect:false
+            lockReconnect:false,
+            wfRuleShow:false,
+            wfDetail:{},
         }
     },
     components:{
@@ -198,6 +226,12 @@ export default {
          ...mapMutations({
             setTip:'SET_TIP',
         }),
+        //  显示玩法说明
+        wfExplain(data){
+            this.wfDetail = data;
+            this.$refs.grayBg.style.zIndex = 998;
+            this.wfRuleShow = true;
+        },
         moneyLackShowFun(status){
             this.moneyLackShow = status;
             this.betKeyboard = false;
@@ -446,7 +480,15 @@ export default {
             this.betKeyboard=false;
             this.isHistoryShow = false;
         },
+        hide(type){
+            this[type] = false
+        },
         closeAll(){
+            if(this.wfRuleShow){
+                this.wfRuleShow = false;
+                this.$refs.grayBg.style.zIndex = 10;
+                return;
+            }
             this.hideBet();
             this.cancel();
         },
@@ -840,6 +882,87 @@ export default {
             }
         }
     }
+    .wfRule{
+        position: fixed;
+        top: 50%;
+        left: 50%;        
+        width: 70%;
+        z-index: 999;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+        .detail{
+            border-radius: .2rem;
+            border: 1px solid #7b6503;
+        }
+        .wf-detail-wrapper{
+            min-height:100%;            
+            .detail-title{
+                height:1.2rem;
+                background: #474643;
+                border-top-left-radius: 0.2rem;
+                border-top-right-radius: 0.2rem;
+                color:#fff;
+                line-height: 1.2rem;
+                text-align: center;                
+                font-size: $font-size-large;
+                .title-tip{
+                    font-size: $font-size-small;
+                }
+            }
+            .wf-detail-main{
+                padding:0rem 0.4rem 0.2rem;
+                overflow:auto;
+                height:6.2rem;
+                background-color: #fff;
+                .win-money{
+                    line-height: 0.5rem;
+                    color: #403F3D;
+                    padding-top:0.2rem;
+                }
+                .item-wrapper{
+                    height:auto;
+                    overflow: hidden;
+                    padding-top: 0.4rem;
+                    line-height: 0.5rem;
+                    p{
+                        height:auto;
+                        overflow: hidden;
+                        line-height: 0.5rem;
+                        &.title{
+                            color:$color-red;
+                        }
+                        &.txt{
+                            color: #727272;
+                        }
+                    }
+                }
+            }
+            .wf-detail-close{
+                position:relative;
+                margin:0 auto;
+                height:1rem;
+                width:1rem;
+                padding-top:0.1rem;
+                text-align: center;
+                clear:both;
+                background-color: #fff;
+                button{
+                    height:0.96rem;
+                    width:0.96rem;
+                    line-height: 1rem;
+                    border-radius: 50%;
+                    border:1px solid $color-red;
+                    text-align: center;
+                    background:none;
+                    color: $color-red;
+                    font-size: $font-size-large-x;
+                    padding:0;
+                    margin: 0;
+                }
+            }
+        }
+    }
+    
     .footer{
         height: 1.4rem;
         justify-content:space-around;

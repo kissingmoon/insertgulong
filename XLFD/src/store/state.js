@@ -1,4 +1,4 @@
-
+import {httpUrl} from 'common/js/map';
 const state = {
     header: {},
     account:{},
@@ -9,8 +9,9 @@ const state = {
     show_picker:false,
     show_search:false,
     tip:'',
+    api_base:httpUrl.config.baseUrl,
     // api_base:'/api',   
-    api_base:'/test',    
+    // api_base:'/test',    
     message_count:0,
     hd_qiandao:1, // 签到
     hd_charge:1, //首次充值

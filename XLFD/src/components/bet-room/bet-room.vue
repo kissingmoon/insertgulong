@@ -139,6 +139,8 @@ export default {
             followInfo:{},          //  跟投信息
             is28OrLhc:false,
             moneyLackShow:false,
+            canSend:true,
+            lockReconnect:false
         }
     },
     components:{
@@ -169,6 +171,21 @@ export default {
             'account',
             'xglhc_color'
         ])
+    },
+    watch: {
+        socketList: {
+    　　　　handler(newValue, oldValue) {
+    　　　　　　if(newValue.length>100){
+                    this.socketList=[]
+                    var obj={}
+                    obj.class="msgType0"
+                    obj.msgType="0"
+                    obj.neirong="欢迎进入游戏大厅！"
+                    this.socketList.unshift(obj)
+                }
+    　　　　},
+    　　　　deep: true
+    　　}
     },
     beforeDestroy(){
         console.log("这里会关闭一次web socket")
@@ -221,6 +238,7 @@ export default {
                     obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
                     obj.neirong.bet_msg="期,单注一元起,现在开始可以下注"
                     this.socketList.push(obj)
+                    this.canSend=true
                 };
             });
         },
@@ -247,7 +265,7 @@ export default {
             if(this.drawCountTime == "00:03:00"){
                 this.getDrawHis();
             }
-            if (this.drawCountTime == "00:00:00" && urlHash == "/betroom") {
+            if (this.drawCountTime == "00:00:00" && urlHash == "/betroom" && this.canSend) {
                 // this.setTip(`${this.lotteryInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.next_qh}期继续投注`);
                 let obj={}
                 obj.class="msgType1"
@@ -258,6 +276,7 @@ export default {
                 this.socketList.push(obj)
                 clearTimeout(this.getLockTimes);
                 this.getLockTimes = setTimeout(() => {
+                    this.canSend=false
                     this.getLockTime();
                     this.getDrawHis();
                 },2000);
@@ -270,26 +289,27 @@ export default {
             }
         },
         openWebsocket(){
+            this.socketList=[]
+            
+            // if(this.webSocket){
+                
+            //     this.webSocket.close()
+            // }
+            this.webSocket=''
             if ('WebSocket' in window) {    
-                const options = {
-                    url: `${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`,
-                    pingTimeout: 15000, 
-                    pongTimeout: 10000, 
-                    reconnectTimeout: 4000,
-                    pingMsg: "heartbeat"
-                }
-                this.webSocket = new WebsocketHeartbeatJs(options);        
-                // this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
-                // this.webSocket.onclose =  () =>{
-                    // var obj={}
-                    // obj.class="msgType0"
-                    // obj.msgType="0"
-                    // obj.neirong="已经断开连接！"
-                    // this.socketList=[obj]
+                // const options = {
+                //     url: `${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`,
+                //     pingTimeout: 15000, 
+                //     pongTimeout: 10000, 
+                //     reconnectTimeout: 4000,
+                //     pingMsg: "heartbeat"
                 // }
+                // this.webSocket = new WebsocketHeartbeatJs(options);      
+                this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
             }
             else {
                 alert('当前浏览器 Not support websocket')
+                return
             }
             this.webSocket.onopen =  ()=> {
                 this.socketList=[]
@@ -300,22 +320,20 @@ export default {
                 this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
+                // var obj={}
+                // obj.class="msgType0"
+                // obj.msgType="0"
+                // obj.neirong="连接失败！尝试重新连接中。。。"
+                // this.socketList=[obj]
+                // this.reconnect()
+            }
+            this.webSocket.onerror = () => {
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
-                obj.neirong="连接失败！"
+                obj.neirong="连接失败！尝试重新连接中。。。"
                 this.socketList=[obj]
-            }
-            this.webSocket.onreconnect = (e) => {
-                    this.socketList=[]
-                    var obj={}
-                    obj.class="msgType0"
-                    obj.msgType="0"
-                    obj.neirong="尝试重新连接中。。。"
-                    setTimeout(()=>{
-                        this.socketList=[obj]
-                    },1000)
-                    
+                this.reconnect()
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
@@ -359,6 +377,15 @@ export default {
                     this.$refs.mainWrap.scrollTop = this.$refs.mainWrap.scrollHeight
                 })
             }
+        },
+        reconnect() {
+            if(this.lockReconnect) return;
+            this.lockReconnect = true;
+            //没连接上会一直重连，设置延迟避免请求过多
+            setTimeout( () =>{
+                this.openWebsocket();
+                this.lockReconnect = false;
+            }, 3000);
         },
         sendSocketMsg(message){
             console.log("出发了")

@@ -2,6 +2,7 @@ import axios from 'axios';
 import {reData,session,removeSession} from 'common/js/param';
 import store from 'store';
 import Router from '../../router';
+import {httpUrl} from 'common/js/map';
 
 axios.interceptors.request.use(config=> {
   return config;
@@ -46,9 +47,9 @@ axios.interceptors.response.use(res=> {
 })
 
 // let base = '/api';
-let base = '/test';
+// let base = '/test';
 // let base  = '';
-
+let base  = httpUrl.config.baseUrl
 const $axios = {
     postRequest(url, params){
       return axios({

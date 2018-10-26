@@ -92,9 +92,11 @@ export const httpUrl = {
         sendCode:'/user/sendCode',
         getRecomemendCpType:'/v5/gc/getRecommendCpType',
         getJumpConfig:'/v5/jumpConfig/getJumpConfig',
-        webSocket:'ws://192.168.8.8:8800/websocket'  
-        // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket'  
-        // webSocket:'ws://weinisi01.com/api/websocket'  
+        webSocket:'ws://192.168.8.8:8800/websocket'  ,
+        // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket'  ,
+        // webSocket:'ws://weinisi01.com/api/websocket',
+        // baseUrl:'/api',
+        baseUrl:'/test'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url',

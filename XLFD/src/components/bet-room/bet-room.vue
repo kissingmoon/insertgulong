@@ -125,6 +125,12 @@
                 </div>
             </div>
         </div>
+        <!-- 6和28玩法规则 -->
+        <rule-pare v-if="ruleShow"
+            :ruleUrl="ruleUrl"
+            :ruleTitle="ruleTitle"
+            @close="hide"
+        ></rule-pare>
         <!-- betKeyboard ||  -->
         <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
    </div>
@@ -138,6 +144,7 @@ import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import WfKind from 'components/lottery/wf-kind-room';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import WebsocketHeartbeatJs from 'websocket-heartbeat-js';
+import RulePare from 'components/lottery/rule-page';
 
 export default {
     data(){
@@ -167,11 +174,13 @@ export default {
             moneyLackShow:false,
             wfRuleShow:false,
             wfDetail:{},
+            ruleShow:false,  //是否显示规则页面
         }
     },
     components:{
         BetBoard,
         WfKind,
+        RulePare
     },
     created(){
         this.lotteryId=this.$route.query.id;
@@ -195,7 +204,8 @@ export default {
         ...mapGetters([
             'user_token',
             'account',
-            'xglhc_color'
+            'xglhc_color',
+            'api_base'
         ])
     },
     beforeDestroy(){
@@ -209,11 +219,42 @@ export default {
          ...mapMutations({
             setTip:'SET_TIP',
         }),
+        show(key){
+            this[key]=true;
+        },
         //  显示玩法说明
         wfExplain(data){
+            if(this.lotteryId == 'xglhc' || this.lotteryId == 'bj28'){
+                this.setRuleParam();
+                return;
+            }           
             this.wfDetail = data;
             this.$refs.grayBg.style.zIndex = 998;
             this.wfRuleShow = true;
+        },
+        //设置王法规则显示
+        setRuleParam(){
+            switch(this.lotteryType){
+                case '6':
+                    this.ruleTitle="香港六合彩玩法规则";
+                    this.ruleUrl=`${this.api_base}/wf-explain/lhc-wf`;
+                    break;
+                case '11':
+                    this.ruleTitle="28玩法规则";
+                    this.ruleUrl=`${this.api_base}/wf-explain/xy28-wf`;
+                    break;
+                default:
+                    this.ruleTitle="跟单说明"
+                    this.$axios.postRequest(httpUrl.config.urlList,{flag:'gd_helper_url'})
+                    .then((res)=> {
+                        if(res.data && !res.data.errorCode){
+                            this.ruleUrl=res.data[0].url;
+                        }
+                    });
+                    break;
+            }
+            this.show('ruleShow');
+            return;
         },
         moneyLackShowFun(status){
             this.moneyLackShow = status;

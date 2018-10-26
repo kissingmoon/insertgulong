@@ -183,6 +183,7 @@ export default {
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
+            
             this.openWebsocket()
             this.getLockTime()
             this.getUser()
@@ -216,7 +217,7 @@ export default {
     　　}
     },
     beforeDestroy(){
-        console.log("这里会关闭一次web socket")
+        // console.log("这里会关闭一次web socket")
         this.webSocket.close()
     },
      methods:{
@@ -324,22 +325,18 @@ export default {
         },
         openWebsocket(){
             this.socketList=[]
-            
-            // if(this.webSocket){
-                
-            //     this.webSocket.close()
-            // }
             this.webSocket=''
             if ('WebSocket' in window) {    
-                // const options = {
-                //     url: `${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`,
-                //     pingTimeout: 15000, 
-                //     pongTimeout: 10000, 
-                //     reconnectTimeout: 4000,
-                //     pingMsg: "heartbeat"
-                // }
-                // this.webSocket = new WebsocketHeartbeatJs(options);      
-                this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+                const options = {
+                    url: `${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`,
+                    pingTimeout: 15000, 
+                    pongTimeout: 10000, 
+                    reconnectTimeout: 5000,
+                    pingMsg: "heartbeat"
+                }
+                this.webSocket = new WebsocketHeartbeatJs(options);      
+                // this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
+                console.log("这打开了一次链接")
             }
             else {
                 alert('当前浏览器 Not support websocket')
@@ -354,6 +351,13 @@ export default {
                 this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
+                var obj={}
+                obj.class="msgType0"
+                obj.msgType="0"
+                obj.neirong="连接失败！尝试重新连接中。。。"
+                this.socketList=[obj]
+            }
+            this.webSocket.onerror = () => {
                 // var obj={}
                 // obj.class="msgType0"
                 // obj.msgType="0"
@@ -361,19 +365,14 @@ export default {
                 // this.socketList=[obj]
                 // this.reconnect()
             }
-            this.webSocket.onerror = () => {
-                var obj={}
-                obj.class="msgType0"
-                obj.msgType="0"
-                obj.neirong="连接失败！尝试重新连接中。。。"
-                this.socketList=[obj]
-                this.reconnect()
-            }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 console.log("收到服务器消息了")
                 var resData=JSON.parse(event.data)
                 console.log(resData)
+                if(resData==1){
+                    return
+                }
                 var obj={}
                 obj.msgType=resData.msgType
                 obj.class="msgType"+resData.msgType                

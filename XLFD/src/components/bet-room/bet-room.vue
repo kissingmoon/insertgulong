@@ -1,5 +1,6 @@
 <template>
    <div class="flex flex-v wapper">
+       <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
        <div class="flex top-wapper">
            <div class="flex-1 flex flex-v top-content">
                <div class="flex-1 flex flex-center right-border">距{{lotteryInfo.show_qh}}期截止:</div> 
@@ -13,6 +14,8 @@
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
             <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
                 <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
+                
+                
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
                 </div>
@@ -40,11 +43,16 @@
                         </div>
                        <div class="betMsg-content flex flex-v"> 
                             <div class="flex flex-1 flex-align-center flex-pack-justify">
-                                <span>第{{v.neirong.lottery_qh}}期</span>
+                                <span class="flex flex-1  flex-align-center">
+                                    <span class="icon-before qihao-before"></span>
+                                    <!-- 第{{v.neirong.lottery_qh}}期 -->
+                                     第{{v.neirong.lottery_shortqh}}期 
+                                </span>
                                 <span> {{v.neirong.wfDetail.title}} </span>
                             </div>
                             <div class="flex flex-1  flex-align-center flex-pack-justify">
-                                <span>{{v.neirong.bet_money}}元</span>
+                                
+                                <span class="flex flex-1  flex-align-center"><span class="icon-before money-before"></span>{{v.neirong.bet_money}}元</span>
                                 <span>{{v.neirong.remark}}</span>
                             </div>
                        </div>
@@ -65,7 +73,8 @@
                   @moneyLackShow='moneyLackShowFun'
                   class="bet-board"
                   :lotteryType="lotteryType"
-                  :lotteryInfo="lotteryInfo">
+                  :lotteryInfo="lotteryInfo"
+                  :fengdan="fengdan">
         </bet-board>
         <!-- 跟投弹窗 -->
         <div class="followCase" v-if="isFollow">
@@ -145,6 +154,7 @@ import WfKind from 'components/lottery/wf-kind-room';
 import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import WebsocketHeartbeatJs from 'websocket-heartbeat-js';
 import RulePare from 'components/lottery/rule-page';
+import Loading from 'base/loading/loading';
 
 export default {
     data(){
@@ -177,12 +187,16 @@ export default {
             wfRuleShow:false,
             wfDetail:{},
             ruleShow:false,  //是否显示规则页面
+            loadingTip:"当前期已封单,请在下一期投注!",
+            loadingShow:false,
+            fengdan:false
         }
     },
     components:{
         BetBoard,
         WfKind,
-        RulePare
+        RulePare,
+        Loading
     },
     created(){
         this.lotteryId=this.$route.query.id;
@@ -307,6 +321,7 @@ export default {
                 if(res.data && !res.data.errorCode){
                     this.lotteryInfo=res.data;
                     this.setCountTime(res.data.lock_time.replace(/-/g,'/'));
+                    this.fengdan=false
                     let obj={}
                     obj.class="msgType1"
                     obj.msgType="1"
@@ -348,7 +363,8 @@ export default {
                 obj.msgType="1"
                 obj.neirong={}
                 obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
-                obj.neirong.bet_msg="期已封单,请在下一期期继续投注"
+                obj.neirong.bet_msg="期已封单,请在下一期继续投注"
+                this.fengdan=true
                 this.socketList.push(obj)
                 clearTimeout(this.getLockTimes);
                 this.getLockTimes = setTimeout(() => {
@@ -420,6 +436,12 @@ export default {
                 if(resData.msgType=='2'){
                     obj.neirong=JSON.parse(resData.message)
                     obj.neirong.remark=obj.neirong.bet_number
+                    
+                    
+                    if(obj.neirong.lottery_qh.length>8){
+                        obj.neirong.lottery_shortqh=obj.neirong.lottery_qh.slice(8) 
+                    }
+                    
                     if(obj.neirong.bet_number.length>10){
                         obj.neirong.remark="多项投注"
                     }
@@ -572,7 +594,7 @@ export default {
         top: initial;
         bottom: 0;
         z-index: 104;
-        height: 80vh;
+        height: 80%;
         background: #ffffff;
         // overflow: auto;
     }
@@ -753,6 +775,20 @@ export default {
                         border-radius: 0 10px 10px 10px;
                         color: #FFFFFF;
                     }
+                    .icon-before{
+                        display: inline-block;
+                        width: 0.6rem;
+                        height: 0.5rem;
+                        background-size: 80%;
+                        background-repeat: no-repeat;
+                    }
+                    .money-before{
+                        height: 0.4rem;
+                        @include bg-image('jinbi');
+                    }
+                    .qihao-before{
+                        @include bg-image('clock');
+                    }
                 }
             }
             .msgType2-self{
@@ -784,6 +820,20 @@ export default {
                         background:#CD9E62;
                         border-radius: 10px 0px 10px 10px;
                         color: #FFFFFF;
+                        .icon-before{
+                        display: inline-block;
+                        width: 0.6rem;
+                        height: 0.5rem;
+                        background-size: 80%;
+                        background-repeat: no-repeat;
+                        }
+                        .money-before{
+                            height: 0.4rem;
+                            @include bg-image('jinbi');
+                        }
+                        .qihao-before{
+                            @include bg-image('clock');
+                        }
                     }
                 }
             }

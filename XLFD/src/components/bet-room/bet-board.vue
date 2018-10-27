@@ -95,6 +95,9 @@ export default {
         },
         lotteryType:{
             type:String
+        },
+        fengdan:{
+            type:Boolean
         }
     },
     components:{
@@ -118,6 +121,15 @@ export default {
                 // this.selectObj.bet_money=this.betTimes
             }
             this.calculateBetMoney()
+        },
+        fengdan(newVal,oldVal){
+            if(newVal==true){
+                this.loadingTip="当前期已封单,请在下一期继续投注!"
+                this.show('loadingShow')
+            }else{
+                this.loadingTip="投注中。。。"
+                this.hide('loadingShow')
+            }
         }
     },
     computed:{
@@ -457,7 +469,7 @@ export default {
         },
         //投注
         betOrder(){    
-            console.log(parseInt(this.betTimes))
+            console.log("点击投注")
             if(parseInt(this.betTimes)<=0){
                 this.setTip('请输入投注金额！')
                 return;
@@ -474,6 +486,7 @@ export default {
                 // lottery_modes:this.lotteryModes
                 lottery_modes:0
             }
+            this.loadingTip="投注中。。。"
             this.show('loadingShow')
             this.$axios.postRequest(httpUrl.bet.betOrder,param)
             .then((res)=> {
@@ -486,9 +499,9 @@ export default {
                     //this.show('betSuccessShow');
                     this.setTip('投注成功！')
                     param.lotteryType=this.lotteryType
+                    console.log(param.lottery_qh)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
-                    this.setTip('投注成功')
                 };
             })
             .catch((err) => {
@@ -528,7 +541,6 @@ export default {
                 wf_flag,
                 pl_flag
             };
-            this.loadingShow=true;
             this.$axios.postRequest(httpUrl.bet.betLHC28,param)
             .then((res)=> {
                 this.canclick=true

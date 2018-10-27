@@ -47,8 +47,8 @@
                         <div class="reName-time">{{modeIndex == 0 ? '距截止:' : '房间模式:' }} {{v.locktime}}</div>
                     </div>
                     <div class="recomandEnter flex flex-center flex-v">
-                        <div class="reEnter-onlinenum" v-if="v.kjNewData">当前在线:{{v.kjNewData.onLineNum}}</div>
-                        <div class="reEnter-enter">点击进入</div>
+                        <div class="reEnter-onlinenum" v-if="v.kjNewData">当前在线:{{modeIndex == 0?v.kjNewData.onLineNum:v.kjNewData.roomOnLineNum}}</div>
+                        <div class="reEnter-enter">{{modeIndex == 0 ? '点击进入' : '进入房间' }} </div>
                     </div>
                 </div>
             </div>

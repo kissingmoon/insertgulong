@@ -65,13 +65,12 @@
             <!-- <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button> -->
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
        </div>
-        <bet-board v-if="betKeyboard" 
+        <bet-board class="bet-board"  v-if="betKeyboard" 
                   @wfExplain = "wfExplain"
                   @showWf = "showWf"
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   @moneyLackShow='moneyLackShowFun'
-                  class="bet-board"
                   :lotteryType="lotteryType"
                   :lotteryInfo="lotteryInfo"
                   :fengdan="fengdan">
@@ -142,6 +141,7 @@
         ></rule-pare>
         <!-- betKeyboard ||  -->
         <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
+        <Bet v-if="betShow" ></Bet>
    </div>
 </template>
 <script>
@@ -155,13 +155,15 @@ import LotteryWfDetail from 'common/js/Lottery_wf_detail';
 import WebsocketHeartbeatJs from 'websocket-heartbeat-js';
 import RulePare from 'components/lottery/rule-page';
 import Loading from 'base/loading/loading';
+import Bet from 'components/bet/bet';
 
 export default {
     data(){
         return {
             header:{
                 title:'房间列表',
-                back:true
+                back:true,
+                betHistory:true
             },
             lotteryInfo:{},
             lotteryId:"",
@@ -189,14 +191,16 @@ export default {
             ruleShow:false,  //是否显示规则页面
             loadingTip:"当前期已封单,请在下一期投注!",
             loadingShow:false,
-            fengdan:false
+            fengdan:false,
+            betShow:false
         }
     },
     components:{
         BetBoard,
         WfKind,
         RulePare,
-        Loading
+        Loading,
+        Bet
     },
     created(){
         this.lotteryId=this.$route.query.id;
@@ -254,12 +258,15 @@ export default {
         show(key){
             this[key]=true;
         },
+        showBet(){
+            this.betShow=true
+        },
         //  显示玩法说明
         wfExplain(data){
-            if(this.lotteryId == 'xglhc' || this.lotteryId == 'bj28'){
+            if(this.lotteryType == '6' || this.lotteryType == '11'){
                 this.setRuleParam();
                 return;
-            }           
+            }  
             this.wfDetail = data;
             this.$refs.grayBg.style.zIndex = 998;
             this.wfRuleShow = true;

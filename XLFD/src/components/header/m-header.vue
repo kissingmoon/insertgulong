@@ -20,9 +20,13 @@
             <div class="money" v-show="header.moneyType" @click="pickerShow"><i class="icon-money"></i></div>
             <div class="time" v-show="header.time" @click="timeShow"><i class="icon-clock-02"></i></div>
         </div>
+        <div @click="betShow" class="bet-history" v-show="header.betHistory">
+             <i class="bet-icon"></i>
+        </div>
         <h1 class="title">{{header.title}}
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
+        
     </div>
 </template>
 <script>
@@ -72,6 +76,9 @@
                 this.$router.push({
                     path:url
                 });
+            },
+            betShow(){
+                this.$emit('showBet')
             }
         },
         watch:{
@@ -181,6 +188,19 @@
         padding: 0 0.8rem;
         font-size: $font-size-large;
         @include no-wrap();
+    }
+    .bet-history{
+        position:absolute;
+        height:1.2rem;
+        line-height: 1.2rem;
+        right:0;
+        padding:0 0.4rem;
+        .bet-icon{
+            display: inline-block;
+            width: 0.8rem;
+            height: 0.8rem;
+            background-image: url(/static/img/icon-bet@2x.c2f824d.png)
+        }
     }
 }
 </style>

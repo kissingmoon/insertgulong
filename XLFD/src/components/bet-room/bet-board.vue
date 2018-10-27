@@ -30,8 +30,12 @@
                     <input type="text" class="amount" v-model.number="betTimes">
                     <div class="explain" @click="showWfExplain">玩法说明</div>
                 </div>
-                <div class="handle">
-                    <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
+                <div class="handle flex flex-align-center">
+                    <div>
+                        <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
+                        <div v-if="!is28OrLhc">若中奖，单注奖金<span class="yellow">{{formetWinMoney}}</span>元</div>
+                    </div>
+                    
                     <button v-if="!is28OrLhc" class="btn" type="button" v-on:click="betExamine">确认投注</button>
                     <button v-if="is28OrLhc" class="btn" type="button" v-on:click="makeBetOrder">确认投注</button>
                 </div>
@@ -85,7 +89,8 @@ export default {
             selectObj:{},
             canclick:true,
             loadingShow:false,
-            loadingTip:"投注中。。。"
+            loadingTip:"投注中。。。",
+            lotteryModes:0
         }
     },
     props: {
@@ -133,6 +138,29 @@ export default {
         }
     },
     computed:{
+        showWinMoney(){
+            
+            if(this.currentWf.wf_pl){
+                console.log((this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2))
+                return (this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2);
+            }else{
+                return "";
+            }
+        },
+        //计算中奖金额
+        formetWinMoney(){
+            
+            let money= this.showWinMoney*this.betTimes/2;
+            return money.toFixed(2);
+        },
+        moneyToFixed(){
+            if(this.account.balance){
+                let money=this.account.balance - 0;
+                return money.toFixed(2);
+            }else{
+                return '0.00'
+            }
+        },
         ...mapGetters([
             'user_token',
             'account',
@@ -762,13 +790,20 @@ export default {
         }
     }
     .main-wapper{
-        min-height: 57vh;
+        // min-height: 57vh;
         flex: auto;
         overflow-y: auto;
     }
     .bet-content{
         font-size: 0.4rem;
-        padding: 0 .3rem;
+        padding: 0.2rem .3rem;
+        // height: 2rem;
+        // position: absolute;
+        // bottom: 0;
+        // width: 100%;
+        // box-sizing: border-box;
+        // background: #fff;
+        // z-index: 106;
         .inputBox{
             display: flex;            
             border: 1px solid #d9d9d9;
@@ -786,12 +821,11 @@ export default {
             }
         }
         .handle{
-            display: flex;
             margin: .2rem 0 .1rem;
             >div{
                 flex: auto;
                 font-size: .34rem;
-                line-height: .8rem;
+                line-height: .6rem;
                 color: #959595;
                 span{
                     color: #DA1C36 ;
@@ -814,7 +848,7 @@ export default {
         
     }
     .bet-content:last-child{
-        padding: 0rem 0.5rem 0.1rem 0.5rem;
+        padding: 0.2rem 0.5rem 0 0.5rem;
     }
     .wf{
         position: absolute;

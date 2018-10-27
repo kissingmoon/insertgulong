@@ -131,7 +131,7 @@
 <script>
 import Loading from 'base/loading/loading';
 import {httpUrl} from 'common/js/map';
-import {regroupLotteryData,countTime} from 'common/js/param';
+import {regroupLotteryData,countTime,uniqueArray} from 'common/js/param';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
@@ -278,6 +278,7 @@ let vm = null;
                     if(this.user_token){
                         this.getChooseSelfType((ret)=>{
                             this.recomandList = this.recomandList.concat(ret)
+                            this.recomandList=uniqueArray(this.recomandList,"flag")
                             var parmList=[];
                             this.returnSubList=[];
                             this.recomandList.map((v,k)=>{

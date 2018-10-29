@@ -1,7 +1,6 @@
 <template>
     <parcel>
         <div class="login">  
-            <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
@@ -51,8 +50,7 @@
                     user_id:'',
                     password:''
                 },
-                codeUrl:``,
-                // showsc:false
+                codeUrl:``
             }
         },
         components:{
@@ -219,9 +217,6 @@
             },
             // 用户登录
             login(data){
-                // this.showsc=true; 
-                //this.loginParam.challenge = data.challenge;
-                //this.loginParam.idType = 4;
                 this.loginParam.idValue = this.loginParam.user_id;
                 this.loginParam.agent_domain= window.document.domain;
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)

@@ -75,9 +75,9 @@
                 let type = this.loginParam.user_id.length < 6 || this.loginParam.password.length < 6;
                 return type
             },
-            initsrc () {
-                return objToStr(this.loginParam)
-            }  
+            // initsrc () {
+            //     return objToStr(this.loginParam)
+            // }  
         },
         methods: {
             ...mapMutations({

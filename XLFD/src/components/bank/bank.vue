@@ -99,12 +99,12 @@
             bankBtnType(){
                 return this.bankParam.user_name.length < 1 || this.bankName.length  < 1 || this.bankParam.bank_branch_no.length  < 1 || this.accountNo.length  < 16 ;
             },
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,this.bankParam)
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,this.bankParam)
+            //     return objToStr(trueObj)
+            // },
         },
         methods: {
             getBankInfo() {

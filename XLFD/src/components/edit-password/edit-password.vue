@@ -61,12 +61,12 @@
             this.api=this.$router.history.current.query.api;
         },
         computed: {
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,this.param)
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,this.param)
+            //     return objToStr(trueObj)
+            // },
             ...mapGetters([
                 'account'
             ])

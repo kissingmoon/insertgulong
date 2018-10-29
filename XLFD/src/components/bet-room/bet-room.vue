@@ -245,7 +245,6 @@ export default {
     　　}
     },
     beforeDestroy(){
-        // console.log("这里会关闭一次web socket")
         this.webSocket.close()
     },
      methods:{
@@ -400,7 +399,6 @@ export default {
                 }
                 this.webSocket = new WebsocketHeartbeatJs(options);      
                 // this.webSocket = new WebSocket(`${httpUrl.config.webSocket}/${this.$route.query.roomId}/${this.user_token}`);
-                console.log("这打开了一次链接")
             }
             else {
                 alert('当前浏览器 Not support websocket')
@@ -431,9 +429,7 @@ export default {
             }
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
-                console.log("收到服务器消息了")
                 var resData=JSON.parse(event.data)
-                console.log(resData)
                 if(resData==1){
                     return
                 }
@@ -491,9 +487,7 @@ export default {
             }, 3000);
         },
         sendSocketMsg(message){
-            console.log("出发了")
             message.user_token=this.user_token
-            console.log(JSON.stringify(message)) 
             this.webSocket.send(JSON.stringify(message));  
             this.isBG_show = false;
         },
@@ -508,7 +502,6 @@ export default {
             this.followInfo = followInfo;
         },
         followBet(followInfo){
-            console.log("followInfo")
             if(followInfo.lottery_qh!=this.lotteryInfo.lottery_qh){
                 this.setTip(`${followInfo.lottery_qh}期已封单,<br/>请在${this.lotteryInfo.lottery_qh}期继续跟单`);
                 return;

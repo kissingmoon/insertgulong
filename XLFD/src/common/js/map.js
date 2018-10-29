@@ -112,7 +112,6 @@ export const httpUrl = {
 };
 
 export const serviceUrl = 'https://messenger.providesupport.net/messenger/11s3h541dm5cv1tjkmwtx1vewz.html'
-export const cnzzUrl = 'http://angleyan.000webhostapp.com/cnzz_stat.php'
 
 export const lotteryName ={
     'cqssc':'重庆时时彩',

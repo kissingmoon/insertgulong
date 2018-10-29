@@ -47,12 +47,12 @@
         created() {
         },
         computed: {
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,{bank_passwd:this.bank_passwd})
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,{bank_passwd:this.bank_passwd})
+            //     return objToStr(trueObj)
+            // },
             ...mapGetters([
                 'account'
             ])

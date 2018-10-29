@@ -1,6 +1,6 @@
 import md5 from 'js-md5';
 import store from 'store';
-import {cnzzUrl} from 'common/js/map';
+// import {cnzzUrl} from 'common/js/map';
 
 export function reData(data){
     let param=data||{};
@@ -56,7 +56,8 @@ export function objKeySort(obj) {
     return newObj;
 }
 export function objToStr(obj) {
-    let newStr = cnzzUrl+"?";
+    // let newStr = cnzzUrl+"?";
+    let newStr = "cnzzUrl"+"?";
     for (var key in obj) {
         if(obj[key]){
             let tempStr=dataCompile(obj[key])

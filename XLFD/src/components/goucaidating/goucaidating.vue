@@ -153,7 +153,7 @@ export default {
             }
             this.$axios.postRequest(httpUrl.lottery.getTypeList,parm)    // httpUrl.home.lottery
             .then((res)=> {
-                if(res.data && !res.data.errorCode){
+                if(res.data && !res.data.errorCode){                    
                     this.chooseMain=true;
                     this.lotteryList=res.data; 
                     var tempList = new Array(); //先声明一维 
@@ -161,20 +161,17 @@ export default {
                         v.currentImage=v.lottery_image_blue
                         this.$set(this.lotteryList,k,v) 
                         tempList[k] = new Array()
-                        v.sub_lottery.map((v1,k1)=>{
-                            
+                        v.sub_lottery.map((v1,k1)=>{                            
                             tempList[k][k1]={}
                             tempList[k][k1].kjNewData={kjCode:"",lotteryQh:""}
                             tempList[k][k1].subLotteryObj=v1
-                            tempList[k][k1].click=false
-                            
+                            tempList[k][k1].click=false                            
                         })
-                    })   
-                    console.log(tempList)
+                    })                      
                     this.truetotalList=tempList.concat()
                     this.trueCurrentSubList=this.truetotalList[0]  
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
-                    this.getSubLockTime(this.lotteryList,0)                    
+                    this.getSubLockTime(this.lotteryList,0)             
                 }
             });
         },

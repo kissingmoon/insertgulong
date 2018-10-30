@@ -3,14 +3,27 @@
         <div class="wapper">
             <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
             <div class="top-wapper">
-                <div class="lottery-title-content">
-                    <h1 class="title">
+                <div class="lottery-title-content" ref="titleContent">
+                    <!-- <h1 class="title">
                         <p class="txt" @click="show('wfKindShow')">
                             <span class="kind">玩<br>法</span>
                             {{currentWf.name}}
                             <i class="angle"></i>
                         </p>
-                    </h1>
+                    </h1> -->
+                    <span  v-for="(v,k) in wfList" :key="k" style="display:inline-block;">
+                        <span v-for="(v1,k1) in v.wf" :ref='v1.wf_flag' :key="k1" class="wf-item" :class="{'on': currentWf.wf_flag==v1.wf_flag}"  @click="changeWf(k,k1)" style="">
+                           {{v1.name}} 
+                        </span>                  
+                    </span>
+                    <!-- <swiper>
+                        <swiper-slide  v-for="(v,k) in wfList" :key="k">
+                            {{v}}
+                        </swiper-slide>
+                    </swiper> -->
+                </div>
+                <div class="lottery-title-icon flex flex-center">
+                     <span class="span-icon"  @click="show('wfKindShow')"></span>
                 </div>
             </div>
             <div class="main-wapper">
@@ -58,6 +71,10 @@ import WfKind from 'components/lottery/wf-kind-room';
 import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 import Loading from 'base/loading/loading';
+import Scroll from 'base/scroll/scroll';
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
 export default {
     data(){
         return {
@@ -76,6 +93,10 @@ export default {
             wfList:[],
             zodiac:[],
             currentWf:'',
+            currentWfIndex:{
+                k:15,
+                k1:0
+            },
             wfDetail:"",
             wfFlag:'',
             wfKindShow:false,  //玩法种类
@@ -109,12 +130,28 @@ export default {
         BetNumber,
         WfKind,
         BotToTop,
-        Loading
+        Loading,
+        Scroll
     },
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.getBetWF();
         this.getZodiac();
+    },
+    mounted(){
+        // this.$nextTick( () =>{
+        //     // DOM 更新了
+        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
+        //     // this.$refs.titleContent.scrollLeft=5500
+        // })
+      
+        // this.$refs.titleContent.addEventListener('scroll', ()=>{
+            
+        //     // console.log(this.$refs.titleContent.scrollLeft)
+        //     // console.log(this.$refs.ssc_5xdwd)
+        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
+        //     // window.scrollTo(this.$refs.ssc_5xdwd[0].offsetLeft, 0);
+        // })
     },
     watch:{
         betTimes(newVal,oldVal){
@@ -135,6 +172,10 @@ export default {
                 this.loadingTip="投注中。。。"
                 this.hide('loadingShow')
             }
+        },
+        currentWf(newVal,oldVal){
+            console.log(newVal.wf_flag)
+            this.scrollToWf(newVal.wf_flag)
         }
     },
     computed:{
@@ -160,6 +201,13 @@ export default {
             }else{
                 return '0.00'
             }
+        },
+        classObject(k,k1){
+            console.log(k)
+            return{
+                on:k== this.currentWfIndex.k&&k1== this.currentWfIndex.k1
+            }
+            
         },
         ...mapGetters([
             'user_token',
@@ -196,6 +244,11 @@ export default {
         },
         //修改玩法
         changeWf(i,s){
+            console.log("这里是玩法选择")
+            console.log(i)
+            console.log(s)
+            this.currentWfIndex.k=i;
+            this.currentWfIndex.k1=s;
             this.betCount = 0;
             this.currentWf=this.wfList[i].wf[s];
             this.wfFlag=this.wfList[i].wf[s].wf_flag;
@@ -219,6 +272,16 @@ export default {
             }
             this.changeTotal();
         },
+        //滚动到默认玩法
+        scrollToWf(key){
+            // console.log(this.tacitWf[this.lotteryType])
+            // this.$nextTick(()=>{
+            //             this.$refs.titleContent.scrollLeft=this.$refs[this.tacitWf[this.lotteryType]][0].offsetLeft
+            //         })
+            this.$nextTick(()=>{
+                this.$refs.titleContent.scrollLeft=this.$refs[key][0].offsetLeft
+            })
+        },
         //选择位置
         selectPosi(num){
             const index=this.selectPosition.indexOf(num);
@@ -237,6 +300,9 @@ export default {
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.wfList=res.data;
+                    
+                    // this.scrollToWf()
+
                     this.selectTacitWf();
                     this.makeWfParam();
                 };
@@ -527,6 +593,9 @@ export default {
                     //this.show('betSuccessShow');
                     this.setTip('投注成功！')
                     param.lotteryType=this.lotteryType
+                    param.wfDetail={}
+                    param.wfDetail.title=this.currentWf.name
+                    param.wfDetail.wf_flag=this.currentWf.wf_flag
                     console.log(param.lottery_qh)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
@@ -697,13 +766,29 @@ export default {
     overflow: hidden;
     flex-direction: column;
     .top-wapper{
+        // height: 1.8rem;
         .lottery-title-content{
+            width: 90%;
             position:relative;
+            float: left;
             height:1.2rem;
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            background: #DA1C36;            
+            background: #DA1C36;  
+
+            white-space: nowrap;
+            overflow-x: scroll;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            .wf-item{
+                // display:inline-block;
+                padding:0.25rem 0.2rem;
+                &.on{
+                    border-bottom: 3px solid #fff;
+                }
+            }
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -786,6 +871,20 @@ export default {
                         transform: rotate(45deg)
                     }
                 }
+            }
+        }
+        .lottery-title-icon{
+            height: 1.2rem;
+            width: 10%;
+            background: #DA1C36;
+            position:absolute;
+            right: 0;
+            .span-icon{
+                @include bg-image('icon-wf-rule');
+                background-size:100% 100%;
+                display: inline-block;
+                height: 0.6rem;
+                width: 0.44rem;
             }
         }
     }

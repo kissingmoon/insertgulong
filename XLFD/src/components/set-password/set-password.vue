@@ -2,7 +2,6 @@
     <parcel>
         <div class="set-password">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
-                <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -37,8 +36,7 @@
         data() {
             return{
                 bank_passwd:'',
-                affirm_password:'',
-                // showsc:false
+                affirm_password:''
             }
         },
         components:{
@@ -49,12 +47,12 @@
         created() {
         },
         computed: {
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,{bank_passwd:this.bank_passwd})
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,{bank_passwd:this.bank_passwd})
+            //     return objToStr(trueObj)
+            // },
             ...mapGetters([
                 'account'
             ])
@@ -69,7 +67,6 @@
                     this.setTip('密码长度不能小于6位');
                     return;
                 }
-                // this.showsc=true;
                 this.$axios.postRequest(httpUrl.info.setBankPassword,{bank_passwd:this.bank_passwd})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

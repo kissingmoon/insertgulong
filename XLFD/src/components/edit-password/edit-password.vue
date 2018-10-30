@@ -2,7 +2,6 @@
     <parcel>
         <div class="edit-password">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
-                <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -50,8 +49,7 @@
                     new_passwd:''
                 },
                 affirm_password:'',
-                api:'',
-                // showsc:false
+                api:''
             }
         },
         components:{
@@ -63,12 +61,12 @@
             this.api=this.$router.history.current.query.api;
         },
         computed: {
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,this.param)
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,this.param)
+            //     return objToStr(trueObj)
+            // },
             ...mapGetters([
                 'account'
             ])
@@ -92,7 +90,6 @@
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
                         this.setTip('修改成功');
-                        // this.showsc=true;
                         this.$router.back();
                     }
                 });

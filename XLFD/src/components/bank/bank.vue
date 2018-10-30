@@ -2,7 +2,6 @@
     <parcel>
         <div class="bank">
             <scroll ref="scroll" class="scroll-wrapper" :click="false">
-                <!-- <m-iframe v-if="showsc" :url="initsrc" style="display:none"></m-iframe>  -->
                 <div class="txt-wrapper">
                     <ul>
                         <li>
@@ -78,8 +77,7 @@
                 defaultData: [{name:'中国工商银行',flag:'1'}],
                 bankList: {
                     data1: [{name:'中国工商银行',flag:'1'}]
-                },
-                // showsc:false
+                }
             }
         },
         components:{
@@ -101,12 +99,12 @@
             bankBtnType(){
                 return this.bankParam.user_name.length < 1 || this.bankName.length  < 1 || this.bankParam.bank_branch_no.length  < 1 || this.accountNo.length  < 16 ;
             },
-            initsrc () {
-                var trueObj={}
-                trueObj.user_id=this.account.user_id
-                trueObj=Object.assign({},trueObj,this.bankParam)
-                return objToStr(trueObj)
-            },
+            // initsrc () {
+            //     var trueObj={}
+            //     trueObj.user_id=this.account.user_id
+            //     trueObj=Object.assign({},trueObj,this.bankParam)
+            //     return objToStr(trueObj)
+            // },
         },
         methods: {
             getBankInfo() {
@@ -132,7 +130,6 @@
             },
             setBankInfo(){
                 this.bankParam.account_no=this.accountNo
-                // this.showsc=true
                 this.$axios.postRequest(httpUrl.info.bindBank,this.bankParam)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){

@@ -3,14 +3,27 @@
         <div class="wapper">
             <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
             <div class="top-wapper">
-                <div class="lottery-title-content">
-                    <h1 class="title">
+                <div class="lottery-title-content" ref="titleContent">
+                    <!-- <h1 class="title">
                         <p class="txt" @click="show('wfKindShow')">
                             <span class="kind">玩<br>法</span>
                             {{currentWf.name}}
                             <i class="angle"></i>
                         </p>
-                    </h1>
+                    </h1> -->
+                    <span  v-for="(v,k) in wfList" :key="k" style="display:inline-block;">
+                        <span v-for="(v1,k1) in v.wf" :ref='v1.wf_flag' :key="k1" class="wf-item" :class="{'on': currentWf.wf_flag==v1.wf_flag}"  @click="changeWf(k,k1)" style="">
+                           {{v1.name}} 
+                        </span>                  
+                    </span>
+                    <!-- <swiper>
+                        <swiper-slide  v-for="(v,k) in wfList" :key="k">
+                            {{v}}
+                        </swiper-slide>
+                    </swiper> -->
+                </div>
+                <div class="lottery-title-icon flex flex-center">
+                     <span class="span-icon"  @click="show('wfKindShow')"></span>
                 </div>
             </div>
             <div class="main-wapper">
@@ -30,8 +43,12 @@
                     <input type="text" class="amount" v-model.number="betTimes">
                     <div class="explain" @click="showWfExplain">玩法说明</div>
                 </div>
-                <div class="handle">
-                    <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
+                <div class="handle flex flex-align-center">
+                    <div>
+                        <div>已选:<span>{{betCount || 0}}</span>注<em>|</em>合计:<span>{{totalMoney || 0}}</span>元</div>
+                        <div v-if="!is28OrLhc">若中奖，单注奖金<span class="yellow">{{formetWinMoney}}</span>元</div>
+                    </div>
+                    
                     <button v-if="!is28OrLhc" class="btn" type="button" v-on:click="betExamine">确认投注</button>
                     <button v-if="is28OrLhc" class="btn" type="button" v-on:click="makeBetOrder">确认投注</button>
                 </div>
@@ -54,6 +71,10 @@ import WfKind from 'components/lottery/wf-kind-room';
 import * as CalcBetCount from 'common/js/CalcBetCountUtil.js';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 import Loading from 'base/loading/loading';
+import Scroll from 'base/scroll/scroll';
+import 'swiper/dist/css/swiper.css'
+import { swiper, swiperSlide } from 'vue-awesome-swiper'
+
 export default {
     data(){
         return {
@@ -72,6 +93,10 @@ export default {
             wfList:[],
             zodiac:[],
             currentWf:'',
+            currentWfIndex:{
+                k:15,
+                k1:0
+            },
             wfDetail:"",
             wfFlag:'',
             wfKindShow:false,  //玩法种类
@@ -85,7 +110,8 @@ export default {
             selectObj:{},
             canclick:true,
             loadingShow:false,
-            loadingTip:"投注中。。。"
+            loadingTip:"投注中。。。",
+            lotteryModes:0
         }
     },
     props: {
@@ -95,18 +121,37 @@ export default {
         },
         lotteryType:{
             type:String
+        },
+        fengdan:{
+            type:Boolean
         }
     },
     components:{
         BetNumber,
         WfKind,
         BotToTop,
-        Loading
+        Loading,
+        Scroll
     },
     created() {
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.getBetWF();
         this.getZodiac();
+    },
+    mounted(){
+        // this.$nextTick( () =>{
+        //     // DOM 更新了
+        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
+        //     // this.$refs.titleContent.scrollLeft=5500
+        // })
+      
+        // this.$refs.titleContent.addEventListener('scroll', ()=>{
+            
+        //     // console.log(this.$refs.titleContent.scrollLeft)
+        //     // console.log(this.$refs.ssc_5xdwd)
+        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
+        //     // window.scrollTo(this.$refs.ssc_5xdwd[0].offsetLeft, 0);
+        // })
     },
     watch:{
         betTimes(newVal,oldVal){
@@ -118,9 +163,52 @@ export default {
                 // this.selectObj.bet_money=this.betTimes
             }
             this.calculateBetMoney()
+        },
+        fengdan(newVal,oldVal){
+            if(newVal==true){
+                this.loadingTip="当前期已封单,请在下一期继续投注!"
+                this.show('loadingShow')
+            }else{
+                this.loadingTip="投注中。。。"
+                this.hide('loadingShow')
+            }
+        },
+        currentWf(newVal,oldVal){
+            console.log(newVal.wf_flag)
+            this.scrollToWf(newVal.wf_flag)
         }
     },
     computed:{
+        showWinMoney(){
+            
+            if(this.currentWf.wf_pl){
+                console.log((this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2))
+                return (this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2);
+            }else{
+                return "";
+            }
+        },
+        //计算中奖金额
+        formetWinMoney(){
+            
+            let money= this.showWinMoney*this.betTimes/2;
+            return money.toFixed(2);
+        },
+        moneyToFixed(){
+            if(this.account.balance){
+                let money=this.account.balance - 0;
+                return money.toFixed(2);
+            }else{
+                return '0.00'
+            }
+        },
+        classObject(k,k1){
+            console.log(k)
+            return{
+                on:k== this.currentWfIndex.k&&k1== this.currentWfIndex.k1
+            }
+            
+        },
         ...mapGetters([
             'user_token',
             'account',
@@ -156,6 +244,11 @@ export default {
         },
         //修改玩法
         changeWf(i,s){
+            console.log("这里是玩法选择")
+            console.log(i)
+            console.log(s)
+            this.currentWfIndex.k=i;
+            this.currentWfIndex.k1=s;
             this.betCount = 0;
             this.currentWf=this.wfList[i].wf[s];
             this.wfFlag=this.wfList[i].wf[s].wf_flag;
@@ -179,6 +272,16 @@ export default {
             }
             this.changeTotal();
         },
+        //滚动到默认玩法
+        scrollToWf(key){
+            // console.log(this.tacitWf[this.lotteryType])
+            // this.$nextTick(()=>{
+            //             this.$refs.titleContent.scrollLeft=this.$refs[this.tacitWf[this.lotteryType]][0].offsetLeft
+            //         })
+            this.$nextTick(()=>{
+                this.$refs.titleContent.scrollLeft=this.$refs[key][0].offsetLeft
+            })
+        },
         //选择位置
         selectPosi(num){
             const index=this.selectPosition.indexOf(num);
@@ -197,6 +300,9 @@ export default {
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.wfList=res.data;
+                    
+                    // this.scrollToWf()
+
                     this.selectTacitWf();
                     this.makeWfParam();
                 };
@@ -457,7 +563,7 @@ export default {
         },
         //投注
         betOrder(){    
-            console.log(parseInt(this.betTimes))
+            console.log("点击投注")
             if(parseInt(this.betTimes)<=0){
                 this.setTip('请输入投注金额！')
                 return;
@@ -474,6 +580,7 @@ export default {
                 // lottery_modes:this.lotteryModes
                 lottery_modes:0
             }
+            this.loadingTip="投注中。。。"
             this.show('loadingShow')
             this.$axios.postRequest(httpUrl.bet.betOrder,param)
             .then((res)=> {
@@ -486,9 +593,12 @@ export default {
                     //this.show('betSuccessShow');
                     this.setTip('投注成功！')
                     param.lotteryType=this.lotteryType
+                    param.wfDetail={}
+                    param.wfDetail.title=this.currentWf.name
+                    param.wfDetail.wf_flag=this.currentWf.wf_flag
+                    console.log(param.lottery_qh)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
-                    this.setTip('投注成功')
                 };
             })
             .catch((err) => {
@@ -528,7 +638,6 @@ export default {
                 wf_flag,
                 pl_flag
             };
-            this.loadingShow=true;
             this.$axios.postRequest(httpUrl.bet.betLHC28,param)
             .then((res)=> {
                 this.canclick=true
@@ -657,13 +766,29 @@ export default {
     overflow: hidden;
     flex-direction: column;
     .top-wapper{
+        // height: 1.8rem;
         .lottery-title-content{
+            width: 90%;
             position:relative;
+            float: left;
             height:1.2rem;
             line-height: 1.2rem;
             text-align: center;
             color:#fff;
-            background: #DA1C36;            
+            background: #DA1C36;  
+
+            white-space: nowrap;
+            overflow-x: scroll;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+            .wf-item{
+                // display:inline-block;
+                padding:0.25rem 0.2rem;
+                &.on{
+                    border-bottom: 3px solid #fff;
+                }
+            }
             .back{
                 position:absolute;
                 height:1.2rem;
@@ -748,15 +873,36 @@ export default {
                 }
             }
         }
+        .lottery-title-icon{
+            height: 1.2rem;
+            width: 10%;
+            background: #DA1C36;
+            position:absolute;
+            right: 0;
+            .span-icon{
+                @include bg-image('icon-wf-rule');
+                background-size:100% 100%;
+                display: inline-block;
+                height: 0.6rem;
+                width: 0.44rem;
+            }
+        }
     }
     .main-wapper{
-        min-height: 57vh;
+        // min-height: 57vh;
         flex: auto;
         overflow-y: auto;
     }
     .bet-content{
         font-size: 0.4rem;
-        padding: 0 .3rem;
+        padding: 0.2rem .3rem;
+        // height: 2rem;
+        // position: absolute;
+        // bottom: 0;
+        // width: 100%;
+        // box-sizing: border-box;
+        // background: #fff;
+        // z-index: 106;
         .inputBox{
             display: flex;            
             border: 1px solid #d9d9d9;
@@ -774,12 +920,11 @@ export default {
             }
         }
         .handle{
-            display: flex;
             margin: .2rem 0 .1rem;
             >div{
                 flex: auto;
                 font-size: .34rem;
-                line-height: .8rem;
+                line-height: .6rem;
                 color: #959595;
                 span{
                     color: #DA1C36 ;
@@ -802,7 +947,7 @@ export default {
         
     }
     .bet-content:last-child{
-        padding: 0rem 0.5rem 0.1rem 0.5rem;
+        padding: 0.2rem 0.5rem 0 0.5rem;
     }
     .wf{
         position: absolute;

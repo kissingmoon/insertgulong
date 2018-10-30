@@ -2,8 +2,9 @@
     <BotToTop>
         <div class="kind-content">
             <div class="kind-title-content">
-                <div class="back" @click="close"><i class="icon-arrows-left"></i></div>
+                <!-- <div class="back" @click="close"><i class="icon-arrows-left"></i></div> -->
                 <h1 class="title">玩法选择</h1>
+                <div class="close-wf" @click="close"><i class="icon-close"></i></div>
             </div>
             
             <scroll ref="scroll" class="scroll-content" :data="data">
@@ -133,11 +134,20 @@
             background-color: #DA1C36;            
             .back{
                 position:absolute;
+                right: 0.2rem;
                 height:1.2rem;
                 line-height: 1.4rem;
-                padding: 0 0.5rem 0 0.3rem;
+                // padding: 0 0.5rem 0 0.3rem;
                 font-size: 0.52rem;
                 font-size: $font-size-large-x;
+            }
+            .close-wf{
+                position:absolute;
+                top:0;
+                right: 0.5rem;
+                height:1.2rem;
+                width: 0.8rem;
+                display: inline-block;
             }
             .service{
                 position:absolute;

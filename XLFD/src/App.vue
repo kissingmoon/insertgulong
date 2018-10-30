@@ -1,6 +1,5 @@
 <template>
     <div id="app" class="app" >
-        <!-- <remote-js :src='cnzzurl'></remote-js> -->
         <div class="headBox"><m-header></m-header> </div>
         <div class="navBox">
             <m-nav></m-nav>
@@ -38,7 +37,6 @@ export default {
     name: 'App',
     data(){
         return {
-            cnzzurl: "https://s19.cnzz.com/z_stat.php?id=1274469020&web_id=1274469020"
         }
     },
     components:{

@@ -23,7 +23,7 @@ module.exports = {
           },
           '/test': {
             // target: 'http://test.weinisi01.com',
-            target: 'http://192.168.8.8:8800',
+            target: 'http://192.168.9.42:8082',
             changeOrigin: true, 
              pathRewrite: {
               // '^/test': 'api'

@@ -1,6 +1,9 @@
 <template>
     <div class="header">
-        <div class="back" @click="goBack" v-show="header.back"><i class="icon-arrows-left"></i></div>
+        <div class="back" @click="goBack" v-show="header.back">
+            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'"><i class="icon-arrows-up inner"></i></i>
+            <i class="icon-arrows-left" v-else></i>
+        </div>
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
             <i class="icon-question-circle"></i>
         </router-link>
@@ -39,6 +42,7 @@
             }
         },
         mounted(){
+            console.log(this.header)
             this.getMessageCount();
         },
         computed: {
@@ -110,6 +114,15 @@
         padding: 0 0.5rem 0 0.3rem;
         font-size: 0.52rem;
         font-size: $font-size-large-x;
+        .outer{
+            position:relative;
+            top:-.1rem;
+            .inner{
+                position:absolute;
+                left:0;
+                top:.16rem;
+            }
+        }
     }
     .message{
         position:absolute;

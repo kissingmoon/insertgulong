@@ -95,10 +95,7 @@ export const httpUrl = {
         webSocket:'ws://192.168.9.42:8082/websocket'  ,
         // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket'  ,
         // webSocket:'ws://weinisi01.com/api/websocket',
-<<<<<<< HEAD
-=======
         webSocket:'wss://www.xlfdapi.com/websocket',
->>>>>>> 4ea7954a450b3a283877e55c250f2a77551cac30
         baseUrl:'/api',
         // baseUrl:'/test'
     },

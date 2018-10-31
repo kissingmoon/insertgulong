@@ -462,7 +462,7 @@
                             .hezhi-item-pl{
                                 padding-bottom: 0.1rem;
                                 font-size: 0.3rem;
-                                color: #0B4426;
+                                color: #a9a9a9;
                             }
                         }
                          

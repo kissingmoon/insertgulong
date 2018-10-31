@@ -1,6 +1,7 @@
 <template>
     <div id="app" class="app" >
-        <div class="headBox"><m-header></m-header> </div>
+        <url-content v-show="showService"></url-content>
+        <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
         <div class="navBox">
             <m-nav></m-nav>
         </div>
@@ -32,11 +33,13 @@ import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
 import {headerConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
+import UrlContent from 'components/url-content/url-content';
 
 export default {
     name: 'App',
     data(){
         return {
+            showService:false
         }
     },
     components:{
@@ -47,7 +50,8 @@ export default {
         Tip,
         ActivityQiandao,
         ActivityXrkh,
-        remoteJs
+        remoteJs,
+        UrlContent
     },
     created() {       
         this.init();
@@ -66,6 +70,10 @@ export default {
         ])
     },
     methods:{
+        showServEvent(){
+            console.log("触发了")
+            this.showService=true;
+        },
         init(){
             let user_token = session('user_token') || '';
             let md5_salt = session('md5_salt') || '';

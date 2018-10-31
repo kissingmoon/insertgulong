@@ -26,7 +26,8 @@
         },
         methods:{
             init(){
-                this.flag=this.$router.history.current.query.flag;
+                // this.flag=this.$router.history.current.query.flag;
+                this.flag='customer_service_url';
                 if(this.flag == 'customer_service_url'){
                     this.url=`${serviceUrl}?user_token=${this.user_token}`
                 }else{

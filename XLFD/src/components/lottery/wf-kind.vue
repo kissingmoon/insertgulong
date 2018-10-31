@@ -240,7 +240,7 @@
                             color: #DEC233;
                         }
                         .percent{
-                            color: #fff;
+                            color: #DEC233;
                         }
                     }
                     &:nth-child(3n){
@@ -255,7 +255,7 @@
                     }
                     .percent{
                         font-size: .3rem;
-                        color: #0B4426;
+                        color: #ffffff;
                         margin-top: .3rem;
                     }
                     .imgBox{

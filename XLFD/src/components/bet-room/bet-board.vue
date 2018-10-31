@@ -55,7 +55,7 @@
             </div>
             <!-- 玩法 -->
             <div class="wf" v-if="wfKindShow">
-                <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf"></wf-kind>
+                <wf-kind :data="wfList" :currentWF='wfFlag' @close="hide" @selectWf="changeWf" @scrollToWf="scrollToWf"></wf-kind>
             </div> 
         </div>
     </BotToTop>
@@ -144,7 +144,6 @@ export default {
         //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
         //     // this.$refs.titleContent.scrollLeft=5500
         // })
-      
         // this.$refs.titleContent.addEventListener('scroll', ()=>{
             
         //     // console.log(this.$refs.titleContent.scrollLeft)
@@ -173,10 +172,10 @@ export default {
                 this.hide('loadingShow')
             }
         },
-        currentWf(newVal,oldVal){
-            console.log(newVal.wf_flag)
-            this.scrollToWf(newVal.wf_flag)
-        }
+        // currentWf(newVal,oldVal){
+        //     console.log(newVal.wf_flag)
+        //     this.scrollToWf(newVal.wf_flag)
+        // }
     },
     computed:{
         showWinMoney(){
@@ -221,7 +220,6 @@ export default {
         }),
         //  显示玩法规则
         showWfExplain(){
-            console.log(this.wfDetail)
             this.$emit('wfExplain',this.wfDetail)
         },
         //确认离开
@@ -299,11 +297,9 @@ export default {
             this.$axios.postRequest(api,{lottery_id:this.$route.query.id})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    this.wfList=res.data;
-                    
-                    // this.scrollToWf()
-
+                    this.wfList=res.data;                                         
                     this.selectTacitWf();
+                    this.scrollToWf(this.tacitWf[this.lotteryType])
                     this.makeWfParam();
                 };
             });

@@ -441,7 +441,7 @@
                                 background-size: 100% 100%;
                                 color:#DEC233;
                                 .hezhi-item-pl{
-                                    color: #fff;;
+                                    color: #DEC233;
                                 }
                             }
                             color: #fff;
@@ -452,7 +452,7 @@
                             .hezhi-item-pl{
                                 padding-bottom: 0.1rem;
                                 font-size: 0.3rem;
-                                color: #0B4426;
+                                color: #ffffff;
                             }
                         }
                          

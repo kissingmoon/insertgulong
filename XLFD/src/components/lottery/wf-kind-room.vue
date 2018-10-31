@@ -12,7 +12,7 @@
                     <div class="kind-item" v-for="(item,i) in data" :key="i">
                         <div class="item-title">{{item.name}}</div>
                         <div class="sub-main">
-                            <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
+                            <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s,sub)" :key="s">
                                 {{sub.name}}
                             </div>
                         </div>
@@ -113,8 +113,9 @@
         close(){
             this.$emit('close','wfKindShow');
         },
-        selectWf(i,s){
+        selectWf(i,s,sub){
             this.$emit('selectWf',i,s);
+            this.$emit('scrollToWf',sub.wf_flag);
         },
     },
   }

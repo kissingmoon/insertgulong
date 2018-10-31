@@ -37,8 +37,8 @@
                     <p class="flex lockcount">
                         <!-- 距{{v.lottery_qh}}期截止{{v.locktime}} -->
                         <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}</span>
-                        <span class="rlockcount" v-if=" v.subLotteryObj.user_cp_flag == 0" @click.stop='noClick && addType(v,k)'>立即添加</span>
-                        <span class="rlockcount grayBg" v-if=" v.subLotteryObj.user_cp_flag == 1" @click.stop='noClick && removeType(v)'>取消添加</span>                        
+                        <span class="rlockcount" v-if=" v.isShowBtn && v.subLotteryObj.user_cp_flag == 0" @click.stop='noClick && addType(v,k)'>立即添加</span>
+                        <span class="rlockcount grayBg" v-if=" v.isShowBtn && v.subLotteryObj.user_cp_flag == 1" @click.stop='noClick && removeType(v)'>取消添加</span>                        
                     </p>
                 </li>    
                 <!-- </router-link>  -->
@@ -65,6 +65,7 @@ export default {
              showScroll:false,
              noClick: true,
              isRequested:false,                      // 请求自选彩种时，防止created钩子种请求过后activated重复请求
+             recomandFlags:[],              //  首页推荐彩种
         }
     },
     computed:{
@@ -78,6 +79,7 @@ export default {
     created() {   
         this.showScroll = true;
         this.isRequested = true;
+        this.recomandFlags = sessionStorage.getItem('recommandFlags')
         this.getLottery()        
     },
     activated(){
@@ -162,20 +164,20 @@ export default {
                             tempList[k][k1].click=false
                         })
                     })   
-                    this.truetotalList=tempList.concat()   
-                    this.trueCurrentSubList=this.truetotalList[0];                         
+                    this.truetotalList=tempList.concat() 
+                    this.trueCurrentSubList=this.truetotalList[0];                  
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
-                    this.getSubLockTime(this.lotteryList,0)                    
+                    this.getSubLockTime(this.lotteryList,0)           
                 }
-            });
+            })
         },
-        getSubLockTime(totalList,totalIndex){
+        getSubLockTime(totalList,totalIndex){              
             var subList=totalList[totalIndex].sub_lottery.concat();
             var parmList=[];
             var callbackArguments={totalIndex,subList};
             subList.map((v,k)=>{
                 parmList.push({'lottery_id':v.lottery_id,'type':'2'})
-            })
+            })            
            this.mapPost(httpUrl.bet.cpLocktime,subList.length,parmList,callbackArguments)
         },
         mapPost(url,n,parmList,obj){
@@ -187,7 +189,7 @@ export default {
                        
                    }
                 })
-            }           
+            }                     
         },
         computedTotalList(subk,obj,resData){
             //subk是子彩种下标，obj.totalIndex是子彩种在父彩种的下标  obj.subList是子彩种信息数组
@@ -202,6 +204,11 @@ export default {
             this.returnObj.kjNewData.truekjCode=showKjCodeByType(resData.kjNewData.kjCode,resData.lotteryType,this.xglhc_color)            
             this.$set(this.truetotalList[obj.totalIndex],subk,this.returnObj) 
             this.trueCurrentSubList=this.truetotalList[obj.totalIndex]  
+            if(this.recomandFlags.includes(obj.subList[subk].lottery_id)){
+                this.returnObj.isShowBtn = false;
+            }else{
+                this.returnObj.isShowBtn = true;
+            }
              if(!this.interval)      {
                 this.startIntervl()
             }  
@@ -267,7 +274,14 @@ export default {
                     this.lotteryList[k].currentImage=this.lotteryList[k].lottery_image
                 }
             })   
-            this.trueCurrentSubList=this.truetotalList[k]
+            this.trueCurrentSubList=this.truetotalList[k];
+            for(let item of this.trueCurrentSubList){
+                if( this.recomandFlags.includes(item.lottery_id) ){
+                    item.isShowBtn = false;
+                }else{
+                    item.isShowBtn = true;
+                }
+            } 
             if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }

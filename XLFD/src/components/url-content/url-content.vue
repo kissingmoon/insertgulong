@@ -17,7 +17,7 @@
             this.init();
         },
         components:{
-            MIframe
+            MIframe,
         },
         computed: {
             ...mapGetters([

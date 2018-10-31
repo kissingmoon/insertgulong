@@ -274,7 +274,13 @@ let vm = null;
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    this.recomandList=res.data.list;   
+                    let flags = [];
+                    this.recomandList = res.data.list;  
+                    //   获取首页推荐彩种的flag 并缓存   便于添加彩种页面便利 
+                    for(let item of this.recomandList){
+                        flags.push(item.flag);
+                    }
+                    sessionStorage.setItem('recommandFlags',flags)
                     if(this.user_token){
                         this.getChooseSelfType((ret)=>{
                             this.recomandList = this.recomandList.concat(ret)

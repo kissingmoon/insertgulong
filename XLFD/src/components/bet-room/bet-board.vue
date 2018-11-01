@@ -124,6 +124,9 @@ export default {
         },
         fengdan:{
             type:Boolean
+        },
+        lastWf:{
+            type:String
         }
     },
     components:{
@@ -229,6 +232,7 @@ export default {
             // }else{
             //     this.hide('wfKindShow')
             // }
+            this.$emit('saveLastWf',this.currentWf.wf_flag)
             this.$emit('closeBoard','betKeyboard')
         },
         //  显示玩法选择页面
@@ -238,13 +242,11 @@ export default {
         },
         // 隐藏
         hide(key){
+            
             this[key]=false;
         },
         //修改玩法
         changeWf(i,s){
-            console.log("这里是玩法选择")
-            console.log(i)
-            console.log(s)
             this.currentWfIndex.k=i;
             this.currentWfIndex.k1=s;
             this.betCount = 0;
@@ -299,13 +301,21 @@ export default {
                 if(res.data && !res.data.errorCode){
                     this.wfList=res.data;                                         
                     this.selectTacitWf();
-                    this.scrollToWf(this.tacitWf[this.lotteryType])
+                    // this.scrollToWf(this.tacitWf[this.lotteryType])
+                    this.scrollToWf(this.currentWf.wf_flag)
                     this.makeWfParam();
                 };
             });
         },
         selectTacitWf(){
-            let tacitWf=this.tacitWf[this.lotteryType];
+            let tacitWf;
+            
+            if(this.lastWf){
+                tacitWf=this.lastWf;
+            }else{
+                tacitWf=this.tacitWf[this.lotteryType];
+            }
+            
             this.wfList.forEach((item,i) => {
                 item.wf.forEach((sub,s)=>{
                     if( sub.wf_flag == tacitWf ){

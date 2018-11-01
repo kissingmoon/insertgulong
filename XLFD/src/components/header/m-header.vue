@@ -1,8 +1,8 @@
 <template>
     <div class="header">
-        <div class="back" @click="goBack" v-show="header.back">
-            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'"><i class="icon-arrows-up inner"></i></i>
-            <i class="icon-arrows-left" v-else></i>
+        <div class="back" v-show="header.back">
+            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'" @click="showServFun(false)"><i class="icon-arrows-up inner"></i></i>
+            <i class="icon-arrows-left" v-else  @click="goBack"></i>
         </div>
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
             <i class="icon-question-circle"></i>
@@ -19,7 +19,7 @@
             </i>
         </div>
         <!-- <router-link tag="div" :to="{path:'/service',query:{flag:'customer_service_url'}}"  class="service" v-show="header.service"><i class="icon-diamond"></i><span>客服</span></router-link> -->
-        <div  class="service" v-show="header.service" @click="showServFun"><i class="icon-diamond"></i><span>客服</span></div>
+        <div  class="service" v-show="header.service" @click="showServFun(true)"><i class="icon-diamond"></i><span>客服</span></div>
         <div class="time-money-wrapper" v-show="header.time || header.moneyType">
             <div class="money" v-show="header.moneyType" @click="pickerShow"><i class="icon-money"></i></div>
             <div class="time" v-show="header.time" @click="timeShow"><i class="icon-clock-02"></i></div>
@@ -35,7 +35,8 @@
 </template>
 <script>
     import {mapGetters,mapMutations,mapActions} from 'vuex'
-    import {httpUrl} from 'common/js/map';
+    import {httpUrl,headerConfig} from 'common/js/map';
+
     export default {
         data(){
             return{
@@ -64,7 +65,8 @@
                 setReflesh:'SET_REFLESH'
             }),
             ...mapActions([
-                'getMessageCount'
+                'getMessageCount',
+                "setHeader"
             ]),
             timeShow(){
                 this.setShowTime(true);
@@ -84,8 +86,12 @@
             betShow(){
                 this.$emit('showBet')
             },
-            showServFun(){
-                this.$emit('showServEvent')
+            showServFun(isShow){
+                this.$emit('showServEvent',isShow)
+                if(isShow){
+                    this.setHeader(headerConfig['/service']);
+                }
+                
             }
         },
         watch:{
@@ -109,7 +115,6 @@
     text-align: center;
     color:#fff;
     background:$color-red;
-    
     .back{
         position:absolute;
         height:1.2rem;

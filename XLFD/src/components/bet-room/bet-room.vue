@@ -71,9 +71,12 @@
                   @closeBoard="hideBet" 
                   @sendSocketMsg="sendSocketMsg" 
                   @moneyLackShow='moneyLackShowFun'
+                  @saveLastWf="saveLastWf"
                   :lotteryType="lotteryType"
                   :lotteryInfo="lotteryInfo"
-                  :fengdan="fengdan">
+                  :fengdan="fengdan"
+                  :lastWf="lastWf"
+                  >
         </bet-board>
         <!-- 跟投弹窗 -->
         <div class="followCase" v-if="isFollow">
@@ -192,7 +195,8 @@ export default {
             loadingTip:"当前期已封单,请在下一期投注!",
             loadingShow:false,
             fengdan:false,
-            betShow:false
+            betShow:false,
+            lastWf:''
         }
     },
     components:{
@@ -259,6 +263,9 @@ export default {
         },
         showBet(){
             this.betShow=true
+        },
+        saveLastWf(last_flag){
+            this.lastWf=last_flag
         },
         //  显示玩法说明
         wfExplain(data){

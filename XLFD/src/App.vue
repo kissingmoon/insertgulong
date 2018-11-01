@@ -1,6 +1,8 @@
 <template>
     <div id="app" class="app" >
+        <botToTop>
         <url-content v-show="showService"></url-content>
+        </botToTop>
         <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
         <div class="navBox">
             <m-nav></m-nav>
@@ -29,6 +31,7 @@ import ActivityQiandao from 'components/activity/activity-qiandao.vue';
 import ActivityXrkh from 'components/activity/activity-xrkh.vue';
 import Parcel from 'base/parcel/parcel';
 import Fade from 'base/fade/fade';
+import botToTop from 'base/top-to-bot/top-to-bot';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
 import {headerConfig} from 'common/js/map';
@@ -51,7 +54,8 @@ export default {
         ActivityQiandao,
         ActivityXrkh,
         remoteJs,
-        UrlContent
+        UrlContent,
+        botToTop
     },
     created() {       
         this.init();
@@ -66,13 +70,18 @@ export default {
             'hd_qiandao',
             'hd_xrkh',
             'href_type',
-            'account'
+            'account',
+            "header"
         ])
     },
     methods:{
-        showServEvent(){
-            console.log("触发了")
-            this.showService=true;
+        showServEvent(isShow){
+            this.showService=isShow;
+            if(!isShow){
+               
+                this.setHeader(headerConfig[this.$route.path]);
+                
+            }
         },
         init(){
             let user_token = session('user_token') || '';
@@ -124,6 +133,7 @@ export default {
                 this.setNavActive(true)
                 this.setHeader(headerConfig['/addType']);
             }else{
+                console.log("ooooooooo")
                 this.setNavActive(false)
                 this.setHeader(headerConfig[path]);
             }
@@ -145,7 +155,7 @@ export default {
         top: 0;
         width: 100%;
         height: 1.2rem;
-        z-index: 99;
+        z-index: 101;
     }
     .navBox{
         position: fixed;

@@ -141,7 +141,10 @@
         ></rule-pare>
         <!-- betKeyboard ||  -->
         <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
-        <Bet v-if="betShow" ></Bet>
+        
+        <div class="record" v-if="getRecord">
+            <Bet></Bet>
+        </div>
    </div>
 </template>
 <script>
@@ -163,7 +166,8 @@ export default {
             header:{
                 title:'房间列表',
                 back:true,
-                betHistory:true
+                betHistory:false,
+                record:true
             },
             lotteryInfo:{},
             lotteryId:"",
@@ -192,7 +196,6 @@ export default {
             loadingTip:"当前期已封单,请在下一期投注!",
             loadingShow:false,
             fengdan:false,
-            betShow:false
         }
     },
     components:{
@@ -226,7 +229,8 @@ export default {
             'user_token',
             'account',
             'xglhc_color',
-            'api_base'
+            'api_base',
+            'getRecord'
         ])
     },
     watch: {
@@ -256,9 +260,6 @@ export default {
         }),
         show(key){
             this[key]=true;
-        },
-        showBet(){
-            this.betShow=true
         },
         //  显示玩法说明
         wfExplain(data){
@@ -1055,6 +1056,14 @@ export default {
                 }
             }
         }
+    }
+    .record{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 9;
     }
     
     .footer{

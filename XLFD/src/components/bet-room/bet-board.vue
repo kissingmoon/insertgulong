@@ -309,7 +309,7 @@ export default {
         },
         selectTacitWf(){
             let tacitWf;
-            
+            //判断上次玩法是否有保存
             if(this.lastWf){
                 tacitWf=this.lastWf;
             }else{

@@ -437,26 +437,42 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 var resData=JSON.parse(event.data)
+                console.log(resData)
+                var parsedData={}
                 if(resData==1){
                     return
+                }else if(resData.msgType=='3'){
+                    
+                    resData.message.map((v,k)=>{
+                        this.socketList.push(this.parseResData(v))
+                    })
+                } 
+                else{
+                    parsedData=this.parseResData(resData)
+                    this.socketList.push(parsedData)
                 }
+                
+                this.$nextTick(()=>{
+                    this.$refs.mainWrap.scrollTop = this.$refs.mainWrap.scrollHeight
+                })
+            }
+        },
+        parseResData(resData){
                 var obj={}
                 obj.msgType=resData.msgType
-                obj.class="msgType"+resData.msgType                
+                obj.class="msgType"+resData.msgType    
+                obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message            
                 if(resData.msgType=='2'){
-                    obj.neirong=JSON.parse(resData.message)
+                    // obj.neirong=JSON.parse(resData.message)
                     obj.neirong.remark=obj.neirong.bet_number
-                    
-                    
                     if(obj.neirong.lottery_qh.length>8){
                         obj.neirong.lottery_shortqh=obj.neirong.lottery_qh.slice(8) 
                     }
-                    
                     if(obj.neirong.bet_number.length>10){
                         obj.neirong.remark="多项投注"
                     }
                     if(obj.neirong.wfDetail){
-                        obj.neirong.wfDetail=JSON.parse(obj.neirong.wfDetail)
+                        obj.neirong.wfDetail=obj.neirong.wfDetail.constructor==String?JSON.parse(obj.neirong.wfDetail):obj.neirong.wfDetail    
                         obj.neirong.wfDetail.name=obj.neirong.wfDetail.title
                     }
                     const lottery=obj.neirong.wf_flag.split('_')[0];
@@ -472,17 +488,14 @@ export default {
                         obj.neirong.user_id=obj.neirong.user_id.substring(0,2)+"***"+obj.neirong.user_id.substring(len-2,len)
                     }
                 }else if(resData.msgType=='1'){
-                    obj.neirong=JSON.parse(resData.message)
+                    // obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message
                     if(obj.neirong.user_token!=this.user_token){
                         let len=obj.neirong.userId.length
                         obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-2,len)
                     }
+                   
                 }
-                this.socketList.push(obj)
-                this.$nextTick(()=>{
-                    this.$refs.mainWrap.scrollTop = this.$refs.mainWrap.scrollHeight
-                })
-            }
+                 return obj
         },
         reconnect() {
             if(this.lockReconnect) return;
@@ -495,6 +508,7 @@ export default {
         },
         sendSocketMsg(message){
             message.user_token=this.user_token
+            console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));  
             this.isBG_show = false;
         },

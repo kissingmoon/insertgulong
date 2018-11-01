@@ -19,4 +19,6 @@ export const href_type = state => state.href_type;
 export const xglhc_color = state => state.xglhc_color;
 //  设置添加彩种页面底部导航保留首页当前样式
 export const getNavActive = state => state.nav_active;
+//  设置房间模式投注记录是否显示
+export const getRecord = state => state.recordShow;
 

@@ -27,6 +27,9 @@
         <div @click="betShow" class="bet-history" v-show="header.betHistory">
              <i class="bet-icon"></i>
         </div>
+        <div class="record" v-if="header.record" @click="showRecord">
+            <i class="recordImg"></i>
+        </div>
         <h1 class="title">{{header.title}}
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
@@ -43,18 +46,26 @@
                 messageCount:0
             }
         },
-        mounted(){
+        mounted(){            
             this.getMessageCount();
         },
         computed: {
             ...mapGetters([
                 'header',
                 'user_token',
-                'message_count'
+                'message_count',
+                'getRecord'
             ])
         },
         methods:{
-            goBack(){
+            showRecord(){
+                this.setRecord(true)
+            },
+            goBack(){       
+                if(this.getRecord){
+                    this.setRecord(false);
+                    return;
+                }
                 this.$router.back();
             },
             ...mapMutations({
@@ -62,7 +73,8 @@
                 setShowPicker:'SET_SHOW_PICKER',
                 setMessageCount:'SET_MESSAGE_COUNT',
                 setShowSearch:'SET_SHOW_SEARCH',
-                setReflesh:'SET_REFLESH'
+                setReflesh:'SET_REFLESH',
+                setRecord:'SET_RECORD_SHOW'
             }),
             ...mapActions([
                 'getMessageCount',
@@ -161,6 +173,20 @@
             font-size: $font-size-large-xx;
         }
     }
+    .record{
+        position:absolute;
+        height:1.2rem;
+        line-height: 1.5rem;
+        right:0;
+        padding:0 0.4rem;
+        .recordImg{
+            display: inline-block;
+            width: .62rem;
+            height: .6rem;
+            @include bg-image('./record');
+            background-size: cover;
+        }
+    }
     .recharge-tip,.search{
         position:absolute;
         height:1.2rem;
@@ -220,7 +246,7 @@
             display: inline-block;
             width: 0.8rem;
             height: 0.8rem;
-            background-image: url(/static/img/icon-bet@2x.c2f824d.png)
+            background-image: url('/static/img/icon-bet@2x.c2f824d.png')
         }
     }
 }

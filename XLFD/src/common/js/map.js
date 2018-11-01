@@ -417,5 +417,5 @@ export const headerConfig = {
     '/addType':{
         title:'添加彩种',
         back:true
-    }
+    },
 };

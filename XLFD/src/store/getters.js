@@ -21,4 +21,6 @@ export const xglhc_color = state => state.xglhc_color;
 export const getNavActive = state => state.nav_active;
 //  设置房间模式投注记录是否显示
 export const getRecord = state => state.recordShow;
+//  设置房间模式投注记录详情页是否显示
+export const getRecordDetail = state => state.recordDetailShow;
 

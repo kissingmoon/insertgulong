@@ -24,6 +24,7 @@ const state = {
     xglhc_color:[],
     nav_active:false,   // 添加彩种时保留nav导航首页选项当前样式
     recordShow:false,
+    recordDetailShow:false,
 }
 
 export default state

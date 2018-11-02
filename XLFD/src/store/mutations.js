@@ -69,6 +69,10 @@ const mutations = {
   [types.SET_RECORD_SHOW](state, param){
     state.recordShow = param;
   },
+  //  设置房间模式投注记录详情页是否显示
+  [types.SET_RECORD_DETAIL_SHOW](state, param){
+    state.recordDetailShow = param;
+  },
 }
 
 export default mutations

@@ -144,9 +144,13 @@
         ></rule-pare>
         <!-- betKeyboard ||  -->
         <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
-        
+        <!-- 投注记录页面 -->
         <div class="record" v-if="getRecord">
-            <Bet></Bet>
+            <Bet @order="order"></Bet>
+        </div>
+        <!-- 投注记录详情页面 -->
+        <div class="recordDetail" v-if="getRecordDetail">
+            <BetDetail :order_numver='order_numver'></BetDetail>
         </div>
    </div>
 </template>
@@ -162,6 +166,7 @@ import WebsocketHeartbeatJs from 'websocket-heartbeat-js';
 import RulePare from 'components/lottery/rule-page';
 import Loading from 'base/loading/loading';
 import Bet from 'components/bet/bet';
+import BetDetail from 'components/bet-detail/bet-detail';
 
 export default {
     data(){
@@ -199,7 +204,8 @@ export default {
             loadingTip:"当前期已封单,请在下一期投注!",
             loadingShow:false,
             fengdan:false,
-            lastWf:''
+            lastWf:'',
+            order_numver:''  //  投注id
         }
     },
     components:{
@@ -207,13 +213,15 @@ export default {
         WfKind,
         RulePare,
         Loading,
-        Bet
+        Bet,
+        BetDetail
     },
     created(){
         this.lotteryId=this.$route.query.id;
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
+        debugger
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
@@ -234,7 +242,8 @@ export default {
             'account',
             'xglhc_color',
             'api_base',
-            'getRecord'
+            'getRecord',
+            'getRecordDetail'
         ])
     },
     watch: {
@@ -259,6 +268,9 @@ export default {
          ...mapActions([
             'getUser'
         ]),
+        order(v){
+            this.order_numver = v;
+        },
          ...mapMutations({
             setTip:'SET_TIP',
         }),
@@ -1081,6 +1093,14 @@ export default {
         left: 0;
         right: 0;
         z-index: 9;
+    }
+    .recordDetail{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
     }
     
     .footer{

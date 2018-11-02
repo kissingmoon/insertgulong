@@ -13,7 +13,7 @@
                 >
                 <div>
                     <ul class="bet-main">
-                        <router-link tag="li" class="item-mode" v-for="(item,index) in betList" :key="index" :to="{path:'/bet/detail',query:{id:item.order_number}}">
+                        <li tag="li" class="item-mode" v-for="(item,index) in betList" :key="index" @click="goDetail(item)">
                             <div class="title-time">
                                 <span class="time">第{{item.lottery_qh}}期</span>
                                 <span class="title">
@@ -26,7 +26,7 @@
                                     <span class="add-money">{{betType[item.status]}}</span>
                                 </p>
                             </div>
-                        </router-link>
+                        </li>
                     </ul>
                 </div>
                 <data-none v-show="betList && betList.length < 1"></data-none>
@@ -42,7 +42,8 @@
     import SelectTime from 'base/select-time/select-time';
     import DataNone from 'components/data-none/data-none';
     import {httpUrl,betType} from 'common/js/map';
-    import {mapGetters,mapMutations} from 'vuex'
+    import {mapGetters,mapMutations,mapActions} from 'vuex'
+    import {headerConfig} from 'common/js/map';
     export default {
         data() {
             return{
@@ -75,6 +76,15 @@
             ])
         },
         methods: {
+            goDetail(item){
+                if(this.$route.path != '/betroom'){
+                    this.$router.push({path:'/bet/detail',query:{id:item.order_number}})
+                }else{
+                     this.$emit('order',item.order_number)
+                     this.setRecordDetail(true)
+                     this.setHeader(headerConfig['/bet/detail'])
+                }                
+            },
             getBetList(type){
                 if(type == 'up'){
                     this.loadStatus=true;
@@ -102,7 +112,13 @@
                 this.betParam.data_type=type;
                 this.betParam.page_no=1
                 this.getBetList();
-            }
+            },
+            ...mapMutations({
+                setRecordDetail:'SET_RECORD_DETAIL_SHOW'
+            }),
+            ...mapActions([
+                "setHeader"
+            ]),
         },
         watch:{
             $route(newUrl){

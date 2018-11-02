@@ -78,6 +78,7 @@
     import {httpUrl,betType} from 'common/js/map';
     import {mapMutations} from 'vuex'
     export default {
+        props:['order_numver'],
         data() {
             return{
                 betDetail:{},
@@ -96,7 +97,11 @@
         },
         methods: {
             getBetDetail(){
-                const order_number =this.$route.query.id;
+                if(this.$route.path != '/betroom'){
+                    var order_number = this.$route.query.id;
+                }else{
+                    var order_number = this.order_numver;
+                }                
                 this.$axios.postRequest(httpUrl.info.betDetail,{order_number})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){
@@ -107,7 +112,11 @@
             undoOrder(){
                 if(!this.betBtnType){ return; }
                 this.betBtnType = false; 
-                const order_number =this.$route.query.id;
+                if(this.$route.path != '/betroom'){
+                    var order_number = this.$route.query.id;
+                }else{
+                    var order_number = this.order_numver;
+                }
                 this.$axios.postRequest(httpUrl.bet.undoOrder,{order_number})
                 .then((res)=> {
                     this.betBtnType = true; 

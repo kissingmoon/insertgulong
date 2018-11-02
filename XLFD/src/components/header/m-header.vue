@@ -46,7 +46,7 @@
                 messageCount:0
             }
         },
-        mounted(){            
+        mounted(){         
             this.getMessageCount();
         },
         computed: {
@@ -54,16 +54,31 @@
                 'header',
                 'user_token',
                 'message_count',
-                'getRecord'
+                'getRecord',
+                'getRecordDetail'
             ])
         },
         methods:{
             showRecord(){
                 this.setRecord(true)
+                this.setHeader(headerConfig['/bet']);
             },
-            goBack(){       
+            goBack(){    
+                if(this.getRecordDetail){
+                    this.setRecordDetail(false);
+                    this.setHeader(headerConfig['/bet']);
+                    return;
+                }   
                 if(this.getRecord){
                     this.setRecord(false);
+                    let header = {
+                        title: this.$route.query.name,
+                        back:true,
+                        betHistory:false,
+                        record:true
+                    }
+                    this.setHeader(header);
+                    // this.setRecord(true);
                     return;
                 }
                 this.$router.back();
@@ -74,7 +89,8 @@
                 setMessageCount:'SET_MESSAGE_COUNT',
                 setShowSearch:'SET_SHOW_SEARCH',
                 setReflesh:'SET_REFLESH',
-                setRecord:'SET_RECORD_SHOW'
+                setRecord:'SET_RECORD_SHOW',
+                setRecordDetail:'SET_RECORD_DETAIL_SHOW',
             }),
             ...mapActions([
                 'getMessageCount',

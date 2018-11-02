@@ -153,7 +153,7 @@
 <script>
 import {httpUrl} from 'common/js/map';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
-import {slicer,countTime} from 'common/js/param.js';
+import {slicer,countTime,session} from 'common/js/param.js';
 import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import WfKind from 'components/lottery/wf-kind-room';
@@ -199,7 +199,8 @@ export default {
             loadingTip:"当前期已封单,请在下一期投注!",
             loadingShow:false,
             fengdan:false,
-            lastWf:''
+            lastWf:'',
+            uId:""
         }
     },
     components:{
@@ -214,6 +215,8 @@ export default {
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
+        this.uId=this.account.user_id||session("uID")
+       
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
@@ -438,11 +441,13 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 var resData=JSON.parse(event.data)
+                console.log("resData")
                 console.log(resData)
                 var parsedData={}
                 if(resData==1){
-                    return
-                }else if(resData.msgType=='3'){
+                    return;
+                }
+                else if(resData.msgType=='3'){
                     
                     resData.message.map((v,k)=>{
                         this.socketList.push(this.parseResData(v))
@@ -481,7 +486,8 @@ export default {
                     if(!this.is28OrLhc&&!obj.neirong.wfDetail){
                         obj.neirong.wfDetail=LotteryWfDetail[lottery].wf_class[obj.neirong.wf_flag];
                     }
-                    if(obj.neirong.user_token==this.user_token){
+                    // if(obj.neirong.user_token==this.user_token){
+                    if(obj.neirong.user_id==this.uId){
                         obj.class="msgType"+resData.msgType+"-self"
                         obj.isSelf=true;
                     }else{
@@ -489,8 +495,8 @@ export default {
                         obj.neirong.user_id=obj.neirong.user_id.substring(0,2)+"***"+obj.neirong.user_id.substring(len-2,len)
                     }
                 }else if(resData.msgType=='1'){
-                    // obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message
-                    if(obj.neirong.user_token!=this.user_token){
+                    // if(obj.neirong.user_token!=this.user_token){
+                        if(obj.neirong.userId!=this.uId){
                         let len=obj.neirong.userId.length
                         obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-2,len)
                     }
@@ -508,6 +514,7 @@ export default {
             }, 3000);
         },
         sendSocketMsg(message){
+            console.log("发送消息")
             message.user_token=this.user_token
             console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));  

@@ -435,6 +435,7 @@ export default {
                 this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
+                debugger
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"

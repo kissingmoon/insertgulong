@@ -5,7 +5,7 @@
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
-                        <span class="txt-gray">第{{item.lottery_qh}}期</span>
+                        <span class="txt-gray">第{{item.lottery_qh | cutQh}}期</span>
                         <span class="txt-gray">{{item.real_kj_time}}</span>
                     </div>
                     <div v-if="item.show_type == 1" class="number show_type1">
@@ -31,7 +31,7 @@
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
-                        <span class="txt-gray">第{{item.lottery_qh}}期</span>
+                        <span class="txt-gray">第{{item.lottery_qh | cutQh}}期</span>
                         <span class="txt-gray">{{item.real_kj_time}}</span>
                     </div>
                     <div class="kjhm flex flex-align-center">
@@ -93,6 +93,14 @@
         computed:{
         },
         mounted(){
+        },
+        filters: {
+            cutQh: function (value) {
+                console.log(value.substring(8) )
+                if(value.length>8){
+                    return    value.substring(8) 
+                }
+            }
         },
         methods: {
             judge(list){

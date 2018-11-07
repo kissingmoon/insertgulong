@@ -4,17 +4,17 @@
             <ul class="login-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="以字母开头6-11位用户账号" autocomplete="off" class="input-txt red" v-model="loginParam.user_id" maxlength="12">
+                        <input type="text" placeholder="请输入您的用户名" autocomplete="off" class="input-txt red" v-model="loginParam.user_id" maxlength="12">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="密码" autocomplete="off" class="input-txt" v-model="loginParam.password" maxlength="20">
+                        <input type="password" placeholder="请输入您的密码" autocomplete="off" class="input-txt" v-model="loginParam.password" maxlength="20">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con code-txt border-bottom-1px">
-                        <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code"  maxlength="6">
+                        <input type="text" placeholder="验证码" class="input-txt" v-model="loginParam.code"  maxlength="4">
                     </p>
                     <p class="code-img" @click="setCode">
                         <img :src="codeUrl" alt="">
@@ -59,7 +59,6 @@
             remoteJs
         },
         created() {
-           
             this.resetAccount();
         },
         mounted(){
@@ -72,7 +71,7 @@
                 'href_type'
             ]),
             btnDisabledType(){
-                let type = this.loginParam.user_id.length < 6 || this.loginParam.password.length < 6;
+                let type = this.loginParam.user_id.length < 6 || this.loginParam.password.length < 6 ||this.loginParam.code.length < 4 ;
                 return type
             },
             // initsrc () {
@@ -152,12 +151,17 @@
             // 获取本地储存的账号密码
             getloginParam(){
                 let loginParam = local('loginParam');
+                console.log(this.loginParam)
+                console.log(loginParam)
                 if(loginParam){
-                    this.loginParam = loginParam;
+                    // this.loginParam = loginParam;
+                    this.loginParam =Object.assign({},this.loginParam,loginParam)
+                    console.log(this.loginParam)
                 }
             },
             // 随机生成8-10位的code_id
-            setCode(){                
+            setCode(){       
+                         
                 this.loginParam.code_id = 'H' + randomWord(false,8,10);
                 // this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
                 this.codeUrl=`${this.api_base}/config/generator-code?code_id=${this.loginParam.code_id}`;
@@ -242,7 +246,8 @@
                             path:'/'
                         });
                     }else{
-                        this.init();
+                        // this.init();
+                        this.setCode();
                         this.loginParam.code = '';
                     }
                 });

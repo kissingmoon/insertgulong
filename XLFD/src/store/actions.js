@@ -1,7 +1,7 @@
 import * as types from './mutation-types';
 import $axios from 'common/js/axios';
 import {httpUrl} from 'common/js/map';
-
+import {user_token} from './getters'
 //修改登录信息
 export const resetUser = ({commit, state}, {account, token, md5}) => {
     commit(types.SET_ACCOUNT, account)
@@ -28,22 +28,26 @@ export const setHeader = ({commit, state},param) => {
 
 //获取用户信息
 export const getUser = ({commit, state}) => {
-    $axios.postRequest(httpUrl.info.user)
-    .then((res)=> {
-        if(res.data && !res.data.errorCode){
-            commit('SET_ACCOUNT',res.data);
-        };
-    });
+    if(state.user_token){
+        $axios.postRequest(httpUrl.info.user)
+        .then((res)=> {
+            if(res.data && !res.data.errorCode){
+                commit('SET_ACCOUNT',res.data);
+            };
+        });
+    }
 }
 
 //获取未读消息条数
 export const getMessageCount = ({commit, state}) => {
-    $axios.postRequest(httpUrl.home.messageCount)
-    .then((res)=> {
-        if(res.data && !res.data.errorCode){
-            commit('SET_MESSAGE_COUNT',res.data.num);
-        };
-    });
+    if(state.user_token){
+        $axios.postRequest(httpUrl.home.messageCount)
+        .then((res)=> {
+            if(res.data && !res.data.errorCode){
+                commit('SET_MESSAGE_COUNT',res.data.num);
+            };
+        });
+    }
 }
 
 //获取活动领取情况

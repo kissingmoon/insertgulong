@@ -8,14 +8,14 @@
            </div>
            <div class="flex-1 flex flex-v top-content">
                <div class="flex-1 flex flex-center">余额</div> 
-               <div class="flex-1 flex flex-center count">{{account.balance}}</div>
+               <!-- <div class="flex-1 flex flex-center count">{{account.balance}}</div> -->
+               <div class="flex-1 flex flex-center count">{{moneyToFixed}}</div>
            </div>
        </div>
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
             <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
-                <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
-                
-                
+                <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
+                <div class="flex flex-center">{{item.lottery_short_qh }}期开奖</div>
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
                 </div>
@@ -85,7 +85,7 @@
                 <p class="clearFloat"><span class="text">玩家</span><span class="name">{{followInfo.user_id}}</span></p>
                 <p class="clearFloat"><span class="text">期数</span><span class="name">{{followInfo.lottery_qh}}</span></p>
                 <p class="clearFloat"><span class="text">玩法</span><span class="name">{{followInfo.wfDetail.title}}</span></p>
-                <p class="clearFloat"><span class="text">内容</span><span class="name con">{{followInfo.wfDetail.title}}:{{followInfo.bet_number}}</span></p>
+                <p class="clearFloat"><span class="text">内容</span><span class="name con">{{followInfo.bet_number}}</span></p>
                 <p class="clearFloat noborder"><span class="text">金额</span><span class="name">{{followInfo.bet_money}}元</span></p>
             </div>
             <div class="handle">
@@ -238,7 +238,20 @@ export default {
             });
         }
     },
+    filters: {
+        cutLotteryQh(value) {
+            return value.slice(8) 
+        }
+    },
     computed:{
+        moneyToFixed(){
+            if(this.account.balance){
+                let money=this.account.balance - 0;
+                return money.toFixed(2);
+            }else{
+                return '0.00'
+            }
+        },
         ...mapGetters([
             'user_token',
             'account',
@@ -370,6 +383,7 @@ export default {
                     this.drawHistoryList=slicer(res.data,"kj_code",",");
                     for(let item of this.drawHistoryList){
                         item.resultList = showKjCodeByType(item.kj_code,this.lotteryType,this.xglhc_color)
+                        item.lottery_short_qh=item.lottery_qh.length>8?item.lottery_qh.substring(8):item.lottery_qh
                     }
                     this.firstHistory[0] =  this.drawHistoryList[0];      //  默认显示第一条记录
                     //根据最近一期的开奖号码显示不同的颜色
@@ -435,7 +449,7 @@ export default {
                 this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
-                debugger
+                
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
@@ -460,11 +474,17 @@ export default {
                     return;
                 }
                 else if(resData.msgType=='3'){
-                    
                     resData.message.map((v,k)=>{
                         this.socketList.push(this.parseResData(v))
                     })
                 } 
+                else if(resData.msgType=='4'){
+                    
+                    this.setTip(resData.message.errorMsg)
+                    setTimeout(()=>{
+                        this.$router.back();
+                    },2000)
+                }
                 else{
                     parsedData=this.parseResData(resData)
                     this.socketList.push(parsedData)
@@ -485,6 +505,8 @@ export default {
                     obj.neirong.remark=obj.neirong.bet_number
                     if(obj.neirong.lottery_qh.length>8){
                         obj.neirong.lottery_shortqh=obj.neirong.lottery_qh.slice(8) 
+                    }else{
+                        obj.neirong.lottery_shortqh=obj.neirong.lottery_qh
                     }
                     if(obj.neirong.bet_number.length>10){
                         obj.neirong.remark="多项投注"
@@ -526,6 +548,7 @@ export default {
             }, 3000);
         },
         sendSocketMsg(message){
+            this.getUser()
             console.log("发送消息")
             message.user_token=this.user_token
             console.log(JSON.stringify(message))
@@ -798,6 +821,7 @@ export default {
                     img{
                         width: 100%;
                         height: 100%;
+                        border-radius: 50%;
                     }
                 }
                 .user-betMsg{
@@ -843,6 +867,7 @@ export default {
                     img{
                         width: 100%;
                         height: 100%;
+                        border-radius: 50%;
                     }
                 }
                 .user-betMsg{
@@ -920,7 +945,7 @@ export default {
                     word-wrap: break-word;
                     word-break: break-all;
                     &.con{
-                        text-align: left;  
+                        text-align: right;  
                     }
                 }
             }

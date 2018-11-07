@@ -374,7 +374,11 @@ export default {
          //六和28投注号码生成
         makeBetOrder(){
             if(!this.user_token){
-                this.$router.push({
+                // this.$router.push({
+                //     path:'/login'
+                // });
+                this.setTip("请重新登陆")
+                this.$router.replace({
                     path:'/login'
                 });
                 return;
@@ -550,7 +554,12 @@ export default {
         },
         betExamine(){
             if(!this.user_token){
-                this.$router.push({
+                
+                // this.$router.push({
+                //     path:'/login'
+                // });
+                this.setTip("请重新登陆")
+                this.$router.replace({
                     path:'/login'
                 });
                 return;
@@ -571,7 +580,8 @@ export default {
         betOrder(){    
             console.log("点击投注")
             if(parseInt(this.betTimes)<=0){
-                this.setTip('请输入投注金额！')
+                // this.setTip('请输入投注金额！')
+                this.setTip({message:"请输入投注金额",flag:2})
                 return;
             }   
             // this.canclick=false
@@ -597,7 +607,9 @@ export default {
                     // this.getUser()
                     //this.hide('betAffirmShow');
                     //this.show('betSuccessShow');
-                    this.setTip('投注成功！')
+                    // this.setTip('投注成功！')
+
+                    this.setTip({message:"投注成功",flag:1})
                     param.lotteryType=this.lotteryType
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
@@ -615,7 +627,8 @@ export default {
         bet(){
             for(let item of this.updataNumberList){
                 if(!item.bet_money){
-                    this.setTip('请输入投注金额！')
+                    // this.setTip('请输入投注金额！')
+                    this.setTip({message:"请输入投注金额！",flag:2})
                     return;
                 }
             }

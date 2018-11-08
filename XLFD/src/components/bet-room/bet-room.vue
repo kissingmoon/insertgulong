@@ -221,7 +221,6 @@ export default {
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
-        debugger
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){

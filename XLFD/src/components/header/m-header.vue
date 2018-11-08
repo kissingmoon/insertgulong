@@ -30,7 +30,7 @@
         <div class="record" v-if="header.record" @click="showRecord">
             <i class="recordImg"></i>
         </div>
-        <h1 class="title">{{header.title}}
+        <h1 class="title">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'" @click="emitChooseType"></i>
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
         
@@ -55,7 +55,8 @@
                 'user_token',
                 'message_count',
                 'getRecord',
-                'getRecordDetail'
+                'getRecordDetail',
+                'getRecordChoose'
             ])
         },
         methods:{
@@ -83,6 +84,10 @@
                 }
                 this.$router.back();
             },
+            emitChooseType(){
+                let chooseSwitch =! this.getRecordChoose
+                this.setRecordChoose(chooseSwitch);
+            },
             ...mapMutations({
                 setShowTime:'SET_SHOW_TIME',
                 setShowPicker:'SET_SHOW_PICKER',
@@ -91,6 +96,7 @@
                 setReflesh:'SET_REFLESH',
                 setRecord:'SET_RECORD_SHOW',
                 setRecordDetail:'SET_RECORD_DETAIL_SHOW',
+                setRecordChoose:'SET_RECORD_CHOOSE'
             }),
             ...mapActions([
                 'getMessageCount',

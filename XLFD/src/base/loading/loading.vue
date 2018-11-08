@@ -11,7 +11,7 @@ export default {
     props: {
       loadingTip: {
         type: String,
-        default: '加载中...'
+        default: 'Loading...'
       }
     }
 }

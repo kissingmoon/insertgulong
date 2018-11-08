@@ -110,7 +110,7 @@ export default {
             selectObj:{},
             canclick:true,
             loadingShow:false,
-            loadingTip:"投注中。。。",
+            loadingTip:"Loading...",
             lotteryModes:0
         }
     },
@@ -171,7 +171,7 @@ export default {
                 this.loadingTip="当前期已封单,请在下一期继续投注!"
                 this.show('loadingShow')
             }else{
-                this.loadingTip="投注中。。。"
+                this.loadingTip="Loading..."
                 this.hide('loadingShow')
             }
         },
@@ -596,7 +596,7 @@ export default {
                 // lottery_modes:this.lotteryModes
                 lottery_modes:0
             }
-            this.loadingTip="投注中。。。"
+            this.loadingTip="Loading..."
             this.show('loadingShow')
             this.$axios.postRequest(httpUrl.bet.betOrder,param)
             .then((res)=> {

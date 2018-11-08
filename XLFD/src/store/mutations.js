@@ -73,6 +73,9 @@ const mutations = {
   [types.SET_RECORD_DETAIL_SHOW](state, param){
     state.recordDetailShow = param;
   },
+  [types.SET_RECORD_CHOOSE](state, param){
+    state.recordChooseShow = param;
+  }
 }
 
 export default mutations

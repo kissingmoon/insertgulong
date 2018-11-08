@@ -53,7 +53,7 @@
     top: 1.2rem;
     bottom: 0rem;
     overflow: hidden;
-    z-index: 108;
+    z-index: 100;
     background:#fff;
 }
 </style>

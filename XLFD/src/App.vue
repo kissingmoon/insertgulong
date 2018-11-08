@@ -3,7 +3,7 @@
         <botToTop>
         <url-content v-show="showService"></url-content>
         </botToTop>
-        <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
+        <div class="headBox"><m-header @showServEvent="showServEvent"></m-header></div>
         <div class="navBox">
             <m-nav></m-nav>
         </div>
@@ -11,11 +11,11 @@
         <!-- <router-view></router-view> -->
         <Fade>
             <keep-alive>            
-                <router-view v-if="$route.meta.keepAlive"></router-view>                       
+                <router-view  v-if="$route.meta.keepAlive"></router-view>                       
             </keep-alive>
         </Fade>
             <Fade>
-                <router-view v-if="!$route.meta.keepAlive"></router-view>   
+                <router-view  v-if="!$route.meta.keepAlive"></router-view>   
             </Fade>
             
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>

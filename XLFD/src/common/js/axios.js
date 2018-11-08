@@ -27,10 +27,15 @@ axios.interceptors.response.use(res=> {
                         path:'/login'
                     });
                 }
+                else if(res.data.errorCode == '20012'){
+                  store.commit('SET_TIP',"您的账号已在其他设备登录，如不是您本人操作，请迅速修改登录密码");
+                }
                 break;
-                case '20029': break;
+            case '20029': break;
+            
             default:
-                store.commit('SET_TIP',res.data.errorMsg);
+                // store.commit('SET_TIP',res.data.errorMsg);
+                store.commit('SET_TIP',{message:res.data.errorMsg,flag:0});
                 return res;
         }
     }

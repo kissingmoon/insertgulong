@@ -8,14 +8,14 @@
            </div>
            <div class="flex-1 flex flex-v top-content">
                <div class="flex-1 flex flex-center">余额</div> 
-               <div class="flex-1 flex flex-center count">{{account.balance}}</div>
+               <!-- <div class="flex-1 flex flex-center count">{{account.balance}}</div> -->
+               <div class="flex-1 flex flex-center count">{{moneyToFixed}}</div>
            </div>
        </div>
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
             <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
-                <div class="flex flex-center">{{item.lottery_qh}}期开奖</div>
-                
-                
+                <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
+                <div class="flex flex-center">第{{item.lottery_qh }}期</div>
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
                 </div>
@@ -85,7 +85,7 @@
                 <p class="clearFloat"><span class="text">玩家</span><span class="name">{{followInfo.user_id}}</span></p>
                 <p class="clearFloat"><span class="text">期数</span><span class="name">{{followInfo.lottery_qh}}</span></p>
                 <p class="clearFloat"><span class="text">玩法</span><span class="name">{{followInfo.wfDetail.title}}</span></p>
-                <p class="clearFloat"><span class="text">内容</span><span class="name con">{{followInfo.wfDetail.title}}:{{followInfo.bet_number}}</span></p>
+                <p class="clearFloat"><span class="text">内容</span><span class="name con">{{followInfo.bet_number}}</span></p>
                 <p class="clearFloat noborder"><span class="text">金额</span><span class="name">{{followInfo.bet_money}}元</span></p>
             </div>
             <div class="handle">
@@ -157,7 +157,7 @@
 <script>
 import {httpUrl} from 'common/js/map';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
-import {slicer,countTime} from 'common/js/param.js';
+import {slicer,countTime,session} from 'common/js/param.js';
 import BetBoard from 'components/bet-room/bet-board';
 import showKjCodeByType from 'common/js/showKjCodeByType.js'
 import WfKind from 'components/lottery/wf-kind-room';
@@ -205,6 +205,7 @@ export default {
             loadingShow:false,
             fengdan:false,
             lastWf:'',
+            uId:"",
             order_numver:''  //  投注id
         }
     },
@@ -221,6 +222,8 @@ export default {
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
+        this.uId=this.account.user_id||session("uID")
+       
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
@@ -235,7 +238,20 @@ export default {
             });
         }
     },
+    filters: {
+        cutLotteryQh(value) {
+            return value.slice(8) 
+        }
+    },
     computed:{
+        moneyToFixed(){
+            if(this.account.balance){
+                let money=this.account.balance - 0;
+                return money.toFixed(2);
+            }else{
+                return '0.00'
+            }
+        },
         ...mapGetters([
             'user_token',
             'account',
@@ -367,6 +383,7 @@ export default {
                     this.drawHistoryList=slicer(res.data,"kj_code",",");
                     for(let item of this.drawHistoryList){
                         item.resultList = showKjCodeByType(item.kj_code,this.lotteryType,this.xglhc_color)
+                        item.lottery_short_qh=item.lottery_qh.length>8?item.lottery_qh.substring(8):item.lottery_qh
                     }
                     this.firstHistory[0] =  this.drawHistoryList[0];      //  默认显示第一条记录
                     //根据最近一期的开奖号码显示不同的颜色
@@ -432,6 +449,7 @@ export default {
                 this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
+                
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
@@ -449,16 +467,24 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 var resData=JSON.parse(event.data)
+                console.log("resData")
                 console.log(resData)
                 var parsedData={}
                 if(resData==1){
-                    return
-                }else if(resData.msgType=='3'){
-                    
+                    return;
+                }
+                else if(resData.msgType=='3'){
                     resData.message.map((v,k)=>{
                         this.socketList.push(this.parseResData(v))
                     })
                 } 
+                else if(resData.msgType=='4'){
+                    
+                    this.setTip(resData.message.errorMsg)
+                    setTimeout(()=>{
+                        this.$router.back();
+                    },2000)
+                }
                 else{
                     parsedData=this.parseResData(resData)
                     this.socketList.push(parsedData)
@@ -479,6 +505,8 @@ export default {
                     obj.neirong.remark=obj.neirong.bet_number
                     if(obj.neirong.lottery_qh.length>8){
                         obj.neirong.lottery_shortqh=obj.neirong.lottery_qh.slice(8) 
+                    }else{
+                        obj.neirong.lottery_shortqh=obj.neirong.lottery_qh
                     }
                     if(obj.neirong.bet_number.length>10){
                         obj.neirong.remark="多项投注"
@@ -492,7 +520,8 @@ export default {
                     if(!this.is28OrLhc&&!obj.neirong.wfDetail){
                         obj.neirong.wfDetail=LotteryWfDetail[lottery].wf_class[obj.neirong.wf_flag];
                     }
-                    if(obj.neirong.user_token==this.user_token){
+                    // if(obj.neirong.user_token==this.user_token){
+                    if(obj.neirong.user_id==this.uId){
                         obj.class="msgType"+resData.msgType+"-self"
                         obj.isSelf=true;
                     }else{
@@ -500,8 +529,8 @@ export default {
                         obj.neirong.user_id=obj.neirong.user_id.substring(0,2)+"***"+obj.neirong.user_id.substring(len-2,len)
                     }
                 }else if(resData.msgType=='1'){
-                    // obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message
-                    if(obj.neirong.user_token!=this.user_token){
+                    // if(obj.neirong.user_token!=this.user_token){
+                        if(obj.neirong.userId!=this.uId){
                         let len=obj.neirong.userId.length
                         obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-2,len)
                     }
@@ -519,6 +548,8 @@ export default {
             }, 3000);
         },
         sendSocketMsg(message){
+            this.getUser()
+            console.log("发送消息")
             message.user_token=this.user_token
             console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));  
@@ -679,7 +710,8 @@ export default {
             font-size: $font-size-medium;
             line-height: 0.8rem;
             color:$color-yellow;
-            @include no-wrap();            
+            @include no-wrap();     
+            margin-left: -0.2rem;       
             .last-draw-ssc{
                 display: inline-block;
                 width: 0.7rem;
@@ -790,6 +822,7 @@ export default {
                     img{
                         width: 100%;
                         height: 100%;
+                        border-radius: 50%;
                     }
                 }
                 .user-betMsg{
@@ -835,6 +868,7 @@ export default {
                     img{
                         width: 100%;
                         height: 100%;
+                        border-radius: 50%;
                     }
                 }
                 .user-betMsg{
@@ -912,7 +946,7 @@ export default {
                     word-wrap: break-word;
                     word-break: break-all;
                     &.con{
-                        text-align: left;  
+                        text-align: right;  
                     }
                 }
             }

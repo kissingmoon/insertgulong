@@ -578,12 +578,14 @@ let vm = null;
             this.$router.push({path:'/home/betwin'})
         },
         getRank(){
-            this.$axios.postRequest(httpUrl.home.rank)
-            .then((res)=> {
-                if(res.data && !res.data.errorCode){
-                    this.rank=res.data;
-                }
-            });
+            if(this.user_token){
+                this.$axios.postRequest(httpUrl.home.rank)
+                .then((res)=> {
+                    if(res.data && !res.data.errorCode){
+                        this.rank=res.data;
+                    }
+                });
+            }
         },
         getBetWin(){
             this.$axios.postRequest(httpUrl.home.betWin)

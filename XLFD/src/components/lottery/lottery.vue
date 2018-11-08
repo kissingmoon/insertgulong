@@ -1052,7 +1052,7 @@
             //更换跟单号码
             changeNumber(){
                 this.hide('followNumberShow');
-                this.allClear();
+                // this.allClear();
             },
             
             //投注确认

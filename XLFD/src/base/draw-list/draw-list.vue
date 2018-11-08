@@ -5,7 +5,7 @@
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
-                        <span class="txt-gray">第{{item.lottery_qh}}期</span>
+                        <span class="txt-gray">第{{item.lottery_qh | cutQh}}期</span>
                         <span class="txt-gray">{{item.real_kj_time}}</span>
                     </div>
                     <div v-if="item.show_type == 1" class="number show_type1">
@@ -31,7 +31,7 @@
                 <div class="left">
                     <div class="information">
                         <span>{{item.lottery_name}}</span>
-                        <span class="txt-gray">第{{item.lottery_qh}}期</span>
+                        <span class="txt-gray">第{{item.lottery_qh | cutQh}}期</span>
                         <span class="txt-gray">{{item.real_kj_time}}</span>
                     </div>
                     <div class="kjhm flex flex-align-center">
@@ -94,6 +94,15 @@
         },
         mounted(){
         },
+        filters: {
+            cutQh: function (value) {
+                if(value.length>8 && document.body.clientWidth<=322){
+                    return    value.substring(8) 
+                }else{
+                    return    value
+                }
+            }
+        },
         methods: {
             judge(list){
             var returnObj={
@@ -125,7 +134,7 @@
         position: relative;
         height:auto;
         overflow: hidden;
-        padding:0.2rem 0.4rem;
+        padding:0.2rem 0.2rem;
         height:1.8rem;
         background: $color-bg;
         @include border-bottom-1px(solid,$color-border-gray);
@@ -214,6 +223,7 @@
             .information{
                 height:0.6rem;
                 line-height: 0.6rem;
+                overflow: hidden;
                 span{
                     margin-right: 0.2rem;
                 }

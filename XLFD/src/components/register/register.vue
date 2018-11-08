@@ -4,12 +4,12 @@
             <ul class="register-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="以字母开头6-11位用户账户" class="input-txt" v-model="registerParam.user_id" maxlength="11">
+                        <input type="text" placeholder="6-11位字母或数字的用户名" class="input-txt" v-model="registerParam.user_id" maxlength="11">
                     </p>
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="password" placeholder="6-16位密码" class="input-txt" v-model="registerParam.password" maxlength="16" autocomplete="off">
+                        <input type="password" placeholder="6-16位字母或数字" class="input-txt" v-model="registerParam.password" maxlength="16" autocomplete="off">
                     </p>
                 </li>
                 <li>
@@ -19,7 +19,7 @@
                 </li>
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input placeholder="填写邀请码(可以不填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" :readonly="rdonly">
+                        <input placeholder="邀请码(选填)" class="input-txt" v-model="registerParam.agentCode" maxlength="16" autocomplete="off" :readonly="rdonly">
                     </p>
                 </li>
                 <!-- <li>
@@ -57,7 +57,7 @@
             return{
                 registerParam:{
                     // code_id:'2154',
-                    // code:'',
+                    code:'',
                     user_id:'',
                     password:'',
                     repeat_password:'',
@@ -89,7 +89,7 @@
                 'api_base'
             ]),
             btnDisabledType(){
-                let type = this.registerParam.user_id.length < 6 || this.registerParam.password.length < 6 || this.registerParam.repeat_password.length < 6;
+                let type = this.registerParam.user_id.length < 6 || this.registerParam.password.length < 6 || this.registerParam.repeat_password.length < 6|| this.registerParam.code.length < 4;
                 return type
             }
         },
@@ -203,10 +203,10 @@
             checkregister(){
                 let _this=this;         
                     if(!_this.registerParam.password || !_this.registerParam.repeat_password){
-                        _this.setTip("请输入密码和确认密码");
+                        _this.setTip("密码不能为空！");
                         return;
                     }else if(_this.registerParam.password !== _this.registerParam.repeat_password){
-                        _this.setTip("确认密码不同");
+                        _this.setTip("两次密码输入不一致，请重新输入！");
                         return;
                     }
                     // else{ this.captcha1.show();}
@@ -218,8 +218,7 @@
                 // this.registerParam.geetest_challenge = result.geetest_challenge;
                 // this.registerParam.geetest_validate = result.geetest_validate;
                 // this.registerParam.geetest_seccode = result.geetest_seccode;
-                //this.registerParam.challenge = data.challenge;                
-                console.log("begin>>>in")
+                //this.registerParam.challenge = data.challenge;               
                 this.registerParam.idType = 4;
                 this.registerParam.idValue = this.registerParam.user_id;
                 this.registerParam.agent_domain= window.document.domain;

@@ -1,45 +1,48 @@
 <template>
-<div class="loading-bg">
-
-  <div class="loading">
-    <img class="img" width="24" height="24" src="./loading.gif"><br/>
-    <span class="desc">{{loadingTip}}</span>
-  </div>
-</div>
+    <div class="loading-bg flex flex-center">
+        <div class="loading-image flex flex-center flex-v">
+            <div class="loading-icon"></div>
+            <div class="loading-text"> {{loadingTip}}</div>
+        </div>
+    </div>
 </template>
-<script type="text/ecmascript-6">
-  export default {
+<script>
+export default {
     props: {
       loadingTip: {
         type: String,
-        default: '拼命加载中...'
+        default: '加载中...'
       }
     }
-  }
+}
 </script>
 <style scoped lang="scss">
-    @import "common/scss/variable.scss";
-    .loading-bg{
+.loading-bg{
         top:0;
         left:0;
         position: fixed;
         width: 100%;
         height:100%;
-        background: $color-bg-shade-a5;
         z-index: 10001;
-        .loading{
-            position: absolute;
-            width: 100%;
-            top:45%;
-            line-height: 50%;
-            text-align: center;
-            z-index: 10002;
-            .desc{
-                line-height: 0.6rem;
-                font-size: $font-size-medium;
-                color:$color-bg-white-a8;
-            } 
+        .loading-image{
+            // animation: changeBG 2s ease 0 infinite;
+            min-height: 2.7rem;
+            min-width: 3rem;
+            border-radius: 0.2rem;
+            
+            background-color: rgba(90,90,90,0.9);
+            
+            .loading-icon{
+                height: 1rem;
+                width: 1rem;
+                background-image: url('loading.png');
+                background-size: 100% 100%;
+                background-repeat: no-repeat;
+            }
+            .loading-text{
+                padding: 0.2rem 0.2rem 0 0.2rem;
+                color: #ffffff;
+            }
         }
-    }
-
+}
 </style>

@@ -190,7 +190,6 @@
         numberKeyboard
     },
     mounted() {
-        console.log(this.wfFlag)
         this.init();
     },
     computed: {

@@ -79,7 +79,7 @@
             background: rgb(90,90,90);
             min-width: 3.8rem;
             min-height: 3.2rem;
-            max-width: 5rem;
+            max-width: 4.9rem;
             margin: 0 auto;
             border-radius: 0.2rem; 
             .tip-bg-image0{
@@ -104,7 +104,7 @@
                 color: #ffffff;
                 font-size: $font-size-medium-x;
                 padding: 0.2rem;
-                
+                line-height: 0.55rem;
             }
         }
     }

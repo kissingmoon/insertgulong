@@ -4,7 +4,7 @@
             <ul class="register-wrapper">
                 <li>
                     <p class="txt-con border-bottom-1px">
-                        <input type="text" placeholder="6-16位字母或数字的用户名" class="input-txt" v-model="registerParam.user_id" maxlength="11">
+                        <input type="text" placeholder="6-11位字母或数字的用户名" class="input-txt" v-model="registerParam.user_id" maxlength="11">
                     </p>
                 </li>
                 <li>

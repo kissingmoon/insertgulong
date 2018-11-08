@@ -223,7 +223,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
             isCanTopFastPick = false;
             isShowSign = false;
             isCanBottomFastPick = false;
-            isShowOdds = false;
+            isShowOdds = true;
             break;
         case "pk10_lhd":
             buyNumberBeanList = BuyUtil.initPk10_lhdData(str8,position);

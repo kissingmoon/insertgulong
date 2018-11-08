@@ -1,20 +1,22 @@
 <template>
     <div class="wapper">
-        <div class="room-wapper" :style="roomStyle" v-for="(v,k) in trueTatalList" :key="k">
-            <div class="room-title flex flex-align-center">
-                {{v.roomGroupName}}
-            </div>
-            <div class="room-content flex">
-                <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)"> 
-                    <div class="option-content flex flex-v">
-                        <div class="option-body flex flex-v flex-center">
-                            <div class="option-img">
-                                <img v-lazy="v1.roomImage" alt="">
+        <div class="main-wapper">
+            <div class="room-wapper" :style="roomStyle" v-for="(v,k) in trueTatalList" :key="k">
+                <div class="room-title flex flex-align-center">
+                    {{v.roomGroupName}}
+                </div>
+                <div class="room-content flex">
+                    <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)"> 
+                        <div class="option-content flex flex-v">
+                            <div class="option-body flex flex-v flex-center">
+                                <div class="option-img">
+                                    <img v-lazy="v1.roomImage" alt="">
+                                </div>
                             </div>
-                        </div>
-                        <div class="option-footer flex flex-v">
-                            <div class="flex-1 flex flex-center">{{v1.roomName}}</div>
-                            <div class="flex-1 flex flex-center">{{v1.onlineCount}}</div>
+                            <div class="option-footer flex flex-v">
+                                <div class="flex-1 flex flex-center">{{v1.roomName}}</div>
+                                <div class="flex-1 flex flex-center">{{v1.onlineCount}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -82,10 +84,16 @@ export default {
     position: fixed;
     width: 100%;
     top: 1.2rem;
-    bottom: 0rem;
+    bottom: 0;
     overflow: auto;
     z-index: 103;
     background: #ffffff;
+    -webkit-overflow-scrolling : touch;
+    .main-wapper{
+        height: 100%;
+        -webkit-overflow-scrolling : touch;
+        overflow: auto;
+    }
     .room-wapper{
         .room-title{
             width: 3.9rem;

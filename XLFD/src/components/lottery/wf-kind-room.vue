@@ -3,14 +3,16 @@
         <div class="kind-content">
             <div class="kind-title-content">
                 <!-- <div class="back" @click="close"><i class="icon-arrows-left"></i></div> -->
-                <h1 class="title">玩法选择</h1>
-                <div class="close-wf" @click="close"><i class="icon-close"></i></div>
+                <h1 class="title">玩法切换</h1>
+                <div class="close-wf" @click="close">
+                    <!-- <i class="ico-close"></i> -->
+                </div>
             </div>
             
             <scroll ref="scroll" class="scroll-content" :data="data">
                 <div class="kind-wrapper" v-if="$route.query.type != 9">
                     <div class="kind-item" v-for="(item,i) in data" :key="i">
-                        <div class="item-title">{{item.name}}</div>
+                        <div class="item-title" v-show="item.wf.length>0">{{item.name}}</div>
                         <div class="sub-main">
                             <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s,sub)" :key="s">
                                 {{sub.name}}
@@ -21,7 +23,7 @@
                 <div class="kuai3WF" v-else>
                     <div class="item" :class="{'on':item.wf_flag == currentWF}" v-for="(item,index) in newArr" :key="index" @click="selectWf(parseInt(item.parantIndex),parseInt(item.activeIndex))">
                         <p class="name">{{item.name}}</p>
-                        <p class="percent">赔率{{item.wf_pl[0].award_money.toFixed(2) }}倍</p>
+                        <p class="percent">赔率{{item.wf_pl[0].award_money }}倍</p>
                         <div class="imgBox">
                             <span v-for="(it,index) in item.datas" :key="index" :class="it.clas" :style="{background:it.bg.background,backgroundSize:it.bg.backgroundSize}"></span>
                         </div>
@@ -144,11 +146,18 @@
             }
             .close-wf{
                 position:absolute;
-                top:0;
+                top:0.28rem;
                 right: 0.5rem;
-                height:1.2rem;
-                width: 0.8rem;
+                // height:1.2rem;
+                // width: 0.8rem;
+                height:0.55rem;
+                width: 0.55rem;
+                background-size: 100% 100%;
                 display: inline-block;
+                @include bg-image("cha");
+                // .ico-close{
+                //     @include bg-image("cha");
+                // }
             }
             .service{
                 position:absolute;

@@ -15,7 +15,7 @@
         <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
             <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
                 <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
-                <div class="flex flex-center">{{item.lottery_short_qh }}期开奖</div>
+                <div class="flex flex-center">第{{item.lottery_qh }}期</div>
                 <div class="flex flex-1 flex-center lottery-wf" >
                     <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
                 </div>
@@ -710,7 +710,8 @@ export default {
             font-size: $font-size-medium;
             line-height: 0.8rem;
             color:$color-yellow;
-            @include no-wrap();            
+            @include no-wrap();     
+            margin-left: -0.2rem;       
             .last-draw-ssc{
                 display: inline-block;
                 width: 0.7rem;

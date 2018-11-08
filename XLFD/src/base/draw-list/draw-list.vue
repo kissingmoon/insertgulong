@@ -96,9 +96,10 @@
         },
         filters: {
             cutQh: function (value) {
-                console.log(value.substring(8) )
-                if(value.length>8){
+                if(value.length>8 && document.body.clientWidth<=322){
                     return    value.substring(8) 
+                }else{
+                    return    value
                 }
             }
         },
@@ -133,7 +134,7 @@
         position: relative;
         height:auto;
         overflow: hidden;
-        padding:0.2rem 0.4rem;
+        padding:0.2rem 0.2rem;
         height:1.8rem;
         background: $color-bg;
         @include border-bottom-1px(solid,$color-border-gray);
@@ -222,6 +223,7 @@
             .information{
                 height:0.6rem;
                 line-height: 0.6rem;
+                overflow: hidden;
                 span{
                     margin-right: 0.2rem;
                 }

@@ -9,7 +9,7 @@
             <scroll ref="scroll" class="scroll-content" :data="data">
                 <div class="kind-wrapper" v-if="$route.query.type != 9">
                     <div class="kind-item" v-for="(item,i) in data" :key="i">
-                        <div class="item-title">{{item.name}}</div>
+                        <div v-show="item.wf.length>0" class="item-title">{{item.name}}</div>
                         <div class="sub-main">
                             <div class="sub" :class="{'currentSub': sub.wf_flag == currentWF}" v-for="(sub,s) in item.wf" @click="selectWf(i,s)" :key="s">
                                 {{sub.name}}
@@ -20,7 +20,7 @@
                 <div class="kuai3WF" v-else>
                     <div class="item" :class="{'on':item.wf_flag == currentWF}" v-for="(item,index) in newArr" :key="index" @click="selectWf(parseInt(item.parantIndex),parseInt(item.activeIndex))">
                         <p class="name">{{item.name}}</p>
-                        <p class="percent">赔率{{item.wf_pl[0].award_money.toFixed(2) }}倍</p>
+                        <p class="percent">赔率{{item.wf_pl[0].award_money }}倍</p>
                         <div class="imgBox">
                             <span v-for="(it,index) in item.datas" :key="index" :class="it.clas" :style="{background:it.bg.background,backgroundSize:it.bg.backgroundSize}"></span>
                         </div>

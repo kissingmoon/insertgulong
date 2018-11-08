@@ -58,6 +58,7 @@ export default {
     },
     methods:{
         gotoBetRoom(v){
+            this.setFoot(false)
             if(!this.user_token){
                 this.$router.push({
                     path:'/login'
@@ -74,6 +75,7 @@ export default {
         
         ...mapMutations({
                 setHeader:'SET_HEADER',
+                setFoot:'SET_FOOT_SHOW'
             }),
     }
 }

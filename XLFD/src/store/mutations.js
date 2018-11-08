@@ -73,6 +73,10 @@ const mutations = {
   [types.SET_RECORD_DETAIL_SHOW](state, param){
     state.recordDetailShow = param;
   },
+  //  设置房间模式底部nav是否显示
+  [types.SET_FOOT_SHOW](state, param){
+    state.isNavShow = param;
+  },
 }
 
 export default mutations

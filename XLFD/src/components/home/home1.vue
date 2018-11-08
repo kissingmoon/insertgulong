@@ -621,6 +621,7 @@ let vm = null;
 @import 'common/scss/mixin.scss';
 .home{
     padding: 1.2rem 0 1.44rem;
+    overflow: hidden;
     .slider-content{
         padding:0 0.2rem;
         height:4.4rem;

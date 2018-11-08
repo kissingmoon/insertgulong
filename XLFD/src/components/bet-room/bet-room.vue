@@ -1,29 +1,30 @@
 <template>
-   <div class="flex flex-v wapper">
-       <loading v-show="loadingShow" :loadingTip="loadingTip"></loading>
-       <div class="flex top-wapper">
-           <div class="flex-1 flex flex-v top-content">
-               <div class="flex-1 flex flex-center right-border">距{{lotteryInfo.show_qh}}期截止:</div> 
-               <div class="flex-1 flex flex-center count right-border">{{drawCountTime}}</div>
-           </div>
-           <div class="flex-1 flex flex-v top-content">
-               <div class="flex-1 flex flex-center">余额</div> 
-               <!-- <div class="flex-1 flex flex-center count">{{account.balance}}</div> -->
-               <div class="flex-1 flex flex-center count">{{moneyToFixed}}</div>
-           </div>
-       </div>
-        <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
-            <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
-                <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
-                <div class="flex flex-center">第{{item.lottery_qh }}期</div>
-                <div class="flex flex-1 flex-center lottery-wf" >
-                    <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
+   <div class="wapper">
+        <div class="headWrap">
+            <div class="flex top-wapper">
+                <div class="flex-1 flex flex-v top-content">
+                    <div class="flex-1 flex flex-center right-border">距{{lotteryInfo.show_qh}}期截止:</div> 
+                    <div class="flex-1 flex flex-center count right-border">{{drawCountTime}}</div>
+                </div>
+                <div class="flex-1 flex flex-v top-content">
+                    <div class="flex-1 flex flex-center">余额</div> 
+                    <!-- <div class="flex-1 flex flex-center count">{{account.balance}}</div> -->
+                    <div class="flex-1 flex flex-center count">{{moneyToFixed}}</div>
                 </div>
             </div>
-            <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
+            <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
+                <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
+                    <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
+                    <div class="flex flex-center">第{{item.lottery_qh }}期</div>
+                    <div class="flex flex-1 flex-center lottery-wf" >
+                        <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
+                    </div>
+                </div>
+                <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
+            </div>
         </div>
-       <div class="flex-1 main-wapper" ref='mainWrap'>
-           <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
+        <div class="main-wapper">
+            <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
                <div v-if="v.msgType=='0'" :class="v.class">{{v.neirong}}</div>
                <div v-if="v.msgType=='1'" :class="v.class" class="flex flex-center flex-v">
                    <div v-if="v.neirong.inRoomTime" class="u-intime">{{v.neirong.inRoomTime}}</div>
@@ -59,12 +60,12 @@
                    </div>
                </div>
            </div>
-       </div>
-       <div class="flex flex-align-center footer">
+        </div>
+        <div class="flex flex-align-center footer">
             <input v-model="textMsg" class="flex-1" style="height:0.87rem;"  type="text" readonly v-on:click.stop="showBet">
             <!-- <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button> -->
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
-       </div>
+        </div>
         <bet-board class="bet-board"  v-if="betKeyboard" 
                   @wfExplain = "wfExplain"
                   @showWf = "showWf"
@@ -631,13 +632,18 @@ export default {
 .right-border{
     @include border-right-1px(solid,#f2f2f2);
 }
-.wapper{
-    position: fixed;
-    width: 100%;
-    top: 1.2rem;
-    bottom: 0;
-    z-index: 103;
-    background: #ffffff;
+.wapper{    
+    height: 100%;
+    background-color: #F2F2F2;
+    .headWrap{
+        height: 2.7rem;
+        padding-top: 1.2rem;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 8;
+    }
     .grayBg{
         position: fixed;
         top: 0;
@@ -686,9 +692,9 @@ export default {
         background: #ffffff;
         transition: all .3s ease-in-out;
         @include border-bottom-1px(solid,#f2f2f2);
-        position: absolute;
-        width: 100%;
-        top: 1.65rem;
+        // position: absolute;
+        // width: 100%;
+        // top: 1.65rem;
         &.showAll{
             height: 5.3rem;
         }
@@ -787,7 +793,8 @@ export default {
     .main-wapper{
         background: #F2F2F2;
         overflow: auto;
-        padding-top: 1.06rem;
+        padding: 3.9rem 0 1.4rem;
+        -webkit-overflow-scrolling: touch;        
         .message-wapper{
             padding: 0.3rem 0 0 0;
             .msgType0{
@@ -1137,9 +1144,14 @@ export default {
     }
     
     .footer{
-        height: 1.4rem;
+        height: 1.2rem;
         justify-content:space-around;
         padding: 0 0.3rem;
+       position: fixed;
+       bottom: 0;
+       left: 0;
+       right: 0;
+       background-color: #fff;
         input{
             background: #F2F2F2;
             margin-right: 0.2rem;
@@ -1150,8 +1162,7 @@ export default {
             color:#ffffff;
             background:#DA1C36;
             border-radius: 4px;
-        }
-        
+        }        
     }
 }
 </style>

@@ -23,4 +23,6 @@ export const getNavActive = state => state.nav_active;
 export const getRecord = state => state.recordShow;
 //  设置房间模式投注记录详情页是否显示
 export const getRecordDetail = state => state.recordDetailShow;
-export const getRecordChoose = state => state.recordChooseShow;
+//  设置房间模式底部nav是否显示
+export const getFootShow = state => state.isNavShow;
+

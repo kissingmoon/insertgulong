@@ -420,3 +420,7 @@ export const headerConfig = {
         back:true
     },
 };
+
+export const footConfig = {
+    './betroom': false,
+}

@@ -3,8 +3,8 @@
         <botToTop>
         <url-content v-show="showService"></url-content>
         </botToTop>
-        <div class="headBox"><m-header @showServEvent="showServEvent"></m-header></div>
-        <div class="navBox">
+        <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
+        <div class="navBox" v-if="getFootShow">
             <m-nav></m-nav>
         </div>
         <tip></tip>        
@@ -14,9 +14,9 @@
                 <router-view  v-if="$route.meta.keepAlive"></router-view>                       
             </keep-alive>
         </Fade>
-            <Fade>
-                <router-view  v-if="!$route.meta.keepAlive"></router-view>   
-            </Fade>
+        <Fade>
+            <router-view v-if="!$route.meta.keepAlive"></router-view>   
+        </Fade>
             
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
@@ -34,10 +34,9 @@ import Fade from 'base/fade/fade';
 import botToTop from 'base/top-to-bot/top-to-bot';
 import Tip from 'base/tip/tip';
 import {session} from 'common/js/param';
-import {headerConfig} from 'common/js/map';
+import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
-
 export default {
     name: 'App',
     data(){
@@ -71,7 +70,8 @@ export default {
             'hd_xrkh',
             'href_type',
             'account',
-            "header"
+            "header",
+            'getFootShow'
         ])
     },
     methods:{
@@ -87,6 +87,13 @@ export default {
             let user_token = session('user_token') || '';
             let md5_salt = session('md5_salt') || '';
             let path=this.$router.history.current.path;
+            if(path == '/betroom'){
+                this.setFoot(false)
+                document.body.style.backgroundColor = '#f2f2f2'
+            }else{
+                this.setFoot(true)
+                document.body.style.backgroundColor = '#fff'
+            } 
             this.resetUser({
                 account:'',
                 token:user_token,
@@ -123,7 +130,8 @@ export default {
         ]),
         ...mapMutations({
             sethreftype:'SET_HREF_TYPE',
-            setNavActive:'SET_NAV_ACTIVE'
+            setNavActive:'SET_NAV_ACTIVE',
+            setFoot:'SET_FOOT_SHOW'
         })
     },
     watch:{
@@ -135,6 +143,13 @@ export default {
             }else{
                 this.setNavActive(false)
                 this.setHeader(headerConfig[path]);
+                if(path == '/betroom'){
+                    this.setFoot(false)
+                    document.body.style.backgroundColor = '#f2f2f2'
+                }else{
+                    this.setFoot(true)
+                    document.body.style.backgroundColor = '#fff'
+                }                
             }
         }
     }
@@ -149,12 +164,13 @@ export default {
     height:auto;
     overflow: hidden;
     min-height: 100%;
+    -webkit-overflow-scrolling: touch;    
     .headBox{
         position: fixed;
         top: 0;
         width: 100%;
         height: 1.2rem;
-        z-index: 101;
+        z-index: 9;
     }
     .navBox{
         position: fixed;

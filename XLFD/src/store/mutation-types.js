@@ -21,4 +21,4 @@ export const SET_XGLHC_COLOR = 'SET_XGLHC_COLOR';
 export const SET_NAV_ACTIVE = 'SET_NAV_ACTIVE';         //  设置添加彩种页面底部导航保留首页当前样式
 export const SET_RECORD_SHOW = 'SET_RECORD_SHOW';          //  设置房间模式投注记录是否显示
 export const SET_RECORD_DETAIL_SHOW = 'SET_RECORD_DETAIL_SHOW';          //  设置房间模式投注记录详情页是否显示
-export const SET_RECORD_CHOOSE = 'SET_RECORD_CHOOSE';  
+export const SET_FOOT_SHOW = 'SET_FOOT_SHOW';          //  设置房间模式投注记录详情页是否显示

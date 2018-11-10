@@ -70,6 +70,7 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
 
 <style lang='scss' scoped>
 .wrap{    
+    overflow: hidden;
     .items{
         padding: 1.7rem .3rem 1.44rem;
     }

@@ -201,7 +201,7 @@ export default {
             wfRuleShow:false,
             wfDetail:{},
             ruleShow:false,  //是否显示规则页面
-            loadingTip:"当前期已封单,请在下一期投注!",
+            loadingTip:"",
             loadingShow:false,
             fengdan:false,
             lastWf:'',

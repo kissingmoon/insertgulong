@@ -50,8 +50,10 @@
                             <!-- <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p> -->
                         </div>
                         
-                        <div class="bj" @click="deletePeriod(i)">
-                            <i class="icon-delete"></i>
+                        <div class="bj flex flex-center" @click="deletePeriod(i)">
+                            <!-- <i class="icon-delete"></i> -->
+                            <span class="sc-text">删除</span>
+                            
                         </div>
                     </li>
                 </ul>
@@ -644,8 +646,13 @@
                         }
                         &.bj{
                             width:1.6rem;
-                            font-size: $font-size-large;
+                            // font-size: $font-size-large;
                             @include border-right-1px(solid,$color-bg-white-a0);
+                            .sc-text{
+                                background-color: #F2F2F2;
+                                border-radius: 0.1rem;
+                                padding:0 0.1rem;
+                            }
                         }
                     }
 

@@ -168,13 +168,21 @@ export default {
         },
         fengdan(newVal,oldVal){
             if(newVal==true){
-                this.loadingTip="当前期已封单,请在下一期继续投注!"
+                // this.loadingTip="当前期已封单,请在下一期继续投注!"
                 this.show('loadingShow')
             }else{
-                this.loadingTip="Loading..."
+                // this.loadingTip="Loading..."
                 this.hide('loadingShow')
             }
         },
+        zodiac: {
+            handler: function (newVal, oldVal) {
+                if(newVal.length>0 && this.wfList.length>0){
+                    this.makeWfParam();
+                }
+            },
+            deep: true
+        }
         // currentWf(newVal,oldVal){
         //     console.log(newVal.wf_flag)
         //     this.scrollToWf(newVal.wf_flag)
@@ -182,9 +190,7 @@ export default {
     },
     computed:{
         showWinMoney(){
-            
             if(this.currentWf.wf_pl){
-                console.log((this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2))
                 return (this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2);
             }else{
                 return "";
@@ -205,7 +211,6 @@ export default {
             }
         },
         classObject(k,k1){
-            console.log(k)
             return{
                 on:k== this.currentWfIndex.k&&k1== this.currentWfIndex.k1
             }
@@ -302,7 +307,7 @@ export default {
                     this.wfList=res.data;                                         
                     this.selectTacitWf();
                     // this.scrollToWf(this.tacitWf[this.lotteryType])
-                    this.scrollToWf(this.currentWf.wf_flag)
+                    this.scrollToWf(this.currentWf.wf_flag);
                     this.makeWfParam();
                 };
             });
@@ -341,6 +346,7 @@ export default {
             this.wfDetail=Object.assign({},this.wfDetail,this.currentWf);
             this.numberList=[];
             if(this.is28OrLhc){
+                
                 const detail=BaseVM(this.wfDetail,0,true,this.zodiac);
                 this.numberList.push(detail);
                 this.selectNumList.push([]);

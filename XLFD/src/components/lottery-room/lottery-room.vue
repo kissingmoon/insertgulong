@@ -15,7 +15,10 @@
                             </div>
                             <div class="option-footer flex flex-v">
                                 <div class="flex-1 flex flex-center">{{v1.roomName}}</div>
-                                <div class="flex-1 flex flex-center">{{v1.onlineCount}}</div>
+                                <div class="flex-1 flex flex-center">
+                                    <i class="online-count"></i>
+                                    {{v1.onlineCount}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -80,6 +83,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import 'common/scss/variable.scss';
+@import 'common/scss/mixin.scss';
 .wapper{
     position: fixed;
     width: 100%;
@@ -132,6 +136,14 @@ export default {
                     .option-footer{
                         height: 1.05rem;
                         background: #FFD3A0;
+                        .online-count{
+                            display: inline-block;
+                            width: 0.35rem;
+                            height: 0.35rem;
+                            @include bg-image('member');
+                            background-size: 100% 100%;
+
+                        }
                     }
                 }
             }

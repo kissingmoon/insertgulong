@@ -12,7 +12,9 @@ Vue.config.productionTip = false;
 Vue.prototype.$axios = Axios;
 fastclick.attach(document.body);
 Vue.use(VueLazyload,{
-    loading:require('common/img/icon-loading-img.png')
+    loading:require('common/img/icon-loading-img.png'),
+    loadingLarge:require('common/img/icon-loading-img.png'),
+    loadingCircle:require('common/img/icon-loadingCircle-img.png')
 },VueAwesomeSwiper);
 // Vue.prototype.TencentCaptcha = TencentCaptcha;
 /* eslint-disable no-new */

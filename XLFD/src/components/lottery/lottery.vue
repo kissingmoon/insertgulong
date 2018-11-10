@@ -766,7 +766,7 @@
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
                     this.hide('followNumberShow');
-                    this.hide('betOrderListShow');
+                    // this.hide('betOrderListShow');
                     clearTimeout(this.getLockTimes);
                     this.getLockTimes = setTimeout(() => {
                         this.getLockTime();

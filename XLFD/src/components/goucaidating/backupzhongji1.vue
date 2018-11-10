@@ -47,8 +47,6 @@ export default {
     watch:{
         // truetotalList: {
         //     handler (cval, oval) {
-        //         console.log('--------')
-        //         console.log(cval, oval)
         //     },
         //     deep: true
         // }
@@ -117,7 +115,6 @@ export default {
             //     })
             // }
             // else{
-            //     console.log("定时器已经存在")
             // }
         },
         updateTruetotalList(index,key,newvalue){

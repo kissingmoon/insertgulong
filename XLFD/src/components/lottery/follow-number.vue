@@ -210,8 +210,7 @@
             this.isShow = !this.isShow;
         },
         //  获取追号号码数组
-        getNums(){
-            // console.log(this.betNumber)            
+        getNums(){            
             let arrList,newList = [];
             if(this.wfFlag == '11x5_qwx_dds' || this.wfFlag == 'k3_hz_hz' || this.wfFlag == 'k3_3bth_hz'){
                 arrList = this.betNumber.split(',')

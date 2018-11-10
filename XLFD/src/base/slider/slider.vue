@@ -96,7 +96,6 @@
         })
 
         this.slider.on('scrollStart', (val) => {
-          // console.log(val)
         })
 
         this.slider.on('scrollEnd', () => {

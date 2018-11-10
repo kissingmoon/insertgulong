@@ -124,7 +124,6 @@ export default {
                                 },5000)
                             }
                             // else if(v1.plantime=="00:00:00"){
-                            //     console.log("开奖时间到了")
                             //     v1.planrunning=false;
                             //     setTimeout(()=>{
                             //         this.getSingleLockTime(v1,k,k1)

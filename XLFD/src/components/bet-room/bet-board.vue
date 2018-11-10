@@ -144,14 +144,9 @@ export default {
     mounted(){
         // this.$nextTick( () =>{
         //     // DOM 更新了
-        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
         //     // this.$refs.titleContent.scrollLeft=5500
         // })
         // this.$refs.titleContent.addEventListener('scroll', ()=>{
-            
-        //     // console.log(this.$refs.titleContent.scrollLeft)
-        //     // console.log(this.$refs.ssc_5xdwd)
-        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
         //     // window.scrollTo(this.$refs.ssc_5xdwd[0].offsetLeft, 0);
         // })
     },
@@ -184,7 +179,6 @@ export default {
             deep: true
         }
         // currentWf(newVal,oldVal){
-        //     console.log(newVal.wf_flag)
         //     this.scrollToWf(newVal.wf_flag)
         // }
     },
@@ -279,7 +273,6 @@ export default {
         },
         //滚动到默认玩法
         scrollToWf(key){
-            // console.log(this.tacitWf[this.lotteryType])
             // this.$nextTick(()=>{
             //             this.$refs.titleContent.scrollLeft=this.$refs[this.tacitWf[this.lotteryType]][0].offsetLeft
             //         })
@@ -584,7 +577,6 @@ export default {
         },
         //投注
         betOrder(){    
-            console.log("点击投注")
             if(parseInt(this.betTimes)<=0){
                 // this.setTip('请输入投注金额！')
                 this.setTip({message:"请输入投注金额",flag:2})
@@ -620,7 +612,6 @@ export default {
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
-                    console.log(param.lottery_qh)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };

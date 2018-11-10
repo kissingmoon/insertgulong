@@ -467,8 +467,6 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 var resData=JSON.parse(event.data)
-                console.log("resData")
-                console.log(resData)
                 var parsedData={}
                 if(resData==1){
                     return;
@@ -549,9 +547,7 @@ export default {
         },
         sendSocketMsg(message){
             this.getUser()
-            console.log("发送消息")
             message.user_token=this.user_token
-            console.log(JSON.stringify(message))
             this.webSocket.send(JSON.stringify(message));  
             this.isBG_show = false;
         },

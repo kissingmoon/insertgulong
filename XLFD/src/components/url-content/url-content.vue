@@ -1,6 +1,6 @@
 <template>
     <div class="url-content">
-        <m-iframe :url="url"></m-iframe>
+        <m-iframe :url="url" iframeName='serviceIframe'></m-iframe>
     </div>
 </template>
 <script>

@@ -34,12 +34,8 @@
         },
         watch:{
             tip(newVue){
-                console.log("newVue")
-                console.log(newVue)
                 let _this = this;
-                
                 this.tipIsString=(typeof newVue == "string");
-                console.log(this.tipIsString)
                 if((this.tipIsString&&newVue.length > 0)||!this.tipIsString){
                     if(!this.tipIsString){
                         this.tipBg="tip-bg-image"+newVue.flag;

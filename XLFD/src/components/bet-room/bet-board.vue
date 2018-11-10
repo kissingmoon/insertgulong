@@ -164,6 +164,7 @@ export default {
         fengdan(newVal,oldVal){
             if(newVal==true){
                 // this.loadingTip="当前期已封单,请在下一期继续投注!"
+                // this.setTip(`当前期已封单,<br/>请在下一期继续投注!`);
                 this.show('loadingShow')
             }else{
                 // this.loadingTip="Loading..."

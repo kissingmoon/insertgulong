@@ -44,7 +44,7 @@
                 const query=this.$router.history.current.query;
                 this.header.title=query.title?query.title:'活动详情';
                 this.url=`${query.url}?user_token=${this.user_token}`;
-                // this.setHeader(this.header);
+                this.setHeader(this.header);
             },
             iframeOnload(){
             },

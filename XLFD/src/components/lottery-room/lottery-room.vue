@@ -6,7 +6,7 @@
                     {{v.roomGroupName}}
                 </div>
                 <div class="room-content flex">
-                    <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)"> 
+                    <!-- <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)"> 
                         <div class="option-content flex flex-v">
                             <div class="option-body flex flex-v flex-center">
                                 <div class="option-img">
@@ -18,6 +18,21 @@
                                 <div class="flex-1 flex flex-center">
                                     <i class="online-count"></i>
                                     {{v1.onlineCount}}
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="room-option" v-for="(v1,k1) in v.list" :key="k1" v-on:click="gotoBetRoom(v1)">
+                        <div class="option-content">
+                            <img v-lazy="{
+                                src: v1.roomImage,
+                                loading: require('./room-loading.png')
+                            }">
+                            <div class="option-footer flex flex-v">
+                                <div class="flex-1 flex flex-center">{{v1.roomName}}</div>
+                                <div class="flex-1 flex flex-center" style="padding-top:0.1rem;">
+                                    <i class="online-count"></i>&nbsp;
+                                    <span style="color:red;">{{v1.onlineCount}}</span>
                                 </div>
                             </div>
                         </div>
@@ -119,25 +134,21 @@ export default {
                 padding: 0.5rem;
                 box-sizing:border-box;
                 .option-content{
-                    border: 5px solid #CD9E62;
-                    justify-content:flex-end;
+                    // border: 5px solid #CD9E62;
+                    // justify-content:flex-end;
+                    // height: 95%;
+                    // border-top-left-radius: 50% 40%;
+                    // border-top-right-radius: 50% 40%;
                     height: 95%;
-                    border-top-left-radius: 50% 40%;
-                    border-top-right-radius: 50% 40%;
-                    .option-body{
-                        height: 4rem;
-                        .option-img{
-                            height: 2.1rem;
-                            width: 2.8rem;
-                            img{
-                                width: 100%;
-                                height: 100%;
-                            }
-                        }
+                    position: relative;
+                    img{
+                        width: 100%;
+                        height: 100%;
                     }
                     .option-footer{
-                        height: 1.05rem;
-                        background: #FFD3A0;
+                        position:absolute;
+                        bottom: 0.2rem;
+                        width: 100%;
                         .online-count{
                             display: inline-block;
                             width: 0.35rem;
@@ -147,6 +158,29 @@ export default {
 
                         }
                     }
+                    // .option-body{
+                    //     height: 4rem;
+                    //     .option-img{
+                    //         height: 2.1rem;
+                    //         width: 2.8rem;
+                    //         img{
+                    //             width: 100%;
+                    //             height: 100%;
+                    //         }
+                    //     }
+                    // }
+                    // .option-footer{
+                    //     height: 1.05rem;
+                    //     background: #FFD3A0;
+                        // .online-count{
+                        //     display: inline-block;
+                        //     width: 0.35rem;
+                        //     height: 0.35rem;
+                        //     @include bg-image('member');
+                        //     background-size: 100% 100%;
+
+                        // }
+                    // }
                 }
             }
         }

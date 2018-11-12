@@ -613,7 +613,7 @@
         mounted(){
         },
         updated(){
-            this.setTotal()
+            // this.setTotal()
         },
         beforeDestroy(){
             clearTimeout(this.lockTimes);
@@ -766,7 +766,7 @@
                     this.hide('betAffirmShow');
                     this.hide('gdSetShow');
                     this.hide('followNumberShow');
-                    // this.hide('betOrderListShow');
+                    this.hide('betOrderListShow');
                     clearTimeout(this.getLockTimes);
                     this.getLockTimes = setTimeout(() => {
                         this.getLockTime();
@@ -843,6 +843,7 @@
             //选择号码
             selectNum(p,i,num){
                 const index=this.selectNumList[p].indexOf(num);
+                const keyLength = this.selectNumList.length;
                 if(index != -1){
                     this.selectNumList[p].splice(index,1);
                     if(this.is28OrLhc){
@@ -981,6 +982,7 @@
             },
             //修改组合赔率
             changeTotal(){
+                
                 switch(this.wfFlag){
                     case "xglhc_zxbz_zxbz":
                         const n=this.selectNumList[0].length-6;
@@ -1245,7 +1247,7 @@
                 const keyLength=Object.keys(this.selectObj).length;
                 const plLength=this.currentWf.wf_pl.length;
                 let isTrueNumber=true;
-                if(this.updataNumberList.length>=0){
+                if(this.updataNumberList.length<=0){
                     // 号码判断
                     if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                         if (keyLength < 2) {
@@ -1281,12 +1283,13 @@
                             this.setTip(`最多选择${5+plLength}个号码`);
                         }
                         return;
-                    }else if(keyLength == 0){
+                    } if(keyLength == 0){
                         // this.setTip("请选择一组号码");
-                        this.setTip({message:"请选择一组号码",flag:2});
-                        return;
+                            this.setTip({message:"请选择一组号码",flag:2});
+                            return;
                     }
-                }else{
+                }
+                else{
                     // 号码判断
                     if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                         isTrueNumber=false;
@@ -1702,8 +1705,8 @@
             height:0.8rem;
             line-height: 0.8rem;
             padding:0 0.4rem;
-            color:#fff;
-            @include border-bottom-1px(solid,#163316);
+            color:#A9A9A9;
+            @include border-bottom-1px(solid,#A9A9A9);
             .wf-name{
                 float: left;
             }

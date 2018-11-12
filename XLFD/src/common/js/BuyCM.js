@@ -179,7 +179,7 @@ export function BaseVM(wfBeanParam,position,is28OrLhcOld,shengXiaoLHCRecvListPar
             isShowSign = false;
             isCanBottomFastPick = false;
             backgroundType = TYPE_ROUND_RECT;
-            isShowOdds = true;
+            isShowOdds = false;
             break;
         // 五行
         case "xglhc_wuxing_wx":

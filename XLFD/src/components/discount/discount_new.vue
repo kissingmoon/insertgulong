@@ -4,7 +4,11 @@
         <div class="items">
             <div class="item" v-for="(item,index) in activityList" :key="index" @click="goPage(item)">
                 <div class="img">
-                    <img :src="item.image_url" alt="">
+                    <!-- <img :src="item.image_url" alt=""> -->
+                    <img v-lazy="{
+                        src: item.image_url,
+                        loading: require('common/img/loading-large.png')
+                    }" alt=""> 
                 </div>
                 <div class="con">
                     <p class="txt">{{item.title}}</p>
@@ -27,6 +31,9 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
                 order_by:1,
             },
             activityList:[],
+            imgObj:{
+
+            }
         };
     },
 

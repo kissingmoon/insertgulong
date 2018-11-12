@@ -228,7 +228,8 @@ export function initShengxiaoData(type, shengXiaoLHCRecvList,wfPlBeanList,wf_fla
     var list = [];
     shengXiaoLHCRecvList.forEach((shengXiaoLHCRecv,i) => {
         var buyNumberBean = {};
-        const content = shengXiaoLHCRecv.value.replace(/,/g, "&nbsp;&nbsp;");
+        // const content = shengXiaoLHCRecv.value.replace(/,/g, "&nbsp;&nbsp;");
+        const content = shengXiaoLHCRecv.value.length>=14 ?shengXiaoLHCRecv.value.replace(/,/g, "&nbsp;"):shengXiaoLHCRecv.value.replace(/,/g, "&nbsp;&nbsp;");
         buyNumberBean.str = content;
         buyNumberBean.number_str = shengXiaoLHCRecv.flag;
         buyNumberBean.index = i;

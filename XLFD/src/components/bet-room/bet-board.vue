@@ -423,7 +423,7 @@ export default {
                     }
                     return;
                 }else if(keyLength == 0){
-                    this.setTip("请选择一组号码");
+                    this.setTip({message:"请选择一组号码",flag:2});
                     return;
                 }
             }else{
@@ -573,7 +573,7 @@ export default {
                     // this.setTip("金额不足~")
                 }
             }else{
-                this.setTip("请选择一组号码")
+                this.setTip({message:"请选择一组号码",flag:2})
             }
         },
         //投注
@@ -667,7 +667,7 @@ export default {
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
-                    this.setTip('投注成功！')
+                    this.setTip({message:"投注成功",flag:1})
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };

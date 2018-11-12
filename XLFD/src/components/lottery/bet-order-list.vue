@@ -136,6 +136,9 @@
                     this.SET_TIP('请输入投注金额！')
                     return;
                 }
+            }if(this.updataNumberList.length==0){
+                this.SET_TIP("请选择一注号码")
+                return;
             }
             var bet_number='';
             var count_money='';

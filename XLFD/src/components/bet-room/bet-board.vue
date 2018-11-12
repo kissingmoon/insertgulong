@@ -693,7 +693,8 @@ export default {
                     }
                 }else if(this.wfFlag == 'xglhc_lm_tc'){
                     if(this.betNumber.length >= 4){
-                        this.betCount = this.betNumber.length/2-1;
+                        // this.betCount = this.betNumber.length/2-1;
+                        this.betCount = 1;
                     }else{
                         this.betCount = 0;
                     }                    

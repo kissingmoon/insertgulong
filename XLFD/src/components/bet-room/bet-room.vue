@@ -1,5 +1,5 @@
 <template>
-   <div class="wapper">
+   <div class="wapper" ref="wapper">
         <div class="headWrap">
             <div class="flex top-wapper">
                 <div class="flex-1 flex flex-v top-content">
@@ -13,17 +13,21 @@
                 </div>
             </div>
             <div class="kj-wapper" :class="{'showAll':isHistoryShow}" ref="kjWapper">
-                <div class="history_item flex flex-pack-center"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
-                    <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
-                    <div class="flex flex-center">第{{item.lottery_qh }}期</div>
-                    <div class="flex flex-1 flex-center lottery-wf" >
-                        <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
+                <div class="scrollWrap">
+                <!-- <scroll v-if="showScroll" :data="isHistoryShow ? drawHistoryList : firstHistory" class="scroll-warpper"  :listenScroll="listenScroll"> -->
+                    <div class="history_item flex flex-pack-center" ref="scrollDom"  @click="showHistory" v-for="(item,index) in isHistoryShow ? drawHistoryList : firstHistory" :key="index">
+                        <!-- <div class="flex flex-center">{{item.lottery_qh }}期开奖</div> -->
+                        <div class="flex flex-center">第{{item.lottery_qh }}期</div>
+                        <div class="flex flex-1 flex-center lottery-wf" >
+                            <span :class=v.clas v-for="(v,k) in item.resultList" :key="k" :style="v.bg">{{v.val}}</span>                    
+                        </div>
                     </div>
+                    <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
+                <!-- </scroll> -->
                 </div>
-                <span class="icon-triangle-below" :class="isHistoryShow ? 'show': ''"  @click="showHistory"></span>
             </div>
         </div>
-        <div class="main-wapper">
+        <div class="main-wapper" ref="mainWapper">
             <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
                <div v-if="v.msgType=='0'" :class="v.class">{{v.neirong}}</div>
                <div v-if="v.msgType=='1'" :class="v.class" class="flex flex-center flex-v">
@@ -144,7 +148,7 @@
             @close="hide"
         ></rule-pare>
         <!-- betKeyboard ||  -->
-        <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll"></div>   
+        <div class="grayBg" ref="grayBg" :class="{'marginTop':isHistoryShow}" v-if="isBG_show || isHistoryShow" @click="closeAll" @touchmove="bgTouch($event)"></div>   
         <!-- 投注记录页面 -->
         <div class="record" v-if="getRecord">
             <Bet @order="order"></Bet>
@@ -168,6 +172,8 @@ import RulePare from 'components/lottery/rule-page';
 import Loading from 'base/loading/loading';
 import Bet from 'components/bet/bet';
 import BetDetail from 'components/bet-detail/bet-detail';
+import Scroll from 'base/scroll/scroll';
+import BScroll from 'better-scroll'
 
 export default {
     data(){
@@ -207,7 +213,9 @@ export default {
             fengdan:false,
             lastWf:'',
             uId:"",
-            order_numver:''  //  投注id
+            order_numver:'',  //  投注id
+            showScroll:false,
+            listenScroll:false,
         }
     },
     components:{
@@ -216,15 +224,17 @@ export default {
         RulePare,
         Loading,
         Bet,
-        BetDetail
+        BetDetail,
+        Scroll
     },
     created(){
+        this.showScroll = true;
         this.lotteryId=this.$route.query.id;
         this.lotteryType=this.$route.query.type;
         this.header.title =this.$route.query.name;
         this.is28OrLhc =this.lotteryType == '6' || this.lotteryType == '11'? true:false ;
         this.uId=this.account.user_id||session("uID")
-       
+        
         this.setHeader(this.header);
         this.getDrawHis();
         if(this.user_token){
@@ -238,6 +248,12 @@ export default {
                 path:'/login'
             });
         }
+    },
+    mounted(){
+        this.$nextTick(()=>{
+            this._initScroll();
+            
+        })
     },
     filters: {
         cutLotteryQh(value) {
@@ -264,7 +280,7 @@ export default {
     },
     watch: {
         socketList: {
-    　　　　handler(newValue, oldValue) {
+    　　　　handler(newValue, oldValue) {     
     　　　　　　if(newValue.length>100){
                     this.socketList=[]
                     var obj={}
@@ -275,15 +291,51 @@ export default {
                 }
     　　　　},
     　　　　deep: true
-    　　}
+　　    },   
+        /*解决iphone页面层级相互影响滑动的问题*/     
+        isHistoryShow(newVal,oldVal){
+            if(newVal){                
+                this.closeTouch();
+            }else{                
+                this.openTouch();
+                this.menuScroll.scrollTo(0,0)  
+            }
+        },
+        betKeyboard(newVal,oldVal){
+            if(newVal){                
+                this.closeTouch();
+            }else{                
+                
+                this.openTouch();
+            }
+        },
     },
     beforeDestroy(){
         this.webSocket.close()
     },
-     methods:{
+    methods:{
+         _initScroll(){
+             this.menuScroll = new BScroll(this.$refs.kjWapper,{
+                    probeType: 3,
+                });              
+         },
          ...mapActions([
             'getUser'
         ]),
+        bgTouch(e){
+            e.preventDefault();            
+        },
+        /*解决iphone页面层级相互影响滑动的问题*/
+        closeTouch:function(){
+            this.scrollTop = document.scrollingElement.scrollTop;
+            document.body.classList.add('modal-open');
+            document.body.style.top = -this.scrollTop + 'px';
+            
+        },
+        openTouch:function(){
+            document.body.classList.remove('modal-open');
+            document.scrollingElement.scrollTop = this.scrollTop;
+        },
         order(v){
             this.order_numver = v;
         },
@@ -345,7 +397,10 @@ export default {
             this.moneyLackShow = false;
         },
         showHistory(){
-            this.isHistoryShow = !this.isHistoryShow;
+            this.isHistoryShow = !this.isHistoryShow;  
+            this.$nextTick(()=>{
+                this._initScroll();
+            })
         },   
         showWf(wf){
             this[wf] = true;
@@ -388,7 +443,7 @@ export default {
                     }
                     this.firstHistory[0] =  this.drawHistoryList[0];      //  默认显示第一条记录
                     //根据最近一期的开奖号码显示不同的颜色
-                    this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryType,this.xglhc_color)
+                    this.newDraw.resultList=showKjCodeByType(res.data[0].kj_code,this.lotteryType,this.xglhc_color)                    
                 };
             });            
         },
@@ -468,8 +523,6 @@ export default {
             //接收到消息的回调方法
             this.webSocket.onmessage = event=> {
                 var resData=JSON.parse(event.data)
-                console.log("resData")
-                console.log(resData)
                 var parsedData={}
                 if(resData==1){
                     return;
@@ -489,10 +542,9 @@ export default {
                 else{
                     parsedData=this.parseResData(resData)
                     this.socketList.push(parsedData)
-                }
-                
+                }                
                 this.$nextTick(()=>{
-                    this.$refs.mainWrap.scrollTop = this.$refs.mainWrap.scrollHeight
+                    document.documentElement.scrollTop = document.documentElement.scrollHeight;
                 })
             }
         },
@@ -686,15 +738,20 @@ export default {
         height: 1.06rem;
         box-sizing: border-box;
         padding: 0 0.3rem;
-        overflow-y: auto;
+        overflow-y: hidden;
         overflow-x: hidden;
         z-index: 9;
         background: #ffffff;
         transition: all .3s ease-in-out;
         @include border-bottom-1px(solid,#f2f2f2);
-        // position: absolute;
-        // width: 100%;
-        // top: 1.65rem;
+        .scrollWrap{
+            height: 16.6rem;
+        }
+        .scroll-warpper{
+            height: 100%;     // 此处影响页面上下滑动，出现划不动的现象
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
         &.showAll{
             height: 5.3rem;
         }
@@ -1132,7 +1189,7 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 9;
+        z-index: 8;
     }
     .recordDetail{
         position: absolute;
@@ -1140,7 +1197,7 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
-        z-index: 10;
+        z-index: 8;
     }
     
     .footer{
@@ -1166,5 +1223,6 @@ export default {
     }
 }
 </style>
+
 
 

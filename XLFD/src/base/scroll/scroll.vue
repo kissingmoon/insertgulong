@@ -141,7 +141,7 @@ export default {
         pullupUI: {
             type: Boolean,
             default: false
-        }
+        },
     },
     data() {
         return {
@@ -159,7 +159,7 @@ export default {
     mounted() {
         // 保证在DOM渲染完毕后初始化better-scroll
         setTimeout(() => {
-            this._initScroll()
+            this._initScroll()            
         }, 100)
     },
     methods: {
@@ -173,7 +173,6 @@ export default {
                 click: this.click,
                 scrollX: this.scrollX
             });
-
             // 是否派发滚动事件
             if (this.listenScroll || this.pulldown || this.pullup) {
                 let me = this;
@@ -181,7 +180,6 @@ export default {
                     if (this.listenScroll) {
                         me.$emit('scroll', pos);
                     }
-
                     if (this.pulldown) {
                         // 下拉动作
                         if (pos.y > 50) {
@@ -283,8 +281,15 @@ export default {
         }
     },
     watch: {
+        listenScroll(val){
+            if(val){
+                this.$nextTick(()=>{
+                    this._initScroll()
+                })  
+            }
+        },
         // 监听数据的变化，延时refreshDelay时间后调用refresh方法重新计算，保证滚动效果正常
-        data() {
+        data(val) {
             setTimeout(() => {
                 this.refresh();
             }, this.refreshDelay);
@@ -300,8 +305,7 @@ export default {
                     text: '上拉加载',
                     rotate: ''
                 }
-            }
-            
+            }            
         }
     }
 }

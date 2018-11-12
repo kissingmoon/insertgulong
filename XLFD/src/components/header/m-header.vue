@@ -2,7 +2,7 @@
     <div class="header">
         <div class="back" v-show="header.back">
             <i class="icon-arrows-up outer" v-if="header.title == '客服中心'" @click="showServFun(false)"><i class="icon-arrows-up inner"></i></i>
-            <i class="icon-arrows-left" v-else  @click="goBack"></i>
+            <i class="icon-arrows-left backIco" v-else  @click="goBack"></i>
         </div>
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
             <i class="icon-question-circle"></i>
@@ -147,17 +147,23 @@
         position:absolute;
         height:1.2rem;
         line-height: 1.4rem;
-        padding: 0 0.5rem 0 0.3rem;
         font-size: 0.52rem;
         font-size: $font-size-large-x;
         .outer{
             position:relative;
             top:-.1rem;
+                padding: 0 0.5rem 0 0.3rem;
             .inner{
                 position:absolute;
-                left:0;
+                left:.3rem;
                 top:.16rem;
             }
+        }
+        .backIco{
+            display: block;
+            height: 100%;
+            line-height: 1.2rem;
+                padding: 0 0.5rem 0 0.3rem;
         }
     }
     .message{

@@ -141,7 +141,6 @@ export default {
                 this.setNavActive(true)
                 this.setHeader(headerConfig['/addType']);
             }else{
-                console.log("path")
                 this.setNavActive(false)
                 this.setHeader(headerConfig[path]);
                 if(path == '/betroom'){

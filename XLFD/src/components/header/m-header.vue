@@ -22,7 +22,10 @@
         <div  class="service" v-show="header.service" @click="showServFun(true)"><i class="icon-diamond"></i><span>客服</span></div>
         <div class="time-money-wrapper" v-show="header.time || header.moneyType">
             <div class="money" v-show="header.moneyType" @click="pickerShow"><i class="icon-money"></i></div>
-            <div class="time" v-show="header.time" @click="timeShow"><i class="icon-clock-02"></i></div>
+            <div class="time" v-show="header.time" @click="timeShow">
+                <!-- <i class="icon-clock-02"></i> -->
+                <img src="./list.png" alt="">
+            </div>
         </div>
         <div @click="betShow" class="bet-history" v-show="header.betHistory">
              <i class="bet-icon"></i>
@@ -241,6 +244,10 @@
             float:right;
             height:1.2rem;
             padding:0 0.2rem;
+            img{
+                width: .5rem;
+                height: 0.6rem;
+            }
         }
         .money{
             float:right;

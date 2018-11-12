@@ -185,8 +185,7 @@ export default {
                 this.$axios.postRequest(url,parmList[i])
                 .then((res)=> {
                    if(res.data && !res.data.errorCode){  
-                       this.computedTotalList(i,obj,res.data)
-                       
+                       this.computedTotalList(i,obj,res.data)                       
                    }
                 })
             }                     
@@ -219,7 +218,6 @@ export default {
                     v.map((v1,k1)=>{
                         if(v1.locktime){
                             v1.locktime=countTime(v1.lock_time.replace(/-/g,'/'));   
-                            //this
                             v1.plantime=countTime(v1.plan_kj_time.replace(/-/g,'/'));
 
                             if(v1.running==true&&v1.planrunning==true){                                
@@ -229,7 +227,6 @@ export default {
                                         this.getSingleLockTime(v1,k,k1)
                                     },5000)
                                 }
-                                //this
                                 else if(v1.plantime=="00:00:00"){
                                     v1.planrunning=false;
                                     setTimeout(()=>{
@@ -241,8 +238,7 @@ export default {
                                     this.$set(v,k1,v1)
                                 }
                             }                            
-                        }
-                        
+                        }                        
                     })
                 })
             },1000);

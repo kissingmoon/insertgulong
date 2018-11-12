@@ -1,6 +1,8 @@
 <template>
     <div class="lottery-number-content">
+        <div class="newk3-title" v-if="numList.length > 0 && numList[0].backgroundType == 4&&numList[0].isShowSign">{{numList[0].wfBean.help}}赔率{{numList[0].wfBean.wf_pl[0].award_money}}</div>
         <div class="lottery-option-main" v-for="(posi,p) in numList" :key="p">
+            
             <div class="position-main" v-if="posi.isCanTopFastPick">
                 <div class="position-item" @click="selectPosi(0)">
                     <p class="icon-con" :class="{'on': selectPosition && selectPosition.indexOf(0) != -1}"><i class="icon-right"></i></p>
@@ -23,7 +25,8 @@
                     <p class="txt">个位</p>
                 </div>
             </div>
-            <div class="option-wrapper">
+            
+            <div class="option-wrapper">                
                 <div class="option-title" v-if="posi.isShowSign&&posi.backgroundType != 4">
                     <p>{{posi.title}}<span class="angle"></span></p>
                 </div>
@@ -282,7 +285,8 @@
             }
         },
         watch:{
-            numList(){
+            numList(val){
+                console.log(val)
                 this.kindTypeList=new Array(100);
                 this.getSeboNums();
                 this.getLHtype(this.numList[0].wfBean.wf_flag)
@@ -296,7 +300,12 @@
     .lottery-number-content{
         height: auto;
         overflow: hidden;
-        
+        .newk3-title{
+            color: #fff;
+            font-size: 0.3rem;
+            line-height: .5rem;
+            padding: 0.4rem 0.4rem 0.2rem;
+        }
         .lottery-option-main{
             height: auto;
             overflow: hidden;

@@ -56,7 +56,7 @@
                     <div class="wf-name">{{currentWf.name}}</div>
                     <div class="odds">赔率:{{totalOdds}}</div>
                 </div>
-                <!-- 投注号码 -->
+                <!-- 投注号码 --> 
                 <div class="kuai3Con" v-if="$route.query.type == 9">
                     <scroll ref="scroll" class="scroll-content" :class="{'odds-scroll': !isShowOdds,'bet-set-scroll':lotterySelectShow}" :data="numberList">
                         <bet-number 

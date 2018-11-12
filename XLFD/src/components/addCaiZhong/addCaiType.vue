@@ -167,7 +167,7 @@ export default {
                     this.truetotalList=tempList.concat() 
                     this.trueCurrentSubList=this.truetotalList[0];                  
                     this.lotteryList[0].currentImage=this.lotteryList[0].lottery_image
-                    this.getSubLockTime(this.lotteryList,0)           
+                    this.getSubLockTime(this.lotteryList,0)     
                 }
             })
         },

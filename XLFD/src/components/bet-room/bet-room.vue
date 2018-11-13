@@ -427,6 +427,10 @@ export default {
                     obj.neirong.bet_msg="期,单注一元起,现在开始可以下注"
                     this.socketList.push(obj)
                     this.canSend=true
+                    this.$nextTick(()=>{
+                        document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                        document.body.scrollTop = document.body.scrollHeight;             
+                    })
                 };
             });
         },
@@ -464,6 +468,10 @@ export default {
                 obj.neirong.bet_msg="期已封单,请在下一期继续投注"
                 this.fengdan=true
                 this.socketList.push(obj)
+                this.$nextTick(()=>{
+                    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                     document.body.scrollTop = document.body.scrollHeight;             
+                })
                 clearTimeout(this.getLockTimes);
                 this.getLockTimes = setTimeout(() => {
                     this.canSend=false
@@ -545,7 +553,7 @@ export default {
                 }                
                 this.$nextTick(()=>{
                     document.documentElement.scrollTop = document.documentElement.scrollHeight;
-                     document.body.scrollTop = document.body.scrollHeight;                    // 
+                     document.body.scrollTop = document.body.scrollHeight;             
                 })
             }
         },
@@ -669,6 +677,10 @@ export default {
             }
             this.hideBet();
             this.cancel();
+            this.$nextTick(()=>{
+                document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                document.body.scrollTop = document.body.scrollHeight;             
+            })
         },
         ...mapMutations({
             setHeader:'SET_HEADER',

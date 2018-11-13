@@ -468,6 +468,7 @@ export default {
                 obj.neirong.bet_msg="期已封单,请在下一期继续投注"
                 this.fengdan=true
                 this.socketList.push(obj)
+                //  处理房间模式数据更新问题
                 this.$nextTick(()=>{
                     document.documentElement.scrollTop = document.documentElement.scrollHeight;
                      document.body.scrollTop = document.body.scrollHeight;             

@@ -1,6 +1,6 @@
 <template>
     <div class="url-content">
-        <m-iframe :url="url"></m-iframe>
+        <m-iframe :url="url" iframeName='serviceIframe'></m-iframe>
     </div>
 </template>
 <script>
@@ -53,7 +53,7 @@
     top: 1.2rem;
     bottom: 0rem;
     overflow: hidden;
-    z-index: 108;
+    z-index: 100;
     background:#fff;
 }
 </style>

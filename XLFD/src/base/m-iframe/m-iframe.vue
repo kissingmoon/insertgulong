@@ -1,7 +1,7 @@
 <template>
     <div class="iframe-content">
         <loading v-if="loadingShow" :loadingTip="loadingTip" ></loading>
-        <iframe :src="url" frameborder="0" class="iframe" ref="payiframe">
+        <iframe :src="url" frameborder="0" class="iframe" :ref="iframeName" :id="iframeName">
         </iframe>
     </div>
 </template>
@@ -24,6 +24,10 @@ import loading from 'base/loading/loading';
             loadingTip:{
                 type: String,
                 default: ''
+            },    
+            iframeName:{
+                type:String,
+                default: ''
             }
         },
         watch:{
@@ -34,8 +38,11 @@ import loading from 'base/loading/loading';
         mounted(){
             var _this=this;
             _this.loadingShow=true;
-            this.$refs.payiframe.onload=function(){
+            this.$refs[this.iframeName].onload=function(){
                 _this.loadingShow=false;
+                if(_this.iframeName=="activityIframe"){
+                    // _this.$emit("LoadComplate");
+                }
             }
         }
     }

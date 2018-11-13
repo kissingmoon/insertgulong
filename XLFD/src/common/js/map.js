@@ -312,7 +312,8 @@ export const headerConfig = {
     '/bet':{
         title:'投注记录',
         back:true,
-        time:true
+        time:true,
+        downDatil:true
     },
     '/bet/detail':{
         title:'投注详情',

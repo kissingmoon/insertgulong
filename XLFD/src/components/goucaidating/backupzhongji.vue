@@ -47,8 +47,6 @@ export default {
     watch:{
         // truetotalList: {
         //     handler (cval, oval) {
-        //         console.log('--------')
-        //         console.log(cval, oval)
         //     },
         //     deep: true
         // }

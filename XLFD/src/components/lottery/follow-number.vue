@@ -50,8 +50,10 @@
                             <!-- <p class="add" @click="changeTimes(i,'add')"><i class="icon-add"></i></p> -->
                         </div>
                         
-                        <div class="bj" @click="deletePeriod(i)">
-                            <i class="icon-delete"></i>
+                        <div class="bj flex flex-center" @click="deletePeriod(i)">
+                            <!-- <i class="icon-delete"></i> -->
+                            <span class="sc-text">删除</span>
+                            
                         </div>
                     </li>
                 </ul>
@@ -208,8 +210,7 @@
             this.isShow = !this.isShow;
         },
         //  获取追号号码数组
-        getNums(){
-            // console.log(this.betNumber)            
+        getNums(){            
             let arrList,newList = [];
             if(this.wfFlag == '11x5_qwx_dds' || this.wfFlag == 'k3_hz_hz' || this.wfFlag == 'k3_3bth_hz'){
                 arrList = this.betNumber.split(',')
@@ -644,8 +645,13 @@
                         }
                         &.bj{
                             width:1.6rem;
-                            font-size: $font-size-large;
+                            // font-size: $font-size-large;
                             @include border-right-1px(solid,$color-bg-white-a0);
+                            .sc-text{
+                                background-color: #F2F2F2;
+                                border-radius: 0.1rem;
+                                padding:0 0.1rem;
+                            }
                         }
                     }
 

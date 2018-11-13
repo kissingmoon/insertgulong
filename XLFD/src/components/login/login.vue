@@ -141,7 +141,6 @@
         //                 // if(res.ret === 0){
         //                 //     _this.$axios.getRequest(verparm)
         //                 //     .then((res)=> {
-        //                 //         console.log(res)
         //                 //         })
         //                 // }lo
         //             },
@@ -151,12 +150,9 @@
             // 获取本地储存的账号密码
             getloginParam(){
                 let loginParam = local('loginParam');
-                console.log(this.loginParam)
-                console.log(loginParam)
                 if(loginParam){
                     // this.loginParam = loginParam;
                     this.loginParam =Object.assign({},this.loginParam,loginParam)
-                    console.log(this.loginParam)
                 }
             },
             // 随机生成8-10位的code_id

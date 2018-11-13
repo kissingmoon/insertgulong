@@ -11,7 +11,7 @@
         <!-- <router-view></router-view> -->
         <Fade>
             <keep-alive>            
-                <router-view v-if="$route.meta.keepAlive"></router-view>                       
+                <router-view  v-if="$route.meta.keepAlive"></router-view>                       
             </keep-alive>
         </Fade>
         <Fade>
@@ -170,7 +170,7 @@ export default {
         top: 0;
         width: 100%;
         height: 1.2rem;
-        z-index: 9;
+        z-index: 101;
     }
     .navBox{
         position: fixed;

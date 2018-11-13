@@ -5,7 +5,8 @@
                 <div class="datum-wrapper" >
                     
                     <div class="datum-img">
-                        <img v-lazy="account.image_url">
+                        <img v-if="user_token" v-lazy="account.image_url">
+                        <div v-else class="user-img"></div>
                     </div>
                     <div class="datum-txt" @click="skipLink">
                         <p class="datum-login" v-show="!user_token">
@@ -182,6 +183,13 @@
                 img{
                     display: block;
                     width:100%;
+                }
+                .user-img{
+                    @include bg-image('user-img');
+                    width: 100%;
+                    height: 100%;
+                    background-size: 100% 100%;
+                    background-repeat: no-repeat;
                 }
             }
             .datum-txt{

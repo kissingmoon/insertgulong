@@ -34,12 +34,8 @@
         },
         watch:{
             tip(newVue){
-                console.log("newVue")
-                console.log(newVue)
                 let _this = this;
-                
                 this.tipIsString=(typeof newVue == "string");
-                console.log(this.tipIsString)
                 if((this.tipIsString&&newVue.length > 0)||!this.tipIsString){
                     if(!this.tipIsString){
                         this.tipBg="tip-bg-image"+newVue.flag;
@@ -69,14 +65,14 @@
             padding:0.2rem 0.4rem;
             border-radius: 0.2rem;
             // background: #fff;
-            background: rgb(90,90,90);
+            background: rgba(90,90,90,0.7);
             color: #ffffff;
             box-shadow: 0rem 0.07rem 0.1rem rgba(0,0,0,.2);
             line-height: 0.7rem;
             font-size: $font-size-large;
         } 
         .desc-icon{
-            background: rgb(90,90,90);
+            background: rgba(90,90,90,0.7);
             min-width: 3.8rem;
             min-height: 3.2rem;
             max-width: 4.9rem;

@@ -1,7 +1,7 @@
 <template>
     <parcel>
         <div class="activity-con">
-            <m-iframe :url="url"></m-iframe>
+            <m-iframe :url="url" :iframeName='iframeName' @LoadComplate="iframeOnload"></m-iframe>
             <!-- <m-object :data="url"></m-object> -->
             <!-- <m-embed :data="url"></m-embed> -->
         </div>
@@ -21,7 +21,8 @@
                     title:'活动详情',
                     back:true
                 },
-                url:''
+                url:'',
+                iframeName:"activityIframe"
             }
         },
         components:{
@@ -44,6 +45,8 @@
                 this.header.title=query.title?query.title:'活动详情';
                 this.url=`${query.url}?user_token=${this.user_token}`;
                 this.setHeader(this.header);
+            },
+            iframeOnload(){
             },
             ...mapActions([
                 'setHeader'

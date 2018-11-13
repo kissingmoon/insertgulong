@@ -177,14 +177,14 @@
                     </div>
                     <!-- 非6和28投注按钮 -->
                     <div v-if="!is28OrLhc" class="bet-btn"  @click="betExamine('lotterySelectShow')">
-                        <p>投注</p>
+                        <p>确定</p>
                     </div>
                     <!-- 6和28投注按钮 -->
                     <div v-if="is28OrLhc" class="bet-btn" @click="makeBetOrder">
-                        <p>投注</p>
+                        <p>确定</p>
                     </div>
                     <div class="lhc-bet-count">
-                        {{betCount}}注
+                        <b style="color:#FFDF1B">{{betCount}} </b>注
                     </div>
                 </div>
             </div>
@@ -613,7 +613,7 @@
         mounted(){
         },
         updated(){
-            this.setTotal()
+            // this.setTotal()
         },
         beforeDestroy(){
             clearTimeout(this.lockTimes);
@@ -843,6 +843,7 @@
             //选择号码
             selectNum(p,i,num){
                 const index=this.selectNumList[p].indexOf(num);
+                const keyLength = this.selectNumList.length;
                 if(index != -1){
                     this.selectNumList[p].splice(index,1);
                     if(this.is28OrLhc){
@@ -981,6 +982,7 @@
             },
             //修改组合赔率
             changeTotal(){
+                
                 switch(this.wfFlag){
                     case "xglhc_zxbz_zxbz":
                         const n=this.selectNumList[0].length-6;
@@ -1075,7 +1077,8 @@
                         }
                     }
                 }else{
-                    this.setTip("请选择一组号码")
+                    // this.setTip("请选择一组号码")
+                    this.setTip({message:"请选择一组号码",flag:2})
                 }
             },
             // 关闭投注确认
@@ -1199,7 +1202,8 @@
                         }
                     }else if(this.wfFlag == 'xglhc_lm_tc'){
                         if(this.betNumber.length >= 4){
-                            this.betCount = this.betNumber.length/2-1;
+                            // this.betCount = this.betNumber.length/2-1;
+                            this.betCount = 1;
                         }else{
                             this.betCount = 0;
                         }
@@ -1222,6 +1226,7 @@
                         this.betCount=this.selectNumList[0].length;
                     }
                 }else{
+                    
                     const funName= this.lotteryType == 3 ? "m"+this.wfFlag : this.wfFlag;
                     try{
                         this.betCount=CalcBetCount[funName](this.betNumber);
@@ -1242,7 +1247,7 @@
                 const keyLength=Object.keys(this.selectObj).length;
                 const plLength=this.currentWf.wf_pl.length;
                 let isTrueNumber=true;
-                if(this.updataNumberList.length>=0){
+                if(this.updataNumberList.length<=0){
                     // 号码判断
                     if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                         if (keyLength < 2) {
@@ -1278,11 +1283,13 @@
                             this.setTip(`最多选择${5+plLength}个号码`);
                         }
                         return;
-                    }else if(keyLength == 0){
-                        this.setTip("请选择一组号码");
-                        return;
+                    } if(keyLength == 0){
+                        // this.setTip("请选择一组号码");
+                            this.setTip({message:"请选择一组号码",flag:2});
+                            return;
                     }
-                }else{
+                }
+                else{
                     // 号码判断
                     if (this.wfFlag=="xglhc_hexiao_hx" && (keyLength < 2 || keyLength > 11)) {
                         isTrueNumber=false;
@@ -1698,8 +1705,8 @@
             height:0.8rem;
             line-height: 0.8rem;
             padding:0 0.4rem;
-            color:#fff;
-            @include border-bottom-1px(solid,#163316);
+            color:#A9A9A9;
+            @include border-bottom-1px(solid,#A9A9A9);
             .wf-name{
                 float: left;
             }
@@ -1799,12 +1806,12 @@
                     margin-right: 0.32rem;
                     &.tit{
                         margin-right: 0.1rem;
-                        width:1.5rem;
+                        width:1.8rem;
                         color: #403F3D;
                         overflow: hidden;
                     }
                     &.bet-money{
-                        width:3rem;
+                        width:2.5rem;
                         input{
                             height:0.8rem;
                             border: 0;
@@ -2020,16 +2027,17 @@
                     background:$color-yellow;
                     border-radius: 0.1rem;
                     color:$color-text;
-                    font-size: $font-size-medium-x;
+                    font-size: $font-size-medium;
                 }
             }
             .lhc-bet-count{
                 display: inline-block;
                 padding:0.2rem 0.3rem;
                 color:#fff;
-                border-radius: 0.1rem;
-                border: 1px solid #fff;
+                // border-radius: 0.1rem;
+                // border: 1px solid #fff;
                 line-height: 0.4rem;
+                font-size: $font-size-medium;
             }
         }
         .scroll-content{

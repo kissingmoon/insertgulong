@@ -110,7 +110,7 @@ export default {
             selectObj:{},
             canclick:true,
             loadingShow:false,
-            loadingTip:"投注中。。。",
+            loadingTip:"Loading...",
             lotteryModes:0
         }
     },
@@ -144,14 +144,9 @@ export default {
     mounted(){
         // this.$nextTick( () =>{
         //     // DOM 更新了
-        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
         //     // this.$refs.titleContent.scrollLeft=5500
         // })
         // this.$refs.titleContent.addEventListener('scroll', ()=>{
-            
-        //     // console.log(this.$refs.titleContent.scrollLeft)
-        //     // console.log(this.$refs.ssc_5xdwd)
-        //     // console.log(this.$refs.ssc_5xdwd[0].offsetLeft)
         //     // window.scrollTo(this.$refs.ssc_5xdwd[0].offsetLeft, 0);
         // })
     },
@@ -168,23 +163,29 @@ export default {
         },
         fengdan(newVal,oldVal){
             if(newVal==true){
-                this.loadingTip="当前期已封单,请在下一期继续投注!"
+                // this.loadingTip="当前期已封单,请在下一期继续投注!"
+                // this.setTip(`当前期已封单,<br/>请在下一期继续投注!`);
                 this.show('loadingShow')
             }else{
-                this.loadingTip="投注中。。。"
+                // this.loadingTip="Loading..."
                 this.hide('loadingShow')
             }
         },
+        zodiac: {
+            handler: function (newVal, oldVal) {
+                if(newVal.length>0 && this.wfList.length>0){
+                    this.makeWfParam();
+                }
+            },
+            deep: true
+        }
         // currentWf(newVal,oldVal){
-        //     console.log(newVal.wf_flag)
         //     this.scrollToWf(newVal.wf_flag)
         // }
     },
     computed:{
         showWinMoney(){
-            
             if(this.currentWf.wf_pl){
-                console.log((this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2))
                 return (this.currentWf.wf_pl[0].award_money * 1/Math.pow(10,this.lotteryModes)).toFixed(2);
             }else{
                 return "";
@@ -205,7 +206,6 @@ export default {
             }
         },
         classObject(k,k1){
-            console.log(k)
             return{
                 on:k== this.currentWfIndex.k&&k1== this.currentWfIndex.k1
             }
@@ -274,7 +274,6 @@ export default {
         },
         //滚动到默认玩法
         scrollToWf(key){
-            // console.log(this.tacitWf[this.lotteryType])
             // this.$nextTick(()=>{
             //             this.$refs.titleContent.scrollLeft=this.$refs[this.tacitWf[this.lotteryType]][0].offsetLeft
             //         })
@@ -302,7 +301,7 @@ export default {
                     this.wfList=res.data;                                         
                     this.selectTacitWf();
                     // this.scrollToWf(this.tacitWf[this.lotteryType])
-                    this.scrollToWf(this.currentWf.wf_flag)
+                    this.scrollToWf(this.currentWf.wf_flag);
                     this.makeWfParam();
                 };
             });
@@ -341,6 +340,7 @@ export default {
             this.wfDetail=Object.assign({},this.wfDetail,this.currentWf);
             this.numberList=[];
             if(this.is28OrLhc){
+                
                 const detail=BaseVM(this.wfDetail,0,true,this.zodiac);
                 this.numberList.push(detail);
                 this.selectNumList.push([]);
@@ -423,7 +423,7 @@ export default {
                     }
                     return;
                 }else if(keyLength == 0){
-                    this.setTip("请选择一组号码");
+                    this.setTip({message:"请选择一组号码",flag:2});
                     return;
                 }
             }else{
@@ -573,12 +573,11 @@ export default {
                     // this.setTip("金额不足~")
                 }
             }else{
-                this.setTip("请选择一组号码")
+                this.setTip({message:"请选择一组号码",flag:2})
             }
         },
         //投注
         betOrder(){    
-            console.log("点击投注")
             if(parseInt(this.betTimes)<=0){
                 // this.setTip('请输入投注金额！')
                 this.setTip({message:"请输入投注金额",flag:2})
@@ -596,7 +595,7 @@ export default {
                 // lottery_modes:this.lotteryModes
                 lottery_modes:0
             }
-            this.loadingTip="投注中。。。"
+            this.loadingTip="Loading..."
             this.show('loadingShow')
             this.$axios.postRequest(httpUrl.bet.betOrder,param)
             .then((res)=> {
@@ -614,7 +613,6 @@ export default {
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
-                    console.log(param.lottery_qh)
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };
@@ -669,7 +667,7 @@ export default {
                     param.wfDetail={}
                     param.wfDetail.title=this.currentWf.name
                     param.wfDetail.wf_flag=this.currentWf.wf_flag
-                    this.setTip('投注成功！')
+                    this.setTip({message:"投注成功",flag:1})
                     this.$emit('sendSocketMsg',param)
                     this.closeBoard()
                 };
@@ -695,7 +693,8 @@ export default {
                     }
                 }else if(this.wfFlag == 'xglhc_lm_tc'){
                     if(this.betNumber.length >= 4){
-                        this.betCount = this.betNumber.length/2-1;
+                        // this.betCount = this.betNumber.length/2-1;
+                        this.betCount = 1;
                     }else{
                         this.betCount = 0;
                     }                    

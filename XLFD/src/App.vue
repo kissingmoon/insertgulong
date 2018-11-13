@@ -7,7 +7,8 @@
         <div class="navBox" v-if="getFootShow">
             <m-nav></m-nav>
         </div>
-        <tip></tip>        
+        <tip></tip> 
+        <loading v-if="getLoadingShow"></loading>         
         <!-- <router-view></router-view> -->
         <Fade>
             <keep-alive>            
@@ -17,7 +18,6 @@
         <Fade>
             <router-view v-if="!$route.meta.keepAlive"></router-view>   
         </Fade>
-            
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
     </div>
@@ -37,6 +37,7 @@ import {session} from 'common/js/param';
 import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
+import Loading from 'base/loading/loading';
 export default {
     name: 'App',
     data(){
@@ -54,7 +55,8 @@ export default {
         ActivityXrkh,
         remoteJs,
         UrlContent,
-        botToTop
+        botToTop,
+        Loading
     },
     created() {       
         this.init();
@@ -71,7 +73,8 @@ export default {
             'href_type',
             'account',
             "header",
-            'getFootShow'
+            'getFootShow',
+            'getLoadingShow'
         ])
     },
     methods:{

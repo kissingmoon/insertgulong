@@ -80,6 +80,9 @@ const mutations = {
   [types.SET_FOOT_SHOW](state, param){
     state.isNavShow = param;
   },
+  [types.SET_LOADING_SHOW](state, param){
+    state.showLoading = param;
+  }
 }
 
 export default mutations

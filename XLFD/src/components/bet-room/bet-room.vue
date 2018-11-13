@@ -544,11 +544,8 @@ export default {
                     this.socketList.push(parsedData)
                 }                
                 this.$nextTick(()=>{
-                    if(document.documentElement){
-                        document.documentElement.scrollTop = document.documentElement.scrollHeight;
-                    }else{
-                        document.body.scrollTop = document.body.scrollHeight;
-                    }
+                    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                     document.body.scrollTop = document.body.scrollHeight;                    // 
                 })
             }
         },
@@ -702,7 +699,7 @@ export default {
         position: fixed;
         top: 0;
         bottom: 0;
-        z-index: 10;
+        z-index: 102;
         width: 100%;
         background-color: #000;
         opacity: .7;
@@ -976,7 +973,7 @@ export default {
         position: fixed;
         top: 50%;
         left: 50%;
-        z-index: 11;
+        z-index: 103;
         background-color: #fff;
         width:7rem;
         -webkit-transform: translateX(-50%) translateY(-50%);

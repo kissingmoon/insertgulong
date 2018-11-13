@@ -544,7 +544,11 @@ export default {
                     this.socketList.push(parsedData)
                 }                
                 this.$nextTick(()=>{
-                    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                    if(document.documentElement){
+                        document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                    }else{
+                        document.body.scrollTop = document.body.scrollHeight;
+                    }
                 })
             }
         },

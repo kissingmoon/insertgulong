@@ -81,7 +81,8 @@
         methods: {
             ...mapMutations({
                 setTip:'SET_TIP',
-                setQiandao:'SET_HD_QIANDAO'
+                setQiandao:'SET_HD_QIANDAO',
+                setLoadingShow:'SET_LOADING_SHOW'
             }),
             ...mapActions([
                 'resetUser',
@@ -90,8 +91,9 @@
                 'getXrkhType'
             ]),
             init(){
+
                 this.getloginParam();
-                 this.setCode();
+                this.setCode();
                 // this.setCode();
                 // this.getBaseData();
                 //this.makeVerify();
@@ -217,12 +219,14 @@
             },
             // 用户登录
             login(data){
+                this.setLoadingShow(true); 
                 this.loginParam.idValue = this.loginParam.user_id;
                 this.loginParam.agent_domain= window.document.domain;
                 this.$axios.postRequest(httpUrl.account.login,this.loginParam)
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){ 
-                        // delete this.loginParam.code_id;           
+                        // delete this.loginParam.code_id;       
+                        this.setLoadingShow(false);   
                         delete this.loginParam.code;           
                         local('loginParam',this.loginParam);
                         session('user_token',res.data.user_token);

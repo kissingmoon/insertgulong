@@ -28,6 +28,7 @@ const state = {
     recordDetailShow:false,
     recordChooseShow:false,
     isNavShow:true,         //  房间模式底部nav是否显示
+    showLoading:false
 }
 
 export default state

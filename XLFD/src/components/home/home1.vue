@@ -217,6 +217,9 @@ let vm = null;
         this.isRequested = true;
         this.init();
     },
+    beforeMount(){
+        this.loading=true;
+    },
     watch:{
         $route(to,from){
             if( to.path == '/home' && from.path == '/home/addCaiType'){
@@ -273,6 +276,7 @@ let vm = null;
             this.$axios.postRequest(httpUrl.config.getRecomemendCpType)
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
+                    this.loading=false;
                     let flags = [];
                     this.recomandList = res.data.list;  
                     //   获取首页推荐彩种的flag 并缓存   便于添加彩种页面便利 

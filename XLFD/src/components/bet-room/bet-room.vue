@@ -664,7 +664,7 @@ export default {
         closeAll(){
             if(this.wfRuleShow){
                 this.wfRuleShow = false;
-                this.$refs.grayBg.style.zIndex = 102;
+                this.$refs.grayBg.style.zIndex = 10;
                 return;
             }
             this.hideBet();

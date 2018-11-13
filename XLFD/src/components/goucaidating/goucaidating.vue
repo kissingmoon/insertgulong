@@ -75,13 +75,15 @@ export default {
     },
     computed:{
         ...mapGetters([
-            'xglhc_color'
+            'xglhc_color',
+            'getLoadingShow'
         ])
     },
     components:{
         Scroll
     },
     created() {   
+        this.setLoadingShow(true);
         this.initModelTab()
         this.chooseModel(0)
         this.getLottery()        
@@ -153,7 +155,8 @@ export default {
             }
             this.$axios.postRequest(httpUrl.lottery.getTypeList,parm)    // httpUrl.home.lottery
             .then((res)=> {
-                if(res.data && !res.data.errorCode){                    
+                if(res.data && !res.data.errorCode){  
+                    this.setLoadingShow(false); 
                     this.chooseMain=true;
                     this.lotteryList=res.data; 
                     var tempList = new Array(); //先声明一维 
@@ -277,7 +280,10 @@ export default {
             if(!this.truetotalList[k][0].lock_time){       
                 this.getSubLockTime(this.lotteryList,k)
             }
-        }
+        },
+         ...mapMutations({
+            setLoadingShow:'SET_LOADING_SHOW'
+        })
     }
 }
 </script>

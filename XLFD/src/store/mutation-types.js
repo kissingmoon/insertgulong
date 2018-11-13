@@ -23,3 +23,4 @@ export const SET_RECORD_SHOW = 'SET_RECORD_SHOW';          //  设置房间模�
 export const SET_RECORD_DETAIL_SHOW = 'SET_RECORD_DETAIL_SHOW';          //  设置房间模式投注记录详情页是否显示
 export const SET_RECORD_CHOOSE = 'SET_RECORD_CHOOSE'
 export const SET_FOOT_SHOW = 'SET_FOOT_SHOW';          //  设置房间模式投注记录详情页是否显示
+export const SET_LOADING_SHOW = 'SET_LOADING_SHOW'; 

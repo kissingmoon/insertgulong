@@ -641,7 +641,7 @@ i{
     top: 1.2rem;
     bottom: 1.44rem;
     background-color: #ececec;  
-    z-index: 103;
+    z-index: 99;
     // .scroll-content{
     //     height: 100%;
     //     overflow: auto;
@@ -689,7 +689,7 @@ i{
         bottom: 1.44rem;
         width: 100%;
         background: #fff;
-        z-index: 102;
+        z-index: 99;
         .login-tip{
             width:5rem;
             height:auto;

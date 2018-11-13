@@ -426,7 +426,12 @@ export default {
                     obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
                     obj.neirong.bet_msg="期,单注一元起,现在开始可以下注"
                     this.socketList.push(obj)
-                    this.canSend=true
+                    this.canSend=true;
+                    //  处理房间模式数据更新问题
+                    this.$nextTick(()=>{
+                        document.documentElement.scrollTop = document.documentElement.scrollHeight;
+                        document.body.scrollTop = document.body.scrollHeight;             
+                    })
                 };
             });
         },

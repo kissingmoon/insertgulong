@@ -92,12 +92,14 @@ export const httpUrl = {
         sendCode:'/user/sendCode',
         getRecomemendCpType:'/v5/gc/getRecommendCpType',
         getJumpConfig:'/v5/jumpConfig/getJumpConfig',
-        // webSocket:'ws://192.168.9.42:8084/websocket'  ,
-        // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket'  ,
+        // webSocket:'ws://192.168.9.42:8084/websocket',
+        // webSocket:'ws://192.168.8.105:8080/websocket',
+        // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket',
         // webSocket:'ws://weinisi01.com/api/websocket',
         webSocket:'wss://www.xlfdapi.com/websocket',
         baseUrl:'/api',
         // baseUrl:'/test'
+        // baseUrl:'/roger'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url',

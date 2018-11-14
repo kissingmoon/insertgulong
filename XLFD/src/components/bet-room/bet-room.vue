@@ -29,7 +29,7 @@
         </div>
         <div class="main-wapper" ref="mainWapper">
             <div v-for="(v,k) in socketList" :key="k" class="flex flex-center message-wapper">
-               <div v-if="v.msgType=='0'" :class="v.class">{{v.neirong}}</div>
+               <div v-if="v.msgType=='0'" :class="v.class">{{v.neirong.sysInfo}}</div>
                <div v-if="v.msgType=='1'" :class="v.class" class="flex flex-center flex-v">
                    <div v-if="v.neirong.inRoomTime" class="u-intime">{{v.neirong.inRoomTime}}</div>
                    <div v-if="v.neirong.userId" class="u-name">欢迎<span style="color:#CD9E62">{{v.neirong.userId}}</span>进入房间</div>
@@ -286,7 +286,7 @@ export default {
                     var obj={}
                     obj.class="msgType0"
                     obj.msgType="0"
-                    obj.neirong="欢迎进入游戏大厅！"
+                    obj.neirong.sysInfo="欢迎进入游戏大厅！"
                     this.socketList.unshift(obj)
                 }
     　　　　},
@@ -507,15 +507,16 @@ export default {
                 return
             }
             this.webSocket.onopen =  ()=> {
-                this.socketList=[]
-                var obj={}
-                obj.class="msgType0"
-                obj.msgType="0"
-                obj.neirong="欢迎进入游戏大厅！"
-                this.socketList.unshift(obj)
+                // this.socketList=[]
+                // var obj={}
+                // obj.neirong={}
+                // obj.class="msgType0"
+                // obj.msgType="0"
+                // obj.neirong.sysInfo="欢迎进入游戏大厅！"
+                // this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
-                
+                console.log("断开")
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
@@ -543,27 +544,35 @@ export default {
                     })
                 } 
                 else if(resData.msgType=='4'){
-                    
-                    this.setTip(resData.message.errorMsg)
+                    this.setTip(resData.message.errorMsg);
+                    this.webSocket.close();
                     setTimeout(()=>{
                         this.$router.back();
                     },2000)
                 }
-                else{
+                else if(resData.msgType=='2' || resData.msgType=='1'){
                     parsedData=this.parseResData(resData)
                     this.socketList.push(parsedData)
+                }
+                else if( resData.msgType=='0'){
+                    parsedData=this.parseResData(resData)
+                    this.socketList.unshift(parsedData)
+                }
+                else{
+                    return;
                 }                
                 this.$nextTick(()=>{
                     document.documentElement.scrollTop = document.documentElement.scrollHeight;
-                     document.body.scrollTop = document.body.scrollHeight;                    // 
+                    document.body.scrollTop = document.body.scrollHeight;                    // 
                 })
             }
         },
         parseResData(resData){
                 var obj={}
                 obj.msgType=resData.msgType
-                obj.class="msgType"+resData.msgType    
-                obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message            
+                obj.class="msgType"+resData.msgType   
+                obj.neirong=resData.message.constructor==String?JSON.parse(resData.message):resData.message 
+                           
                 if(resData.msgType=='2'){
                     // obj.neirong=JSON.parse(resData.message)
                     obj.neirong.remark=obj.neirong.bet_number
@@ -600,7 +609,7 @@ export default {
                     }
                    
                 }
-                 return obj
+                return obj
         },
         reconnect() {
             if(this.lockReconnect) return;

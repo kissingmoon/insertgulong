@@ -82,6 +82,9 @@ const mutations = {
   },
   [types.SET_LOADING_SHOW](state, param){
     state.showLoading = param;
+  },
+  [types.SET_HEARDERADD_SHOW](state, param){
+    state.showHeaderAdd = param;
   }
 }
 

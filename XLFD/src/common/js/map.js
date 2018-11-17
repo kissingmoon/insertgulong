@@ -421,6 +421,10 @@ export const headerConfig = {
         title:'添加彩种',
         back:true
     },
+    '/rebate':{
+        title:'回水规则',
+        back:true
+    }
 };
 
 export const footConfig = {

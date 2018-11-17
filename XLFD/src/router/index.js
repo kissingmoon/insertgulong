@@ -42,6 +42,7 @@ import Goucaidating from 'components/goucaidating/goucaidating';
 import betWin from 'components/betWin/betWin';
 import addCaiType from 'components/addCaiZhong/addCaiType';
 import Loading from 'base/loading/loading';
+import Rebate from 'components/rebate/rebate';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -308,8 +309,10 @@ export default new Router({
                     path:'cash',
                     component:Cash
                 },
-                
-                
+                {
+                    path:'rebate',
+                    component:Rebate
+                },
                 {
                     path:'safety',
                     component:Safety,

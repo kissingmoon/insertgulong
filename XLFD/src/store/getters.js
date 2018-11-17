@@ -27,4 +27,5 @@ export const getRecordChoose = state => state.recordChooseShow;
 //  设置房间模式底部nav是否显示
 export const getFootShow = state => state.isNavShow;
 export const getLoadingShow = state => state.showLoading;
+export const getHeaderAdd= state => state.showHeaderAdd;
 

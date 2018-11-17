@@ -33,6 +33,9 @@
         <div class="record" v-if="header.record" @click="showRecord">
             <i class="recordImg"></i>
         </div>
+        <div class="add" v-if="header.add" @click="showAdd">
+            <i class="addImg"></i>
+        </div>
         <h1 class="title">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'" @click="emitChooseType"></i>
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
@@ -59,13 +62,17 @@
                 'message_count',
                 'getRecord',
                 'getRecordDetail',
-                'getRecordChoose'
+                'getRecordChoose',
+                'getHeaderAdd'
             ])
         },
         methods:{
             showRecord(){
                 this.setRecord(true)
                 this.setHeader(headerConfig['/bet']);
+            },
+            showAdd(){
+                this.setHeaderAdd(!this.getHeaderAdd)
             },
             goBack(){    
                 if(this.getRecordDetail){
@@ -79,7 +86,8 @@
                         title: this.$route.query.name,
                         back:true,
                         betHistory:false,
-                        record:true
+                        record:true,
+                        add:true
                     }
                     this.setHeader(header);
                     // this.setRecord(true);
@@ -99,7 +107,8 @@
                 setReflesh:'SET_REFLESH',
                 setRecord:'SET_RECORD_SHOW',
                 setRecordDetail:'SET_RECORD_DETAIL_SHOW',
-                setRecordChoose:'SET_RECORD_CHOOSE'
+                setRecordChoose:'SET_RECORD_CHOOSE',
+                setHeaderAdd:'SET_HEARDERADD_SHOW'
             }),
             ...mapActions([
                 'getMessageCount',
@@ -207,14 +216,28 @@
     .record{
         position:absolute;
         height:1.2rem;
-        line-height: 1.5rem;
-        right:0;
+        line-height: 1.6rem;
+        right:0.8rem;
         padding:0 0.4rem;
         .recordImg{
             display: inline-block;
-            width: .62rem;
-            height: .6rem;
+            width: .7rem;
+            height: .7rem;
             @include bg-image('./record');
+            background-size: cover;
+        }
+    }
+    .add{
+        position:absolute;
+        height:1.2rem;
+        line-height: 1.4rem;
+        right:0;
+        padding:0 0.4rem;
+        .addImg{
+            display: inline-block;
+            width: .6rem;
+            height: .6rem;
+            @include bg-image('./add');
             background-size: cover;
         }
     }

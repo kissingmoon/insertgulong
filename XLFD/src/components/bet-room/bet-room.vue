@@ -157,6 +157,10 @@
         <div class="recordDetail" v-if="getRecordDetail">
             <BetDetail :order_numver='order_numver'></BetDetail>
         </div>
+        <div class="extra-tip" v-if="getHeaderAdd">
+            <div>联系客服</div>
+            <div>回水规则</div>
+        </div>
    </div>
 </template>
 <script>
@@ -182,7 +186,8 @@ export default {
                 title:'房间列表',
                 back:true,
                 betHistory:false,
-                record:true
+                record:true,
+                add:true
             },
             lotteryInfo:{},
             lotteryId:"",
@@ -275,7 +280,8 @@ export default {
             'xglhc_color',
             'api_base',
             'getRecord',
-            'getRecordDetail'
+            'getRecordDetail',
+            'getHeaderAdd'
         ])
     },
     watch: {
@@ -417,8 +423,7 @@ export default {
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
                     this.lotteryInfo=res.data;
-                    this.setCountTime(res.data.lock_time.replace(/-/g,'/'));
-                    this.fengdan=false
+                    this.setCountTime(res.data.lock_time.replace(/-/g,'/'));                    
                     let obj={}
                     obj.class="msgType1"
                     obj.msgType="1"
@@ -426,6 +431,7 @@ export default {
                     obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
                     obj.neirong.bet_msg="期,单注一元起,现在开始可以下注"
                     this.socketList.push(obj)
+                    this.fengdan=false
                     this.canSend=true;
                     //  处理房间模式数据更新问题
                     this.$nextTick(()=>{
@@ -467,8 +473,8 @@ export default {
                 obj.neirong={}
                 obj.neirong.lottery_qh=this.lotteryInfo.lottery_qh
                 obj.neirong.bet_msg="期已封单,请在下一期继续投注"
-                this.fengdan=true
                 this.socketList.push(obj)
+                this.fengdan=true
                 //  处理房间模式数据更新问题
                 this.$nextTick(()=>{
                     document.documentElement.scrollTop = document.documentElement.scrollHeight;
@@ -476,7 +482,7 @@ export default {
                 })
                 clearTimeout(this.getLockTimes);
                 this.getLockTimes = setTimeout(() => {
-                    this.canSend=false
+                    this.canSend=false;
                     this.getLockTime();
                     this.getDrawHis();
                 },2000);
@@ -516,7 +522,6 @@ export default {
                 // this.socketList.unshift(obj)
             }
             this.webSocket.onclose = () => {
-                console.log("断开")
                 var obj={}
                 obj.class="msgType0"
                 obj.msgType="0"
@@ -550,13 +555,9 @@ export default {
                         this.$router.back();
                     },2000)
                 }
-                else if(resData.msgType=='2' || resData.msgType=='1'){
+                else if(resData.msgType=='2' || resData.msgType=='1' || resData.msgType=='0'){
                     parsedData=this.parseResData(resData)
                     this.socketList.push(parsedData)
-                }
-                else if( resData.msgType=='0'){
-                    parsedData=this.parseResData(resData)
-                    this.socketList.unshift(parsedData)
                 }
                 else{
                     return;
@@ -603,11 +604,10 @@ export default {
                     }
                 }else if(resData.msgType=='1'){
                     // if(obj.neirong.user_token!=this.user_token){
-                        if(obj.neirong.userId!=this.uId){
+                    if(obj.neirong.userId!=this.uId){
                         let len=obj.neirong.userId.length
                         obj.neirong.userId=obj.neirong.userId.substring(0,2)+"***"+obj.neirong.userId.substring(len-2,len)
                     }
-                   
                 }
                 return obj
         },
@@ -1217,16 +1217,22 @@ export default {
         right: 0;
         z-index: 8;
     }
-    
+    .extra-tip{
+        position: fixed;
+        top: 1.2rem;
+        right: 0.2rem;
+        background: red;
+        z-index: 102;
+    }
     .footer{
         height: 1.2rem;
         justify-content:space-around;
         padding: 0 0.3rem;
-       position: fixed;
-       bottom: 0;
-       left: 0;
-       right: 0;
-       background-color: #fff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fff;
         input{
             background: #F2F2F2;
             margin-right: 0.2rem;

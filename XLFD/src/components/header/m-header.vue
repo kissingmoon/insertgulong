@@ -39,7 +39,10 @@
         <h1 class="title">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'" @click="emitChooseType"></i>
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
-        
+        <div class="addContent" v-if="getHeaderAdd" >
+            <div @click="showServFun(true)"><i class="kefuImg"></i>联系客服</div>
+            <!-- <div><i class="huishuiImg"></i>回水规则</div> -->
+        </div>
     </div>
 </template>
 <script>
@@ -63,7 +66,8 @@
                 'getRecord',
                 'getRecordDetail',
                 'getRecordChoose',
-                'getHeaderAdd'
+                'getHeaderAdd',
+                'getModelShow'
             ])
         },
         methods:{
@@ -73,6 +77,7 @@
             },
             showAdd(){
                 this.setHeaderAdd(!this.getHeaderAdd)
+                this.setModelShow(!this.getModelShow)
             },
             goBack(){    
                 if(this.getRecordDetail){
@@ -108,7 +113,8 @@
                 setRecord:'SET_RECORD_SHOW',
                 setRecordDetail:'SET_RECORD_DETAIL_SHOW',
                 setRecordChoose:'SET_RECORD_CHOOSE',
-                setHeaderAdd:'SET_HEARDERADD_SHOW'
+                setHeaderAdd:'SET_HEARDERADD_SHOW',
+                setModelShow:'SET_MODEL_SHOW'
             }),
             ...mapActions([
                 'getMessageCount',
@@ -305,6 +311,41 @@
             width: 0.8rem;
             height: 0.8rem;
             background-image: url('/static/img/icon-bet@2x.c2f824d.png')
+        }
+    }
+    .addContent{
+        background: #ffffff;
+        width: 3.8rem;
+        position: absolute;
+        right: 0.2rem;
+        top: 1.38rem;
+        color: #979797;
+        border-radius: 0.15rem;
+        &::after{
+            content: '';
+            position: absolute;
+            border-bottom-width: 0.6rem;
+            border-left-width: 0.6rem;
+            border-right-width: 0.3rem;
+            border-color: transparent transparent #fff transparent;
+            border-style: solid;
+            top: -0.22rem;
+            right: 0.2rem;
+        }
+        i{
+            display: inline-block;
+            width: .5rem;
+            height: .5rem;
+            background-size: cover;
+            vertical-align: middle;
+            margin-right: 0.3rem;
+            margin-top: -0.1rem;
+        }
+        .kefuImg{
+            @include bg-image('kefu');
+        }
+        .huishuiImg{
+            @include bg-image('huishui');
         }
     }
 }

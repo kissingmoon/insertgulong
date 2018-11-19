@@ -7,13 +7,14 @@
     import {httpUrl,serviceUrl} from 'common/js/map';
     import {mapGetters} from 'vuex';
     import MIframe from 'base/m-iframe/m-iframe';
+    import {slicer,countTime,session} from 'common/js/param.js';
     export default {
         data(){
             return{
-                url:''
+                uId:""
             }
         },
-        created(){
+        mounted(){
             this.init();
         },
         components:{
@@ -21,15 +22,21 @@
         },
         computed: {
             ...mapGetters([
-                'user_token'
-            ])
+                'user_token',
+                'account'
+            ]),
+            url(){
+                this.uId=this.account.user_id||session("uID");
+                return `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+            }
         },
         methods:{
             init(){
                 // this.flag=this.$router.history.current.query.flag;
                 this.flag='customer_service_url';
                 if(this.flag == 'customer_service_url'){
-                    this.url=`${serviceUrl}?user_token=${this.user_token}`
+                    // this.url=`${serviceUrl}?user_token=${this.user_token}`
+                    // this.url=`${serviceUrl}?visiter_id=${this.account.user_id?this.account.user_id:""}`
                 }else{
                     this.getUrl();
                 }

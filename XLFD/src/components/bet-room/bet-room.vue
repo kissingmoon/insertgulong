@@ -157,10 +157,10 @@
         <div class="recordDetail" v-if="getRecordDetail">
             <BetDetail :order_numver='order_numver'></BetDetail>
         </div>
-        <div class="extra-tip" v-if="getHeaderAdd">
+        <!-- <div class="extra-tip" v-if="getHeaderAdd">
             <div>联系客服</div>
             <div>回水规则</div>
-        </div>
+        </div> -->
    </div>
 </template>
 <script>

@@ -20,6 +20,7 @@
         </Fade>
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
+        <bg-model v-if="getModelShow"></bg-model>
     </div>
 </template>
 
@@ -38,6 +39,8 @@ import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
 import Loading from 'base/loading/loading';
+import BgModel from 'base/bg-model/bg-model';
+
 export default {
     name: 'App',
     data(){
@@ -56,7 +59,8 @@ export default {
         remoteJs,
         UrlContent,
         botToTop,
-        Loading
+        Loading,
+        BgModel
     },
     created() {       
         this.init();
@@ -74,7 +78,8 @@ export default {
             'account',
             "header",
             'getFootShow',
-            'getLoadingShow'
+            'getLoadingShow',
+            'getModelShow'
         ])
     },
     methods:{

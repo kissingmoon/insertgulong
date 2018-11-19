@@ -143,10 +143,11 @@
                 this.setModelShow(false)
                 if(isShow){
                     this.setHeader(headerConfig['/service']);
-                }else{
-                    this.setHeaderAdd(!this.getHeaderAdd)
+                    if(this.$route.path == '/betroom'){
+                        this.setHeaderAdd(false)
+                    }
+                    
                 }
-                
             }
         },
         watch:{

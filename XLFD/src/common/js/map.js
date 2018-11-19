@@ -426,7 +426,11 @@ export const headerConfig = {
     '/rebate':{
         title:'回水规则',
         back:true
-    }
+    },
+    './betroom': {
+        title:'',
+        back:true
+    },
 };
 
 export const footConfig = {

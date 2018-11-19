@@ -20,7 +20,7 @@
         </Fade>
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
-        <bg-model v-if="getModelShow"></bg-model>
+        <bg-model v-if="getModelShow" :close="getClose"></bg-model>
     </div>
 </template>
 
@@ -45,7 +45,8 @@ export default {
     name: 'App',
     data(){
         return {
-            showService:false
+            showService:false,
+            getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"]
         }
     },
     components:{
@@ -79,6 +80,7 @@ export default {
             "header",
             'getFootShow',
             'getLoadingShow',
+            'getHeaderAdd',
             'getModelShow'
         ])
     },

@@ -1,8 +1,30 @@
 <template>
-    <div class="bg-grey"></div>
+    <div class="bg-grey" @click="closeList"></div>
 </template>
 <script>
+import {mapActions,mapGetters,mapMutations} from 'vuex';
+
 export default {
+    data(){
+        return {
+            MutationObj:{
+            }
+        }
+    },
+    props:{
+        close:{
+            type: Array,
+            default:[]
+        }
+    },
+    methods:{
+        closeList(){
+            this.close.map((v,k)=>{
+                this.MutationObj["set"+k] = v;
+                this.$store.commit(this.MutationObj["set"+k],false)
+            })
+        }
+    }
     
 }
 </script>

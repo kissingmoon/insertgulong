@@ -138,10 +138,13 @@
             betShow(){
                 this.$emit('showBet')
             },
-            showServFun(isShow){
+            showServFun(isShow){                
                 this.$emit('showServEvent',isShow)
+                this.setModelShow(false)
                 if(isShow){
                     this.setHeader(headerConfig['/service']);
+                }else{
+                    this.setHeaderAdd(!this.getHeaderAdd)
                 }
                 
             }

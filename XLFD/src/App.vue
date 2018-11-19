@@ -86,8 +86,22 @@ export default {
     },
     methods:{
         showServEvent(isShow){
+            console.log(this.$route)
             this.showService=isShow;
+            let obj = {}
+            obj.title = this.$route.query.name;
+            obj.back = true;
+            obj.record = true;
+            obj.add = true;
+            let headObj = Object.assign({},headerConfig[this.$route.path],obj) ;
+            
+            // debugger
             if(!isShow){
+                if(this.$route.path == '/betroom'){
+                    this.setHeader(headObj);
+                    this.setHeader(headObj);
+                    return;
+                }
                
                 this.setHeader(headerConfig[this.$route.path]);
                 

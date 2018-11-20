@@ -86,7 +86,6 @@ export default {
     },
     methods:{
         showServEvent(isShow){
-            console.log(this.$route)
             this.showService=isShow;
             let obj = {}
             obj.title = this.$route.query.name;

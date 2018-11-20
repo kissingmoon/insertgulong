@@ -88,7 +88,10 @@ const mutations = {
   },
   [types.SET_MODEL_SHOW](state, param){
     state.showModel = param;
-  }
+  },
+  [types.SET_IOS_GOBACK](state, param){
+    state.iosGoBack = param;
+  } 
 }
 
 export default mutations

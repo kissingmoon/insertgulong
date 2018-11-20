@@ -55,7 +55,7 @@
                         </div>
                     </li>
                 </ul>
-                <div class="more">查看更多</div>
+                <!-- <div class="more">查看更多</div> -->
             </scroll>
         </div>
     </div>

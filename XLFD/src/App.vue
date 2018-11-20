@@ -1,7 +1,7 @@
 <template>
     <div id="app" class="app" >
         <botToTop>
-        <url-content v-show="showService"></url-content>
+        <url-content v-show="showService" ref="serviceComp"></url-content>
         </botToTop>
         <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
         <div class="navBox" v-if="getFootShow">
@@ -85,17 +85,17 @@ export default {
         ])
     },
     methods:{
-        showServEvent(isShow){
-            console.log(this.$route)
+        showServEvent(isShow,refresh){
             this.showService=isShow;
+            if(refresh){
+                this.$refs.serviceComp.refresh()
+            }
             let obj = {}
             obj.title = this.$route.query.name;
             obj.back = true;
             obj.record = true;
             obj.add = true;
             let headObj = Object.assign({},headerConfig[this.$route.path],obj) ;
-            
-            // debugger
             if(!isShow){
                 if(this.$route.path == '/betroom'){
                     this.setHeader(headObj);
@@ -111,6 +111,7 @@ export default {
             let user_token = session('user_token') || '';
             let md5_salt = session('md5_salt') || '';
             let path=this.$router.history.current.path;
+            let goBack=this.$route.query.goBack;
             if(path == '/betroom'){
                 this.setFoot(false)
                 document.body.style.backgroundColor = '#f2f2f2'
@@ -126,6 +127,8 @@ export default {
             if( this.$route.query.type == 'addType' ){
                 this.setNavActive(true)
             }
+            this.setIOSGoBack(goBack);
+            session('goBack',goBack);
             this.setHeader(headerConfig[path]);
             this.getUserData();
             this.getXglhcColor();
@@ -155,7 +158,8 @@ export default {
         ...mapMutations({
             sethreftype:'SET_HREF_TYPE',
             setNavActive:'SET_NAV_ACTIVE',
-            setFoot:'SET_FOOT_SHOW'
+            setFoot:'SET_FOOT_SHOW',
+            setIOSGoBack:'SET_IOS_GOBACK'
         })
     },
     watch:{

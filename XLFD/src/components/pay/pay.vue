@@ -243,7 +243,8 @@ export default {
     },
     computed: {
             ...mapGetters([
-                'account'
+                'account',
+                'getIOSGoBack'
             ])
     },
     methods: {
@@ -293,7 +294,8 @@ export default {
                             this.showModel=true;
                             let url=this.jumpConfig.chargeUrl;
                             let user_token=store.getters.user_token||session('user_token');
-                            let goBack=this.jumpConfig.chargeParams;
+                            // let goBack=this.jumpConfig.chargeParams;
+                            let goBack=this.getIOSGoBack||session('goBack');
                             let str=`${this.jumpConfig.chargeUrl}?user_token=${user_token}&goBack=${goBack}`; 
                             //正在跳转中... 
                             //请在弹出的页面上完成充值

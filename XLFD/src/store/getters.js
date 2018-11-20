@@ -29,5 +29,5 @@ export const getFootShow = state => state.isNavShow;
 export const getLoadingShow = state => state.showLoading;
 export const getHeaderAdd= state => state.showHeaderAdd;
 export const getModelShow= state => state.showModel;
-
+export const getIOSGoBack= state => state.iosGoBack;
 

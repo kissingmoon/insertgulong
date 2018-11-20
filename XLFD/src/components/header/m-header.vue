@@ -43,6 +43,9 @@
             <div @click="showServFun(true)"><i class="kefuImg"></i>联系客服</div>
             <!-- <div><i class="huishuiImg"></i>回水规则</div> -->
         </div>
+        <!-- <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,true)">
+            <i class="icon-close"></i>
+        </div> -->
     </div>
 </template>
 <script>
@@ -138,8 +141,8 @@
             betShow(){
                 this.$emit('showBet')
             },
-            showServFun(isShow){                
-                this.$emit('showServEvent',isShow)
+            showServFun(isShow,refresh){                
+                this.$emit('showServEvent',isShow,refresh)
                 this.setModelShow(false)
                 if(isShow){
                     this.setHeader(headerConfig['/service']);
@@ -271,6 +274,11 @@
         span{
             font-size:$font-size-small-x;
         }
+    }
+    .close-service{
+        position: absolute;
+        right: 0.5rem;
+        display: inline-block;
     }
     .time-money-wrapper{
         position:absolute;

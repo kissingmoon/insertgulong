@@ -112,8 +112,8 @@ export const httpUrl = {
     }
 };
 
-// export const serviceUrl = 'https://messenger.providesupport.net/messenger/11s3h541dm5cv1tjkmwtx1vewz.html'
-export const serviceUrl = 'https://www.xlfd.com/static/xlfd/kefu.html'
+export const serviceUrl = 'https://messenger.providesupport.net/messenger/11s3h541dm5cv1tjkmwtx1vewz.html'
+// export const serviceUrl = 'https://www.xlfd.com/static/xlfd/kefu.html'
 
 
 export const lotteryName ={

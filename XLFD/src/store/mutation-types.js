@@ -26,3 +26,4 @@ export const SET_FOOT_SHOW = 'SET_FOOT_SHOW';          //  设置房间模式投
 export const SET_LOADING_SHOW = 'SET_LOADING_SHOW'; 
 export const SET_HEARDERADD_SHOW = 'SET_HEARDERADD_SHOW';
 export const SET_MODEL_SHOW = 'SET_MODEL_SHOW';
+export const SET_IOS_GOBACK = 'SET_IOS_GOBACK';

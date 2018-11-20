@@ -30,7 +30,8 @@ const state = {
     isNavShow:true,         //  房间模式底部nav是否显示
     showLoading:false,
     showHeaderAdd:false,
-    showModel:false
+    showModel:false,
+    iosGoBack:""
 }
 
 export default state

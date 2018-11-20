@@ -43,9 +43,9 @@
             <div @click="showServFun(true)"><i class="kefuImg"></i>联系客服</div>
             <!-- <div><i class="huishuiImg"></i>回水规则</div> -->
         </div>
-        <!-- <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,true)">
+        <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,true)">
             <i class="icon-close"></i>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>

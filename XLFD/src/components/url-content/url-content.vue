@@ -42,7 +42,8 @@
                 // }else{
                 //     this.getUrl();
                 // }
-                this.url=`${serviceUrl}?user_token=${this.user_token}`
+                // this.url=`${serviceUrl}?user_token=${this.user_token}`
+                this.getUrl();
             },
             getUrl(){
                 // this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})
@@ -55,7 +56,10 @@
                 this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
             },
             refresh(){
-                this.url= ``;
+                
+                    // this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+                this.$router.go(-1)
+                // this.$forceUpdate()
             }
         }
     }

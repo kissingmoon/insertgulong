@@ -1,9 +1,11 @@
 <template>
     <div id="app" class="app" >
         <botToTop>
-        <url-content v-show="showService" ref="serviceComp"></url-content>
+        <url-content v-show="showService" ref="serviceComp" v-if="isServerShow"></url-content>
         </botToTop>
-        <div class="headBox"><m-header  @showServEvent="showServEvent"></m-header></div>
+        <div class="headBox">
+            <m-header  @showServEvent="showServEvent" @serverShow="serverShow"></m-header>
+        </div>
         <div class="navBox" v-if="getFootShow">
             <m-nav></m-nav>
         </div>
@@ -46,6 +48,7 @@ export default {
     data(){
         return {
             showService:false,
+            isServerShow:true,
             getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"]
         }
     },
@@ -85,11 +88,11 @@ export default {
         ])
     },
     methods:{
-        showServEvent(isShow,refresh){
+        serverShow(bool){
+            this.isServerShow = bool
+        },
+        showServEvent(isShow){
             this.showService=isShow;
-            if(refresh){
-                this.$refs.serviceComp.refresh()
-            }
             let obj = {}
             obj.title = this.$route.query.name;
             obj.back = true;

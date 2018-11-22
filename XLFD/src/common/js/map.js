@@ -431,6 +431,10 @@ export const headerConfig = {
         title:'',
         back:true
     },
+    '/download': {
+        title:'APP下载',
+        back:true
+    }
 };
 
 export const footConfig = {

@@ -12,8 +12,7 @@
     export default {
         data(){
             return{
-                uId:"",
-                url:""
+                uId:""
             }
         },
         mounted(){
@@ -27,10 +26,10 @@
                 'user_token',
                 'account'
             ]),
-            // url(){
-            //     this.uId=this.account.user_id||session("uID");
-            //     return `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
-            // }
+            url(){
+                this.uId=this.account.user_id||session("uID");
+                return `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+            }
         },
         methods:{
             init(){
@@ -43,7 +42,7 @@
                 //     this.getUrl();
                 // }
                 // this.url=`${serviceUrl}?user_token=${this.user_token}`
-                this.getUrl();
+                // this.getUrl();
             },
             getUrl(){
                 // this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})
@@ -52,14 +51,8 @@
                 //         this.url=`${res.data[0].url}?user_token=${this.user_token}`
                 //     }
                 // });
-                this.uId=this.account.user_id||session("uID");
-                this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
-            },
-            refresh(){
-                
-                    // this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
-                this.$router.go(-1)
-                // this.$forceUpdate()
+                // this.uId=this.account.user_id||session("uID");
+                // this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
             }
         }
     }

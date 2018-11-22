@@ -43,6 +43,7 @@ import betWin from 'components/betWin/betWin';
 import addCaiType from 'components/addCaiZhong/addCaiType';
 import Loading from 'base/loading/loading';
 import Rebate from 'components/rebate/rebate';
+import DownLoad from 'components/download/download';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -160,6 +161,11 @@ export default new Router({
         {
             path:'/lotteryroom',
             component:LotteryRoom
+        },
+        {
+            path:'/download',
+            component:DownLoad,
+            props: { newsletterPopup: false }
         },
         {
             path:'/betroom',

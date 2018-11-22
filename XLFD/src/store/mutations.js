@@ -91,7 +91,10 @@ const mutations = {
   },
   [types.SET_IOS_GOBACK](state, param){
     state.iosGoBack = param;
-  } 
+  }, 
+  [types.SET_DOWNLOAD_URL](state, param){
+    state.downloadUrl = param;
+  }
 }
 
 export default mutations

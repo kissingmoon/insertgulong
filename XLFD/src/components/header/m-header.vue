@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <div class="back" v-show="header.back">
-            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'" @click="showServFun(false)"><i class="icon-arrows-up inner"></i></i>
+            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')"><i class="icon-arrows-up inner"></i></i>
             <i class="icon-arrows-left backIco" v-else  @click="goBack"></i>
         </div>
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
@@ -43,7 +43,7 @@
             <div @click="showServFun(true)"><i class="kefuImg"></i>联系客服</div>
             <!-- <div><i class="huishuiImg"></i>回水规则</div> -->
         </div>
-        <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,true)">
+        <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,false)">
             <i class="icon-close"></i>
         </div>
     </div>
@@ -141,8 +141,18 @@
             betShow(){
                 this.$emit('showBet')
             },
-            showServFun(isShow,refresh){                
-                this.$emit('showServEvent',isShow,refresh)
+            showServFun(isShow,isDestroy){   
+                
+                 this.$emit('serverShow',isShow)      //  客服中心 if判断语句 
+                if( isDestroy == false ){
+                    this.$emit('serverShow',isDestroy)      //  客服中心 if判断语句  
+                }
+                       
+                this.$emit('showServEvent',isShow,isDestroy)
+                if( isDestroy == '1' ){
+                    this.$emit('serverShow',true)      //  客服中心 if判断语句 
+                    this.$emit('showServEvent',isShow,isDestroy)
+                }
                 this.setModelShow(false)
                 if(isShow){
                     this.setHeader(headerConfig['/service']);

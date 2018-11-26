@@ -4,11 +4,11 @@
         <div class="logo"></div>
         <div class="btns flex flex-center flex-v">
             <!-- <a class="androidBtn flex flex-center" href="https://www.xlfd.com/public/soft/1120/android_xlfd.apk" download=""> -->
-            <a class="androidBtn flex flex-center" :href="getDownloadUrl.android_download_url" download="">
-                <span class="icon iosIco"></span><em>Android下载</em>
+            <a v-if='getDownloadUrl.android_download_url' class="androidBtn flex flex-center" :href="getDownloadUrl.android_download_url" download="">
+                <span class="icon androidIco"></span><em>Android下载</em>
             </a>
-            <a class="iosBtn flex flex-center" @click="openIOS">
-                <span class="icon androidIco"></span><em>iphone下载</em> 
+            <a v-if='getDownloadUrl.ios_download_url' class="iosBtn flex flex-center" @click="openIOS">
+                <span class="icon iosIco"></span><em>iphone下载</em> 
             </a>
         </div>
         <div class="foot"></div>
@@ -22,10 +22,12 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
     name:'',
     data () {
         return {
+            operateSys:""
         };
     },
     mounted(){
         this.setFootShow(false);
+        this.judgeSys();
     },
     computed: {
         ...mapGetters([
@@ -36,6 +38,13 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
         openIOS(){
             // window.location.href='itms-services://?action=download-manifest&url=https://www.xlfd.com/static/xlfd/ios/manifest.plist'
             window.location.href=this.getDownloadUrl.ios_download_url
+        },
+        judgeSys(){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            this.operateSys = isAndroid?"android":"iphone";
+            return this.operateSys;
         },
         ...mapMutations({
             setFootShow:'SET_FOOT_SHOW'

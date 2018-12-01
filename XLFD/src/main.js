@@ -7,6 +7,7 @@ import store from 'store'
 import Axios from 'common/js/axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import Tabs from 'base/tabs'
 
 Vue.config.productionTip = false;
 Vue.prototype.$axios = Axios;
@@ -16,6 +17,7 @@ Vue.use(VueLazyload,{
     loadingLarge:require('common/img/icon-loading-img.png'),
     loadingCircle:require('common/img/icon-loadingCircle-img.png')
 },VueAwesomeSwiper);
+Vue.use(Tabs)
 // Vue.prototype.TencentCaptcha = TencentCaptcha;
 /* eslint-disable no-new */
 new Vue({

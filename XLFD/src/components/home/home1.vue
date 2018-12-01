@@ -135,6 +135,7 @@ import {regroupLotteryData,countTime,uniqueArray} from 'common/js/param';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import {session,local} from 'common/js/param';
 let vm = null;
  export default {
     name:'',
@@ -258,13 +259,14 @@ let vm = null;
             this.getBzjlq();
             this.getRecomandType();
         },
-
         //  设置进入添加彩种页面时，底部nav导航首页高亮
         ...mapMutations({
             setNavActive:'SET_NAV_ACTIVE',
             setTip:'SET_TIP',
         }),
-
+...mapActions([
+            'resetUser',
+        ]),
         changeMode(i){
             this.modeIndex = i;
         },

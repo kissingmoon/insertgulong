@@ -11,7 +11,7 @@
                 <span>下载app 更多惊喜活动等您来拿</span>
                 <router-link class="download-btn" to="/download"  @click="close('isHave')">APP下载</router-link>
             </div>
-            <m-header  @showServEvent="showServEvent" @serverShow="serverShow" ></m-header>
+            <m-header  @showServEvent="showServEvent" @serverShow="serverShow"></m-header>
         </div>
         <div class="navBox" v-if="getFootShow">
             <m-nav></m-nav>
@@ -21,7 +21,7 @@
         <!-- <router-view></router-view> -->
         <Fade>
             <keep-alive>            
-                <router-view :showDownload="showDownload"  v-if="$route.meta.keepAlive"></router-view>                       
+                <router-view :showDownload="showDownload" v-if="$route.meta.keepAlive"></router-view>                       
             </keep-alive>
         </Fade>
         <Fade>
@@ -43,7 +43,7 @@ import Parcel from 'base/parcel/parcel';
 import Fade from 'base/fade/fade';
 import botToTop from 'base/top-to-bot/top-to-bot';
 import Tip from 'base/tip/tip';
-import {session} from 'common/js/param';
+import {session,local} from 'common/js/param';
 import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
@@ -60,7 +60,8 @@ export default {
             getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"],
             showDownload:true,
             docScroll:0,
-            isHave:true
+            isHave:true,
+            fromUrl:""
         }
     },
     components:{
@@ -77,7 +78,7 @@ export default {
         Loading,
         BgModel
     },
-    created() {       
+    created() {   
         this.init();
         this.initScrollFun();
         this.getDownloadUrl();

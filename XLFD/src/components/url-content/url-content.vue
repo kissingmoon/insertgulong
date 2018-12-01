@@ -12,7 +12,8 @@
     export default {
         data(){
             return{
-                uId:""
+                uId:"",
+                url:""
             }
         },
         mounted(){
@@ -21,18 +22,33 @@
         components:{
             MIframe,
         },
+        watch:{
+            'account.user_id':{
+                handler(newvalue,oldvalue){
+                    this.uId = this.account.user_id||session("uID");
+                    this.url = `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+                }
+            }
+        },
         computed: {
             ...mapGetters([
                 'user_token',
                 'account'
             ]),
-            url(){
-                this.uId=this.account.user_id||session("uID");
-                return `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
-            }
+            // url(){
+            //     this.uId=this.account.user_id||session("uID");
+            //     return `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+            // }
         },
         methods:{
             init(){
+                window.onmessage = (e)=>{ 
+                    var reg =/^http/;
+                    if(reg.test(e.data)){
+                        this.url = e.data
+                    }
+                }
+                this.getUrl();
                 // this.flag=this.$router.history.current.query.flag;
                 // this.flag='customer_service_url';
                 // if(this.flag == 'customer_service_url'){
@@ -51,8 +67,8 @@
                 //         this.url=`${res.data[0].url}?user_token=${this.user_token}`
                 //     }
                 // });
-                // this.uId=this.account.user_id||session("uID");
-                // this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+                this.uId=this.account.user_id||session("uID");
+                this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
             }
         }
     }

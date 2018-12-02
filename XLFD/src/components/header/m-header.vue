@@ -143,7 +143,7 @@
             },
             showServFun(isShow,isDestroy){   
                 
-                 this.$emit('serverShow',isShow)      //  客服中心 if判断语句 
+                this.$emit('serverShow',isShow)      //  客服中心 if判断语句 
                 if( isDestroy == false ){
                     this.$emit('serverShow',isDestroy)      //  客服中心 if判断语句  
                 }
@@ -158,8 +158,7 @@
                     this.setHeader(headerConfig['/service']);
                     if(this.$route.path == '/betroom'){
                         this.setHeaderAdd(false)
-                    }
-                    
+                    }                    
                 }
             }
         },

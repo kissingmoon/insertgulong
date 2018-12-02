@@ -427,12 +427,12 @@ export const headerConfig = {
         title:'回水规则',
         back:true
     },
-    './betroom': {
+    '/betroom': {
         title:'',
         back:true
     },
 };
 
 export const footConfig = {
-    './betroom': false,
+    '/betroom': false,
 }

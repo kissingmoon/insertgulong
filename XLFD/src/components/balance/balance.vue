@@ -290,6 +290,10 @@
                 };
                 if(this.account && this.account.phone && this.account.phone.length > 0){
                     this.passwordShow = true;
+                }
+                if(this.currentdml < this.needdml){
+                    this.setTip('打码量不足');
+                    return;
                 }else{
                     //修改提现标记
                     //this.phoneShow = true;

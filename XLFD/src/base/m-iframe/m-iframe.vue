@@ -38,6 +38,7 @@ import loading from 'base/loading/loading';
         mounted(){
             var _this=this;
             _this.loadingShow=true;
+            // this.currentUrl = this.$refs[this.iframeName].getAttribute("src");
             this.$refs[this.iframeName].onload=function(){
                 _this.loadingShow=false;
                 if(_this.iframeName=="activityIframe"){

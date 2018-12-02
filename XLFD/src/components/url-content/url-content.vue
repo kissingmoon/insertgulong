@@ -22,6 +22,14 @@
         components:{
             MIframe,
         },
+        watch:{
+            'account.user_id':{
+                handler(newvalue,oldvalue){
+                    this.uId = this.account.user_id||session("uID");
+                    this.url = `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
+                }
+            }
+        },
         computed: {
             ...mapGetters([
                 'user_token',
@@ -34,6 +42,13 @@
         },
         methods:{
             init(){
+                window.onmessage = (e)=>{ 
+                    var reg =/^http/;
+                    if(reg.test(e.data)){
+                        this.url = e.data
+                    }
+                }
+                this.getUrl();
                 // this.flag=this.$router.history.current.query.flag;
                 // this.flag='customer_service_url';
                 // if(this.flag == 'customer_service_url'){
@@ -42,7 +57,8 @@
                 // }else{
                 //     this.getUrl();
                 // }
-                this.url=`${serviceUrl}?user_token=${this.user_token}`
+                // this.url=`${serviceUrl}?user_token=${this.user_token}`
+                // this.getUrl();
             },
             getUrl(){
                 // this.$axios.postRequest(httpUrl.config.urlList,{flag:this.flag})
@@ -53,9 +69,6 @@
                 // });
                 this.uId=this.account.user_id||session("uID");
                 this.url= `${serviceUrl}?visiter_id=${this.uId?this.uId:""}`;
-            },
-            refresh(){
-                this.url= ``;
             }
         }
     }

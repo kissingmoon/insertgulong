@@ -58,6 +58,7 @@
                 messageCount:0
             }
         },
+        props:['fromUrl'],
         mounted(){         
             this.getMessageCount();
         },
@@ -82,7 +83,7 @@
                 this.setHeaderAdd(!this.getHeaderAdd)
                 this.setModelShow(!this.getModelShow)
             },
-            goBack(){    
+            goBack(){   
                 if(this.getRecordDetail){
                     this.setRecordDetail(false);
                     this.setHeader(headerConfig['/bet']);
@@ -97,11 +98,21 @@
                         record:true,
                         add:true
                     }
+                    
                     this.setHeader(header);
                     // this.setRecord(true);
                     return;
                 }
                 this.$router.back();
+                // if(this.user_token){
+                //     this.$router.back();
+                // }else{
+                //     if(this.fromUrl.indexOf("login")!=-1){
+                //         this.$router.push('/info');
+                //     }else{
+                //         this.$router.push(this.fromUrl);
+                //     }
+                // }
             },
             emitChooseType(){
                 let chooseSwitch =! this.getRecordChoose

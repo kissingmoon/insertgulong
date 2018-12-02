@@ -114,6 +114,7 @@ export const httpUrl = {
 
 // export const serviceUrl = 'https://messenger.providesupport.net/messenger/11s3h541dm5cv1tjkmwtx1vewz.html'
 export const serviceUrl = 'https://www.xlfd.com/static/xlfd/kefu.html'
+// export const serviceUrl = 'http://192.168.8.71/kefu-online.html'
 
 
 export const lotteryName ={
@@ -431,6 +432,10 @@ export const headerConfig = {
         title:'',
         back:true
     },
+    '/download': {
+        title:'APP下载',
+        back:true
+    }
 };
 
 export const footConfig = {

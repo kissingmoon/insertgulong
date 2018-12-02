@@ -2,28 +2,54 @@
 <template>
     <div class="wrap">
         <div class="logo"></div>
-        <div class="btns">
-            <a class="androidBtn" href="" download="">
-                <span class="icon iosIco"></span><em>iphone下载</em>
-            </a>
-            <a class="iosBtn" href="" download="">
+        <div class="btns flex flex-center flex-v">
+            <!-- <a class="androidBtn flex flex-center" href="https://www.xlfd.com/public/soft/1120/android_xlfd.apk" download=""> -->
+            <a v-if='getDownloadUrl.android_download_url' class="androidBtn flex flex-center" :href="getDownloadUrl.android_download_url" download="">
                 <span class="icon androidIco"></span><em>Android下载</em>
             </a>
-        </di>
+            <a v-if='getDownloadUrl.ios_download_url' class="iosBtn flex flex-center" @click="openIOS">
+                <span class="icon iosIco"></span><em>iphone下载</em> 
+            </a>
+        </div>
         <div class="foot"></div>
     </div>
 </template>
 
 <script>
+import {mapMutations,mapActions,mapGetters} from 'vuex';
+
  export default {
     name:'',
     data () {
         return {
+            operateSys:""
         };
     },
-
-    computed: {},
-    methods: {},
+    mounted(){
+        this.setFootShow(false);
+        this.judgeSys();
+    },
+    computed: {
+        ...mapGetters([
+            'getDownloadUrl',
+        ])
+    },
+    methods: {
+        openIOS(){
+            // window.location.href='itms-services://?action=download-manifest&url=https://www.xlfd.com/static/xlfd/ios/manifest.plist'
+            window.location.href=this.getDownloadUrl.ios_download_url
+        },
+        judgeSys(){
+            var u = navigator.userAgent;
+            var isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+            var isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+            this.operateSys = isAndroid?"android":"iphone";
+            return this.operateSys;
+        },
+        ...mapMutations({
+            setFootShow:'SET_FOOT_SHOW'
+        })
+    },
     components: {},
 }
 </script>
@@ -35,43 +61,41 @@
         position: absolute;
         left: 0;
         right: 0;
-        top: 0;
+        top: 1.2rem;
         bottom: 0;
+        z-index: 105;
+        height: 100%;
+        overflow: hidden;
+        background: #ffffff;
         .logo{
-            width: 1.08rem;
-            height: 1.46rem;
-            margin: .95rem auto 1.32rem;
-            background: url("./img/logo.png") no-repeat;
+            width: 3rem;
+            height: 3rem;
+            margin: 1rem auto 1.32rem;
+            background: url("logo.png") no-repeat;
             background-size: cover;
         }
         .btns >a{
-            display: block;
-            width: 2.1rem;
-            height: .46rem;
-            margin: 0 auto .26rem;
-            border-radius: .04rem;
-            padding: .09rem 0;
+            // display: block;
+            width: 5rem;
+            height: 1.2rem;
+            border-radius: .1rem;
             border: 1px solid #979797;
             box-sizing: border-box;
-        }
-        .btns >div >em{
-            vertical-align: middle;
+            margin-top: 0.8rem;
+            font-size:0.5rem;
         }
         .icon{
             display: inline-block;
-            width: .28rem;
-            height: .28rem;
-            margin-right: .18rem;
-            margin-left: .4rem;
-            
-            vertical-align: middle;            
+            width: .7rem;
+            height: .7rem;    
+            margin-right: 0.5rem;
         }
         .iosIco{
-            background: url("./img/ios.png") no-repeat;
+            background: url("ios.png") no-repeat;
             background-size: cover;
         }
         .androidIco{
-            background: url("./img/android.png") no-repeat;
+            background: url("android.png") no-repeat;
             background-size: cover;
         }
         .foot{
@@ -79,8 +103,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            height: 1.26rem;
-            background: url("./img/foot.png") no-repeat;
+            height: 5rem;
+            background: url("foot.png") no-repeat;
             background-size: cover;
         }
     }

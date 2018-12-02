@@ -1,9 +1,16 @@
 <template>
     <div id="app" class="app" >
+        
         <botToTop>
         <url-content v-show="showService" ref="serviceComp" v-if="isServerShow"></url-content>
         </botToTop>
         <div class="headBox">
+            <div v-show="showDownload&&$route.path=='/home'" v-if="isHave" class="download-content flex flex-align-center flex-pack-justify"> 
+                <i @click="close('isHave')" class="home-close"></i>
+                <i class="home-logo"></i>
+                <span>下载app 更多惊喜活动等您来拿</span>
+                <router-link class="download-btn" to="/download"  @click="close('isHave')">APP下载</router-link>
+            </div>
             <m-header  @showServEvent="showServEvent" @serverShow="serverShow"></m-header>
         </div>
         <div class="navBox" v-if="getFootShow">
@@ -14,7 +21,7 @@
         <!-- <router-view></router-view> -->
         <Fade>
             <keep-alive>            
-                <router-view  v-if="$route.meta.keepAlive"></router-view>                       
+                <router-view :showDownload="showDownload" v-if="$route.meta.keepAlive"></router-view>                       
             </keep-alive>
         </Fade>
         <Fade>
@@ -36,12 +43,13 @@ import Parcel from 'base/parcel/parcel';
 import Fade from 'base/fade/fade';
 import botToTop from 'base/top-to-bot/top-to-bot';
 import Tip from 'base/tip/tip';
-import {session} from 'common/js/param';
+import {session,local} from 'common/js/param';
 import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
 import Loading from 'base/loading/loading';
 import BgModel from 'base/bg-model/bg-model';
+import {httpUrl} from 'common/js/map';
 
 export default {
     name: 'App',
@@ -49,7 +57,11 @@ export default {
         return {
             showService:false,
             isServerShow:true,
-            getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"]
+            getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"],
+            showDownload:true,
+            docScroll:0,
+            isHave:true,
+            fromUrl:""
         }
     },
     components:{
@@ -66,9 +78,10 @@ export default {
         Loading,
         BgModel
     },
-    created() {       
+    created() {   
         this.init();
-        
+        this.initScrollFun();
+        this.getDownloadUrl();
     },
     mounted(){
         this.getUrl();
@@ -151,6 +164,44 @@ export default {
                 this.getUserData();
             },20000);
         },
+        initScrollFun(){
+            window.onscroll= ()=>{
+                this.docScroll = document.documentElement.scrollTop||document.body.scrollTop;
+                if(this.isHave){
+                    if(this.docScroll>50){
+                        this. close("showDownload")
+                    }else{
+                        this. open("showDownload")
+                    }
+                }
+            }
+        },
+        getDownloadUrl(){
+             this.$axios.postRequest(httpUrl.config.urlList)
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    let downloadUrl = {};
+                    res.data.map((v,k)=>{
+                        if(v.flag == "android_download_url"){
+                            downloadUrl["android_download_url"]=v.url;
+                        }
+                        if(v.flag == "ios_download_url"){
+                            downloadUrl["ios_download_url"]=v.url;
+                        }
+                    });
+                    this.setDownloadUrl(downloadUrl);
+                }
+            });
+        },
+        close(key){
+            this[key] = false;
+            if(key=="isHave"){
+                this.showDownload=false;
+            }
+        },
+        open(key){
+            this[key] = true;
+        },
         ...mapActions([
             'setHeader',
             'resetUser',
@@ -162,7 +213,8 @@ export default {
             sethreftype:'SET_HREF_TYPE',
             setNavActive:'SET_NAV_ACTIVE',
             setFoot:'SET_FOOT_SHOW',
-            setIOSGoBack:'SET_IOS_GOBACK'
+            setIOSGoBack:'SET_IOS_GOBACK',
+            setDownloadUrl:'SET_DOWNLOAD_URL'
         })
     },
     watch:{
@@ -202,6 +254,34 @@ export default {
         width: 100%;
         height: 1.2rem;
         z-index: 101;
+        .download-content{
+            background-color: #eaeaea;
+            padding: 0.2rem 0.5rem 0.2rem 0.1rem;
+            i{
+                background-size: cover;
+                background-repeat: no-repeat;
+                display: inline-block;
+            }
+            .home-close{
+            
+                width: 0.5rem;
+                height: 0.5rem;
+                background-image: url("./common/img/home-close.png")
+            }
+            .home-logo{
+                
+                width: .8rem;
+                height: 0.8rem;
+                background-image: url("./common/img/home-logo.png")
+            }
+            .download-btn{
+                background: #DA1C36;
+                border-radius: 0.1rem;
+                color: #ffffff;
+                padding: 0.15rem 0.1rem;
+            }
+        }
+        
     }
     .navBox{
         position: fixed;

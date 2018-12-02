@@ -594,6 +594,7 @@
                 hasSelect:false,
             }
         },
+        props:['fromUrl'],
         components:{
             Parcel,
             Scroll,
@@ -1402,6 +1403,15 @@
             //返回
             goBack(){
                 this.$router.back();
+                // if(this.user_token){
+                //     this.$router.back();
+                // }else{
+                //     if(this.fromUrl.indexOf("login")!=-1){
+                //         this.$router.push('/info');
+                //     }else{
+                //         this.$router.push(this.fromUrl);
+                //     }
+                // }
             },
             // 显示
             show(key){

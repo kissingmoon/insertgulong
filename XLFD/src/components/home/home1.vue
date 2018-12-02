@@ -3,7 +3,7 @@
  * @Date: 2018-09-21 20:15:01 
  */
 <template>
-    <div class="home">
+    <div class="home" :style="{paddingTop:homeTop}">
         <!-- 广告轮播图 -->
         <div class="slider-content">
             <swiper v-if="activitys.length > 1 && isKeep" :options="swiperOption" ref="mySwiper">
@@ -135,6 +135,7 @@ import {regroupLotteryData,countTime,uniqueArray} from 'common/js/param';
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 import 'swiper/dist/css/swiper.css'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import {session,local} from 'common/js/param';
 let vm = null;
  export default {
     name:'',
@@ -205,12 +206,19 @@ let vm = null;
             modeIndex:0,                            //  房间模式与传统模式
         }
     },
-
+    props:{
+        showDownload:{
+            type:Boolean
+        }
+    },
     computed: {
         ...mapGetters([
             'user_token',
             'hd_qiandao',
         ]),
+        homeTop(){
+            return this.showDownload?"2.4rem":"1.2rem"
+        }
     },
     created(){
         vm = this;
@@ -251,13 +259,14 @@ let vm = null;
             this.getBzjlq();
             this.getRecomandType();
         },
-
         //  设置进入添加彩种页面时，底部nav导航首页高亮
         ...mapMutations({
             setNavActive:'SET_NAV_ACTIVE',
             setTip:'SET_TIP',
         }),
-
+...mapActions([
+            'resetUser',
+        ]),
         changeMode(i){
             this.modeIndex = i;
         },

@@ -30,6 +30,7 @@ export default {
     },
     methods:{
         emitClickPane(e){
+            this.$emit('clickEvent', e.target)
             console.dir(e.target.offsetLeft)
             this.linkBarStyle.transform=`translate3d(${e.target.offsetLeft}px, 0px, 0px)`
             // var classVal = e.target.getAttribute("class");

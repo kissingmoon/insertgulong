@@ -65,7 +65,7 @@
                </div>
            </div>
         </div>
-        <div class="flex flex-align-center footer">
+        <div class="flex flex-align-center footer" :class="{'paddingbot':isFull}">
             <input v-model="textMsg" class="flex-1" style="height:0.87rem;"  type="text" readonly v-on:click.stop="showBet">
             <!-- <button style="background:lightblue;" class="flex flex-center footer-btn" v-on:click.stop="sendMsg"> 发消息</button> -->
             <span class="flex flex-center footer-btn"  v-on:click.stop="showBet">投注</span>
@@ -221,6 +221,7 @@ export default {
             order_numver:'',  //  投注id
             showScroll:false,
             listenScroll:false,
+            isFull:false,   //  iphonex底部区域适配
         }
     },
     components:{
@@ -253,6 +254,14 @@ export default {
                 path:'/login'
             });
         }
+        //  iphonex 底部安全区域适配
+        window.addEventListener('resize', () => {                
+            if(window.innerHeight > 650){
+                this.isFull = true;
+            }else{
+                this.isFull = false;
+            }
+        })
     },
     mounted(){
         this.$nextTick(()=>{
@@ -1233,6 +1242,11 @@ export default {
         left: 0;
         right: 0;
         background-color: #fff;
+        @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+            &.paddingbot {
+                padding-bottom: .2rem;
+            }
+        }
         input{
             background: #F2F2F2;
             margin-right: 0.2rem;

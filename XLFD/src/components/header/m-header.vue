@@ -36,7 +36,7 @@
         <div class="add" v-if="header.add" @click="showAdd">
             <i class="addImg"></i>
         </div>
-        <h1 class="title">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'" @click="emitChooseType"></i>
+        <h1 class="title" @click="emitChooseType">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'"></i>
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
         <div class="addContent" v-if="getHeaderAdd" >

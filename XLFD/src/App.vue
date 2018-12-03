@@ -284,11 +284,12 @@ export default {
         
     }
     .navBox{
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        height: 1.44rem;
-        z-index: 99;
+        // position: fixed;
+        // bottom: 0;
+        // width: 100%;
+        // height: 1.44rem;
+        // z-index: 99;
+        // padding-bottom: .34rem;
     }
 }
 </style>

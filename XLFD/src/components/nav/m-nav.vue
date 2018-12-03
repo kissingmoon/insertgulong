@@ -46,9 +46,15 @@ import {mapGetters} from 'vuex';
     display: flex;
     width:100%;
     bottom:0;
+    z-index: 99;
     height:1.44rem;
-    text-align: center;
+    text-align: center;    
     background:$color-bg-nav;
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        & {
+            padding-bottom: .2rem;
+        }
+    }
     .nav-item{
         flex: 1;
         text-align: center;

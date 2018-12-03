@@ -1,5 +1,5 @@
 <template>
-    <div class="nav">
+    <div class="nav" :class="{'paddingbot':isFull}">
         <router-link tag="div" class="nav-item" to="/home" :class="{'active':getNavActive}">
             <p class="icon-con icon-home"></p>
             <p class="txt">首页</p>
@@ -31,10 +31,25 @@
 import {mapGetters} from 'vuex';
     export default({
         name:'',
+        data(){
+            return{
+                isFull:false,
+            }
+        },
         computed: {
             ...mapGetters([
                 'getNavActive'
             ])
+        },
+        created(){
+            //  iphonex 底部安全区域适配
+            window.addEventListener('resize', () => {                
+                if(window.innerHeight > 650){
+                    this.isFull = true;
+                }else{
+                    this.isFull = false;
+                }
+            })
         },
     })
 </script>
@@ -46,9 +61,15 @@ import {mapGetters} from 'vuex';
     display: flex;
     width:100%;
     bottom:0;
+    z-index: 99;
     height:1.44rem;
-    text-align: center;
+    text-align: center;    
     background:$color-bg-nav;
+    @media only screen and (device-width: 375px) and (device-height:812px) and (-webkit-device-pixel-ratio:3) {
+        &.paddingbot {
+            padding-bottom: .2rem;
+        }
+    }
     .nav-item{
         flex: 1;
         text-align: center;

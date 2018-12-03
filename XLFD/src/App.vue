@@ -78,7 +78,7 @@ export default {
         Loading,
         BgModel
     },
-    created() {   
+    created() {          
         this.init();
         this.initScrollFun();
         this.getDownloadUrl();
@@ -282,14 +282,6 @@ export default {
             }
         }
         
-    }
-    .navBox{
-        // position: fixed;
-        // bottom: 0;
-        // width: 100%;
-        // height: 1.44rem;
-        // z-index: 99;
-        // padding-bottom: .34rem;
     }
 }
 </style>

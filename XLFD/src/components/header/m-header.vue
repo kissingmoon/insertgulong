@@ -1,7 +1,9 @@
 <template>
     <div class="header">
         <div class="back" v-show="header.back">
-            <i class="icon-arrows-up outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')"><i class="icon-arrows-up inner"></i></i>
+            <i class="outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')">
+                <!-- <i class="icon-arrows-up inner"></i> -->
+            </i>
             <i class="icon-arrows-left backIco" v-else  @click="goBack"></i>
         </div>
         <router-link tag="div" :to="{path:'/pay/tip'}" class="recharge-tip" v-show="header.rechargeTip">
@@ -199,16 +201,16 @@
         height:1.2rem;
         line-height: 1.4rem;
         font-size: 0.52rem;
+        padding-left: .4rem;
         font-size: $font-size-large-x;
         .outer{
             position:relative;
-            top:-.1rem;
-                padding: 0 0.5rem 0 0.3rem;
-            .inner{
-                position:absolute;
-                left:.3rem;
-                top:.16rem;
-            }
+            top:-.06rem;
+            width: .4rem;
+            height: .4rem;
+            display: inline-block;
+            @include bg-image('./shouqi');
+            background-size: cover;
         }
         .backIco{
             display: block;

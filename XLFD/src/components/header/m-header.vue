@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="back" v-show="header.back">
+        <div class="back" :class="{'serviceIco':header.title == '客服中心'}" v-show="header.back">
             <i class="outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')">
                 <!-- <i class="icon-arrows-up inner"></i> -->
             </i>
@@ -201,8 +201,10 @@
         height:1.2rem;
         line-height: 1.4rem;
         font-size: 0.52rem;
-        padding-left: .4rem;
         font-size: $font-size-large-x;
+        &.serviceIco{
+            padding-left: .4rem;
+        }
         .outer{
             position:relative;
             top:-.06rem;
@@ -210,13 +212,13 @@
             height: .4rem;
             display: inline-block;
             @include bg-image('./shouqi');
-            background-size: cover;
+            background-size: cover;            
         }
         .backIco{
             display: block;
             height: 100%;
             line-height: 1.2rem;
-                padding: 0 0.5rem 0 0.3rem;
+            padding: 0 0.5rem 0 0.3rem;
         }
     }
     .message{

@@ -29,7 +29,7 @@
                 </div>
                 <div class="func-wrapper">
                     <ul>
-                        <li @click="goto('/info/agency')" class="item-mode border-bottom-1px">
+                        <li @click="goto('/agency')" class="item-mode border-bottom-1px">
                             <p class="title icon-agency">我的代理</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>

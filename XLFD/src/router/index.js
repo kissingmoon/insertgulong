@@ -44,6 +44,9 @@ import addCaiType from 'components/addCaiZhong/addCaiType';
 import Loading from 'base/loading/loading';
 import Rebate from 'components/rebate/rebate';
 import DownLoad from 'components/download/download';
+import Instruction from 'components/agency/instruction';
+import SubReport from 'components/agency/sub-report';
+
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -286,6 +289,20 @@ export default new Router({
                 {
                     path:'detail',
                     component:BetDetail
+                }
+            ]
+        },
+        {
+            path:'/agency',
+            component:Agency,
+            children:[
+                {
+                    path:'instruction',
+                    component:Instruction
+                },
+                {
+                    path:'subReport',
+                    component:SubReport
                 }
             ]
         },

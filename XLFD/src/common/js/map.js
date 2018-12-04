@@ -435,6 +435,14 @@ export const headerConfig = {
     '/download': {
         title:'APP下载',
         back:true
+    },
+    '/agency': {
+        title:'代理中心',
+        back:true
+    },
+    '/agency/instruction': {
+        title:'代理说明',
+        back:true
     }
 };
 

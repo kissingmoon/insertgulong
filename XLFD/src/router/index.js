@@ -46,7 +46,7 @@ import Rebate from 'components/rebate/rebate';
 import DownLoad from 'components/download/download';
 import Instruction from 'components/agency/instruction';
 import SubReport from 'components/agency/sub-report';
-
+import iosTip from 'components/download/ios-tip';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -277,6 +277,10 @@ export default new Router({
                     component:DrawNumber
                 }
             ]
+        },
+        {
+            path:'/iosTip',
+            component:iosTip,
         },
         {
             path:'/recharge',

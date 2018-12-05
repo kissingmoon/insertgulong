@@ -300,6 +300,7 @@ export const headerConfig = {
         title:'用户登录',
         back:true
     },
+    
     '/message':{
         title:'通知',
         back:true
@@ -442,6 +443,10 @@ export const headerConfig = {
     },
     '/agency/instruction': {
         title:'代理说明',
+        back:true
+    },
+    '/iosTip': {
+        title:'APP下载',
         back:true
     }
 };

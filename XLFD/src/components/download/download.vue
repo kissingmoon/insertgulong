@@ -9,20 +9,27 @@
             </a>
             <a v-if='getDownloadUrl.ios_download_url' class="iosBtn flex flex-center" @click="openIOS">
                 <span class="icon iosIco"></span><em>iphone下载</em> 
+                
             </a>
+            <div v-if='getDownloadUrl.ios_download_url' class="ios-tip">安卓直接安装,苹果手机<router-link to="/iosTip" style="color:rgb(39,135,255)">信任证书操作指南</router-link></div>
+            <!-- <div  class="ios-tip">安卓直接安装，苹果手机 <a href="http://192.168.8.71/iso.html" target="_blank" style="color: #002F00;">信任证书操作指南</a></div> -->
+            
         </div>
         <div class="foot"></div>
+        <!-- <router-view></router-view> -->
     </div>
 </template>
 
 <script>
 import {mapMutations,mapActions,mapGetters} from 'vuex';
 
+
  export default {
-    name:'',
+    // name:'',
     data () {
         return {
-            operateSys:""
+            operateSys:"",
+            // url:"http://192.168.8.71/iso.html"
         };
     },
     mounted(){
@@ -46,15 +53,20 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
             this.operateSys = isAndroid?"android":"iphone";
             return this.operateSys;
         },
+        openTip(){
+           
+        },
         ...mapMutations({
             setFootShow:'SET_FOOT_SHOW'
         })
-    },
-    components: {},
+    }
 }
 </script>
 
 <style lang='scss' scoped>
+@import 'common/scss/variable.scss';
+@import 'common/scss/mixin.scss';
+
     .wrap{
         overflow: hidden;
         font-size: .16rem;
@@ -73,6 +85,9 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
             margin: 1rem auto 1.32rem;
             background: url("logo.png") no-repeat;
             background-size: cover;
+        }
+        .btns{
+            margin-top: -1rem;
         }
         .btns >a{
             // display: block;
@@ -107,6 +122,11 @@ import {mapMutations,mapActions,mapGetters} from 'vuex';
             background: url("foot.png") no-repeat;
             background-size: cover;
         }
+        .ios-tip{
+            margin-top: 0.5rem;
+            font-size: $font-size-medium;
+        }
+        
     }
         
 </style>

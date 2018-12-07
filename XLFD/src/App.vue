@@ -58,7 +58,7 @@ export default {
             showService:false,
             isServerShow:true,
             getClose:["SET_HEARDERADD_SHOW","SET_MODEL_SHOW"],
-            showDownload:true,
+            showDownload:false,
             docScroll:0,
             isHave:true,
             fromUrl:""
@@ -80,7 +80,7 @@ export default {
     },
     created() {          
         this.init();
-        this.initScrollFun();
+        // this.initScrollFun();
         this.getDownloadUrl();
     },
     mounted(){

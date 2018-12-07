@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // import Home from 'components/home/home';
-import Home from 'components/home/home1';
+import Home from 'components/home/home';
 import LotteryRoom from 'components/lottery-room/lottery-room';
 import betRoom from 'components/bet-room/bet-room';
 import Pay from 'components/pay/pay';

@@ -49,6 +49,9 @@
         <div class="close-service" v-if="header.title == '客服中心'" @click="showServFun(false,false)">
             <i class="icon-close"></i>
         </div>
+        <div class="agency-filter" v-if="header.agencyFilter" @click="timeShow">
+            {{header.filterConfig.name[0]}}&nbsp;<i v-if="header.agencyFilter" class="icon-arrows-below"></i>
+        </div>
     </div>
 </template>
 <script>
@@ -305,6 +308,18 @@
         position: absolute;
         right: 0.5rem;
         display: inline-block;
+    }
+    .agency-filter{
+        position: absolute;
+        right: 0.3rem;
+        display: inline-block;
+        font-size: $font-size-medium;
+        height: 100%;
+        i{
+            font-size: $font-size-large;
+            position: relative;
+            top:0.05rem;
+        }
     }
     .time-money-wrapper{
         position:absolute;

@@ -17,7 +17,7 @@ Vue.use(VueLazyload,{
     loadingLarge:require('common/img/icon-loading-img.png'),
     loadingCircle:require('common/img/icon-loadingCircle-img.png')
 },VueAwesomeSwiper);
-Vue.use(Tabs)
+Vue.use(Tabs);
 // Vue.prototype.TencentCaptcha = TencentCaptcha;
 /* eslint-disable no-new */
 new Vue({

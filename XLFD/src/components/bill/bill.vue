@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
+            <select-time v-if="show_time" @setTimeType="setTimeType"></select-time>
             <pickers
                 :txtKey="txtKey"
                 :valueKey="valueKey"

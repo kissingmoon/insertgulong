@@ -1,9 +1,12 @@
 <template>
-    <div>sdsds</div>
+    <div>
+        123213
+    </div>
 </template>
 <script>
+
+
 export default {
-    
 }
 </script>
 <style lang="scss" scoped>

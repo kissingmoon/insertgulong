@@ -1,5 +1,5 @@
 import TabsComponent from './tabs.vue';
-import PaneComponent from './pane.vue';
+
 
 // Tabs.Pane = Pane;
 const Tabs = {};

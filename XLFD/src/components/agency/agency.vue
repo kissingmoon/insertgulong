@@ -1,10 +1,12 @@
 <template>
     <div class="agency-wapper">
-        <div class="agency-ImgDocker"></div>
+        <div class="agency-ImgDocker">
+            <img class="agency-link" src="./agency-link.png" alt="">
+        </div>
         <div class="agency-ItemCont">
-            <div v-for="(v,k) in agencyList" :key="k">
+            <div class="agency-Item flex flex-align-center flex-pack-justify" v-for="(v,k) in agencyList" :key="k" @click="goto(v.comptUrl)">
                 {{v.name}}
-                <i @click="goto(v.comptUrl)" class="icon-arrows-right backIco"></i>
+                <i  class="icon-arrows-right backIco"></i>
             </div>
         </div>
         <router-view></router-view>
@@ -59,13 +61,35 @@
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .agency-wapper{ 
-    position: fixed;
+    // position: fixed;
+    position:absolute;
     width: 100%;
     top: 1.2rem;
     bottom: 0rem;
     z-index: 100;
-    background: $color-bg-gray;
+    background: #ffffff;
     overflow: auto;
+    .agency-ImgDocker{
+        height: 4.7rem;
+        .agency-link{
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .agency-ItemCont{
+        padding: 0 0 0 0.5rem;
+        .agency-Item{
+            height: 1.4rem;
+            padding: 0 0.5rem 0 0;
+            font-size: $font-size-medium-x;
+            border-bottom: 1px solid  #F6F6F6;
+            .backIco{
+                color: rgb(175, 175, 174);
+            }
+        }
+    }
+    
 }
  
 </style>

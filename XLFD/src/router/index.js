@@ -46,6 +46,11 @@ import Rebate from 'components/rebate/rebate';
 import DownLoad from 'components/download/download';
 import Instruction from 'components/agency/instruction';
 import SubReport from 'components/agency/sub-report';
+import agencyReport from 'components/agency/agency-report';
+import memberManger from 'components/agency/member-manger';
+import betDetail from 'components/agency/bet-detail';
+import tradDetail from 'components/agency/trad-detail';
+import subReg from 'components/agency/sub-reg';
 import iosTip from 'components/download/ios-tip';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
@@ -307,6 +312,22 @@ export default new Router({
                 {
                     path:'subReport',
                     component:SubReport
+                },
+                {
+                    path:'agencyReport',
+                    component:agencyReport
+                },{
+                    path:'memberManger',
+                    component:memberManger
+                },{
+                    path:'betDetail',
+                    component:betDetail
+                },{
+                    path:'tradDetail',
+                    component:tradDetail
+                },{
+                    path:'subReg',
+                    component:subReg
                 }
             ]
         },

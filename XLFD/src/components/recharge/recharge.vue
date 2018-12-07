@@ -30,7 +30,7 @@
                 </div>
                 <data-none v-show="rechargeList && rechargeList.length < 1"></data-none>
             </scroll>
-            <select-time v-show="show_time" @setTimeType="setTimeType"></select-time>
+            <select-time v-if="show_time" @setTimeType="setTimeType"></select-time>
         </div>
     </parcel>
 </template>

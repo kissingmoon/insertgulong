@@ -3,7 +3,7 @@
         <div class="time-background" @click="timeHide"></div>
         <div class="time-main">
             <div class="time-wrapper clearfix">
-                <ul>
+                <!-- <ul>
                     <li class="item-wrapper border-bottom-1px" @click="selectTimeType(1)">
                         今天
                     </li>
@@ -15,6 +15,11 @@
                     </li>
                     <li class="item-wrapper border-bottom-1px" @click="selectTimeType(4)">
                         最近一月
+                    </li>
+                </ul> -->
+                <ul>
+                    <li class="item-wrapper border-bottom-1px" v-for="(v,k) in selectOption.itemList" :key="k" @click="selectTimeType(k)">
+                        {{v}}
                     </li>
                 </ul>
             </div>
@@ -30,10 +35,23 @@
 
   export default {
     props: {
+        selectOption:{
+            type:Object,
+            default: function () {
+                return {
+                    itemList:['今天','最近三天','最近一周','最近一月'],
+                    eleClass:"",
+                    parent:"default"
+                }
+            }
+        }
     },
     data() {
       return {
       }
+    },
+    beforeDestroy(){
+        this.timeHide();
     },
     mounted() {
     },
@@ -41,6 +59,9 @@
     },
     methods: {
         selectTimeType(type){
+            if(this.selectOption.parent=="default"){
+                type++;
+            }
             this.$emit('setTimeType',type);
             this.timeHide();
         },
@@ -85,6 +106,9 @@
                 padding: 0 0.3rem;
                 @include border-bottom-1px(solid,$color-border-gray);
                 font-size: $font-size-medium-x;
+            }
+            .text-center{
+                text-align: center;
             }
         }
         .time-close{

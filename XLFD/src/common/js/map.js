@@ -445,6 +445,42 @@ export const headerConfig = {
         title:'代理说明',
         back:true
     },
+    '/agency/agencyReport': {
+        title:'代理报表',
+        back:true
+    },
+    '/agency/subReport': {
+        title:'下级报表',
+        back:true,
+        agencyFilter:true,
+        filterConfig:{
+            name:['今天','昨天','本月','上月']
+        }
+    },
+    '/agency/memberManger':{
+        title:'会员管理',
+        back:true,
+    },
+    '/agency/betDetail':{
+        title:'投注明细',
+        back:true,
+        agencyFilter:true,
+        filterConfig:{
+            name:['今天','昨天','七天']
+        }
+    },
+    '/agency/tradDetail':{
+        title:'交易明细',
+        back:true,
+        agencyFilter:true,
+        filterConfig:{
+            name:['今天','昨天','七天']
+        }
+    },
+    '/agency/subReg':{
+        title:'下级开户',
+        back:true,
+    },
     '/iosTip': {
         title:'APP下载',
         back:true

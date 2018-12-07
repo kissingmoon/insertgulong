@@ -1,7 +1,7 @@
 <template>
     <div class="header">
         <!-- <div class="back" v-show="header.back"> -->
-            <div class="back" :class="{'serviceIco':header.title == '客服中心'}" v-show="header.back">
+        <div class="back" :class="{'serviceIco':header.title == '客服中心'}" v-show="header.back">
             <i class="outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')">
                 <!-- <i class="icon-arrows-up inner"></i> -->
             </i>

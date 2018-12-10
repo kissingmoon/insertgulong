@@ -43,7 +43,7 @@ import Parcel from 'base/parcel/parcel';
 import Fade from 'base/fade/fade';
 import botToTop from 'base/top-to-bot/top-to-bot';
 import Tip from 'base/tip/tip';
-import {session,local} from 'common/js/param';
+import {session,local,checkBrow} from 'common/js/param';
 import {headerConfig,footConfig} from 'common/js/map';
 import remoteJs from 'base/remote-js/remote-js';
 import UrlContent from 'components/url-content/url-content';
@@ -128,6 +128,7 @@ export default {
             let md5_salt = session('md5_salt') || '';
             let path=this.$router.history.current.path;
             let goBack=this.$route.query.goBack;
+            checkBrow();
             if(path == '/betroom'){
                 this.setFoot(false)
                 document.body.style.backgroundColor = '#f2f2f2'

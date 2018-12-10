@@ -1,7 +1,31 @@
 import md5 from 'js-md5';
 import store from 'store';
+import Fingerprint2 from 'fingerprintjs2';
 // import {cnzzUrl} from 'common/js/map';
 
+let platform_flag = ""
+export function checkBrow(data) {
+    if (window.requestIdleCallback) {
+        requestIdleCallback(function () {
+            Fingerprint2.get(function (components) {
+                var values = components.map(function (component) { return component.value })
+                var platform_flag = Fingerprint2.x64hash128(values.join(''), 31)
+                fingerCallback(platform_flag)
+            })
+        })
+    } else {
+        setTimeout(function () {
+            Fingerprint2.get(function (components) {
+                var values = components.map(function (component) { return component.value })
+                var platform_flag = Fingerprint2.x64hash128(values.join(''), 31)
+                fingerCallback(platform_flag)
+        })  
+        }, 500)
+    }
+}
+function fingerCallback(result){
+    platform_flag = result
+}
 export function reData(data){
     let param=data||{};
     let default_key='fb2356ddf5scc5d4d2s9e@2scwu7io2c';
@@ -11,7 +35,9 @@ export function reData(data){
         ...param,
         platform:'3',
         app_bundleId:'com.xb888.front',
-        app_version:'1.0'
+        app_version:'1.0',
+        platform_flag,
+        device_model: navigator.userAgent
     };
     if(user_token){
         baseObj.user_token=user_token;

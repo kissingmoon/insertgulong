@@ -13,6 +13,7 @@
 	<br/>
 <header>
     由于iOS9系统权限调整，打开应用需要进入【设置>>通用>>描述文件或设备管理】，信任同名的描述文件或设备即可。
+    <img class="guide-img" src="./images/guide.gif" alt="">
 </header>
 <article>
     <h2>详细图文教程：</h2>
@@ -202,6 +203,11 @@ header {
             font-size: 14px;
             color: #ff671c;
             line-height: 1.7;
+            .guide-img{
+                display: block;
+                width: 100%;
+                height: 350px;
+            }
         }
         @media only screen 
         and (-webkit-min-device-pixel-ratio: 2){

@@ -7,15 +7,16 @@
         <!-- <a href="javascript:GetPlistUrl()">
 		    <p style="text-align:center"><img src="./images/download.png" width="320" height="128"></p>
 	    </a> -->
-	    <a @click="GetMobileProvision" class="btn">安装完后，一键跳转，立即信任</a>
+	    <!-- <a @click="GetMobileProvision" class="btn">安装完后，一键跳转，立即信任</a> -->
 	<br/>
         <p style="text-align:center;font-weight:bold;color:red;font-size:180%">苹果企业包信任授权流程</p>
 	<br/>
 <header>
-    由于iOS9系统权限调整，打开应用需要进入【设置>>通用>>描述文件或设备管理】，信任同名的描述文件或设备即可。
+    <!-- 由于iOS9系统权限调整， -->
+    <!-- 打开应用需要进入【设置>>通用>>描述文件或设备管理】，信任同名的描述文件或设备即可。 -->
     <img class="guide-img" src="./images/guide.gif" alt="">
 </header>
-<article>
+<!-- <article>
     <h2>详细图文教程：</h2>
     <div class="title"><i>1</i><p>如果打开游戏时，出现如下图提示，<span>记住红线部分的描述文件名</span></p></div>
     <img src="./images/1.png" class="mod-img">
@@ -23,10 +24,11 @@
     <img src="./images/2.png" class="mod-img"><img src="./images/3.png" class="mod-img">
     <div class="title"><i>3</i><p>点击文件，<span>选择【信任】</span>，然后就能正常打开游戏了</p></div>
     <img src="./images/4.png" class="mod-img">
-    <!-- <a href="javascript:GetMobileProvision()" class="btn">安装完后，一键跳转，立即信任</a> -->
+    <a href="javascript:GetMobileProvision()" class="btn">安装完后，一键跳转，立即信任</a> 
     <a @click="GetMobileProvision" class="btn">安装完后，一键跳转，立即信任</a>
-</article>
+</article> -->
 <footer>
+    <a href="javascript:GetMobileProvision()" class="btn">安装完后，一键跳转，立即信任</a> 
 </footer>
     </div>
 </template>
@@ -198,8 +200,8 @@ export default {
 }
 header {
             padding: 10px;
-            background-color: #ffe8dd;
-            border: 1px solid #ffd5be;
+            // background-color: #ffe8dd;
+            // border: 1px solid #ffd5be;
             font-size: 14px;
             color: #ff671c;
             line-height: 1.7;
@@ -211,7 +213,7 @@ header {
         }
         @media only screen 
         and (-webkit-min-device-pixel-ratio: 2){
-            header {border: .5px solid #ffd5be;}
+            // header {border: .5px solid #ffd5be;}
         }
         article {
             padding: 10px 15px;

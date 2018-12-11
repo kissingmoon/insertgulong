@@ -47,6 +47,12 @@
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>
                         </li> -->
+                        <li @click="goto('/userLevel')" class="item-mode border-bottom-1px">
+                            <p class="title"><i class="level"></i>我的等级</p>
+                            <p class="remarks">
+                                <span><i class="icon-arrows-right icon"></i></span>
+                            </p>
+                        </li>
                         <li @click="goto('/info/bill')" class="item-mode border-bottom-1px">
                             <p class="title icon-bill">账户明细</p>
                             <p class="remarks">
@@ -272,6 +278,19 @@
                     background-position: left center;
                     background-size: 0.7rem;
                     background-repeat: no-repeat;
+                }
+                i{
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    display: inline-block;
+                    height: 0.72rem;
+                    width: 0.72rem;
+                    vertical-align: middle;
+                    margin-right: 0.2rem;
+                }
+                .level{
+                    background-image: url("./level.png");
+                    margin-left:-0.92rem; 
                 }
                 .icon-agency{
                     @include bg-image('icon-agency');

@@ -28,7 +28,7 @@
     <a @click="GetMobileProvision" class="btn">安装完后，一键跳转，立即信任</a>
 </article> -->
 <footer>
-    <a href="javascript:GetMobileProvision()" class="btn">安装完后，一键跳转，立即信任</a> 
+    <a @click="GetMobileProvision" class="btn">安装完后，一键跳转，立即信任</a> 
 </footer>
     </div>
 </template>

@@ -52,6 +52,7 @@ import betDetail from 'components/agency/bet-detail';
 import tradDetail from 'components/agency/trad-detail';
 import subReg from 'components/agency/sub-reg';
 import iosTip from 'components/download/ios-tip';
+import userLevel from 'components/user-level/user-level';
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -290,6 +291,9 @@ export default new Router({
         {
             path:'/recharge',
             component:Recharge
+        },{
+            path:"/userLevel",
+            component:userLevel
         },
         {
             path:'/bet',

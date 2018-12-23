@@ -19,6 +19,7 @@ export const httpUrl = {
         user:'/user/user-info',
         editNick:'/user/edit-nickname',
         balance:'/user-info/withdraw-cash',
+        isNeedCode:'/user-info/isNeedCode',
         coin:'/user/coin-info',
         bet:'/bet/bet-list',
         betDetail:'/bet/bet-info',
@@ -43,7 +44,15 @@ export const httpUrl = {
         applyAgent :'/userAgentInfo/applyAgent',
         orderByAgent:'/userAgentInfo/findListOrderByAgent',
         agentDetail:'/userAgentInfo/userAgentDetail',
-        getColor:'/v5/gc/getColorConfig'
+        getColor:'/v5/gc/getColorConfig',
+        levelInfo:'/v7/level/user/info',
+        rewardHistory:'/v7/level/user/receive/history',
+        levelIntro:'/v7/level/user/favourable',
+        getGift:{
+            upgradeGift:"/v7/level/upgrade/gift",
+            weeklyGift:"/v7/level/weekly/gift",
+            monthlyGift:"/v7/level/monthly/gift"
+        }
     },
     discount:{
         activity:'/v2/activity/get-activity'
@@ -109,6 +118,10 @@ export const httpUrl = {
         toChargeNew:'/v2/yhhd/user-charge/to-charge-new',
         compaySubmit:'/v2/yhhd/user-charge/com-pay-submit',
         getpayTotal:'/v2/yhhd/user-charge/get-pay-type'
+    },
+    agency:{
+        reportReview:'/v7/agt/reportReview',
+        agentOrDetail:'v7/agt/agentOrCustomerDetail'
     }
 };
 
@@ -484,6 +497,13 @@ export const headerConfig = {
     '/iosTip': {
         title:'APP下载',
         back:true
+    },
+    '/userLevel': {
+        title:'我的等级',
+        // headerStyle:{
+        //     background:'#414141'
+        // },
+        hidden:true
     }
 };
 

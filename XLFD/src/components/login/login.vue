@@ -78,6 +78,18 @@
             //     return objToStr(this.loginParam)
             // }  
         },
+        watch:{
+            'loginParam.user_id'(newValue, oldValue) {
+                let parm= local('loginParam')
+                if(parm){
+                    
+                    if(newValue!=parm.user_id){
+                        this.loginParam.password=""
+                    }
+                }
+            　　　　
+            　　}
+        },
         methods: {
             ...mapMutations({
                 setTip:'SET_TIP',

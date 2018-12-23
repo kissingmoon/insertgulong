@@ -283,14 +283,14 @@
                     background-size: cover;
                     background-repeat: no-repeat;
                     display: inline-block;
-                    height: 0.72rem;
-                    width: 0.72rem;
+                    height: 0.8rem;
+                    width: 0.8rem;
                     vertical-align: middle;
                     margin-right: 0.2rem;
                 }
                 .level{
                     background-image: url("./level.png");
-                    margin-left:-0.92rem; 
+                    margin-left:-1rem; 
                 }
                 .icon-agency{
                     @include bg-image('icon-agency');

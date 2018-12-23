@@ -31,16 +31,17 @@
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     绑定手机号
                                 </li>
-                                <li class="item-wrapper">
-                                    <input type="tel" class="phone-txt" v-model="phone" placeholder="请输入手机号"  autocomplete="off" maxlength="11" ><button @click="getCode" class="phone-btn" :disabled="getCodeType || phone.length < 11" >{{codeBtnTxt}}</button>
+                                <li class="item-wrapper-old">
+                                    <input type="tel" class="phone-txt" v-model="phone" placeholder="请输入手机号"  autocomplete="off" maxlength="11" >
+                                    <button @click="getCode('change')" class="phone-btn" :disabled="getCodeType || phone.length < 11" >{{codeBtnTxt}}</button>
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     <input type="tel" class="password-txt" v-model="bindCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" >
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     <button class="margin-right-1rem" @click="hide('phoneShow')">取消</button>
                                     <button @click="bindphone" :disabled="bindCode.length < 1">确认</button>
                                 </li>
@@ -55,24 +56,52 @@
                 <div class="password phone-con">
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
-                            <ul>
-                                <!-- 修改标识 -->
-                                <!-- <li class="item-wrapper">
+                            <!-- 修改标识 -->
+                            <!-- <ul>
+                                <li class="item-wrapper">
                                     <input type="tel" class="phone-txt" :value="phoneNum" placeholder="请输入手机号"  autocomplete="off" maxlength="11" readonly="readonly" ><button @click="getCode" class="phone-btn" :disabled="getCodeType" >{{codeBtnTxt}}</button>
                                 </li>
                                 <li class="item-wrapper">
                                     <input type="tel" class="password-txt" v-model="cashCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" maxlength="6" >
-                                </li> -->
+                                </li>
                                 <li class="item-wrapper">
                                     <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off"  maxlength="16" >
                                 </li>
                                 <li class="item-wrapper">
                                     <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
-                                    <!-- 修改标记 -->
-                                    <!-- <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button> -->
+                                    <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button> 
                                     <button @click="withdrawCash" :disabled="bank_passwd.length < 1 ">确认</button>
                                 </li>
-                            </ul>
+                            </ul> -->
+                            <!-- <ul v-if="isFirstTime=='0'"> -->
+                                <li class="item-wrapper-old">
+                                    <input type="password" class="password-txt" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off"  maxlength="16" >
+                                </li>
+                                <li class="item-wrapper-old">
+                                    <button class="margin-right-1rem" @click="hide('passwordShow')">取消</button>
+                                    <!-- <button @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确认</button>  -->
+                                    <button @click="withdrawCash" :disabled="bank_passwd.length < 1 ">确认</button>
+                                </li>
+                            <!-- </ul> -->
+                            <!-- <ul v-if="isFirstTime=='1'">
+                                <li class="item-wrapper">
+                                    <span class="phone-title">{{account.phone | capitalize}}</span>
+                                </li>
+                                <li class="item-wrapper flex">
+                                    <input type="tel" class="password-txt flex flex-1" v-model="cashCode" placeholder="请输入验证码" tocomplete="off" autocomplete="off" maxlength="6" >
+                                    <button class="item-btn item-red input-button" @click="getCode('cash')" :disabled="getCodeType || account.phone.length < 11">{{codeBtnTxt}}</button>
+                                </li>
+                                <li class="item-wrapper flex">
+                                    <input type="password" class="password-txt flex-1" v-model="bank_passwd" placeholder="请输入提现密码" tocomplete="off" autocomplete="off"  maxlength="16" >
+                                </li>
+                                <li class="item-wrapper flex">
+                                    <span style="color:#0484D9;" @click="changeMobile">更换手机号码</span>
+                                </li>
+                                <li class="item-wrapper flex">
+                                    <div class="flex-1 item-btn item-cancel" @click="hide('passwordShow')">取消</div>
+                                    <button class="flex-1 item-btn item-ok input-button" @click="withdrawCash" :disabled="bank_passwd.length < 1 || cashCode.length < 1">确定</button>
+                                </li>
+                            </ul> -->
                         </div>
                     </div>
                 </div>
@@ -85,14 +114,14 @@
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     您还没有设置提现密码，请先设置。
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     <button class="margin-right-1rem" @click="hide('passworTipShow')">取消</button>
                                     <button @click="goto('/info/safety/set-password')">确认</button>
                                 </li>
@@ -109,14 +138,14 @@
                     <div class="password-wrapper clearfix">
                         <div class="password-main">
                             <ul>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     您还没有设置提款账号，请先设置。
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                 </li>
-                                <li class="item-wrapper">
+                                <li class="item-wrapper-old">
                                     <button class="margin-right-1rem" @click="hide('bankTipShow')">取消</button>
                                     <button @click="goto('/info/safety/bank')">确认</button>
                                 </li>
@@ -150,7 +179,8 @@
                 bindCode:'',
                 cashCode:'',
                 needdml:'',
-                currentdml:''
+                currentdml:'',
+                isFirstTime:true
             }
         },
         components:{
@@ -164,10 +194,15 @@
             
             this.needdml=this.account.chuk_dml
             this.currentdml=this.account.current_dml
-            this.phone = this.account.phone;
+            // this.phone = this.account.phone;
             
         },
         updated(){
+        },
+        filters: {
+            capitalize: function (value) {
+                return value.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2');
+            }
         },
         computed: {
             ...mapGetters([
@@ -179,8 +214,8 @@
             },
             // 隐藏手机号
             phoneNum(){
-                this.phone = this.account.phone;
-                return this.account.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
+                // this.phone = this.account.phone;
+                // return this.account.phone.replace(/(\d{3})\d{4}(\d{4})/, "$1****$2");
             }
         },
         methods: {
@@ -192,15 +227,27 @@
                     },500);
                 }
             },
+            changeMobile(){
+                this.hide("passwordShow")
+                this.show("phoneShow")
+            },
             // 获取验证码
-            getCode(){
+            getCode(type){
                 this.getCodeType = true;
                 this.recCodeBtn();
-                this.$axios.postRequest(httpUrl.config.sendCode,{mobile:this.phone,sendFlag:'Y'})
+                let mobile;
+                if(type=="change"){
+                    mobile=this.phone
+                }else if(type=="cash"){
+                    mobile=this.account.phone
+                }
+                this.$axios.postRequest(httpUrl.config.sendCode,{mobile:mobile,sendFlag:'Y'})
                 .then((res)=> {
+                    
                     if(res.data && !res.data.errorCode){
                         this.getCodeType = true;
                     }else{
+                        //这里控制出错修改倒计时
                         clearTimeout(this.recCode);
                         this.recSetCode();
                     }
@@ -232,7 +279,7 @@
                         this.setTip('绑定成功');
                         this.getUser();
                         this.hide('phoneShow');
-                        this.show('passwordShow');
+                        // this.show('passwordShow');
                         
                     };
                 })
@@ -244,8 +291,8 @@
             withdrawCash(){
                 this.hide('passwordShow');
                 //修改提现标记
-                //this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
-                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
+                this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd),code:this.cashCode})
+                // this.$axios.postRequest(httpUrl.info.balance,{money:this.money,bank_passwd:md5(this.bank_passwd)})
                 .then((res)=> {
                     this.bank_passwd=''
                     this.recSetCode();
@@ -288,17 +335,42 @@
                     this.setTip('余额不足');
                     return;
                 };
-                if(this.account && this.account.phone && this.account.phone.length > 0){
-                    this.passwordShow = true;
-                }
                 if(this.currentdml < this.needdml){
                     this.setTip('打码量不足');
                     return;
-                }else{
-                    //修改提现标记
-                    //this.phoneShow = true;
+                };
+                if(this.account && this.account.phone=="" && this.account.phone.length == 0){
+                    this.phoneShow = true;
+                }
+                else{
+                    // this.$axios.postRequest(httpUrl.info.isNeedCode,{})
+                    // .then((res)=> {
+                    //     if(res.data && !res.data.errorCode){
+                    //         //判断是不是需要发送验证码才能提现
+                    //         this.isFirstTime=res.data.isNeedCode
+                    //         this.show('passwordShow');
+                    //     };
+                    // })
+                    // .catch((err) => {
+                    // });
                     this.show('passwordShow');
                 }
+                // if(this.account && this.account.phone && this.account.phone.length > 0){
+                //     //展示提现密码的弹框
+                //     // this.passwordShow = true;
+                //     this.$axios.postRequest(httpUrl.info.isNeedCode)
+                //     .then((res)=> {
+                //         if(res.data && !res.data.errorCode){
+                //         };
+                //     })
+                //     .catch((err) => {
+                //     });
+                // }
+                // else{
+                //     //绑定手机号的弹窗
+                //     this.phoneShow = true;
+                //     // this.show('passwordShow');
+                // }
             },
             ...mapActions([
                 'getUser'
@@ -432,22 +504,70 @@
     .password{
         position:fixed;
         top:calc((100% - 4rem) / 2);
-        left:1.5rem;
+        left:1rem;
         z-index:120;
-        width:7rem;
-        height:4rem;
+        width:8rem;
+        // height:4rem;
         overflow:auto;
         background:$color-bg;
         border-radius: 0.2rem;
         &.phone-con{
-            top:calc((100% - 6rem) / 2);
+            top:calc((100% - 10rem) / 2);
             //height:6rem;
         }
         .password-wrapper{
             min-height:100%;
             .password-main{
-                padding:0.8rem 0.4rem 0;
+                padding:0.4rem 0.4rem 0;
                 .item-wrapper{
+                    height:auto;
+                    overflow: hidden;
+                    padding-bottom: 0.5rem;
+                    line-height: 0.5rem;
+                    text-align: center;
+                    .phone-title{
+                        font-size: $font-size-large-x;
+                    }
+                    .password-txt{
+                        width:3rem;
+                        padding-left: 0.3rem;
+                        height:1rem;
+                        line-height: 1rem;
+                        border:1px solid $color-border-gray;
+                        border-radius: 0.1rem;
+                    }
+                    .item-btn{
+                        padding: 0 0.2rem;
+                        height:1rem;
+                        line-height: 1rem;
+                        border-radius: 0.1rem;
+                    }
+                    .item-red{
+                        border:1px solid $color-red;
+                        color: $color-red;
+                        margin-left: 0.2rem;
+                    }
+                    .item-cancel{
+                        background: #E8E8E8;
+                    }
+                    .item-ok{
+                        background: #DA1C36;
+                        margin-left: 0.2rem;
+                        color: #fff;
+                    }
+                    .phone-txt{
+                        width:3rem;
+                        padding-left: 0.3rem;
+                        height:0.7rem;
+                        line-height: 0.7rem;
+                        border:1px solid $color-border-gray;
+                    }
+                    .input-button[disabled]{
+                        background: #E8E8E8 !important;
+                        border:0;
+                    }
+                }
+                .item-wrapper-old{
                     height:auto;
                     overflow: hidden;
                     padding-bottom: 0.5rem;
@@ -487,7 +607,6 @@
                             width:2.6rem;
                         }
                     }
-
                 }
             }
         }

@@ -2,9 +2,9 @@
     <div id="app" class="app" >
         
         <botToTop>
-        <url-content v-show="showService" ref="serviceComp" v-if="isServerShow"></url-content>
+        <url-content v-show="getServerShow" ref="serviceComp" v-if="isServerShow"></url-content>
         </botToTop>
-        <div class="headBox">
+        <div class="headBox" v-show="!header.hidden">
             <div v-show="showDownload&&$route.path=='/home'" v-if="isHave" class="download-content flex flex-align-center flex-pack-justify"> 
                 <i @click="close('isHave')" class="home-close"></i>
                 <i class="home-logo"></i>
@@ -25,7 +25,7 @@
             </keep-alive>
         </Fade>
         <Fade>
-            <router-view v-if="!$route.meta.keepAlive"></router-view>   
+            <router-view v-if="!$route.meta.keepAlive" @serverShow="serverShow"></router-view>   
         </Fade>
         <activity-xrkh v-if="hd_xrkh == 0"></activity-xrkh>
         <activity-qiandao v-if="hd_xrkh == 1 && hd_qiandao == 0"></activity-qiandao>
@@ -97,7 +97,8 @@ export default {
             'getFootShow',
             'getLoadingShow',
             'getHeaderAdd',
-            'getModelShow'
+            'getModelShow',
+            'getServerShow'
         ])
     },
     methods:{
@@ -105,7 +106,9 @@ export default {
             this.isServerShow = bool
         },
         showServEvent(isShow){
-            this.showService=isShow;
+            // this.showService=isShow;
+            this.setServerShow(isShow)
+
             let obj = {}
             obj.title = this.$route.query.name;
             obj.back = true;
@@ -215,7 +218,8 @@ export default {
             setNavActive:'SET_NAV_ACTIVE',
             setFoot:'SET_FOOT_SHOW',
             setIOSGoBack:'SET_IOS_GOBACK',
-            setDownloadUrl:'SET_DOWNLOAD_URL'
+            setDownloadUrl:'SET_DOWNLOAD_URL',
+            setServerShow:'SET_SERVER_SHOW'
         })
     },
     watch:{

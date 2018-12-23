@@ -11,7 +11,7 @@
 <style scoped lang="scss">
 
   .botToTop-enter-active, .botToTop-leave-active{
-    transition: all 0.3s;
+    transition: all 0.2s;
   }
 
   .botToTop-enter,.botToTop-leave-to{

@@ -27,6 +27,9 @@
         <div class="reb-table">
             <v-table :tableHeader="tableHeader" :tableData="tableData"></v-table>
         </div>
+        <div class="fandian-list">
+            <div></div>
+        </div>
     </div>
 </template>
 <script>

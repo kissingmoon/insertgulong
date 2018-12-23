@@ -107,13 +107,29 @@
                     </div>
                 </div>
                 <div v-if="choosenIncome==1&&compstep==2" class="flex flex-v flex-align-center">
-                    <div v-for="(v,k) in compayList" :key="k" class="flex flex-v banklist " @click="chooseComp(v,k,'companyType')" :class="{bankactive:k==companyType}">
-                        <div class="flex flex-align-center">{{v.type_name}}</div>
-                        <div class="flex flex-align-center">收款名称：{{v.sk_people}}</div>
-                        <div class="flex flex-align-center" style="position: relative;">收款账号：{{v.account_no}}<i v-if="showCYes==k" style="position: absolute;right: 10px;top:-15px;" class="yo-icon icon-radio-yes"></i>
-                            <i v-if="showCYes!=k" style="position: absolute;right: 10px;top:-15px;" class="yo-icon icon-radio-no"></i></div>
-                        <div class="flex flex-align-center">开户网点：{{v.account_kh_address}}</div>
-                    </div>
+                    
+                        <div v-for="(v,k) in compayList" :key="k" class="flex flex-v banklist " @click="chooseComp(v,k,'companyType')" :class="{bankactive:k==companyType}">
+                            
+                                <div class="flex flex-align-center">{{v.type_name}}</div>
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <span>收款名称：{{v.sk_people}} </span>
+                                    <span class="copy-span fn-copy-btn" :data-clipboard-text="v.sk_people" @click="copy">复制</span>
+                                </div>
+                                <div class="flex flex-center" style="height:3rem;" v-if="v.qrcode">
+                                    <img style="width:3rem;height:100%;" :src="v.qrcode" alt="">
+                                </div>
+                                <div class="flex flex-align-center flex-pack-justify" style="position: relative;">
+                                    <span>收款账号：{{v.account_no}}</span>
+                                    <span class="copy-span fn-copy-btn" :data-clipboard-text="v.account_no" @click="copy">复制</span>
+                                    <i v-if="showCYes==k" style="position: absolute;right: 1.3rem;top:-0.4rem;" class="yo-icon icon-radio-yes"></i>
+                                    <i v-if="showCYes!=k" style="position: absolute;right: 1.3rem;top:-0.4rem;" class="yo-icon icon-radio-no"></i></div>
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <span>开户网点：{{v.account_kh_address}}</span>
+                                    <span class="copy-span fn-copy-btn" :data-clipboard-text="v.account_kh_address" @click="copy">复制</span>
+                                </div>
+                            
+                        </div>
+                    
                     
                 </div>
                 <div v-if="choosenIncome==1&&compstep==3" class="flex flex-v bankinfo flex-align-center">
@@ -160,6 +176,7 @@ import loading from 'base/loading/loading';
 import {session} from 'common/js/param';
 import numberKeyboard from 'base/number-keyboard/number-keyboard';
 import store from 'store';
+import Clipboard from 'clipboard';
 
 export default {
     data(){
@@ -280,12 +297,12 @@ export default {
             if(this.uId){
                 this.stepTitle=this.totalTitle[0]
                 this.intervlPost(httpUrl.pay.getpayTotal,2,[{type:2},{type:1}])                                                 
-                this.$axios.postRequest(httpUrl.pay.getCompayList,{type:1})
-                .then((res)=> {
-                    if(res.data && !res.data.errorCode){                      
-                        this.compayList=res.data
-                    }
-                })
+                // this.$axios.postRequest(httpUrl.pay.getCompayList,{type:1})
+                // .then((res)=> {
+                //     if(res.data && !res.data.errorCode){                      
+                //         this.compayList=res.data
+                //     }
+                // })
                 this.$axios.postRequest(httpUrl.config.getJumpConfig,{domain:document.domain})
                 .then((res)=> {
                     if(res.data && !res.data.errorCode){                      
@@ -327,6 +344,7 @@ export default {
                  this.defaultChoose()
                  this.disablechooseType=true;
                  this.loading=false;
+                //  this.compayList=this.totalpayTypeList[1][0].typeDetail
             }            
         },
         setSubmitParms(parmvalue){
@@ -342,6 +360,7 @@ export default {
                 // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
                 // this.submitParms.tradeAccountId=this.onlineTypeList.typeDetail[0].id
                 this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;
+                this.compayList=this.totalpayTypeList[1][0].typeDetail
         },
         chooseType(index,value,type){
             this.activeClass(index,value,type); 
@@ -374,6 +393,8 @@ export default {
                 this.onlineTypeList=value;
                 //this.onlineMoney=null;
                 this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                this.compayList=this.totalpayTypeList[1][index].typeDetail
+                this.choosenCompay=this.compayList[0]
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
                 // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
                 // this.submitParms.tradeAccountId=this.onlineTypeList.typeDetail[0].id
@@ -526,6 +547,18 @@ export default {
             this.chargeObj.chargeNum=null;
             this.chargeObj.chargename=null;
             this.chargeObj.chargeinfo=null;
+        },
+        copy(){
+            let clipboard = new Clipboard('.fn-copy-btn')
+            clipboard.on('success', e => {
+                this.setTip('复制成功')
+                clipboard.destroy();
+            });
+
+            clipboard.on('error', e => {
+                this.setTip('复制成功')
+                clipboard.destroy()
+            })
         }
     }
 }
@@ -862,22 +895,26 @@ i{
     }
     .banklist{
         width: 95%;
-        div{
-             width: 100%;
-             height: 1rem;
-             background: #fafafa;
-             padding: 0 5px;
-             box-sizing: border-box;
-        }
-        div:first-child{
-             background: #ffffff;
-             border-bottom:1px solid #ececec
-        }
-        div:last-child{
-             background: #ffffff;
-             border-top:1px solid #ececec
-        }
-       
+        margin-top: 0.5rem;
+            div{
+                width: 100%;
+                height: 1rem;
+                background: #fafafa;
+                padding: 0 5px;
+                box-sizing: border-box;
+                .copy-span{
+                    color: rgb(255, 174, 94);
+                    padding-right:0.3rem; 
+                }
+            }
+            div:first-child{
+                background: #ffffff;
+                border-bottom:1px solid #ececec
+            }
+            div:last-child{
+                background: #ffffff;
+                border-top:1px solid #ececec
+            }
     }
     .bankactive{
             border:1px solid #4fb83d

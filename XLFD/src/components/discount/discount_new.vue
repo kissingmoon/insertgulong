@@ -12,7 +12,7 @@
                 </div>
                 <div class="con">
                     <p class="txt">{{item.title}}</p>
-                    <p class="time">2018-01-01</p>
+                    <p class="time">{{item.create_time}}</p>
                 </div>
             </div>  
         </div> 
@@ -29,6 +29,7 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
         return {
             activityParam:{
                 order_by:1,
+                device_flag:3
             },
             activityList:[],
             imgObj:{

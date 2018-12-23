@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div class="header" :style="header.headerStyle">
         <!-- <div class="back" v-show="header.back"> -->
         <div class="back" :class="{'serviceIco':header.title == '客服中心'}" v-show="header.back">
             <i class="outer" v-if="header.title == '客服中心'" @click="showServFun(false,'1')">
@@ -61,7 +61,7 @@
     export default {
         data(){
             return{
-                messageCount:0
+                messageCount:0,
             }
         },
         props:['fromUrl'],

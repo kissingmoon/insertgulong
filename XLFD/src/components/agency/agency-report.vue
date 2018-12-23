@@ -11,6 +11,9 @@
 </template>
 <script>
 import searchInput from './search-input';
+import * as network  from './network.js'
+import * as dataHandle  from './dataHandle.js'
+
 export default {
     data(){
         return {
@@ -37,6 +40,41 @@ export default {
     },
     components:{
         searchInput,
+    },
+    created(){
+        //写在组件里面的回掉函数链式调用
+        // this.reportReview().then((data)=>{
+        //     console.log(data)
+        //     return this.userInfo()
+        // }).then((data)=>{
+        //     console.log(data)
+        // })
+        //调用封装的方法的例子
+        // network.getReportReview(this,{timeSign:"1"})
+        // .then((res)=>{
+        //     dataHandle.handleReport(res)
+        //     console.log(dataHandle.handleReport(res))
+        //     return network.getUrlList
+        // })
+        // .then((res)=>{
+        //     console.log(res.data)
+        // })
+    },
+    methods:{
+        // reportReview(){
+        //     return this.$axios.postRequest("/v7/agt/reportReview",{timeSign:"1"})
+        // },
+        // userInfo(){
+        //     return this.$axios.postRequest("/v2/gc/get-cp-type")
+        // }
+        init(){
+            network.getReportReview(this,{timeSign:"1"})
+            .then((res)=>{
+                dataHandle.handleReport(res);
+                console.log(dataHandle.handleReport(res))
+            })
+        }
+        
     }
 }
 </script>

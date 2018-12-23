@@ -32,7 +32,8 @@ const state = {
     showHeaderAdd:false,
     showModel:false,
     iosGoBack:"",
-    downloadUrl:{}
+    downloadUrl:{},
+    serverShow:false
 }
 
 export default state

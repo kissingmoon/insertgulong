@@ -31,4 +31,5 @@ export const getHeaderAdd= state => state.showHeaderAdd;
 export const getModelShow= state => state.showModel;
 export const getIOSGoBack= state => state.iosGoBack;
 export const getDownloadUrl= state => state.downloadUrl;
+export const getServerShow= state => state.serverShow;
 

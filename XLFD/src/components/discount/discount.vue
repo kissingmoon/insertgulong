@@ -68,6 +68,7 @@
                 activityList:[],
                 activityParam:{
                     order_by:1,
+                    device_flag:3
                 },
                 activityKind
             }

@@ -94,6 +94,9 @@ const mutations = {
   }, 
   [types.SET_DOWNLOAD_URL](state, param){
     state.downloadUrl = param;
+  },
+  [types.SET_SERVER_SHOW](state, param){
+    state.serverShow = param;
   }
 }
 

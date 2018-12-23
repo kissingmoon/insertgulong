@@ -217,13 +217,13 @@
             height: .4rem;
             display: inline-block;
             @include bg-image('./shouqi');
-            background-size: cover;
+            background-size: cover;            
         }
         .backIco{
             display: block;
             height: 100%;
             line-height: 1.2rem;
-                padding: 0 0.5rem 0 0.3rem;
+            padding: 0 0.5rem 0 0.3rem;
         }
     }
     .message{

@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="iframeBox">
-            <m-iframe :url="url"></m-iframe> 
+            <m-iframe :url="url" ></m-iframe> 
         </div>
     </div>
 </template>
@@ -15,10 +15,12 @@
 import MIframe from 'base/m-iframe/m-iframe';
 import {mapMutations,mapActions} from 'vuex';
  import {session} from 'common/js/param';
+ import {httpUrl} from 'common/js/map';
     export default {
         data(){
             return{
-                url:'https://www.fdppkk88900.xyz/youhui/userLevelHtml/userLevel/index.html?platform=3'     //  生产环境
+                url:''
+                // url:'https://www.fdppkk88900.xyz/youhui/userLevelHtml/userLevel/index.html?platform=3'     //  生产环境
                 // url:'http://192.168.8.151:4000/?platform=3'   //  本地环境
             }
         },
@@ -27,8 +29,15 @@ import {mapMutations,mapActions} from 'vuex';
         },
         created(){
             let token = session('user_token');
-            let md5_salt = session('md5_salt');
-            this.url = this.url + '&token=' + token + '&md5_salt=' + md5_salt;
+            let md5_salt = session('md5_salt'); 
+            let currentUrl = location.origin;  //  当前项目的地址   传送给iframe页面，以供iframe页面传送数据回来
+            this.$axios.postRequest(httpUrl.config.urlList,{flag:'user_level'})
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    this.url=res.data[0].url + '?platform=3&token=' + token + '&md5_salt=' + md5_salt + '&host=' + currentUrl;;
+                }
+            });
+            //  监听iframe页面传送回来的数据 ， 显示客服中心页面
             window.addEventListener('message',(event) =>{                
                 if( event.data == true ){
                     this.setServerShow(true)

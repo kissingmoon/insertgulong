@@ -64,6 +64,9 @@ import {mapActions,mapGetters,mapMutations} from 'vuex';
                     window.open(item.turn_url)
                 }
             }
+            else if(item.turn_url==""||item.turn_url=="#"||!item.turn_url||item.turn_url.length==0){
+                return
+            }
             else{
                 this.$router.push({
                     path: '/discount/activity',

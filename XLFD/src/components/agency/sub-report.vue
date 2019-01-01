@@ -1,30 +1,7 @@
 <template>
     <div class="sub-wapper">
         <div class="sub-Table_Docker">
-            <table class="sub-Table">
-                <thead class="sub-Table-header">
-                    <tr class="sub-Table-hetr" align="center" valign="middle">
-                        <td>账号</td>
-                        <td>类型</td>
-                        <td>报表人数</td>
-                        <td>盈利</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr align="center">
-                        <td>oppo233</td>
-                        <td>1级代理</td>
-                        <td>111</td>
-                        <td>2222.222222</td>
-                    </tr>
-                    <tr align="center">
-                        <td>aa</td>
-                        <td>1级代理</td>
-                        <td>111</td>
-                        <td>222</td>
-                    </tr>
-                </tbody>
-            </table>
+            <v-table :tableHeader="tableHeader" :tableData="tableData" @clickRow="rowHander"></v-table>
         </div>
         <div class="no-record-div">
             <img src="./no-record.png" alt="">
@@ -34,8 +11,13 @@
 </template>
 <script>
 import SelectTime from 'base/select-time/select-time';
-import {mapGetters,mapMutations,mapActions} from 'vuex';
 import {headerConfig} from 'common/js/map';
+import vTable from 'base/v-table/v-table';
+import * as network  from './network.js'
+import * as dataHandle  from './dataHandle.js'
+import * as dataMaker  from './dataMaker.js'
+import data  from "./data.js";
+import {mapGetters,mapActions,mapMutations} from 'vuex'
 
 export default {
     data(){
@@ -44,11 +26,30 @@ export default {
                 itemList:headerConfig['/agency/subReport'].filterConfig.name,
                 eleClass:"text-center",
                 parent:"agency"
-            }
+            },
+            tableHeader:[{
+                name:"账号",
+                field:"userId",
+                style:""
+            },{
+                name:"类型",
+                field:"type",
+                style:""
+            },{
+                name:"报表人数",
+                field:"priorNum",
+                style:""
+            },{
+                name:"盈利",
+                field:"income",
+                style:""
+            }],
+            tableData:[],
         }
     },
     components:{
-        SelectTime,
+        vTable,
+        SelectTime
     },
     computed: {
         ...mapGetters([
@@ -56,15 +57,20 @@ export default {
         ])
     },
     beforeDestroy(){
-        // this.setRecordChoose(false);
+        
+    },
+    mounted(){
+        network.getSubReport(this,{pageNum:0,  pageSize:5, timeSign:1})
+        .then((res)=>{
+            if(res.data && !res.data.errorCode){
+                this.tableData=dataHandle.getResData(res).list;
+            }
+        })
     },
     methods:{
-        setTimeType(type){
-            
+        rowHander(rowData,rowIndex){
+            console.log(rowData)
         },
-    //     ...mapMutations({
-    //         setRecordChoose:'SET_RECORD_CHOOSE'
-    //     }),
     }
 }
 </script>

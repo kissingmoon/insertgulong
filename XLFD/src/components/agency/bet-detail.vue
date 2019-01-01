@@ -1,5 +1,6 @@
 <template>
     <div class="bet-detail-wapper">
+        <search-input></search-input>
         <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun">
             <ul slot="TabPane" class="tab-pane flex">
                 <li class="flex flex-center flex-1" v-for="(v,k) in tabList" :key="k" :data-index="k"  :class="{ active: k==activeTabIndex}">{{v.name}}</li>
@@ -10,9 +11,13 @@
 </template>
 <script>
 import {headerConfig} from 'common/js/map';
-import {mapGetters,mapMutations,mapActions} from 'vuex';
 import SelectTime from 'base/select-time/select-time';
-
+import searchInput from './search-input';
+import * as network  from './network.js'
+import * as dataHandle  from './dataHandle.js'
+import * as dataMaker  from './dataMaker.js'
+import data  from "./data.js";
+import {mapGetters,mapActions,mapMutations} from 'vuex'
 export default {
     data(){
             return{
@@ -46,8 +51,10 @@ export default {
         },
         components:{
             SelectTime,
+            searchInput
         },
         mounted(){
+            this.init();
         },
         methods:{
             tabClickedFun(target){
@@ -56,6 +63,12 @@ export default {
             setTimeType(type){
             
             },
+            init(){
+                network.getAgentOrders(this,{pageNum:0,  pageSize:5, timeSign:1,status:0})
+                .then((res)=>{
+                    console.log(dataHandle.getResData(res));
+                })
+            }
         }
 }
 </script>

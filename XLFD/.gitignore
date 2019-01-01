@@ -1,9 +1,10 @@
 .DS_Store
-node_modules/
-/dist/
-# /build/
-# /config/
+/build/
 /node_modules/
+/dist/
+/config/
+/.gitignore
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

@@ -355,12 +355,14 @@ export default {
         defaultChoose(){
                 this.payTypeList=this.totalpayTypeList[0]
                 this.onlineTypeList=this.payTypeList[0]
-                this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                if( this.onlineTypeList.typeDetail[0].length > 0 ){
+                    this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                    this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;
+                    this.compayList=this.totalpayTypeList[1][0].typeDetail
+                }
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
                 // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
                 // this.submitParms.tradeAccountId=this.onlineTypeList.typeDetail[0].id
-                this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;
-                this.compayList=this.totalpayTypeList[1][0].typeDetail
         },
         chooseType(index,value,type){
             this.activeClass(index,value,type); 

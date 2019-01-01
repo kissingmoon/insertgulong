@@ -106,8 +106,8 @@ export const httpUrl = {
         // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket',
         // webSocket:'ws://weinisi01.com/api/websocket',
         webSocket:'wss://www.xlfdapi.com/websocket',
-        baseUrl:'/api',
-        // baseUrl:'/test'
+        // baseUrl:'/api',
+        baseUrl:'/test'
         // baseUrl:'/roger'
     },
     pay:{
@@ -117,11 +117,20 @@ export const httpUrl = {
         getCompayList:'/v2/yhhd/user-charge/get-com-pay-list',
         toChargeNew:'/v2/yhhd/user-charge/to-charge-new',
         compaySubmit:'/v2/yhhd/user-charge/com-pay-submit',
-        getpayTotal:'/v2/yhhd/user-charge/get-pay-type'
+        getpayTotal:'/v2/yhhd/user-charge/get-pay-type',
     },
     agency:{
         reportReview:'/v7/agt/reportReview',
-        agentOrDetail:'v7/agt/agentOrCustomerDetail'
+        agentOrDetail:'/v7/agt/agentOrCustomerDetail',
+        selfRebate:'/v7/agt/selfRebate',
+        inviteCode:'/v7/agt/inviteCode',
+        inviteCodeList:'/v7/agt/inviteCodeList',
+        deleteInviteCode:'/v7/agt/deleteInviteCode',
+        agentOrCustomerDetail:'/v7/agt/agentOrCustomerDetail',
+        reportReview:"/v7/agt/reportReview",
+        subReport:"/v7/agt/priorReportReview",
+        getAgentOrders:"/v7/agt/agentLotteryOrders",
+        getMoneyFlow:"/v7/agt/moneyFlow"
     }
 };
 
@@ -243,7 +252,8 @@ export const headerConfig = {
     '/home':{
         title:'小李飞刀',
         service:true,
-        message:true
+        message:true,
+        bgImg:true
     },
     '/pay':{
         title:'充值',

@@ -39,7 +39,7 @@
         <div class="add" v-if="header.add" @click="showAdd">
             <i class="addImg"></i>
         </div>
-        <h1 class="title" @click="emitChooseType">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'"></i>
+        <h1 class="title" :class="{'bg-img':header.bgImg}" @click="emitChooseType">{{header.title}} <i v-if="header.downDatil" :class="getRecordChoose?'icon-arrows-up':'icon-arrows-below'"></i>
             <!-- <a href="http://www.baidu.com" target="_blank">文本</a> -->
         </h1>
         <div class="addContent" v-if="getHeaderAdd" >
@@ -200,6 +200,13 @@
     text-align: center;
     color:#fff;
     background:$color-red;
+    .bg-img{
+        background-image: url("./title.png");
+        color:rgba(0,0,0,0);
+        background-repeat: no-repeat;
+        background-size: 70% 70%;
+        background-position:center;
+    }
     .back{
         position:absolute;
         height:1.2rem;

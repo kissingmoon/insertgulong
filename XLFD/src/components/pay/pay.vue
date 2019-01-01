@@ -61,8 +61,8 @@
             <div v-if="choosenIncome==0" class="typetitle flex flex-align-center">
                 <div style="border:1px solid red;height:0.4rem;margin-right:7px;"></div>选择支付类型
             </div>
-            <div  v-if="choosenIncome==0" class="chargetype flex flex-v">
-                <div v-for="(value,index) in onlineTypeList.typeDetail" :key="index"   class="chargeList flex  flex flex-v" @click='chooseonline(value,index)'>
+            <div v-if="choosenIncome==0 && onlineTypeList && onlineTypeList.typeDetail && onlineTypeList.typeDetail.length>0" class="chargetype flex flex-v">
+                <div   v-for="(value,index) in onlineTypeList.typeDetail" :key="index"   class="chargeList flex  flex flex-v" @click='chooseonline(value,index)'>
                     <div class="chargeList1 flex">
                         <div class="flex flex-1 flex-center"><img :src="value.gate_img" alt=""></div>
                         <div class="flex flex-4 flex-align-center">{{value.gate_name}}</div>
@@ -85,10 +85,10 @@
                     </div>
                 </div>
             </div>
-            <div v-if="choosenIncome==0" class="confirmdiv flex flex-center flex-v">
+            <div v-if="choosenIncome==0 && onlineTypeList && onlineTypeList.typeDetail && onlineTypeList.typeDetail.length>0" class="confirmdiv flex flex-center flex-v">
                 <div   class="confirmbtn flex flex-center" @click="onlineSubmit">确认</div>
             </div>
-            <div v-if="choosenIncome==1" class="companypay flex flex-v">
+            <div v-if="choosenIncome==1  && onlineTypeList && onlineTypeList.typeDetail && onlineTypeList.typeDetail.length>0" class="companypay flex flex-v">
                 <div  class="typetitle flex flex-align-center">
                     <div v-if="choosenIncome==1&&compstep!=4" style="border:1px solid red;height:0.4rem;margin-right:7px;"></div>{{stepTitle}}
                 </div>
@@ -355,9 +355,11 @@ export default {
         defaultChoose(){
                 this.payTypeList=this.totalpayTypeList[0]
                 this.onlineTypeList=this.payTypeList[0]
-                if( this.onlineTypeList.typeDetail[0].length > 0 ){
+                if(this.onlineTypeList&&this.onlineTypeList.typeDetail&&this.onlineTypeList.typeDetail.length>0){
                     this.setSubmitParms(this.onlineTypeList.typeDetail[0])
-                    this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;
+                    this.fanwei=this.onlineTypeList.typeDetail[0].min_money+'-'+this.onlineTypeList.typeDetail[0].max_money;  
+                }
+                if(this.totalpayTypeList[1].length>0&&this.totalpayTypeList[1][0].typeDetail&&this.totalpayTypeList[1][0].typeDetail.length>0){
                     this.compayList=this.totalpayTypeList[1][0].typeDetail
                 }
                 // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
@@ -376,30 +378,33 @@ export default {
                 if(index==0){
                     this.showYes=0;
                     this.onlineTypeList=this.payTypeList[0]
-                    this.setSubmitParms(this.onlineTypeList.typeDetail[0])
-                    this.fanwei=this.payTypeList[0].typeDetail[0].min_money+'-'+this.payTypeList[0].typeDetail[0].max_money;
+                    if(this.onlineTypeList&&this.onlineTypeList.typeDetail.length>0){
+                        this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                        this.fanwei=this.payTypeList[0].typeDetail[0].min_money+'-'+this.payTypeList[0].typeDetail[0].max_money;
+                    }
                 }
                 if(index==1){
-                    this.fanwei=this.payTypeList[0].minMoney+'-'+this.payTypeList[0].maxMoney;
+                    this.onlineTypeList=this.payTypeList[0]
+                    if(this.onlineTypeList){
+                        this.fanwei=this.payTypeList[0].minMoney+'-'+this.payTypeList[0].maxMoney;
+                    }
                 }
         },
         choosePay(index,value,type){
                 this.activeClass(index,value,type); 
                 this.showYes=0; 
-                if(value.typeDetail[0].min_money){
-                    this.fanwei=value.typeDetail[0].min_money+'-'+value.typeDetail[0].max_money;
-                }    
-                else if(value.minMoney){
-                    this.fanwei=value.minMoney+'-'+value.maxMoney;
-                }                        
                 this.onlineTypeList=value;
-                //this.onlineMoney=null;
-                this.setSubmitParms(this.onlineTypeList.typeDetail[0])
-                this.compayList=this.totalpayTypeList[1][index].typeDetail
-                this.choosenCompay=this.compayList[0]
-                // this.submitParms.payType=this.onlineTypeList.typeDetail[0].gate_type
-                // this.submitParms.gateFlag=this.onlineTypeList.typeDetail[0].gate_flag
-                // this.submitParms.tradeAccountId=this.onlineTypeList.typeDetail[0].id
+                if(value.typeDetail&&value.typeDetail.length>0){
+                    if(value.typeDetail[0].min_money){
+                        this.fanwei=value.typeDetail[0].min_money+'-'+value.typeDetail[0].max_money;
+                    } 
+                    else if(value.minMoney){
+                        this.fanwei=value.minMoney+'-'+value.maxMoney;
+                    } 
+                    this.setSubmitParms(this.onlineTypeList.typeDetail[0])
+                    this.compayList=this.totalpayTypeList[1][index].typeDetail
+                    this.choosenCompay=this.compayList[0]
+                }                      
         },
         chooseonline(value,key){
             this.setSubmitParms(value)

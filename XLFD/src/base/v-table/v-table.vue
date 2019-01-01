@@ -28,7 +28,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(v,k) in tableData" :key="k" align="center">
+            <tr v-for="(v,k) in loadTableData" :key="k" align="center" @click="clickRow(k)">
                 <td v-for="(v1,k1) in v" :key="k1">{{v1}}</td>
             </tr>
         </tbody>
@@ -36,6 +36,11 @@
 </template>
 <script>
 export default {
+    data(){
+        return{
+            // loadTableData:{}
+        }
+    },
     props:{
         tableHeader:{
             type:Array,
@@ -44,6 +49,30 @@ export default {
         tableData:{
             type:Array,
             default:()=>[]
+        }
+    },
+    computed:{
+        loadTableData(){
+            return this.filterByHeader(this.tableData,this.tableHeader);
+        }
+    },
+    created(){
+        // this.loadTableData=this.filterByHeader(this.tableData,this.tableHeader)
+    },
+    methods:{
+        filterByHeader(tableData,tableHeader){
+            let list=[];
+            tableData.map((v,k)=>{
+                var obj={};
+                tableHeader.map((v1,k1)=>{
+                    obj[v1.field]= v[v1.field]
+                })
+                list.push(obj);
+            })
+            return list;
+        },
+        clickRow(rowIndex){
+            this.$emit("clickRow",this.tableData[rowIndex],rowIndex);
         }
     }
 }

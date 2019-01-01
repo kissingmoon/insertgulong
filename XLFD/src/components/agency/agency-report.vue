@@ -2,8 +2,8 @@
     <div class="report-wapper">
         <search-input></search-input>
         <div class="report-List flex">
-            <div class="report-item flex flex-v flex-center" v-for="(v,k) in reportList" :key="k">
-                <div class="report-item-count">{{v.count}}</div>
+            <div class="report-item flex flex-v flex-center" v-for="(v,k) in reportObj" :key="k">
+                <div class="report-item-count">{{v.val}}</div>
                 <div class="report-item-name">{{v.name}}</div>
             </div>
         </div>
@@ -13,29 +13,14 @@
 import searchInput from './search-input';
 import * as network  from './network.js'
 import * as dataHandle  from './dataHandle.js'
+import * as dataMaker  from './dataMaker.js'
+import data  from "./data.js";
+import {mapGetters,mapActions,mapMutations} from 'vuex'
 
 export default {
     data(){
         return {
-            reportList:[{
-                count:"￥30",
-                name:"投注金额"
-            },{
-                count:"￥30",
-                name:"投注金额"
-            },{
-                count:"￥30",
-                name:"投注金额"
-            },{
-                count:"￥30",
-                name:"投注金额"
-            },{
-                count:"￥30",
-                name:"投注金额"
-            },{
-                count:"￥30",
-                name:"投注金额"
-            },]
+            reportObj:{}
         }
     },
     components:{
@@ -59,6 +44,7 @@ export default {
         // .then((res)=>{
         //     console.log(res.data)
         // })
+        this.init();
     },
     methods:{
         // reportReview(){
@@ -68,10 +54,9 @@ export default {
         //     return this.$axios.postRequest("/v2/gc/get-cp-type")
         // }
         init(){
-            network.getReportReview(this,{timeSign:"1"})
+            network.reportReview(this,{timeSign:"1"})
             .then((res)=>{
-                dataHandle.handleReport(res);
-                console.log(dataHandle.handleReport(res))
+                this.reportObj=dataHandle.fliterAgReport(res);
             })
         }
         
@@ -90,9 +75,9 @@ export default {
     top:0;
     .report-List{
         flex-wrap:wrap;
+        background: #ffffff;
         .report-item{
             flex: 0 0 33%;
-            background: #ffffff;
             height: 3.3rem;
             box-sizing: border-box;
             font-size: $font-size-medium-x;

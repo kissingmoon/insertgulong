@@ -18,8 +18,8 @@ import {mapMutations,mapActions} from 'vuex';
     export default {
         data(){
             return{
-                // url:'https://www.fdppkk88900.xyz/youhui/userLevelHtml/userLevel/index.html?platform=3'
-                url:'http://192.168.8.151:4000/?platform=3'
+                url:'https://www.fdppkk88900.xyz/youhui/userLevelHtml/userLevel/index.html?platform=3'     //  生产环境
+                // url:'http://192.168.8.151:4000/?platform=3'   //  本地环境
             }
         },
         components:{

@@ -106,8 +106,8 @@ export const httpUrl = {
         // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket',
         // webSocket:'ws://weinisi01.com/api/websocket',
         webSocket:'wss://www.xlfdapi.com/websocket',
-        // baseUrl:'/api',
-        baseUrl:'/test'
+        baseUrl:'/api',
+        // baseUrl:'/test'
         // baseUrl:'/roger'
     },
     pay:{

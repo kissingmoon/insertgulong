@@ -1,10 +1,8 @@
 <template>
-    <div class="level-wapper">       
-        <div class="half-circle-wapper">
-            <div class="title flex">
-                <div class="backBox" @click="goBack"><i class="icon-arrows-left"></i></div>
-                <div class="flex-1" style="padding-right: 0.4rem;" >我的等级</div>
-            </div>
+    <div class="level-wapper">  
+        <div class="headWrap">
+            <div class="backBox" @click="goBack"><i class="icon-arrows-left"></i></div>
+            <div class="level" style="padding-right: 0.4rem;" >我的等级</div>
         </div>
         <div class="iframeBox">
             <m-iframe :url="url"></m-iframe> 
@@ -67,30 +65,34 @@ import {mapMutations,mapActions} from 'vuex';
     @import 'common/scss/variable.scss';
     @import 'common/scss/mixin.scss';
     .level-wapper{
-        position: fixed;
+        position: absolute;
         top:0;
         bottom: 0;
-        background-color: #ffffff;
+        background-color: #fff;
         z-index: 99;
         width: 100%;
         -webkit-overflow-scrolling:touch;
         overflow:hidden;
         display: flex;
         flex-direction: column;
-        .half-circle-wapper{
-            height: 1.2rem;
-            .title{
+        .headWrap{
+            font-size: .48rem;
+            background-color: #43413f;
+            position: relative;
+            .backBox{
+                position: absolute;
+                left: 0;
+                top: 0;
+                color: #fff;
+                padding: 0 .2rem;
+                line-height: 1.2rem;  
+            }
+            .level{
                 width: 100%;
-                height: 1.2rem;
-                line-height: 1.2rem;
-                font-size: $font-size-large;
-                color: #ffffff;
+                color: #fff;
                 text-align: center;
-                background-color: #43413F;
-                .backBox{
-                    padding: 0 .3rem;
-                }
-            }    
+                line-height: 1.2rem;                
+            }
         }
         .iframeBox{
             flex:1;

@@ -53,7 +53,8 @@ import loading from 'base/loading/loading';
     .iframe-content{
         height:100%;
         -webkit-overflow-scrolling:touch;
-        overflow:auto;
+        overflow-y:auto;
+        overflow-x: hidden;
         .iframe{
             width:100%;
             height:100%;

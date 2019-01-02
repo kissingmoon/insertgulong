@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="iframeBox">
-            <m-iframe :url="url" ></m-iframe> 
+            <m-iframe :url="url"></m-iframe> 
         </div>
     </div>
 </template>
@@ -34,9 +34,10 @@ import {mapMutations,mapActions} from 'vuex';
             this.$axios.postRequest(httpUrl.config.urlList,{flag:'user_level'})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){
-                    this.url=res.data[0].url + '?platform=3&token=' + token + '&md5_salt=' + md5_salt + '&host=' + currentUrl;;
+                    this.url=res.data[0].url + '?platform=3&token=' + token + '&md5_salt=' + md5_salt + '&host=' + currentUrl;
                 }
             });
+            // this.url = this.url + '&token=' + token + '&md5_salt=' + md5_salt + '&host=' + currentUrl
             //  监听iframe页面传送回来的数据 ， 显示客服中心页面
             window.addEventListener('message',(event) =>{                
                 if( event.data == true ){
@@ -73,7 +74,7 @@ import {mapMutations,mapActions} from 'vuex';
         z-index: 99;
         width: 100%;
         -webkit-overflow-scrolling:touch;
-        overflow:auto;
+        overflow:hidden;
         display: flex;
         flex-direction: column;
         .half-circle-wapper{
@@ -93,9 +94,8 @@ import {mapMutations,mapActions} from 'vuex';
         }
         .iframeBox{
             flex:1;
-            height:100%;
+            width: 100%;
             overflow:hidden;
-            // padding-top:.6rem;
         }
     }
     

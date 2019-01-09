@@ -478,10 +478,16 @@ let vm = null;
                     query: {id:v.recomandObj.flag,name: v.recomandObj.lotteryName,type:v.recomandObj.lotteryType}
                 });
             }else{
-                this.$router.push({
-                    path: '/lottery',
-                    query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
-                });
+                if(!this.user_token){
+                    this.$router.push({
+                        path:'/login'
+                    });
+                }else{
+                    this.$router.push({
+                        path: '/lottery',
+                        query: {id:v.lottery_id,type:v.recomandObj.lotteryType}
+                    });
+                }
             }
         },
         randomNum(minNum,maxNum){ 

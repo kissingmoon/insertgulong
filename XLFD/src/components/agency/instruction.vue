@@ -18,8 +18,30 @@
     </div>
 </template>
 <script>
+import {headerConfig,httpUrl} from 'common/js/map';
 export default {
-    
+    data(){
+        return{}
+    },
+    mounted(){
+        this.init();
+    },
+    methods:{
+        init(){
+            this.$axios.postRequest(httpUrl.lottery.bypoint,{lottery_id:"cqssc"})
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    console.log(res.data)
+                };
+            });
+            this.$axios.postRequest(httpUrl.lottery.lhc28Bypoint,{lottery_id:"xglhc"})
+            .then((res)=> {
+                if(res.data && !res.data.errorCode){
+                    console.log(res.data)
+                };
+            });
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

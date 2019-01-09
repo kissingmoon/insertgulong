@@ -7,24 +7,33 @@
                 <div class="report-item-name">{{v.name}}</div>
             </div>
         </div>
+        <select-time v-if="show_time" @setTimeType="setTimeType" :selectOption='selectOption'></select-time>
     </div>
 </template>
 <script>
+import SelectTime from 'base/select-time/select-time';
 import searchInput from './search-input';
 import * as network  from './network.js'
 import * as dataHandle  from './dataHandle.js'
 import * as dataMaker  from './dataMaker.js'
 import data  from "./data.js";
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import {headerConfig} from 'common/js/map';
 
 export default {
     data(){
         return {
-            reportObj:{}
+            reportObj:{},
+            selectOption:{
+                itemList:headerConfig['/agency/agencyReport'].filterConfig.name,
+                eleClass:"text-center",
+                parent:"agency"
+            }
         }
     },
     components:{
         searchInput,
+        SelectTime
     },
     created(){
         //写在组件里面的回掉函数链式调用
@@ -46,6 +55,11 @@ export default {
         // })
         this.init();
     },
+    computed: {
+        ...mapGetters([
+            'show_time'
+        ])
+    },
     methods:{
         // reportReview(){
         //     return this.$axios.postRequest("/v7/agt/reportReview",{timeSign:"1"})
@@ -54,12 +68,22 @@ export default {
         //     return this.$axios.postRequest("/v2/gc/get-cp-type")
         // }
         init(){
+            this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
             network.reportReview(this,{timeSign:"1"})
             .then((res)=>{
                 this.reportObj=dataHandle.fliterAgReport(res);
             })
-        }
-        
+        },
+        setTimeType(indx){
+            this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
+            network.reportReview(this,{timeSign:indx+1})
+            .then((res)=>{
+                this.reportObj=dataHandle.fliterAgReport(res);
+            })
+        },
+        ...mapActions([
+            "setHeader"
+        ])
     }
 }
 </script>

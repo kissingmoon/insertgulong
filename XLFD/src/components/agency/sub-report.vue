@@ -3,7 +3,7 @@
         <div class="sub-Table_Docker">
             <v-table :tableHeader="tableHeader" :tableData="tableData" @clickRow="rowHander"></v-table>
         </div>
-        <div class="no-record-div">
+        <div class="no-record-div" v-if="tableData.length==0">
             <img src="./no-record.png" alt="">
         </div>
         <select-time v-if="show_time" @setTimeType="setTimeType" :selectOption='selectOption'></select-time>
@@ -29,22 +29,23 @@ export default {
             },
             tableHeader:[{
                 name:"账号",
-                field:"userId",
-                style:""
+                field:"usrId",
+                style:true
             },{
                 name:"类型",
                 field:"type",
-                style:""
+                style:false
             },{
                 name:"报表人数",
                 field:"priorNum",
-                style:""
+                style:false
             },{
                 name:"盈利",
                 field:"income",
-                style:""
+                style:true
             }],
             tableData:[],
+            currentTime:""
         }
     },
     components:{
@@ -60,17 +61,30 @@ export default {
         
     },
     mounted(){
-        network.getSubReport(this,{pageNum:0,  pageSize:5, timeSign:1})
-        .then((res)=>{
-            if(res.data && !res.data.errorCode){
-                this.tableData=dataHandle.getResData(res).list;
-            }
-        })
+        this.init();
     },
     methods:{
         rowHander(rowData,rowIndex){
-            console.log(rowData)
         },
+        init(){
+            this.currentTime=1;
+            this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
+            network.getSubReport(this,{pageNum:0,  pageSize:10, timeSign:this.currentTime})
+            .then((res)=>{
+                this.tableData=dataHandle.handleSubRept(res).list;
+            })
+        },
+        setTimeType(indx){
+            this.currentTime=indx+1;
+            this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
+            network.getSubReport(this,{pageNum:0,  pageSize:10, timeSign:this.currentTime})
+            .then((res)=>{
+                this.tableData=dataHandle.handleSubRept(res).list;
+            })
+        },
+        ...mapActions([
+            "setHeader"
+        ]),
     }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="member-wapper">
-        <div v-if="tableData.length>0" class="sub-Table_Docker">
+        <div class="sub-Table_Docker">
             <v-table :tableHeader="tableHeader" :tableData="tableData" @clickRow="rowHander"></v-table>
         </div>
         <div v-if="tableData.length==0" class="no-record-div">

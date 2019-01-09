@@ -50,7 +50,7 @@
             <i class="icon-close"></i>
         </div>
         <div class="agency-filter" v-if="header.agencyFilter" @click="timeShow">
-            {{header.filterConfig.name[0]}}&nbsp;<i v-if="header.agencyFilter" class="icon-arrows-below"></i>
+            {{header.filterConfig.name[header.currentIndx]}}&nbsp;<i v-if="header.agencyFilter" class="icon-arrows-below"></i>
         </div>
     </div>
 </template>
@@ -204,7 +204,7 @@
         background-image: url("./title.png");
         color:rgba(0,0,0,0);
         background-repeat: no-repeat;
-        background-size: 70% 70%;
+        background-size: 60% 65%;
         background-position:center;
     }
     .back{

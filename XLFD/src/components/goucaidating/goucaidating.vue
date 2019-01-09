@@ -39,9 +39,12 @@
                         </p>
                         <p class="flex lockcount">
                             <span class="llockcount flex flex-center">距{{v.show_qh}}期截止{{v.locktime}}</span>
-                            <router-link v-if="v.click&&currentModel==0" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">
+                            <!-- <router-link v-if="v.click&&currentModel==0" class="rlockcount" tag="span" :to="{path:'/lottery',query:{id:v.lottery_id,type:v.lotteryType}}">
+                                <span @click="openLottery">立即投注</span>
+                            </router-link> -->
+                            <span v-if="v.click&&currentModel==0" class="rlockcount" tag="span" @click.stop="openLottery(v.lottery_id,v.lotteryType)">
                                 立即投注
-                            </router-link>
+                            </span>
                             <router-link v-if="v.click&&currentModel==1" class="rlockcount" tag="span" :to="{path:'/lotteryroom',query:{id:v.lottery_id,name:v.subLotteryObj.lottery_name,type:v.lotteryType}}">
                                 进入房间
                             </router-link>
@@ -76,7 +79,8 @@ export default {
     computed:{
         ...mapGetters([
             'xglhc_color',
-            'getLoadingShow'
+            'getLoadingShow',
+            'user_token'
         ])
     },
     components:{
@@ -101,6 +105,18 @@ export default {
         
     },
     methods:{
+        openLottery(lottery_id,lotteryType){
+            if(!this.user_token){
+                this.$router.push(
+                    {path:'/login'}
+                );
+                
+            }else{
+                this.$router.push(
+                    {path:'/lottery',query:{id:lottery_id,type:lotteryType}}
+                );
+            }
+        },
         initModelTab(){
             this.modelTabList=[{
                 title:"传统模式",

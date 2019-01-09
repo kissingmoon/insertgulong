@@ -1,5 +1,17 @@
 <template>
+
     <table class="sub-Table">
+        
+            <!-- <scroll ref="scroll" class="scroll-content" 
+                        :data="tableData" 
+                        :pulldown="pulldown"
+                        :pullup="pullup"
+                        :isAllData="isAllData"
+                        :refreshStatus="refreshStatus"
+                        :loadStatus="loadStatus"
+                        @pulldown="getDrawNubmer('down')"
+                        @pullup="getDrawNubmer('up')"
+                        > -->
         <!-- <thead class="sub-Table-header">
             <tr class="sub-Table-hetr" align="center" valign="middle">
                 <td>账号</td>
@@ -29,16 +41,24 @@
         </thead>
         <tbody>
             <tr v-for="(v,k) in loadTableData" :key="k" align="center" @click="clickRow(k)">
-                <td v-for="(v1,k1) in v" :key="k1">{{v1}}</td>
+                <td v-for="(v1,k1,indx) in v" :key="k1" :style="tableHeader[indx].style?v1.style:''">{{tableHeader[indx].style?v1.data:v1}}</td>
             </tr>
         </tbody>
+        <!-- </scroll> -->
     </table>
+    
 </template>
 <script>
+import Scroll from 'base/scroll/scroll';
 export default {
     data(){
         return{
             // loadTableData:{}
+            pulldown: true,
+            pullup: true,
+            refreshStatus:false,
+            loadStatus:false,
+            isAllData:false,
         }
     },
     props:{
@@ -50,6 +70,9 @@ export default {
             type:Array,
             default:()=>[]
         }
+    },
+    components:{
+        Scroll
     },
     computed:{
         loadTableData(){
@@ -73,17 +96,24 @@ export default {
         },
         clickRow(rowIndex){
             this.$emit("clickRow",this.tableData[rowIndex],rowIndex);
-        }
+        },
+        getDrawNubmer(type){
+            console.log("ssss")
+        },
     }
 }
 </script>
 <style lang="scss" scoped>
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
-
+.scroll-content{
+    height: 15rem;
+}
 .sub-Table{
     width: 100%;
     background: #ffffff;
+        height: 5rem;
+    overflow: auto;
     thead td{
         height: 1.3rem;
     }

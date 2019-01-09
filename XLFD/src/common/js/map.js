@@ -62,7 +62,9 @@ export const httpUrl = {
         delType:'/v5/gc/removeUserLottery',     //  删除彩种
         getType:'/v5/gc/getUserLottery',     //  获取用户添加的彩种
         getTypeList:'/v5/gc/get-cp-type',     //  获取彩种列表
-        getRoomList:'/v5/room/getRoomList'//获取房间模式的房间
+        getRoomList:'/v5/room/getRoomList',//获取房间模式的房间
+        bypoint:'/v7/gc/cz-wf-bypoint',
+        lhc28Bypoint:'/v7/gc/cz-wf-lhc28-bypoint'
     },
     descover:{
         rank:'/v2/gd-dsb/get-dsb-rank',
@@ -106,9 +108,9 @@ export const httpUrl = {
         // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket',
         // webSocket:'ws://weinisi01.com/api/websocket',
         webSocket:'wss://www.xlfdapi.com/websocket',
-        baseUrl:'/api',
+        // baseUrl:'/api',
         // baseUrl:'/test'
-        // baseUrl:'/roger'
+        baseUrl:'/roger'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url',
@@ -470,7 +472,12 @@ export const headerConfig = {
     },
     '/agency/agencyReport': {
         title:'代理报表',
-        back:true
+        back:true,
+        agencyFilter:true,
+        filterConfig:{
+            name:['今天','昨天','本月','上月']
+        },
+        currentIndx:0
     },
     '/agency/subReport': {
         title:'下级报表',
@@ -478,7 +485,8 @@ export const headerConfig = {
         agencyFilter:true,
         filterConfig:{
             name:['今天','昨天','本月','上月']
-        }
+        },
+        currentIndx:0
     },
     '/agency/memberManger':{
         title:'会员管理',
@@ -489,8 +497,9 @@ export const headerConfig = {
         back:true,
         agencyFilter:true,
         filterConfig:{
-            name:['今天','昨天','七天']
-        }
+            name:['今天','昨天','本月','上月']
+        },
+        currentIndx:0
     },
     '/agency/tradDetail':{
         title:'交易明细',
@@ -498,7 +507,8 @@ export const headerConfig = {
         agencyFilter:true,
         filterConfig:{
             name:['今天','昨天','七天']
-        }
+        },
+        currentIndx:0
     },
     '/agency/subReg':{
         title:'下级开户',

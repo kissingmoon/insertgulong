@@ -294,7 +294,8 @@ export default {
             this.selectNumList.splice(p,1,arr);
         },
         getBetWF(){
-            const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC : httpUrl.bet.lotteryWf;
+            // const api=this.is28OrLhc ? httpUrl.bet.lotteryWfLHC : httpUrl.bet.lotteryWf;
+            const api=this.is28OrLhc?httpUrl.lottery.lhc28Bypoint:httpUrl.lottery.bypoint
             this.$axios.postRequest(api,{lottery_id:this.$route.query.id})
             .then((res)=> {
                 if(res.data && !res.data.errorCode){

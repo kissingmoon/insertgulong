@@ -26,12 +26,13 @@ import {mapMutations,mapActions} from 'vuex';
             MIframe
         },
         created(){
+            this.setFoot(false)
             let token = session('user_token');
             let md5_salt = session('md5_salt'); 
             let currentUrl = location.origin;  //  当前项目的地址   传送给iframe页面，以供iframe页面传送数据回来
             this.$axios.postRequest(httpUrl.config.urlList,{flag:'user_level'})
             .then((res)=> {
-                if(res.data && !res.data.errorCode){
+                if(res.data && !res.data.errorCode){ //  platform变量为区分安卓平台  ios平台  和H5平台
                     this.url=res.data[0].url + '?platform=3&token=' + token + '&md5_salt=' + md5_salt + '&host=' + currentUrl;
                 }
             });
@@ -53,6 +54,7 @@ import {mapMutations,mapActions} from 'vuex';
                 this.$router.back();
             },
             ...mapMutations({
+                setFoot:'SET_FOOT_SHOW',
                 setServerShow:'SET_SERVER_SHOW'
             }),
             ...mapActions([

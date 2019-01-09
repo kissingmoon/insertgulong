@@ -78,7 +78,7 @@ export default {
         Loading,
         BgModel
     },
-    created() {          
+    created() {       
         this.init();
         // this.initScrollFun();
         this.getDownloadUrl();

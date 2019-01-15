@@ -108,9 +108,9 @@ export const httpUrl = {
         // webSocket:'ws://test.weinisi01.com:8090/jeeplus/websocket',
         // webSocket:'ws://weinisi01.com/api/websocket',
         webSocket:'wss://www.xlfdapi.com/websocket',
-        // baseUrl:'/api',
+        baseUrl:'/api',
         // baseUrl:'/test'
-        baseUrl:'/roger'
+        // baseUrl:'/roger'
     },
     pay:{
         chargeUrl:'/v2/app-charge-url/get-charge-url',
@@ -122,14 +122,13 @@ export const httpUrl = {
         getpayTotal:'/v2/yhhd/user-charge/get-pay-type',
     },
     agency:{
-        reportReview:'/v7/agt/reportReview',
+        reportReview:"/v7/agt/reportReview",
         agentOrDetail:'/v7/agt/agentOrCustomerDetail',
         selfRebate:'/v7/agt/selfRebate',
         inviteCode:'/v7/agt/inviteCode',
         inviteCodeList:'/v7/agt/inviteCodeList',
         deleteInviteCode:'/v7/agt/deleteInviteCode',
         agentOrCustomerDetail:'/v7/agt/agentOrCustomerDetail',
-        reportReview:"/v7/agt/reportReview",
         subReport:"/v7/agt/priorReportReview",
         getAgentOrders:"/v7/agt/agentLotteryOrders",
         getMoneyFlow:"/v7/agt/moneyFlow"

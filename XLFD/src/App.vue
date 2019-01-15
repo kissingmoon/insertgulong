@@ -4,7 +4,7 @@
         <botToTop>
         <url-content v-show="getServerShow" ref="serviceComp" v-if="isServerShow"></url-content>
         </botToTop>
-        <div class="headBox" v-show="!header.hidden">
+        <div class="headBox" v-show="!header.hidden && getHeadShow">
             <div v-show="showDownload&&$route.path=='/home'" v-if="isHave" class="download-content flex flex-align-center flex-pack-justify"> 
                 <i @click="close('isHave')" class="home-close"></i>
                 <i class="home-logo"></i>
@@ -98,7 +98,8 @@ export default {
             'getLoadingShow',
             'getHeaderAdd',
             'getModelShow',
-            'getServerShow'
+            'getServerShow',
+            'getHeadShow'
         ])
     },
     methods:{

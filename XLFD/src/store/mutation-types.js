@@ -29,3 +29,4 @@ export const SET_MODEL_SHOW = 'SET_MODEL_SHOW';
 export const SET_IOS_GOBACK = 'SET_IOS_GOBACK';
 export const SET_DOWNLOAD_URL = 'SET_DOWNLOAD_URL';
 export const SET_SERVER_SHOW = 'SET_SERVER_SHOW';
+export const SET_HEAD_SHOW = 'SET_HEAD_SHOW';         //  设置页面头部是否隐藏

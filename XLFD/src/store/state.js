@@ -28,6 +28,7 @@ const state = {
     recordDetailShow:false,
     recordChooseShow:false,
     isNavShow:true,         //  房间模式底部nav是否显示
+    isHeadShow: true,       //  头部是否显示    》》 代理页面采用嵌套，头部需要隐藏
     showLoading:false,
     showHeaderAdd:false,
     showModel:false,

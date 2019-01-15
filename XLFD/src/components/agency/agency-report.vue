@@ -68,6 +68,7 @@ export default {
         //     return this.$axios.postRequest("/v2/gc/get-cp-type")
         // }
         init(){
+            
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
             network.reportReview(this,{timeSign:"1"})
             .then((res)=>{

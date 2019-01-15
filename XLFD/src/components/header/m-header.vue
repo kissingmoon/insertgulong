@@ -77,7 +77,7 @@
                 'getRecordDetail',
                 'getRecordChoose',
                 'getHeaderAdd',
-                'getModelShow'
+                'getModelShow'                
             ])
         },
         methods:{

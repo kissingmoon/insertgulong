@@ -1,11 +1,14 @@
 <template>
     <div class="bet-detail-wapper">
-        <search-input></search-input>
+        <search-input @searchEvent="searchEvent"></search-input>
         <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun">
             <ul slot="TabPane" class="tab-pane flex">
                 <li class="flex flex-center flex-1" v-for="(v,k) in tabList" :key="k" :data-index="k"  :class="{ active: k==activeTabIndex}">{{v.name}}</li>
             </ul>
         </Tabs>
+        <scroll ref="scroll" 
+                class="scroll-content" 
+        >
         <ul class="data-content">
             <li class="data-li flex flex-pack-justify" v-for="(v,k) in tabData" :key="k">
                 <div>
@@ -27,6 +30,10 @@
                 </div>
             </li>
         </ul>
+        </scroll>
+        <div v-if="tabData.length==0" class="no-record-div">
+            <img src="./no-record.png" alt="">
+        </div>
         <select-time v-if="show_time" @setTimeType="setTimeType" :selectOption='selectOption'></select-time>
     </div>
 </template>
@@ -39,6 +46,8 @@ import * as dataHandle  from './dataHandle.js'
 import * as dataMaker  from './dataMaker.js'
 import data  from "./data.js";
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import Scroll from 'base/scroll/scroll';
+
 export default {
     data(){
             return{
@@ -79,7 +88,8 @@ export default {
         },
         components:{
             SelectTime,
-            searchInput
+            searchInput,
+            Scroll
         },
         mounted(){
             this.init();
@@ -95,29 +105,47 @@ export default {
                     case "3":changeType="0";break;
                 }
                 this.AgentOrderParm.status=changeType;
+                this.setLoadingShow(true);
                 network.getAgentOrders(this,this.AgentOrderParm)
                 .then((res)=>{
+                    this.setLoadingShow(false);
                     this.tabData=dataHandle.handleBetDetail(res);
                 })
             },
             setTimeType(indx){
                 this.AgentOrderParm.timeSign=indx+1;
                 this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
+                this.setLoadingShow(true);
                 network.getAgentOrders(this,this.AgentOrderParm)
                 .then((res)=>{
+                    this.setLoadingShow(false);
                      this.tabData=dataHandle.handleBetDetail(res);
                 })
             },
             init(){
                 this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
+                this.setLoadingShow(true);
                 network.getAgentOrders(this,this.AgentOrderParm)
                 .then((res)=>{
+                    this.setLoadingShow(false);
+                    this.tabData=dataHandle.handleBetDetail(res);
+                })
+            },
+            searchEvent(userName){
+                this.AgentOrderParm.userName=userName
+                this.setLoadingShow(true);
+                network.getAgentOrders(this,this.AgentOrderParm)
+                .then((res)=>{
+                    this.setLoadingShow(false);
                     this.tabData=dataHandle.handleBetDetail(res);
                 })
             },
             ...mapActions([
                 "setHeader"
-            ])
+            ]),
+            ...mapMutations({
+                setLoadingShow:'SET_LOADING_SHOW'
+            })
         }
 }
 </script>
@@ -128,6 +156,9 @@ export default {
     background: #F2F2F2;
     position:absolute;
     top:0;
+    .scroll-content{
+        overflow: auto;
+    }
     .tab-content{
         background: #ffffff;
         .tab-pane{
@@ -149,6 +180,15 @@ export default {
             .data-item-top{
                 padding-top:  0.4rem;
             }
+        }
+    }
+    .no-record-div{
+        padding: 2rem;
+         img{
+            display: block;
+            margin:0 auto;
+            width: 4.8rem;
+            height: 3.2rem;
         }
     }
 }

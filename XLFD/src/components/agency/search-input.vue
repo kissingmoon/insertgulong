@@ -1,14 +1,23 @@
 <template>
     <div class="search-docker">
-            <input placeholder="下级报表查询" class="search-input" type="text">
-            <span class="arrow-ele flex flex-center">
+            <input placeholder="下级报表查询" class="search-input" type="text" v-model="userName" maxlength="11">
+            <span class="arrow-ele flex flex-center" @click="searchClick">
                 <i style="color:#ffffff;font-size:0.5rem;" class="icon-arrows-right"></i>
             </span>
         </div>
 </template>
 <script>
 export default {
-    
+    data(){
+        return {
+            userName:""
+        }
+    },
+    methods:{
+        searchClick(){
+            this.$emit('searchEvent',this.userName)
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

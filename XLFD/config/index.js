@@ -33,6 +33,7 @@ module.exports = {
           },
           '/roger': {
             target: 'http://192.168.8.105:8080',
+            // target:'http://192.168.8.75:8080',
             changeOrigin: true, 
              pathRewrite: {
               '^/roger': ''

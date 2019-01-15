@@ -1,6 +1,6 @@
 <template>
     <div class="agency-wapper">
-        <!-- <div class="agency-ImgDocker">
+        <div class="agency-ImgDocker">
             <img class="agency-link" src="./agency-link.png" alt="">
         </div>
         <div class="agency-ItemCont">
@@ -9,20 +9,13 @@
                 <i  class="icon-arrows-right backIco"></i>
             </div>
         </div>
-        <router-view></router-view> -->
-        <div class="iframeBox">
-            <m-iframe :url="url"></m-iframe> 
-        </div>
+        <router-view></router-view>
     </div>
 </template>
 <script>
-    import MIframe from 'base/m-iframe/m-iframe';
-    import { session } from "common/js/param"
-    import { mapMutations } from "vuex"
     export default {
         data(){
             return{
-                url:'',
                 agencyList:[{
                     name:"代理说明",
                     comptUrl:"/agency/instruction"
@@ -48,16 +41,8 @@
             }
         },
         components:{
-            MIframe
         },
         computed: {
-        },
-        created(){
-            let token = session('user_token'),
-                md5_salt = session('md5_salt');
-            this.setFoot(false)
-            this.url = 'http://192.168.8.157:8081?user_token=' + token + '&md5_salt=' + md5_salt;
-            this.setHeadShow(false)
         },
         methods:{
             ChooseTab(comptName){
@@ -68,11 +53,7 @@
                 this.$router.push({
                     path:infoUrl
                 });
-            },
-            ...mapMutations({
-                setHeadShow: "SET_HEAD_SHOW",
-                setFoot:'SET_FOOT_SHOW',
-            })
+            }
         }
     }
 </script>
@@ -88,9 +69,6 @@
     z-index: 100;
     background: #ffffff;
     overflow: auto;
-    .iframeBox{
-        height: 100%;
-    }
     .agency-ImgDocker{
         height: 4.7rem;
         .agency-link{
@@ -114,19 +92,5 @@
     
 }
  
-</style>
-<style lang="scss">
-    .agency-wapper{
-            overflow-y: hidden !important;
-        .iframe-content{
-            position: relative;
-            background-color:#fff;
-                overflow-y: hidden !important;
-            iframe{
-                position: absolute;
-                overflow-y:hidden!important;
-            }
-        }
-    }
 </style>
 

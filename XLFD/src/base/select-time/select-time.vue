@@ -18,7 +18,7 @@
                     </li>
                 </ul> -->
                 <ul>
-                    <li class="item-wrapper border-bottom-1px" v-for="(v,k) in selectOption.itemList" :key="k" @click="selectTimeType(k)">
+                    <li class="item-wrapper border-bottom-1px" v-for="(v,k) in selectOption.itemList" :key="k" @click="selectTimeType(k)" :class="selectOption.eleClass">
                         {{v}}
                     </li>
                 </ul>
@@ -106,6 +106,9 @@
                 padding: 0 0.3rem;
                 @include border-bottom-1px(solid,$color-border-gray);
                 font-size: $font-size-medium-x;
+                &:last-child{
+                    
+                }
             }
             .text-center{
                 text-align: center;
@@ -116,8 +119,9 @@
             height:1.2rem;
             text-align: center;
             line-height: 1.2rem;
-            font-size: $font-size-medium;
+            font-size: $font-size-medium-x;
             color:$color-text-gray;
+            border-top:5px solid $color-border-gray;
         }
     }
 

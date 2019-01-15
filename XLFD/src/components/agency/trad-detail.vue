@@ -1,6 +1,6 @@
 <template>
     <div class="trad-detail-wapper">
-        <search-input></search-input>
+        <search-input @searchEvent="searchEvent"></search-input>
         <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun">
             <ul slot="TabPane" class="tab-pane flex">
                 <li class="flex flex-center flex-1" v-for="(v,k) in tabList" :key="k" :data-index="k"  :class="{ active: k==activeTabIndex}">{{v.name}}</li>
@@ -16,6 +16,10 @@
                 <span :style="v.change_type.style">{{v.change_type.data}}</span>
             </li>
         </ul> -->
+        <scroll ref="scroll" 
+                class="scroll-content" 
+                :data="currentData" 
+        >
         <ul class="data-content">
             <li class="data-li flex flex-pack-justify" v-for="(v,k) in currentData" :key="k">
                 <div>
@@ -39,6 +43,7 @@
                 </div>
             </li>
         </ul>
+        </scroll>
         <div v-if="currentData.length==0" class="no-record-div">
             <img src="./no-record.png" alt="">
         </div>
@@ -54,6 +59,8 @@ import * as dataHandle  from './dataHandle.js'
 import * as dataMaker  from './dataMaker.js'
 import data  from "./data.js";
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import Scroll from 'base/scroll/scroll';
+
 export default {
     data(){
             return{
@@ -74,36 +81,7 @@ export default {
                     eleClass:"text-center",
                     parent:"agency"
                 },
-                currentData:[{
-                    pfm_user_id:{
-                        data:"oppo233",
-                        style:{
-                            color:"red"
-                        }
-                    },
-                    change_money:{
-                        data:"966",
-                        style:{
-                        }
-                    },
-                    create_date:{
-                        data:"2018-12-03",
-                        style:{
-                            color:"grey"
-                        }
-                    },
-                    change_type:{
-                        data:"01",
-                        style:{
-                            color:"grey"
-                        }
-                    }
-                },{
-                    pfm_user_id:"oppo233",
-                    change_money:"12321",
-                    create_date:"2018-012-03",
-                    change_type:"01"
-                }],
+                currentData:[],
                 moneyFlowParm:{
                     pageNum:0,
                     pageSize:10,
@@ -119,7 +97,8 @@ export default {
         },
         components:{
             SelectTime,
-            searchInput
+            searchInput,
+            Scroll
         },
         mounted(){
             this.init();
@@ -134,29 +113,47 @@ export default {
                     case "2":changeType=1;break;
                 }
                 this.moneyFlowParm.changeType=changeType;
+                this.setLoadingShow(true); 
                 network.getMoneyFlow(this,this.moneyFlowParm)
                 .then((res)=>{
+                    this.setLoadingShow(false); 
                     this.currentData = dataHandle.HandleTradDetail(res);
                 })
             },
             setTimeType(indx){
                 this.moneyFlowParm.timeSign=indx+1;
                 this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
+                this.setLoadingShow(true);
                 network.getMoneyFlow(this,this.moneyFlowParm)
                 .then((res)=>{
+                    this.setLoadingShow(false);
                     this.currentData = dataHandle.HandleTradDetail(res);
                 })
             },
             init(){
                 this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
+                this.setLoadingShow(true);
                 network.getMoneyFlow(this,this.moneyFlowParm)
                 .then((res)=>{
+                    this.setLoadingShow(false);
                     this.currentData = dataHandle.HandleTradDetail(res);
+                })
+            },
+            searchEvent(userName){
+                this.moneyFlowParm.userName=userName
+                this.setLoadingShow(true);
+                network.getMoneyFlow(this,this.moneyFlowParm)
+                .then((res)=>{
+                    this.setLoadingShow(false);
+                    this.currentData=dataHandle.handleBetDetail(res);
                 })
             },
             ...mapActions([
                 "setHeader"
-            ])
+            ]),
+            ...mapMutations({
+                setLoadingShow:'SET_LOADING_SHOW'
+            })
         }
 }
 </script>
@@ -167,6 +164,9 @@ export default {
     background: #F2F2F2;
     position:absolute;
     top:0;
+    .scroll-content{
+        overflow: auto;
+    }
     .tab-content{
         background: #ffffff;
         .tab-pane{
@@ -190,6 +190,7 @@ export default {
         }
     }
     .no-record-div{
+        padding: 2rem;
         img{
             display: block;
             margin:0 auto;

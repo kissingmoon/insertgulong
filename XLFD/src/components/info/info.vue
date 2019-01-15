@@ -29,7 +29,7 @@
                 </div>
                 <div class="func-wrapper">
                     <ul>
-                        <li @click="goto('/agency')" class="item-mode border-bottom-1px">
+                        <li @click="goto('/myAgency')" class="item-mode border-bottom-1px">
                             <p class="title icon-agency">我的代理</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
@@ -73,6 +73,12 @@
                         </li>
                         <li @click="goto('/info/cash')" class="item-mode border-bottom-1px margin-bottom">
                             <p class="title icon-deposit">提现记录</p>
+                            <p class="remarks">
+                                <span><i class="icon-arrows-right icon"></i></span>
+                            </p>
+                        </li>
+                        <li @click="goto('/agency')" class="item-mode border-bottom-1px" v-if="account.has_agent_central=='1'">
+                            <p class="title icon-agency">代理中心</p>
                             <p class="remarks">
                                 <span><i class="icon-arrows-right icon"></i></span>
                             </p>

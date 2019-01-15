@@ -32,37 +32,48 @@
                 </div>
             </div>
             <div class="sub-reg-type flex flex-align-center">
-                请先为下级设置返点，<b style="color:#DA1C36">点击查看返点赔率表</b>
+                请先为下级设置返点，<b style="color:#DA1C36" @click="goto('/agency/fandianPlb')">点击查看返点赔率表</b>
             </div>
         </div>
         <div class="reb-table" v-if="activePointer[0].activeindx==1">
             <v-table :tableHeader="tableHeader" :tableData="tableData" @clickRow="rowHander"></v-table>
         </div>
         <div class="fandian-list" v-if="activePointer[0].activeindx==0">
-            <div class="fandian-item flex flex-align-center flex-pack-justify" v-for="(v,k) in fandianObj" :key="k" v-if="v.name">
+            <div class="fandian-item flex flex-align-center flex-pack-justify" v-for="(v,k) in fandianObj" :key="k">
                 <div>{{v.name}}</div>
-                <div><input type="text" :placeholder="'自身返点'+v.fandian+',可设置返点0.0-'+v.fandian" v-model="v.subFandian"></div>
+                <div><input type="text" :placeholder="'自身返点'+v.fandian+',可设置返点0.0-'+v.fandian" v-model="v.subFandian" maxlength="4"></div>
             </div>
             <div class="createcode-div flex flex-center">
-                <button class="createcode-btn" @click="createCode">生成邀请码</button>
+                <button class="createcode-btn" @click="createCode" :disabled="inviteCodeBtn">生成邀请码</button>
             </div>
         </div>
-        <div class="bottom_option" v-show="showSwitch.model" @click="setValue(false,showSwitch,'model')">
-            <div class="option-content">
-                <div v-for="(v,k) in bottomOption" :key="k" class="option-item" @click="handleItem(k)">
+        <div class="bottom_option" v-if="showSwitch.model" @click="setValue(false,showSwitch)">
+            <div class="option-content" v-show="showSwitch.firstModel" >
+                <div v-for="(v,k) in bottomOption" :key="k" class="option-item" @click.stop="handleItem(k)" :ref="v.eId" :data-clipboard-text="tableData[tableSelectedRow].inviteCode">
                     {{v.name}}
                 </div>
             </div>
+            <div class="second_model flex flex-center" v-if="showSwitch.secondmodel">
+                <!-- <img class="model_img" :src="secondModel.url" alt=""> -->
+                <fandian :uID="tableData[tableSelectedRow].id" :fandianData="fandianData" @closeFandian="closeFandian" ></fandian>
+                
+            </div>
+            <div class="erweima_model" v-if="showSwitch.erweimaModel">
+               <img class="model_img" :src="secondModel.url" alt="">
+            </div>
         </div>
+        
     </div>
 </template>
 <script>
 import vTable from 'base/v-table/v-table';
+import fandian from './fandian';
 import * as network  from './network.js'
 import * as dataHandle  from './dataHandle.js'
 import * as dataMaker  from './dataMaker.js'
 import data  from "./data.js";
 import {mapGetters,mapActions,mapMutations} from 'vuex'
+import Clipboard from 'clipboard';
 
 export default {
     data(){
@@ -77,7 +88,7 @@ export default {
                 style:""
             },{
                 name:"状态",
-                field:"priorNum",
+                field:"priorNumStr",
                 style:""
             }],
             tableData:[],
@@ -105,12 +116,12 @@ export default {
                     level:0,
                     subSort:[{
                         index:0,
-                        name:"代理类型11",
+                        name:"代理类型",
                         accType:"1",
                         level:1
                     },{
                         index:1,
-                        name:"玩家类型11s",
+                        name:"玩家类型",
                         accType:"0",
                         level:1
                     }]
@@ -121,38 +132,66 @@ export default {
             },{
                 activeindx:0
             }],
-            fandianObj:[],
+            fandianObj:{},
             bottomOption:[{
                 name:"生成二维码图片",
-                type:1
+                eId:"opt_0"
             },{
                 name:"复制推广链接",
-                type:1
+                eId:"opt_1"
             },{
                 name:"查看返点",
-                type:1
+                eId:"opt_2"
             },{
                 name:"删除邀请码",
-                type:1
+                eId:"opt_3"
             },{
                 name:"取消",
-                type:0
+                eId:"opt_4"
             }],
             showSwitch:{
-                model:false
-            }
+                model:false,
+                firstModel:false,
+                secondmodel:false,
+                erweimaModel:false
+            },
+            secondModel:{
+                url:''
+            },
+            fandianData:{}
         }
     },
     components:{
         vTable,
+        fandian
+    },
+    computed: {
+        inviteCodeBtn(){
+            for(var i in this.fandianObj) {
+                if(this.fandianObj[i].subFandian){
+                    // return true
+                    this.fandianObj[i].subFandian=this.fandianObj[i].subFandian.replace(/[^0-9.]+/,'');
+                    let num = parseFloat( this.fandianObj[i].subFandian)
+                    if(num>this.fandianObj[i].fandian){
+                        this.fandianObj[i].subFandian="";
+                    }
+                }else{
+                        return true;
+                    }
+            }
+           return false;
+        }
+         
     },
     mounted(){
         this.init();
     },
     methods:{
         init(){
+            this.setLoadingShow(true);
             network.getSelfRebate(this)
             .then((res)=>{
+                this.setLoadingShow(false);
                 this.fandianObj=dataHandle.createSelfRebate(res)
             })
         },
@@ -161,9 +200,11 @@ export default {
             if(activeIndx==1){
                 let param={};
                 param.accType=dataMaker.getAccType(this);
+                this.setLoadingShow(true);
                 network.getInviteCodeList(this,param)
                 .then((res)=>{
-                     this.tableData=dataHandle.getCurrentTable(res,this.tableHeader)
+                    this.setLoadingShow(false);
+                     this.tableData=dataHandle.getSubRegTable(res,this.tableHeader)
                 })
             }
         },
@@ -173,17 +214,23 @@ export default {
             if(level_0_activeIndx==1){
                 let param={};
                 param.accType=dataMaker.getAccType(this);
+                this.setLoadingShow(true);
                 network.getInviteCodeList(this,param)
                 .then((res)=>{
-                    this.tableData=dataHandle.getCurrentTable(res,this.tableHeader)
+                    this.setLoadingShow(false);
+                    this.tableData=dataHandle.getSubRegTable(res,this.tableHeader)
                 })
             }
         },
         createCode(){
             let param=dataMaker.makeCode(this)
+            this.setLoadingShow(true);
             network.getInviteCode(this,param)
             .then((res)=>{
-                this.setTip({message:"成功生成邀请码！",flag:1});
+                this.setLoadingShow(false);
+                if(res.data && !res.data.errorCode){
+                    this.setTip({message:"成功生成邀请码！",flag:1});
+                }
             })
         },
         choose(level,activeIndx){
@@ -192,25 +239,79 @@ export default {
         rowHander(rowData,rowIndex){
             console.log(rowData)
             this.setValue(true,this.showSwitch,'model')
+            this.setValue(true,this.showSwitch,'firstModel')
             this.tableSelectedRow=rowIndex
         },
         handleItem(key){
+            if(key==0){
+                let tabActIndex=this.tableSelectedRow
+                this.secondModel.url=this.tableData[tabActIndex].originUrl;
+                this.showSwitch.erweimaModel = true;
+                this.setValue(false,this.showSwitch,'firstModel')
+            }
+            if(key==1){
+                this.copy()
+            }
+            if(key==2){
+                this.showSwitch.secondmodel = true;
+                let res = {}
+                res.data = Object.assign({},this.tableData[this.tableSelectedRow])
+                
+                this.fandianData = dataHandle.createSelfRebate(res)
+            }
             if(key==3){
                 let param={};
                 let tabActIndex=this.tableSelectedRow
                 param.id=this.tableData[tabActIndex].id;
+                this.setLoadingShow(true);
                 network.deleteInviteCode(this,param)
                 .then((res)=>{
+                    this.setLoadingShow(false);
                     this.setTip({message:"成功删除邀请码！",flag:1});
-                    this.choose_level_1(1,this.activePointer[1].activeindx)
+                    this.choose_level_1(1,this.activePointer[1].activeindx);
+                    this.setValue(false,this.showSwitch,'model')
                 })
             }
+            if(key==4){
+                this.setValue(false,this.showSwitch,'model')
+            }
+        },
+        copy(){
+            let clipboard = new Clipboard(this.$refs.opt_1[0])
+            clipboard.on('success', e => {
+                this.setTip('复制成功')
+                clipboard.destroy();
+            });
+
+            clipboard.on('error', e => {
+                this.setTip('复制失败')
+                clipboard.destroy()
+            })
+        },
+        closeFandian(){
+           this.setValue(false,this.showSwitch) 
         },
         setValue(bool,obj,key){
-            obj[key] = bool;
+            if(key){
+                obj[key] = bool;
+            }
+            
+            else{
+                for(let k in obj){
+                    obj[k]=false
+                }
+            }
+        },
+        goto(infoUrl){
+            this.$router.push({
+                path:infoUrl
+            });
         },
         ...mapMutations({
             setTip:'SET_TIP'
+        }),
+        ...mapMutations({
+            setLoadingShow:'SET_LOADING_SHOW'
         })
     }
 }
@@ -219,11 +320,12 @@ export default {
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .sub-reg{
-    min-height: 101%;
+    height: 100%;
     width: 100%;
     background: #F2F2F2;
     position:absolute;
     top:0;
+    overflow: auto;
     .reg-register{
         padding: 0.3rem 0.5rem;
         .reg-register-item{
@@ -307,6 +409,30 @@ export default {
                 &:last-child{
                     border-top: 9px solid #F2F2F2;
                 }
+            }
+        }
+        .second_model{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #ffffff;
+            .model_img{
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+        .erweima_model{
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 5rem;
+            height: 5rem;
+            transform: translate(-2.5rem,-2.5rem);
+            background: #ffffff;
+            img{
+                display: block;
+                height: 100%;
+                width: 100%;
             }
         }
     }

@@ -7,7 +7,8 @@ export function getResData(res){
 }
 export function createSelfRebate(res){
     if(res.data && !res.data.errorCode){
-        let obj=Object.assign({},res.data)
+        // let obj=Object.assign({},res.data)
+        let obj = {}
         for(var i in data.cp_name_conf) {
             obj[i]={};
             obj[i].fandian=res.data[i];
@@ -17,8 +18,11 @@ export function createSelfRebate(res){
         return obj;
     }
 }
-export function getCurrentTable(res){
+export function getSubRegTable(res){
     if(res.data && !res.data.errorCode){
+        res.data.map((v,k)=>{
+            v.priorNumStr="注册"+"("+v.priorNum+")";
+        })
         return res.data;
     }
 }
@@ -97,7 +101,8 @@ export function handleTradDetail(res){
 export function handleSubRept(res){
     if(res.data && !res.data.errorCode){
         res.data.list.map((v,k)=>{
-            let symbol = v.income
+            let symbol 
+            symbol = v.income
             if(symbol>0){
                 v.income={}
                 v.income.data=symbol;
@@ -111,6 +116,20 @@ export function handleSubRept(res){
                     color:"#08D700"
                 };
             }
+            symbol = v.usrId
+            v.usrId={}
+            v.usrId.data=symbol;
+            v.usrId.style={
+                color:"#1C91DA"
+            };
+        })
+        return res.data;
+    }
+}
+export function handleMember(res){
+    if(res.data && !res.data.errorCode){
+        res.data.map((v,k)=>{
+            let symbol 
             symbol = v.usrId
             v.usrId={}
             v.usrId.data=symbol;

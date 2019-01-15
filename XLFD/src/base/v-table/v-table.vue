@@ -1,5 +1,16 @@
 <template>
 
+        <scroll ref="scroll" 
+                class="scroll-content" 
+                :data="tableData" 
+                :pulldown="pulldown"
+                :pullup="pullup"
+                :isAllData="isAllData"
+                :refreshStatus="refreshStatus"
+                :loadStatus="loadStatus"
+                @pulldown="getDrawNubmer('down')"
+                @pullup="getDrawNubmer('up')"
+        >
     <table class="sub-Table">
         
             
@@ -32,6 +43,7 @@
             </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
             <scroll ref="scroll" class="scroll-content" 
                         :data="tableData" 
                         :pulldown="pulldown"
@@ -48,8 +60,17 @@
             </scroll>
         </tbody> 
         
+=======
+            <tr v-for="(v,k) in loadTableData" :key="k" align="center" @click="clickRow(k)">
+                <td v-for="(v1,k1,indx) in v" :key="k1" :style="tableHeader[indx].style?v1.style:''">{{tableHeader[indx].style?v1.data:v1}}</td>
+            </tr>
+        </tbody>
+>>>>>>> f8ddb6159bced8fa75e6a7501e268adba75fcdca
     </table>
-    
+    <div class="no-record-div" v-if="loadTableData.length==0">
+        <img src="./no-record.png" alt="">
+    </div>
+    </scroll>
 </template>
 <script>
 import Scroll from 'base/scroll/scroll';
@@ -101,8 +122,14 @@ export default {
             this.$emit("clickRow",this.tableData[rowIndex],rowIndex);
         },
         getDrawNubmer(type){
-            console.log("ssss")
-        },
+            console.log(type)
+            if(type=="up"){
+                this.$emit("pullup")
+            }
+            if(type=="down"){
+                this.$emit("pulldown")
+            }
+        }
     }
 }
 </script>
@@ -110,13 +137,12 @@ export default {
 @import 'common/scss/variable.scss';
 @import 'common/scss/mixin.scss';
 .scroll-content{
-    height: 15rem;
+    overflow: hidden;    
+    height: 100%;
 }
 .sub-Table{
     width: 100%;
     background: #ffffff;
-        height: 5rem;
-    overflow: auto;
     thead td{
         height: 1.3rem;
     }
@@ -129,5 +155,14 @@ export default {
         vertical-align: middle;
         font-size: $font-size-medium-x;
     }
+}
+.no-record-div{
+    padding-top:3rem; 
+    img{
+            display: block;
+            margin: 0 auto;
+            width: 4.8rem;
+            height: 3.2rem;
+        }
 }
 </style>

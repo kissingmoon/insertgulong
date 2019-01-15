@@ -1,9 +1,9 @@
 <template>
     <div class="report-wapper">
-        <search-input></search-input>
+        <search-input @searchEvent="searchEvent"></search-input>
         <div class="report-List flex">
             <div class="report-item flex flex-v flex-center" v-for="(v,k) in reportObj" :key="k">
-                <div class="report-item-count">{{v.val}}</div>
+                <div class="report-item-count">￥{{v.val}}</div>
                 <div class="report-item-name">{{v.name}}</div>
             </div>
         </div>
@@ -28,6 +28,9 @@ export default {
                 itemList:headerConfig['/agency/agencyReport'].filterConfig.name,
                 eleClass:"text-center",
                 parent:"agency"
+            },
+            agencyRptParm:{
+                timeSign:"1"
             }
         }
     },
@@ -36,6 +39,7 @@ export default {
         SelectTime
     },
     created(){
+        
         //写在组件里面的回掉函数链式调用
         // this.reportReview().then((data)=>{
         //     console.log(data)
@@ -70,21 +74,50 @@ export default {
         init(){
             
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
-            network.reportReview(this,{timeSign:"1"})
-            .then((res)=>{
-                this.reportObj=dataHandle.fliterAgReport(res);
-            })
+            if(this.$route.query.uID){
+                let userId=this.$route.query.uID
+                let parm = Object.assign({},{userId},this.agencyRptParm)
+                this.setLoadingShow(true); 
+                network.getSubDinateReport(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }else{
+                this.setLoadingShow(true); 
+                network.reportReview(this,this.agencyRptParm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }
         },
         setTimeType(indx){
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
-            network.reportReview(this,{timeSign:indx+1})
+            this.agencyRptParm.timeSign = indx+1
+            this.setLoadingShow(true); 
+            network.reportReview(this,this.agencyRptParm)
             .then((res)=>{
+                this.setLoadingShow(false); 
+                this.reportObj=dataHandle.fliterAgReport(res);
+            })
+        },
+        searchEvent(userName){
+            let parm = Object.assign({},{userId:userName},this.agencyRptParm)
+            this.setLoadingShow(true); 
+            network.getSubDinateReport(this,parm)
+            .then((res)=>{
+                this.setLoadingShow(false); 
+            
                 this.reportObj=dataHandle.fliterAgReport(res);
             })
         },
         ...mapActions([
             "setHeader"
-        ])
+        ]),
+        ...mapMutations({
+            setLoadingShow:'SET_LOADING_SHOW'
+        })
     }
 }
 </script>
@@ -101,11 +134,16 @@ export default {
     .report-List{
         flex-wrap:wrap;
         background: #ffffff;
+        padding: 0.2rem 0 0 5px;
+        overflow: auto;
         .report-item{
             flex: 0 0 33%;
             height: 3.3rem;
             box-sizing: border-box;
             font-size: $font-size-medium-x;
+            border:1px solid #F2F2F2;
+            margin-right: -1px;
+            margin-bottom: -1px;
             &>div:first-child{
                 padding-bottom: 0.3rem;
             }

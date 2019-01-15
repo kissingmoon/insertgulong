@@ -1,49 +1,79 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 // import Home from 'components/home/home';
+//主页，home组件
 import Home from 'components/home/home';
+//房间模式的入口页面
 import LotteryRoom from 'components/lottery-room/lottery-room';
+//房间模式的房间主页面
 import betRoom from 'components/bet-room/bet-room';
+//充值页面
 import Pay from 'components/pay/pay';
+//活动页面
 import Descover from 'components/descover/descover';
 import Discount from 'components/discount/discount';
+//新的活动页面。原页面作废
 import NewDiscount from 'components/discount/discount_new';
+//活动页面的具体子页面
 import Activity from 'components/activity-con/activity-con';
+//用户中心页面
 import Info from 'components/info/info';
+//登陆页面
 import Login from 'components/login/login';
+//注册页面
 import Register from 'components/register/register';
+//提现页面
 import Balance from 'components/balance/balance';
+//交易明细页面
 import Bill from 'components/bill/bill';
+//投注页面
 import Bet from 'components/bet/bet';
+//投注详情页面
 import BetDetail from 'components/bet-detail/bet-detail';
 import Recharge from 'components/recharge/recharge';
+//用户中心现金页面
 import Cash from 'components/cash/cash';
+//曾经的跟投，暂时无用
 import Follow from 'components/follow/follow';
+//曾经的跟投，暂时无用
 import FollowDetail from 'components/follow-detail/follow-detail';
 import Attention from 'components/attention/attention';
 import AttentionDetail from 'components/attention-detail/attention-detail';
 import Crunchies from 'components/crunchies/crunchies';
+//安全中心页面
 import Safety from 'components/safety/safety';
+//修改密码页面
 import EditPassword from 'components/edit-password/edit-password';
+//设置密码页面
 import SetPassword from 'components/set-password/set-password';
+//绑定银行页面
 import Bank from 'components/bank/bank';
 import Information from 'components/information/information';
 import Nick from 'components/nick/nick';
 import Draw from 'components/draw/draw';
 import DrawNumber from 'components/draw-number/draw-number';
 import Message from 'components/message/message';
+//客服页面
 import UrlContent from 'components/url-content/url-content';
 import UserPortrait from 'components/portrait/portrait';
+//付款跳转页面
 import PayTip from 'components/pay-tip/pay-tip';
 import Lottery from 'components/lottery/lottery';
+//代理中心页面
 import Agency from 'components/agency/agency';
 import Report from 'components/agency/report';
+//购彩大厅页面
 import Goucaidating from 'components/goucaidating/goucaidating';
+//首页用到的页面
 import betWin from 'components/betWin/betWin';
+//首页添加自选猜中
 import addCaiType from 'components/addCaiZhong/addCaiType';
+//加载页面
 import Loading from 'base/loading/loading';
 import Rebate from 'components/rebate/rebate';
+//下载页面
 import DownLoad from 'components/download/download';
+//代理中心子页面
 import Instruction from 'components/agency/instruction';
 import SubReport from 'components/agency/sub-report';
 import agencyReport from 'components/agency/agency-report';
@@ -53,6 +83,11 @@ import tradDetail from 'components/agency/trad-detail';
 import subReg from 'components/agency/sub-reg';
 import iosTip from 'components/download/ios-tip';
 import userLevel from 'components/user-level/user-level';
+//我的代理页面
+import myAgency from 'components/my-agency/my-agency';
+//饭店赔率表页面
+import fandianPlb from 'components/agency/fandian_plb';
+
 // const Descover = () => import('components/descover/descover')
 // const Home = () => import('components/home/home')
 // const Pay = () => import('components/pay/newpay')
@@ -306,9 +341,17 @@ export default new Router({
             ]
         },
         {
+            path:'/myAgency',
+            component:myAgency,
+        },
+        {
             path:'/agency',
             component:Agency,
             children:[
+                {
+                    path:'fandianPlb',
+                    component:fandianPlb
+                },
                 {
                     path:'instruction',
                     component:Instruction

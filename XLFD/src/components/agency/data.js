@@ -22,7 +22,15 @@ export default{
         rebateMoney: "团队返点",
         recharge: "充值金额",
         registerNum: "注册人数",
-        selfRebateMoney: "自身返点",
+        // selfRebateMoney: "自身返点",
         winMoney: "中奖金额",
-    }
+    },
+    cp_name_ref:{
+        cp1:"cpssc",
+        cp3:"cpssxw",
+        cp6:"cpffc",
+        cp9:"cpks",
+        cp10:"cpsc",
+        cp11:"cpebffc"
+    },
 }

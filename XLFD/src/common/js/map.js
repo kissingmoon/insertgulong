@@ -129,10 +129,13 @@ export const httpUrl = {
         inviteCodeList:'/v7/agt/inviteCodeList',
         deleteInviteCode:'/v7/agt/deleteInviteCode',
         agentOrCustomerDetail:'/v7/agt/agentOrCustomerDetail',
-        reportReview:"/v7/agt/reportReview",
         subReport:"/v7/agt/priorReportReview",
         getAgentOrders:"/v7/agt/agentLotteryOrders",
-        getMoneyFlow:"/v7/agt/moneyFlow"
+        getMoneyFlow:"/v7/agt/moneyFlow",
+        subAgentReportReview:"/v7/agt/subAgentReportReview",
+        viewSubordinate:"/v7/agt/viewSubordinate",
+        getSubRebate:"/v7/agt/subordinateRebate",
+        getSubDinateReport:"/v7/agt/subordinateReportReview"
     }
 };
 
@@ -512,6 +515,10 @@ export const headerConfig = {
     },
     '/agency/subReg':{
         title:'下级开户',
+        back:true,
+    },
+    '/agency/fandianPlb':{
+        title:'返点赔率表',
         back:true,
     },
     '/iosTip': {

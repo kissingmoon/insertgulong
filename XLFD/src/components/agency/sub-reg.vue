@@ -49,7 +49,7 @@
         </div>
         <div class="bottom_option" v-if="showSwitch.model" @click="setValue(false,showSwitch)">
             <div class="option-content" v-show="showSwitch.firstModel" >
-                <div v-for="(v,k) in bottomOption" :key="k" class="option-item" @click.stop="handleItem(k)" :ref="v.eId" :data-clipboard-text="tableData[tableSelectedRow].inviteCode">
+                <div v-for="(v,k) in bottomOption" :key="k" class="option-item" @click.stop="handleItem(k)" :ref="v.eId" :data-clipboard-text="tableData[tableSelectedRow].registerUrl">
                     {{v.name}}
                 </div>
             </div>

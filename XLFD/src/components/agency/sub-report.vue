@@ -107,43 +107,88 @@ export default {
             this.SubReportParm.timeSign=indx+1;
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
             this.setLoadingShow(true); 
-            network.getSubReport(this,this.SubReportParm)
-            .then((res)=>{
-                this.setLoadingShow(false); 
-                let obj = {}
-                obj.data = dataHandle.handleSubRept(res).list;
-                this.tableData[this.currentLevel] = obj
-                this.tableData = this.tableData.concat()
-                // this.tableData=dataHandle.handleSubRept(res).list;
-            })
-        },
-        pulldownEvent(){
-            this.SubReportParm.pageNum=0;
-            this.setLoadingShow(true); 
-            network.getSubReport(this,this.SubReportParm)
-            .then((res)=>{
-                this.setLoadingShow(false); 
-                this.tableData=dataHandle.handleSubRept(res).list;
-            })
-        },
-        pullupEvent(){
-            if(this.tableData.length<this.SubReportParm.pageSize*(this.SubReportParm.pageNum+1)){
-                
-
-            }else{
-                this.SubReportParm.pageNum++;
-                this.setLoadingShow(true); 
+            if(this.currentLevel==0){
                 network.getSubReport(this,this.SubReportParm)
                 .then((res)=>{
                     this.setLoadingShow(false); 
-                    this.tableData= this.tableData.concat(dataHandle.handleSubRept(res).list);
+                    let obj = {}
+                    obj.data = dataHandle.handleSubRept(res).list;
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                    // this.tableData=dataHandle.handleSubRept(res).list;
                 })
+            }else{
+                let uID = this.tableData[this.currentLevel-1].data[this.tableSelectedRow].usrId.data
+                let parm = Object.assign({},{userId:uID},this.SubReportParm)
+                network.getSubReptReview(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    let obj = {}
+                    obj.data = dataHandle.handleSubRept(res).list;
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                })
+            }
+        },
+        pulldownEvent(){
+            this.SubReportParm.pageNum=0;
+            if(this.currentLevel==0){
+                network.getSubReport(this,this.SubReportParm)
+                .then((res)=>{
+                    let obj = {}
+                    obj.data = dataHandle.handleSubRept(res).list;
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                    // this.tableData=dataHandle.handleSubRept(res).list;
+                })
+            }else{
+                let uID = this.tableData[this.currentLevel-1].data[this.tableSelectedRow].usrId.data
+                let parm = Object.assign({},{userId:uID},this.SubReportParm)
+                network.getSubReptReview(this,parm)
+                .then((res)=>{
+                    let obj = {}
+                    obj.data = dataHandle.handleSubRept(res).list;
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                })
+            }
+        },
+        pullupEvent(){
+            if(this.tableData[this.currentLevel].data.length<this.SubReportParm.pageSize*(this.SubReportParm.pageNum+1)){
+                
+
+            }else{
+                if(this.currentLevel==0){
+                    this.SubReportParm.pageNum++;
+                    this.setLoadingShow(true); 
+                    network.getSubReport(this,this.SubReportParm)
+                    .then((res)=>{
+                        this.setLoadingShow(false); 
+                        // this.tableData= this.tableData.concat(dataHandle.handleSubRept(res).list);
+                        let obj = {}
+                        obj.data = dataHandle.handleSubRept(res).list;
+                        this.tableData[this.currentLevel].data =  this.tableData[this.currentLevel].data.concat(obj.data);
+                        this.tableData = this.tableData.concat()
+                    })
+                }else{
+                    let uID = this.tableData[this.currentLevel-1].data[this.tableSelectedRow].usrId.data
+                    let parm = Object.assign({},{userId:uID},this.SubReportParm)
+                     network.getSubReptReview(this,parm)
+                    .then((res)=>{
+                        let obj = {}
+                        obj.data = dataHandle.handleSubRept(res);
+                        this.tableData[this.currentLevel] .data =  this.tableData[this.currentLevel].data.concat(obj.data);
+                        this.tableData = this.tableData.concat()
+                        this.setValue(false,this.showSwitch) 
+                    })
+                }
             }
         },
         setValue(bool,obj,key){
             obj[key] = bool;
         },
         seeNext(){
+            this.SubReportParm.pageNum=0;
             let uID = this.tableData[this.currentLevel].data[this.tableSelectedRow].usrId.data
             let parm = Object.assign({},{userId:uID},this.SubReportParm)
             this.setLoadingShow(true); 
@@ -164,6 +209,7 @@ export default {
             });
         },
         backup(){
+            this.SubReportParm.pageNum=0;
             this.currentLevel--;
         },
         ...mapActions([

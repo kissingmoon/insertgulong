@@ -91,29 +91,60 @@ export default {
         },
         pulldownEvent(){
             this.MemberParm.pageNum=0;
-            network.agentOrCustomerDetail(this,this.MemberParm)
-            .then((res)=>{
-                let obj = {}
-                obj.data = dataHandle.handleMember(res);
-                this.tableData.push(obj)
-                // this.tableData=dataHandle.getCurrentTable(res);
-            })
+            if(this.currentLevel==0){
+                network.agentOrCustomerDetail(this,this.MemberParm)
+                .then((res)=>{
+                    let obj = {}
+                    obj.data = dataHandle.handleMember(res);
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                    // this.tableData=dataHandle.getCurrentTable(res);
+                })
+            }else{
+                let uID = this.tableData[this.currentLevel-1].data[this.tableSelectedRow].usrId.data
+                let parm = Object.assign({},{userId:uID},this.MemberParm)
+                network.viewSubordinate(this,parm)
+                .then((res)=>{
+                    let obj = {}
+                    obj.data = dataHandle.handleMember(res);
+                    this.tableData[this.currentLevel] = obj
+                    this.tableData = this.tableData.concat()
+                    this.setValue(false,this.showSwitch) 
+                })
+            }
         },
         pullupEvent(){
-            if(this.tableData.length<this.MemberParm.pageSize*(this.MemberParm.pageNum+1)){
+            if(this.tableData[this.currentLevel].data.length<this.MemberParm.pageSize*(this.MemberParm.pageNum+1)){
                 
 
             }else{
                 this.MemberParm.pageNum++;
-                network.agentOrCustomerDetail(this,this.MemberParm)
-                .then((res)=>{
-                    this.tableData= this.tableData.concat(dataHandle.getResData(res));
-                })
+                if(this.currentLevel==0){
+                    network.agentOrCustomerDetail(this,this.MemberParm)
+                    .then((res)=>{
+                        let obj = {}
+                        obj.data = dataHandle.handleMember(res);
+                        this.tableData[this.currentLevel].data =  this.tableData[this.currentLevel].data.concat(obj.data);
+                        this.tableData = this.tableData.concat()
+                    })
+                }else{
+                    let uID = this.tableData[this.currentLevel-1].data[this.tableSelectedRow].usrId.data
+                    let parm = Object.assign({},{userId:uID},this.MemberParm)
+                     network.viewSubordinate(this,parm)
+                    .then((res)=>{
+                        let obj = {}
+                        obj.data = dataHandle.handleMember(res);
+                        this.tableData[this.currentLevel] .data =  this.tableData[this.currentLevel].data.concat(obj.data);
+                        this.tableData = this.tableData.concat()
+                        this.setValue(false,this.showSwitch) 
+                    })
+                }
             }
         },
         seeNext(){
+            this.MemberParm.pageNum=0;
             let uID = this.tableData[this.currentLevel].data[this.tableSelectedRow].usrId.data
-            let parm = Object.assign({},{userId:uID},this.SubReportParm)
+            let parm = Object.assign({},{userId:uID},this.MemberParm)
             network.viewSubordinate(this,parm)
             .then((res)=>{
                 let obj = {}
@@ -125,6 +156,7 @@ export default {
             })
         },
         backup(){
+            this.MemberParm.pageNum=0;
             this.currentLevel--;
             this.setValue(false,this.showSwitch) 
         }, 

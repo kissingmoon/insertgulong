@@ -1,6 +1,6 @@
 <template>
     <div class="bet-detail-wapper">
-        <search-input @searchEvent="searchEvent"></search-input>
+        <search-input @searchEvent="searchEvent" :placText="placText"></search-input>
         <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun">
             <ul slot="TabPane" class="tab-pane flex">
                 <li class="flex flex-center flex-1" v-for="(v,k) in tabList" :key="k" :data-index="k"  :class="{ active: k==activeTabIndex}">{{v.name}}</li>
@@ -78,7 +78,8 @@ export default {
                     pageSize:10, 
                     timeSign:"1",
                     status:"",
-                }
+                },
+                placText:"下级投注查询"
             }
         },
          computed: {

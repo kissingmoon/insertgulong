@@ -1,6 +1,6 @@
 <template>
     <div class="plb-wapper">
-        <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun">
+        <Tabs value="name1" class="tab-content" @clickEvent="tabClickedFun" @transformEvent="transformFun"> 
             <ul slot="TabPane" class="tab-pane flex">
                 <li class="flex flex-center tab-pane-li" v-for="(v,k) in tabList" :key="k" :data-index="k"  :class="{ active: k==activeTabIndex}">{{v.lottery_label}}</li>
             </ul>
@@ -55,7 +55,10 @@ export default {
                 label: 'test',
                 value: 0
             }],
-            currentFandian:0
+            currentFandian:0,
+            grandStyle:{
+                transform: "translate3d(0px, 0px, 0px)"
+            }
         }
     }, 
     components:{
@@ -71,6 +74,8 @@ export default {
         this.getTypeList().then((res)=>{
             if(res.data && !res.data.errorCode){
                 this.tabList=res.data
+
+
                 let lottery_id = this.tabList[0].sub_lottery[0].lottery_id
                 this.hasData.tabList=true
                 return this.getBypoint(lottery_id)
@@ -151,6 +156,9 @@ export default {
         selectFun(indx){
             console.log(indx.value)
             this.currentFandian=indx.value
+        },
+        transformFun(offset){
+
         }
      }
 }
@@ -164,19 +172,27 @@ export default {
     position:absolute;
     top:0;
     .tab-content{
-            overflow: auto;
+        overflow: auto;
+        // background: #5c5f60;
+         height: 1.6rem;
         .tab-pane{
+            color: #ffffff;
+             background: #5c5f60;
+             position:absolute;
             .tab-pane-li{
                 min-width: 2rem;
                 height: 1.5rem;
-                flex-shrink: 0;
+                // flex-shrink: 0;
+                // background: #5c5f60;
             }
         }
     }
     .by-main-content{
         background-color: #FFFFFF;
         .by-left{
-            width: 5rem;
+            width: 40%;
+            box-shadow: 0.5em 0 0.5em #d5d5d5;
+            z-index: 1;
             .by-header{
                  height: 1rem;
                  padding-left: 0.5rem;
@@ -184,14 +200,21 @@ export default {
             .by-left-item{
                 height: 1rem;
                 padding-left: 0.5rem;
+                &:nth-child(odd){
+                    background: #f5f5f5;
+                }
             }
         }
         .by-right{
+            width: 60%;
             .by-header{
                 height: 1rem;
             }
             .by-right-item{
                 height: 1rem;
+                &:nth-child(odd){
+                    background: #f5f5f5;
+                }
             }
         }
     }

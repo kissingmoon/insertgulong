@@ -1,6 +1,6 @@
 <template>
     <div class="search-docker">
-            <input placeholder="下级报表查询" class="search-input" type="text" v-model="userName" maxlength="11">
+            <input :placeholder="placText" class="search-input" type="text" v-model="uName" maxlength="11">
             <span class="arrow-ele flex flex-center" @click="searchClick">
                 <i style="color:#ffffff;font-size:0.5rem;" class="icon-arrows-right"></i>
             </span>
@@ -10,12 +10,39 @@
 export default {
     data(){
         return {
-            userName:""
+            uName:""
+        }
+    },
+    props:{
+        userName:{
+            type:String,
+            default:""
+        },
+        placText:{
+            type:String,
+            default:""
+        }
+    },
+    // computed:{
+    //     uName(){
+    //         return this.userName
+    //     }
+    // },
+    created(){
+        this.uName=this.userName
+    },
+    watch:{
+        uName(newValue,oldValue){
+            console.log(oldValue)
+            console.log(newValue)
+            if(newValue==""){
+                this.$emit('searchEvent',"")
+            }
         }
     },
     methods:{
         searchClick(){
-            this.$emit('searchEvent',this.userName)
+            this.$emit('searchEvent',this.uName)
         }
     }
 }

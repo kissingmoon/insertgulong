@@ -1,9 +1,9 @@
 <template>
     <div class="report-wapper">
-        <search-input @searchEvent="searchEvent"></search-input>
+        <search-input @searchEvent="searchEvent" :userName="userName" :placText="placText"></search-input>
         <div class="report-List flex">
             <div class="report-item flex flex-v flex-center" v-for="(v,k) in reportObj" :key="k">
-                <div class="report-item-count">￥{{v.val}}</div>
+                <div class="report-item-count flex flex-center" >￥{{v.val}}</div>
                 <div class="report-item-name">{{v.name}}</div>
             </div>
         </div>
@@ -31,7 +31,9 @@ export default {
             },
             agencyRptParm:{
                 timeSign:"1"
-            }
+            },
+            userName:"",
+            placText:"下级报表查询"
         }
     },
     components:{
@@ -76,6 +78,7 @@ export default {
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,0));
             if(this.$route.query.uID){
                 let userId=this.$route.query.uID
+                this.userName=userId
                 let parm = Object.assign({},{userId},this.agencyRptParm)
                 this.setLoadingShow(true); 
                 network.getSubDinateReport(this,parm)
@@ -93,24 +96,49 @@ export default {
             }
         },
         setTimeType(indx){
+            let parm ;
             this.setHeader(dataHandle.setTimeHeader(this,headerConfig,indx));
             this.agencyRptParm.timeSign = indx+1
-            this.setLoadingShow(true); 
-            network.reportReview(this,this.agencyRptParm)
-            .then((res)=>{
-                this.setLoadingShow(false); 
-                this.reportObj=dataHandle.fliterAgReport(res);
-            })
+            if(this.userName){
+                let userId=this.userName
+                parm = Object.assign({},{userId},this.agencyRptParm)
+                this.setLoadingShow(true); 
+                network.getSubDinateReport(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }else{
+                parm = this.agencyRptParm
+                this.setLoadingShow(true); 
+                network.reportReview(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }
         },
         searchEvent(userName){
-            let parm = Object.assign({},{userId:userName},this.agencyRptParm)
-            this.setLoadingShow(true); 
-            network.getSubDinateReport(this,parm)
-            .then((res)=>{
-                this.setLoadingShow(false); 
+            let parm ;
+            this.userName=userName
+            if(this.userName){
+                parm = Object.assign({},{userId:userName},this.agencyRptParm)
+                this.setLoadingShow(true); 
+                network.getSubDinateReport(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }else{
+                parm = this.agencyRptParm
+                this.setLoadingShow(true); 
+                 network.reportReview(this,parm)
+                .then((res)=>{
+                    this.setLoadingShow(false); 
+                    this.reportObj=dataHandle.fliterAgReport(res);
+                })
+            }
             
-                this.reportObj=dataHandle.fliterAgReport(res);
-            })
         },
         ...mapActions([
             "setHeader"
@@ -149,6 +177,10 @@ export default {
             }
             .report-item-count{
                 color: #CD9E62;
+                width: 100%;
+                word-break: break-word;
+                padding: 0 0.5rem;
+                box-sizing: border-box;
             }
         }
     }

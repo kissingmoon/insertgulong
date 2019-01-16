@@ -64,7 +64,7 @@
     // position: fixed;
     position:absolute;
     width: 100%;
-    top: 1.2rem;
+    top: 0;
     bottom: 0rem;
     z-index: 100;
     background: #ffffff;
@@ -93,3 +93,4 @@
 }
  
 </style>
+

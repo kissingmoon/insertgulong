@@ -130,6 +130,7 @@
             Scroll
         },
         created() {
+            this.setHeadShow(true)
             this.getUser();
         },
         mounted(){
@@ -159,6 +160,7 @@
             },
             ...mapMutations({
                 setAccount:'SET_ACCOUNT',
+                setHeadShow: "SET_HEAD_SHOW"
             }),
             ...mapActions([
                 'getUser'

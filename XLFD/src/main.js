@@ -3,13 +3,13 @@ import App from './App'
 import router from './router'
 import fastclick from 'fastclick'
 import VueLazyload from 'vue-lazyload'
-import store from 'store'
+import store from './store'
 import Axios from 'common/js/axios'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 import Tabs from 'base/tabs'
 
-Vue.config.productionTip = false;
+Vue.config.productionTip = false;    // 设置为 false 以阻止 vue 在启动时生成生产提示
 Vue.prototype.$axios = Axios;
 fastclick.attach(document.body);
 Vue.use(VueLazyload,{

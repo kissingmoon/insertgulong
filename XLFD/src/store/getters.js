@@ -32,4 +32,6 @@ export const getModelShow= state => state.showModel;
 export const getIOSGoBack= state => state.iosGoBack;
 export const getDownloadUrl= state => state.downloadUrl;
 export const getServerShow= state => state.serverShow;
+//  代理页面设置头部是否显示
+export const getHeadShow= state => state.isHeadShow;
 

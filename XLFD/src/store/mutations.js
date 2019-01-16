@@ -97,6 +97,9 @@ const mutations = {
   },
   [types.SET_SERVER_SHOW](state, param){
     state.serverShow = param;
+  },
+  [types.SET_HEAD_SHOW](state, param){
+    state.isHeadShow = param;
   }
 }
 

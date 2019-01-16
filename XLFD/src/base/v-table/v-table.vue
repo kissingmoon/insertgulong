@@ -13,16 +13,7 @@
         >
     <table class="sub-Table">
         
-            <!-- <scroll ref="scroll" class="scroll-content" 
-                        :data="tableData" 
-                        :pulldown="pulldown"
-                        :pullup="pullup"
-                        :isAllData="isAllData"
-                        :refreshStatus="refreshStatus"
-                        :loadStatus="loadStatus"
-                        @pulldown="getDrawNubmer('down')"
-                        @pullup="getDrawNubmer('up')"
-                        > -->
+            
         <!-- <thead class="sub-Table-header">
             <tr class="sub-Table-hetr" align="center" valign="middle">
                 <td>账号</td>
@@ -52,10 +43,29 @@
             </tr>
         </thead>
         <tbody>
+<<<<<<< HEAD
+            <scroll ref="scroll" class="scroll-content" 
+                        :data="tableData" 
+                        :pulldown="pulldown"
+                        :pullup="pullup"
+                        :isAllData="isAllData"
+                        :refreshStatus="refreshStatus"
+                        :loadStatus="loadStatus"
+                        @pulldown="getDrawNubmer('down')"
+                        @pullup="getDrawNubmer('up')"
+                        >
+                <tr v-for="(v,k) in loadTableData" :key="k" align="center" @click="clickRow(k)">
+                    <td v-for="(v1,k1,indx) in v" :key="k1" :style="tableHeader[indx].style?v1.style:''">{{tableHeader[indx].style?v1.data:v1}}</td>
+                </tr>
+            </scroll>
+        </tbody> 
+        
+=======
             <tr v-for="(v,k) in loadTableData" :key="k" align="center" @click="clickRow(k)">
                 <td v-for="(v1,k1,indx) in v" :key="k1" :style="tableHeader[indx].style?v1.style:''">{{tableHeader[indx].style?v1.data:v1}}</td>
             </tr>
         </tbody>
+>>>>>>> f8ddb6159bced8fa75e6a7501e268adba75fcdca
     </table>
     <div class="no-record-div" v-if="loadTableData.length==0">
         <img src="./no-record.png" alt="">
